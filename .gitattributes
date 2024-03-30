@@ -54,6 +54,7 @@
 *.exr lfs-file
 # Documents
 *.pdf lfs-file
+*.dylib lfs-file
 # Image formats
 *.afdesign lfs-file
 *.afphoto lfs-file
