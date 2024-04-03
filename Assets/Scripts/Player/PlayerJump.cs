@@ -27,11 +27,12 @@ public class PlayerJump : MonoBehaviour
 
     private void jump()
     {
+        if (!_jumpFg) { return; }
         //Debug.Log($"ƒWƒƒƒ“ƒv{_jumpFg}’…’n{PlayerInfo.Instance.g_isGround}");
-        if (_jumpFg && PlayerInfo.Instance.g_isGround)
+        if (PlayerInfo.Instance.g_isGround)
         {
             _rb.AddForce(Vector3.up * _jumpForce, ForceMode.VelocityChange);
-            _jumpFg = false;
         }
+        _jumpFg = false;
     }
 }

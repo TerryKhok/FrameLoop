@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.UI.Image;
 
 public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
 {
@@ -35,6 +33,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
     {
         _transform = transform;
         _boxCollider = GetComponent<BoxCollider>();
+        _boxCollider.size = new Vector3(_size.x + 1, _size.y + 1, 1);
         _playerTrans = PlayerInfo.Instance.g_transform;
         _material.color = new Color32(255, 255, 0, 40);
     }
@@ -75,11 +74,9 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
                 var origin = new Vector2(_loopRangeX.min, _loopRangeY.min);
                 origin.x += -0.5f + i;
                 origin.y += -0.5f + j;
-                Debug.Log(origin);
                 RaycastHit[] hit;
                 var screenPos = Camera.main.WorldToScreenPoint(origin);
                 Ray ray = Camera.main.ScreenPointToRay(screenPos);
-                Debug.DrawRay(ray.origin, ray.direction*10,Color.red,2.0f);
                 hit = Physics.RaycastAll(ray.origin, ray.direction, 10f, 1 << 6);
                 if (hit.Length == 0)
                 {

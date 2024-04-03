@@ -18,7 +18,7 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
         _elapsedTime += Time.deltaTime;
-        _rb.velocity = _direction * _velocity;
+        _rb.velocity = _direction.normalized * _velocity;
 
         if(_lifeSpan < _elapsedTime)
         {
@@ -31,10 +31,10 @@ public class Bullet : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    public void SetValues(Vector2 direction, float velocity, float lifeSpan)
+    public void SetValues(Vector2 direction, float velocity, float range)
     {
         _direction = direction;
         _velocity = velocity;
-        _lifeSpan = lifeSpan;
+        _lifeSpan = range/velocity;
     }
 }

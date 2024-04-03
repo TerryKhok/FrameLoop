@@ -11,7 +11,7 @@ public class Canon : MonoBehaviour
     [SerializeField]
     private float _velocity = 1f;
     [SerializeField]
-    private float _lifeSpan = 1f;
+    private float _range = 1f;
     [SerializeField]
     private float _interval = 1f;
 
@@ -38,7 +38,7 @@ public class Canon : MonoBehaviour
         {
             _instance = Instantiate(_bulletPrefab,_position,_rotation);
             _bullet = _instance.GetComponent<Bullet>();
-            _bullet.SetValues(_direction, _velocity, _lifeSpan);
+            _bullet.SetValues(_direction, _velocity, _range);
             _elapsedTime = 0f;
         }
     }

@@ -6,12 +6,16 @@ public class Fan : MonoBehaviour
 {
     [SerializeField]
     private GameObject _windPrefab = null;
+    [SerializeField,Tag]
+    private List<string> _tagList = new List<string> ();
     [SerializeField]
     private Vector2 _direction = Vector2.zero;
     [SerializeField]
     private float _velocity = 1f;
     [SerializeField]
     private float _lifeSpan = 1f;
+    //[SerializeField]
+    //private bool _enabledOnAwake = true;
 
     private GameObject _instance = null;
     private Wind _wind = null;
@@ -20,6 +24,8 @@ public class Fan : MonoBehaviour
     private Vector3 _position = Vector3.zero;
     private Quaternion _rotation = Quaternion.identity;
     private float _interval = 0f;
+
+    private bool _enable = false;
 
     private void Start()
     {
@@ -38,7 +44,7 @@ public class Fan : MonoBehaviour
         {
             _instance = Instantiate(_windPrefab, _position, _rotation);
             _wind = _instance.GetComponent<Wind>();
-            _wind.SetValues(_direction, _velocity, _lifeSpan);
+            _wind.SetValues(_direction, _velocity, _lifeSpan, _tagList);
             _elapsedTime = 0f;
         }
     }

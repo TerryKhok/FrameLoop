@@ -33,7 +33,7 @@ public class PlayerTakeUp : MonoBehaviour
         _takeUpFg = false;
         Ray ray = new Ray(_transform.position,_transform.forward);
         RaycastHit hit;
-        Vector3 size = new Vector3(0.5f, 1, 0.5f);
+        Vector3 size = new Vector3(0.5f, 0.5f, 0.5f);
 
         if (_box == null)
         {
@@ -72,7 +72,7 @@ public class PlayerTakeUp : MonoBehaviour
                 1f,
                 ~(1 << 3 | 1 << 7),
                 QueryTriggerInteraction.Ignore)
-            ){ return; }
+            ){ Debug.Log(hit.transform.name); return; }
             else
             {
                 _box.transform.SetParent(null);

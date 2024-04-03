@@ -8,7 +8,7 @@ public class Wind : MonoBehaviour
     private float _velocity = 1f;
     private float _lifeSpan = 1f;
     private float _elapsedTime = 0f;
-    private float _decayOfDistance = 0f;
+    private List<string> _tagList = new List<string>();
 
     static private List<string> _destroyTag = new List<string>() { "Wall" };
 
@@ -20,8 +20,7 @@ public class Wind : MonoBehaviour
     private void Update()
     {
         _elapsedTime += Time.deltaTime;
-        _rb.velocity = _direction * _velocity;
-        _decayOfDistance = 1 - (_elapsedTime / _lifeSpan);
+        _rb.velocity = _direction.normalized * _velocity;
 
         if (_lifeSpan < _elapsedTime)
         {
@@ -31,25 +30,29 @@ public class Wind : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(_destroyTag.Contains(other.tag))
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+
+        if(!_tagList.Contains(other.tag))
+        {
+            return;
+        }
+
         Rigidbody rb = other.GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.AddForce(_direction * (_velocity * _decayOfDistance), ForceMode.Force);
-        }
-
-        foreach(string tag in _destroyTag)
-        {
-            if (other.CompareTag(tag))
-            {
-                Destroy(this.gameObject);
-            }
+            rb.AddForce(_direction * _velocity, ForceMode.Force);
         }
     }
 
-    public void SetValues(Vector2 direction, float velocity, float lifeSpan)
+    public void SetValues(Vector2 direction, float velocity, float lifeSpan, List<string> tag)
     {
         _direction = direction;
         _velocity = velocity;
         _lifeSpan = lifeSpan;
+        _tagList = new List<string>(tag);
     }
 }
