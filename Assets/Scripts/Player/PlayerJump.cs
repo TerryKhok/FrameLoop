@@ -31,6 +31,9 @@ public class PlayerJump : MonoBehaviour
         //Debug.Log($"ƒWƒƒƒ“ƒv{_jumpFg}’…’n{PlayerInfo.Instance.g_isGround}");
         if (PlayerInfo.Instance.g_isGround)
         {
+            var currentVelocity = _rb.velocity;
+            currentVelocity.y = 0;
+            _rb.velocity = currentVelocity;
             _rb.AddForce(Vector3.up * _jumpForce, ForceMode.VelocityChange);
         }
         _jumpFg = false;

@@ -12,6 +12,7 @@ public class Goal : MonoBehaviour
 
     public void OnGoal()
     {
+        Debug.Log("onGoal");
         _clearCanvas.enabled = true;
     }
 }

@@ -297,6 +297,7 @@ MonoBehaviour:
   _direction: {x: -1, y: 0}
   _velocity: 30
   _lifeSpan: 0.5
+  _enabledOnAwake: 0
 --- !u!1 &408160787
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,8 +553,8 @@ MonoBehaviour:
   _size: {x: 8, y: 6}
   _colliderPrefab: {fileID: 4633660693101264021, guid: 0c1864dd4e6b9e747a469cec4c1130bf,
     type: 3}
-  g_isActive: 0
-  _prevActive: 0
+  _yOffset: 1
+  _yOffset_Crouching: -2
 --- !u!1 &546565793
 GameObject:
   m_ObjectHideFlags: 0
@@ -1320,7 +1321,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
   _onHold:
     m_PersistentCalls:
@@ -1355,7 +1356,7 @@ GameObject:
   - component: {fileID: 871544733}
   - component: {fileID: 871544732}
   m_Layer: 0
-  m_Name: Frame_Bottom
+  m_Name: Frame_child
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1619,7 +1620,7 @@ GameObject:
   - component: {fileID: 1096658289}
   - component: {fileID: 1096658288}
   m_Layer: 0
-  m_Name: Frame_Top
+  m_Name: Frame_child
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1964,7 +1965,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1319189382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2062,7 +2063,7 @@ GameObject:
   - component: {fileID: 1369724968}
   - component: {fileID: 1369724967}
   m_Layer: 0
-  m_Name: Frame_Left
+  m_Name: Frame_child
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2374,10 +2375,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bulletPrefab: {fileID: 6642830004443547734, guid: 67939688a7d742a46a068f43736af49a,
     type: 3}
+  _breakTag: 
   _direction: {x: 1, y: 0}
   _velocity: 2
   _range: 5
   _interval: 2
+  _enabledOnAwake: 1
 --- !u!4 &1634054291
 Transform:
   m_ObjectHideFlags: 0
@@ -2511,7 +2514,7 @@ GameObject:
   - component: {fileID: 1774600014}
   - component: {fileID: 1774600013}
   m_Layer: 0
-  m_Name: Frame_Right
+  m_Name: Frame_child
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2629,7 +2632,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 120
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!65 &1795512947
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2709,7 +2712,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1795512945}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: -0.27, z: 0}
+  m_LocalPosition: {x: -2, y: -1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2993,7 +2996,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 88
-  m_CollisionDetection: 1
+  m_CollisionDetection: 3
 --- !u!136 &2104772473
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3076,7 +3079,7 @@ Transform:
   m_GameObject: {fileID: 2104772471}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1213934715}

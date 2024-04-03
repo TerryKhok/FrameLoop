@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
     private Vector2 _size = Vector2.one;
     [SerializeField]
     private GameObject _colliderPrefab = null;
+    [SerializeField]
+    private float _yOffset = 1f;
+    [SerializeField]
+    private float _yOffset_Crouching = -2f;
 
     private List<Transform>
         _insiders = new List<Transform>();
@@ -22,11 +27,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
 
     private BoxCollider _boxCollider = null;
     private Transform _playerTrans = null, _transform = null;
-    private bool _isCrouching = false;
-    const float _crouchingOffset = -2f;
+    private bool _isCrouching = false, _usable = true;
 
+    [System.NonSerialized]
     public bool g_isActive = false;
-    [SerializeField]
     private bool _prevActive = false;
 
     private void Start()
@@ -36,10 +40,23 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
         _boxCollider.size = new Vector3(_size.x + 1, _size.y + 1, 1);
         _playerTrans = PlayerInfo.Instance.g_transform;
         _material.color = new Color32(255, 255, 0, 40);
+
+        var children = transform.GetComponentsInChildren<Transform>().ToList();
+        children.Remove(transform);
+
+        children[0].localPosition = new Vector3(0, _size.y / 2);
+        children[0].localScale = new Vector3(_size.x + 0.2f, 0.2f, 1);
+        children[1].localPosition = new Vector3(0, -_size.y / 2);
+        children[1].localScale = new Vector3(_size.x + 0.2f, 0.2f, 1);
+        children[2].localPosition = new Vector3(_size.x / 2, 0);
+        children[2].localScale = new Vector3(0.2f, _size.y, 1);
+        children[3].localPosition = new Vector3(-_size.x / 2, 0);
+        children[3].localScale = new Vector3(0.2f, _size.y, 1);
     }
 
     private void Update()
     {
+        _usable |= PlayerInfo.instance.g_isGround;
         loop();
         adjustPos();
         if(!_prevActive && g_isActive)
@@ -157,6 +174,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
 
     private void onInactive()
     {
+        _usable = false;
         for(int i=0;i < _insideColliderList.Count; i++)
         {
             Destroy(_insideColliderList[i]);
@@ -173,8 +191,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
     {
         g_isActive = context.performed;
 
-        _boxCollider.enabled = g_isActive;
-        if(g_isActive)
+        _boxCollider.enabled = g_isActive && _usable;
+        if(g_isActive && _usable)
         {
             _loopRangeX.min = _transform.position.x - (_size.x/2);
             _loopRangeX.max = _transform.position.x + (_size.x/2);
@@ -194,14 +212,18 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
 
     private void adjustPos()
     {
-        if(g_isActive) { return; }
+        if(g_isActive && _usable) { return; }
         var setPos = _playerTrans.position;
         if (_isCrouching)
         {
-            setPos.y += _crouchingOffset;
+            setPos.y += _yOffset_Crouching;
+        }
+        else
+        {
+            setPos.y += _yOffset;
         }
         setPos.x = Mathf.Round(setPos.x);
-        setPos.y = Mathf.Round(setPos.y + 1);
+        setPos.y = Mathf.Round(setPos.y);
         _transform.position = setPos;
     }
 

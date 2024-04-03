@@ -14,8 +14,8 @@ public class Fan : MonoBehaviour
     private float _velocity = 1f;
     [SerializeField]
     private float _lifeSpan = 1f;
-    //[SerializeField]
-    //private bool _enabledOnAwake = true;
+    [SerializeField]
+    private bool _enabledOnAwake = true;
 
     private GameObject _instance = null;
     private Wind _wind = null;
@@ -25,10 +25,11 @@ public class Fan : MonoBehaviour
     private Quaternion _rotation = Quaternion.identity;
     private float _interval = 0f;
 
-    private bool _enable = false;
+    private bool _isEnabled = false;
 
     private void Start()
     {
+        _isEnabled = _enabledOnAwake;
         _transform = transform;
         _rotation = Quaternion.LookRotation(_direction);
         _position = _transform.position;
@@ -38,6 +39,7 @@ public class Fan : MonoBehaviour
 
     private void Update()
     {
+        if (!_isEnabled) { return; }
         _elapsedTime += Time.deltaTime;
 
         if (_interval <= _elapsedTime)
@@ -47,5 +49,10 @@ public class Fan : MonoBehaviour
             _wind.SetValues(_direction, _velocity, _lifeSpan, _tagList);
             _elapsedTime = 0f;
         }
+    }
+
+    public void PowerSwitch(bool supply)
+    {
+        _isEnabled = enabled;
     }
 }

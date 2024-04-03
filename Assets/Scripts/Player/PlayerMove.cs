@@ -47,7 +47,7 @@ public class PlayerMove : MonoBehaviour
         _rb.AddForce(_currentInput*force, ForceMode.Acceleration);
 
         //入力が無くてプレイヤーが動いているor入力と移動方向が逆の時に速度を打ち消す
-        if(_currentInput.x == 0 && Mathf.Abs(_rb.velocity.x) > 0.05f
+        if(_currentInput.x == 0
            || Mathf.Sign(_currentInput.x) != Mathf.Sign(_rb.velocity.x))
         {
             var currentVelocity = _rb.velocity;

@@ -28,7 +28,6 @@ public class Button : MonoBehaviour
         {
             return;
         }
-
         _onClick.Invoke();
     }
     private void OnTriggerStay(Collider other)

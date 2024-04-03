@@ -6,6 +6,8 @@ public class Canon : MonoBehaviour
 {
     [SerializeField]
     private GameObject _bulletPrefab = null;
+    [SerializeField,Tag]
+    private string _breakTag = null;
     [SerializeField]
     private Vector2 _direction = Vector2.zero;
     [SerializeField]
@@ -14,6 +16,8 @@ public class Canon : MonoBehaviour
     private float _range = 1f;
     [SerializeField]
     private float _interval = 1f;
+    [SerializeField]
+    private bool _enabledOnAwake = true;
 
     private GameObject _instance = null;
     private Bullet _bullet = null;
@@ -21,9 +25,11 @@ public class Canon : MonoBehaviour
     private Transform _transform = null;
     private Vector3 _position = Vector3.zero;
     private Quaternion _rotation = Quaternion.identity;
+    private bool _isEnabled = false;
 
     private void Start()
     {
+        _isEnabled = _enabledOnAwake;
         _transform = transform;
         _rotation = Quaternion.LookRotation(_direction);
         _position = _transform.position;
@@ -32,6 +38,8 @@ public class Canon : MonoBehaviour
 
     private void Update()
     {
+        if (!_isEnabled) {  return; }
+
         _elapsedTime += Time.deltaTime;
 
         if(_interval < _elapsedTime)
@@ -41,5 +49,10 @@ public class Canon : MonoBehaviour
             _bullet.SetValues(_direction, _velocity, _range);
             _elapsedTime = 0f;
         }
+    }
+
+    public void PowerSwitch(bool supply)
+    {
+        _isEnabled = enabled;
     }
 }
