@@ -53,6 +53,6 @@ public class Fan : MonoBehaviour
 
     public void PowerSwitch(bool supply)
     {
-        _isEnabled = enabled;
+        _isEnabled = supply;
     }
 }

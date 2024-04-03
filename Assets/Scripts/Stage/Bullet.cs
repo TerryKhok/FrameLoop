@@ -9,6 +9,7 @@ public class Bullet : MonoBehaviour
     private float _velocity = 1f;
     private float _lifeSpan = 1f;
     private float _elapsedTime = 0f;
+    private List<string> _tagList = new List<string>();
 
     private void Start()
     {
@@ -28,13 +29,19 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (_tagList.Contains(collision.transform.tag))
+        {
+            Destroy(collision.gameObject);
+            return;
+        }
         Destroy(this.gameObject);
     }
 
-    public void SetValues(Vector2 direction, float velocity, float range)
+    public void SetValues(Vector2 direction, float velocity, float range, List<string> tagList)
     {
         _direction = direction;
         _velocity = velocity;
         _lifeSpan = range/velocity;
+        _tagList = new List<string>(tagList);
     }
 }

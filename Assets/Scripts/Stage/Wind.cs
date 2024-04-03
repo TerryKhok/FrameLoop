@@ -28,7 +28,7 @@ public class Wind : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if(_destroyTag.Contains(other.tag))
         {
@@ -44,7 +44,18 @@ public class Wind : MonoBehaviour
         Rigidbody rb = other.GetComponent<Rigidbody>();
         if (rb != null)
         {
+            rb.constraints &= ~RigidbodyConstraints.FreezePositionX;
             rb.AddForce(_direction * _velocity, ForceMode.Force);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.CompareTag("Box")) { return; }
+        Rigidbody rb = other.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.constraints |= RigidbodyConstraints.FreezePositionX;
         }
     }
 

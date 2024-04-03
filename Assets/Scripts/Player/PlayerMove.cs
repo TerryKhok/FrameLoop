@@ -21,9 +21,13 @@ public class PlayerMove : MonoBehaviour
         _transform = PlayerInfo.Instance.g_transform;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         move();
+    }
+
+    private void FixedUpdate()
+    {
         rotate();
     }
 
@@ -42,12 +46,16 @@ public class PlayerMove : MonoBehaviour
 
     private void move()
     {
+        var currentPos = _rb.position;
+        currentPos += (Vector3)_currentInput * _targetVelocity * Time.deltaTime;
+        _rb.position = currentPos;
+
         //プレイヤーが等速になるように力を加える
-        var force = (_targetVelocity - Mathf.Abs(_rb.velocity.x)) * _moveForce;
-        _rb.AddForce(_currentInput*force, ForceMode.Acceleration);
+        //var force = (_targetVelocity - Mathf.Abs(_rb.velocity.x)) * _moveForce;
+        //_rb.AddForce(_currentInput*force, ForceMode.Acceleration);
 
         //入力が無くてプレイヤーが動いているor入力と移動方向が逆の時に速度を打ち消す
-        if(_currentInput.x == 0
+        if (_currentInput.x == 0
            || Mathf.Sign(_currentInput.x) != Mathf.Sign(_rb.velocity.x))
         {
             var currentVelocity = _rb.velocity;
@@ -55,7 +63,7 @@ public class PlayerMove : MonoBehaviour
             currentVelocity.x *= -1;
 
             //空中は力を弱める
-            if (!PlayerInfo.Instance.g_isGround) { currentVelocity.x *= 0.5f; }
+            if (!PlayerInfo.Instance.g_isGround) { currentVelocity.x *= 0.1f; }
             _rb.AddForce(currentVelocity, ForceMode.VelocityChange);
         }
     }

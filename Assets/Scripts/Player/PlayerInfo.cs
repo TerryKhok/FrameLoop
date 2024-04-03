@@ -9,7 +9,7 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     public Rigidbody g_rb = null;
     [HideInInspector]
     public CapsuleCollider g_collider = null;
-    [HideInInspector]
+    //[HideInInspector]
     public bool g_isGround = true;
     [HideInInspector]
     public Transform g_transform = null;
@@ -38,13 +38,13 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
             _platformLayer,
             QueryTriggerInteraction.Ignore))
         {
-            //Debug.Log($"{hit.distance}{hit.transform.name}");
             if(hit.distance < 0.55f)
             {
+                //Debug.Log($"{hit.distance}{hit.transform.name}");
                 g_isGround = true;
                 return;
             }
-            g_isGround = false;
         }
+        g_isGround = false;
     }
 }

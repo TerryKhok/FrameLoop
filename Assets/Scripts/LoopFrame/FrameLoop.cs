@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -27,10 +28,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
 
     private BoxCollider _boxCollider = null;
     private Transform _playerTrans = null, _transform = null;
-    private bool _isCrouching = false, _usable = true;
+    private bool _isCrouching = false;
 
     [System.NonSerialized]
-    public bool g_isActive = false;
+    public bool g_isActive = false, g_usable = true;
     private bool _prevActive = false;
 
     private void Start()
@@ -56,7 +57,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
 
     private void Update()
     {
-        _usable |= PlayerInfo.instance.g_isGround;
+        g_usable |= PlayerInfo.instance.g_isGround;
         loop();
         adjustPos();
         if(!_prevActive && g_isActive)
@@ -174,7 +175,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
 
     private void onInactive()
     {
-        _usable = false;
+        g_usable = false;
         for(int i=0;i < _insideColliderList.Count; i++)
         {
             Destroy(_insideColliderList[i]);
@@ -191,8 +192,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
     {
         g_isActive = context.performed;
 
-        _boxCollider.enabled = g_isActive && _usable;
-        if(g_isActive && _usable)
+        _boxCollider.enabled = g_isActive && g_usable;
+        if(g_isActive && g_usable)
         {
             _loopRangeX.min = _transform.position.x - (_size.x/2);
             _loopRangeX.max = _transform.position.x + (_size.x/2);
@@ -212,7 +213,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
 
     private void adjustPos()
     {
-        if(g_isActive && _usable) { return; }
+        if(g_isActive && g_usable) { return; }
         var setPos = _playerTrans.position;
         if (_isCrouching)
         {
@@ -222,8 +223,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
         {
             setPos.y += _yOffset;
         }
-        setPos.x = Mathf.Round(setPos.x);
-        setPos.y = Mathf.Round(setPos.y);
+        setPos.x = (float)Math.Round(setPos.x, MidpointRounding.AwayFromZero);
+        setPos.y = (float)Math.Round(setPos.y, MidpointRounding.AwayFromZero);
         _transform.position = setPos;
     }
 

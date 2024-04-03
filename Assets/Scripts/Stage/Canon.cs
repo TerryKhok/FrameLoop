@@ -6,8 +6,8 @@ public class Canon : MonoBehaviour
 {
     [SerializeField]
     private GameObject _bulletPrefab = null;
-    [SerializeField,Tag]
-    private string _breakTag = null;
+    [SerializeField, Tag]
+    private List<string> _breakTag = new List<string>();
     [SerializeField]
     private Vector2 _direction = Vector2.zero;
     [SerializeField]
@@ -34,6 +34,12 @@ public class Canon : MonoBehaviour
         _rotation = Quaternion.LookRotation(_direction);
         _position = _transform.position;
         _position += (Vector3)_direction.normalized;
+
+        if (!_isEnabled) { return; }
+        _instance = Instantiate(_bulletPrefab, _position, _rotation);
+        _bullet = _instance.GetComponent<Bullet>();
+        _bullet.SetValues(_direction, _velocity, _range, _breakTag);
+        _elapsedTime = 0f;
     }
 
     private void Update()
@@ -46,13 +52,13 @@ public class Canon : MonoBehaviour
         {
             _instance = Instantiate(_bulletPrefab,_position,_rotation);
             _bullet = _instance.GetComponent<Bullet>();
-            _bullet.SetValues(_direction, _velocity, _range);
+            _bullet.SetValues(_direction, _velocity, _range, _breakTag);
             _elapsedTime = 0f;
         }
     }
 
     public void PowerSwitch(bool supply)
     {
-        _isEnabled = enabled;
+        _isEnabled = supply;
     }
 }

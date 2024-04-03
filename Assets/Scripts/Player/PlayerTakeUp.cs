@@ -54,7 +54,8 @@ public class PlayerTakeUp : MonoBehaviour
                     if (rb == null) { return; }
 
                     _box = rb;
-                    rb.isKinematic = true;
+                    //rb.isKinematic = true;
+                    _box.useGravity = false;
                     _box.transform.SetParent(_transform);
                     _box.transform.localPosition = new Vector3(0, 0, 1);
                     Physics.IgnoreCollision(_box.GetComponent<Collider>(),_collider,true);
@@ -76,7 +77,8 @@ public class PlayerTakeUp : MonoBehaviour
             else
             {
                 _box.transform.SetParent(null);
-                _box.isKinematic = false;
+                //_box.isKinematic = false;
+                _box.useGravity = true;
                 _box.AddForce(_transform.forward, ForceMode.VelocityChange);
                 Physics.IgnoreCollision(_box.GetComponent<Collider>(), _collider, false);
                 _box = null;
@@ -87,7 +89,7 @@ public class PlayerTakeUp : MonoBehaviour
     private void adjustPos()
     {
         if(_box == null) { return; }
-        if (FrameLoop.Instance.g_isActive) { return; }
+        //if (FrameLoop.Instance.g_isActive && FrameLoop.Instance.g_usable) { return; }
         _box.transform.localPosition = new Vector3(0, 0, 1);
     }
 }
