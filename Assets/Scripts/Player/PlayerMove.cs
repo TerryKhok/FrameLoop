@@ -21,19 +21,16 @@ public class PlayerMove : MonoBehaviour
         _transform = PlayerInfo.Instance.g_transform;
     }
 
-    private void Update()
-    {
-        move();
-    }
-
     private void FixedUpdate()
     {
+        move();
         rotate();
     }
 
     public void MoveInput(InputAction.CallbackContext context)
     {
-        _currentInput = context.ReadValue<Vector2>();
+        var input = context.ReadValue<Vector2>();
+        _currentInput = Vector2.Scale(input, new Vector2(1, 0)).normalized;
     }
 
     private void rotate()
@@ -47,7 +44,7 @@ public class PlayerMove : MonoBehaviour
     private void move()
     {
         var currentPos = _rb.position;
-        currentPos += (Vector3)_currentInput * _targetVelocity * Time.deltaTime;
+        currentPos += (Vector3)_currentInput * _targetVelocity * Time.fixedDeltaTime;
         _rb.position = currentPos;
 
         //ÉvÉåÉCÉÑÅ[Ç™ìôë¨Ç…Ç»ÇÈÇÊÇ§Ç…óÕÇâ¡Ç¶ÇÈ
@@ -63,7 +60,7 @@ public class PlayerMove : MonoBehaviour
             currentVelocity.x *= -1;
 
             //ãÛíÜÇÕóÕÇé„ÇﬂÇÈ
-            if (!PlayerInfo.Instance.g_isGround) { currentVelocity.x *= 0.1f; }
+            //if (!PlayerInfo.Instance.g_isGround) { currentVelocity.x *= 0.1f; }
             _rb.AddForce(currentVelocity, ForceMode.VelocityChange);
         }
     }
