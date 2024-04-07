@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,13 +6,13 @@ using UnityEngine.Events;
 public class Button : MonoBehaviour
 {
     private BoxCollider _collider = null;
-    [SerializeField, Tag]
+    [SerializeField, Tag ,Header("ボタンを押下可能なTag")]
     private List<string> _tagList = new List<string>();
-    [SerializeField]
+    [SerializeField,Tooltip("押されたときに一度実行するメソッド")]
     private UnityEvent _onClick = null;
-    [SerializeField]
+    [SerializeField,Tooltip("押されている間実行するメソッド(FixedUpdate)")]
     private UnityEvent _onHold = null;
-    [SerializeField]
+    [SerializeField,Tooltip("離したときに実行するメソッド")]
     private UnityEvent _onRelease = null;
 
     private void Start()

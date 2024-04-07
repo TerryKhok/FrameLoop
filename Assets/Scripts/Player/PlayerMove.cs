@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+//プレイヤーの移動を行うクラス
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField,Tooltip("プレイヤーの速度上限(m/s)")]
@@ -17,8 +15,14 @@ public class PlayerMove : MonoBehaviour
 
     private void Start()
     {
+        //PlayerInfoクラスから変数を受け取る
         _rb = PlayerInfo.Instance.g_rb;
         _transform = PlayerInfo.Instance.g_transform;
+    }
+
+    private void Update()
+    {
+        Debug.Log(_rb.velocity);
     }
 
     private void FixedUpdate()
@@ -27,22 +31,28 @@ public class PlayerMove : MonoBehaviour
         rotate();
     }
 
+    //InputSystemのコールバックを受け取るメソッド
     public void MoveInput(InputAction.CallbackContext context)
     {
+        //WASD、LeftStick、Dpadの入力をVector2として受け取る
         var input = context.ReadValue<Vector2>();
+        //Y軸の入力を無効化する
         _currentInput = Vector2.Scale(input, new Vector2(1, 0)).normalized;
     }
 
     private void rotate()
     {
+        //入力が無ければリターン
         if(_currentInput == Vector2.zero) { return; }
 
+        //移動方向を向かせる
         var rotate = Quaternion.LookRotation(_currentInput);
         _transform.rotation = rotate;
     }
 
     private void move()
     {
+        //移動
         var currentPos = _rb.position;
         currentPos += (Vector3)_currentInput * _targetVelocity * Time.fixedDeltaTime;
         _rb.position = currentPos;

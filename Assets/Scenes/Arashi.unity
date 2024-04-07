@@ -977,7 +977,7 @@ MonoBehaviour:
     m_ActionId: f66036c7-963c-4d60-a958-d26fd197a7ec
     m_ActionName: Player/Crouch[/Keyboard/shift,/Keyboard/s]
   m_NeverAutoSwitchControlSchemes: 1
-  m_DefaultControlScheme: Gamepad
+  m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
@@ -3066,8 +3066,8 @@ GameObject:
   - component: {fileID: 2104772481}
   - component: {fileID: 2104772475}
   - component: {fileID: 2104772474}
-  - component: {fileID: 2104772473}
   - component: {fileID: 2104772472}
+  - component: {fileID: 2104772482}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -3100,31 +3100,8 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 88
+  m_Constraints: 120
   m_CollisionDetection: 3
---- !u!136 &2104772473
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2104772471}
-  m_Material: {fileID: 13400000, guid: 5b03fb0d58e09de45990e1971968e88e, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &2104772474
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3261,6 +3238,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49ff5b7e3a9935241ad321bbbdf64fa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &2104772482
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104772471}
+  m_Material: {fileID: 13400000, guid: 5b03fb0d58e09de45990e1971968e88e, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2143077958
 GameObject:
   m_ObjectHideFlags: 0

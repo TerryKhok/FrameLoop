@@ -191,7 +191,6 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
     public void FrameEnable(InputAction.CallbackContext context)
     {
         g_isActive = context.performed;
-        Debug.Log($"{g_isActive} Start:{context.started} Cancel:{context.canceled}");
 
         _boxCollider.enabled = g_isActive && g_usable;
         if(g_isActive && g_usable)

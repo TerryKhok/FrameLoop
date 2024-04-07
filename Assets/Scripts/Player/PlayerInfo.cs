@@ -8,7 +8,7 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     [HideInInspector]
     public Rigidbody g_rb = null;
     [HideInInspector]
-    public CapsuleCollider g_collider = null;
+    public BoxCollider g_collider = null;
     //[HideInInspector]
     public bool g_isGround = true;
     [HideInInspector]
@@ -17,14 +17,14 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     new private void Awake()
     {
         g_rb = GetComponent<Rigidbody>();
-        g_collider = GetComponent<CapsuleCollider>();
+        g_collider = GetComponent<BoxCollider>();
         g_transform = transform;
     }
 
     private void Update()
     {
         Ray ray = new Ray(g_transform.position, Vector3.down);
-        var size = new Vector3(g_collider.radius, 0.5f, 1);
+        var size = new Vector3(g_collider.size.x, 0.5f, 1);
         RaycastHit hit;
         Debug.DrawRay(ray.origin, ray.direction * 1, Color.red, 0.1f);
 
