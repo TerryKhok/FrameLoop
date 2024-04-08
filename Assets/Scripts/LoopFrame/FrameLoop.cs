@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
 {
     [SerializeField]
+    private GameObject _emptyObj = null;
+    [SerializeField]
     private Material _material = null;
     [SerializeField]
     private Vector2 _size = Vector2.one;
@@ -23,6 +25,9 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
         _outsiders = new Dictionary<Transform, Vector2>();
     private List<GameObject> _insideColliderList = new List<GameObject>(),
         _outsideColliderList = new List<GameObject> ();
+    private List<(Transform origin, Transform instance)>
+        _insideCopyList = new List<(Transform origin, Transform instance)>(),
+        _outsideCopyList = new List<(Transform origin, Transform instance)>(); 
 
     private (float min, float max) _loopRangeX = (0, 0), _loopRangeY = (0, 0);
 
@@ -38,7 +43,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
     {
         _transform = transform;
         _boxCollider = GetComponent<BoxCollider>();
-        _boxCollider.size = new Vector3(_size.x + 1, _size.y + 1, 1);
+        _boxCollider.size = new Vector3(_size.x, _size.y, 1);
         _playerTrans = PlayerInfo.Instance.g_transform;
         _material.color = new Color32(255, 255, 0, 40);
 
@@ -60,7 +65,21 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
         g_usable |= PlayerInfo.instance.g_isGround;
         loop();
         adjustPos();
-        if(!_prevActive && g_isActive)
+
+        //List<(Transform origin, Transform instance)> copy = new List<(Transform, Transform)>(_outsideCopyList);
+        //foreach (var pair in copy)
+        //{
+        //    if(pair.origin == null || !_outsiders.ContainsKey(pair.origin))
+        //    {
+        //        _outsideCopyList.Remove(pair);
+        //        continue;
+        //    }
+        //    var currentPos = pair.origin.position;
+        //    currentPos -= Vector3.Scale(_outsiders[pair.origin], _size);
+        //    pair.instance.position = currentPos;
+        //}
+
+        if (!_prevActive && g_isActive)
         {
             onActive();
         }
@@ -317,6 +336,19 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
             if (vector != Vector2.zero)
             {
                 _outsiders.Add(other.transform, vector);
+                //var otherTransform = other.transform;
+                //MeshRenderer renderer = other.GetComponent<MeshRenderer>();
+                //MeshFilter filter = otherTransform.GetComponent<MeshFilter>();
+                //BoxCollider collider = otherTransform.GetComponent<BoxCollider>();
+                //pos -= Vector3.Scale(vector, _size);
+                //GameObject obj = Instantiate(_emptyObj, pos, Quaternion.identity);
+                //obj.name = otherTransform.name;
+                //obj.transform.localScale = otherTransform.localScale;
+                //obj.AddComponent(renderer);
+                //obj.AddComponent(filter);
+                //obj.AddComponent(collider);
+                //_outsideCopyList.Add((otherTransform, obj.transform));
+
                 var collider1 = other.GetComponent<Collider>();
                 foreach (var t in _outsideColliderList)
                 {

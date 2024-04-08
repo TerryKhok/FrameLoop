@@ -6,9 +6,6 @@ public class PlayerMove : MonoBehaviour
 {
     [SerializeField,Tooltip("プレイヤーの速度上限(m/s)")]
     private float _targetVelocity = 5.0f;
-    [SerializeField,Tooltip("プレイヤーに加える加速度(m/s^2)")]
-    private float _moveForce = 1.0f;
-
     private Rigidbody _rb = null;
     private Transform _transform;
     private Vector2 _currentInput = Vector2.zero;
@@ -22,7 +19,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(_rb.velocity);
+        //Debug.Log(_rb.velocity);
     }
 
     private void FixedUpdate()
