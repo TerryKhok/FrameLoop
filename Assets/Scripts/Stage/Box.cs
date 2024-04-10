@@ -25,18 +25,10 @@ public class Box : MonoBehaviour
         }
 
         Ray ray = new Ray(_transform.position, Vector3.down);
-        RaycastHit hit;
-        Vector3 size = new Vector3(_width/2, 0.5f, 0.5f);
-        if(Physics.BoxCast(
-            ray.origin,
-            size,
-            ray.direction,
-            out hit,
-            Quaternion.identity,
-            1f,
-            1 << 6,
-            QueryTriggerInteraction.Ignore)
-        )
+        RaycastHit2D hit;
+        Vector2 size = new Vector2(_width/2, 0.5f);
+        hit = Physics2D.BoxCast(ray.origin, size, 0, ray.direction, 1, 1 << 6);
+        if(hit.collider != null)
         {
             if(hit.distance > 0.3f) { return; }
             if(hit.transform.CompareTag("Breakable"))

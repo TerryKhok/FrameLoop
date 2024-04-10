@@ -13,9 +13,14 @@ public class PlayerCrouch : MonoBehaviour
         FrameLoop.Instance.SetCrouching(_isCrouching);
     }
 
-    public void Crouch(InputAction.CallbackContext context)
+    public void CrouchStarted(InputAction.CallbackContext context)
     {
-        _isCrouching = context.performed;
+        _isCrouching = true;
+    }
+
+    public void CrouchCanceled(InputAction.CallbackContext context)
+    {
+        _isCrouching = false;
     }
 
     private void crouch()

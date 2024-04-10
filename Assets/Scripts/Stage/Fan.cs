@@ -1,9 +1,107 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
-public class Fan : MonoBehaviour
+public class Fan : MonoBehaviour,IParentOnTrigger
 {
+    [SerializeField]
+    private Tile _tile = null;
+    [SerializeField]
+    private float _range = 1f;
+    [SerializeField]
+    private float _force = 1f;
+    [SerializeField]
+    private bool _inverse = false;
+    [SerializeField]
+    private bool _invisible = false;
+    [SerializeField, Tag]
+    private List<string> _tagList = new List<string>() { "Player"};
+    [SerializeField]
+    private bool _enableOnAwake = true;
+    private bool _enable = true;
+
+    private Transform _transform = null;
+    private Tilemap _tilemap = null;
+    private Dictionary<Collider2D, Rigidbody2D> _rbDic = new Dictionary<Collider2D, Rigidbody2D>();
+
+    private void Reset()
+    {
+        Transform child = transform.GetChild(0);
+        child.localPosition = new Vector3(-0.5f, -0.5f, 0);
+    }
+
+    private void Start()
+    {
+        _enable = _enableOnAwake;
+        _transform = transform;
+        Transform child = _transform.GetChild(0);
+        _tilemap = child.GetComponent<Tilemap>();
+        child.AddComponent<ChildOnTrigger>();
+        TilemapRenderer renderer = _tilemap.GetComponent<TilemapRenderer>();
+        renderer.enabled = !_invisible;
+        Vector3Int intPos = Vector3Int.zero;
+        int direction = _inverse ? -1 : 1;
+
+        for (int i=0; i < _range; i++)
+        {
+            intPos.x += direction;
+            _tilemap.SetTile(intPos, _tile);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (!_enable) { return; }
+
+        foreach (var rb in _rbDic.Values)
+        {
+            var currentPos = rb.position;
+            currentPos += (Vector2)_transform.right * _force * Time.fixedDeltaTime;
+            rb.position = currentPos;
+        }
+    }
+
+    public void OnEnter(Collider2D collision)
+    {
+        if (!_tagList.Contains(collision.tag)) { return; }
+
+        if(!_rbDic.ContainsKey(collision))
+        {
+            var rb = collision.GetComponent<Rigidbody2D>();
+            if(rb != null)
+            {
+                _rbDic.Add(collision, rb);
+            }
+        }
+    }
+
+    public void OnExit(Collider2D collision)
+    {
+        if (!_tagList.Contains(collision.tag)) { return; }
+
+        if (_rbDic.ContainsKey(collision))
+        {
+            _rbDic.Remove(collision);
+        }
+    }
+    public void OnStay(Collider2D collision)
+    {
+
+    }
+
+    public void SetEnable(bool enable)
+    {
+        _enable = enable;
+    }
+
+    public void SwitchEnable()
+    {
+        _enable = !_enable;
+    }
+
+#if else
     [SerializeField]
     private GameObject _windPrefab = null;
     [SerializeField,Tag]
@@ -50,9 +148,9 @@ public class Fan : MonoBehaviour
             _elapsedTime = 0f;
         }
     }
-
     public void PowerSwitch(bool supply)
     {
         _isEnabled = supply;
     }
+#endif
 }

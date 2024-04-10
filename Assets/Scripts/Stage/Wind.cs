@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Wind : MonoBehaviour
 {
-    private Rigidbody _rb = null;
+    private Rigidbody2D _rb = null;
     private Vector2 _direction = Vector2.zero;
     private float _velocity = 1f;
     private float _lifeSpan = 1f;
@@ -14,7 +14,7 @@ public class Wind : MonoBehaviour
 
     private void Start()
     {
-        _rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
@@ -28,7 +28,7 @@ public class Wind : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if(_destroyTag.Contains(other.tag))
         {
@@ -49,7 +49,7 @@ public class Wind : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         if (!other.CompareTag("Box")) { return; }
         Rigidbody rb = other.GetComponent<Rigidbody>();

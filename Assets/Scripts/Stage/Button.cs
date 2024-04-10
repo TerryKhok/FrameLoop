@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(BoxCollider))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class Button : MonoBehaviour
 {
-    private BoxCollider _collider = null;
+    private BoxCollider2D _collider = null;
     [SerializeField, Tag ,Header("ボタンを押下可能なTag")]
     private List<string> _tagList = new List<string>();
     [SerializeField,Tooltip("押されたときに一度実行するメソッド")]
@@ -17,11 +17,11 @@ public class Button : MonoBehaviour
 
     private void Start()
     {
-        _collider = GetComponent<BoxCollider>();
+        _collider = GetComponent<BoxCollider2D>();
         _collider.isTrigger = true;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (!_tagList.Contains(other.tag))
         {
@@ -29,7 +29,7 @@ public class Button : MonoBehaviour
         }
         _onClick.Invoke();
     }
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (!_tagList.Contains(other.tag))
         {
@@ -39,7 +39,7 @@ public class Button : MonoBehaviour
         _onHold.Invoke();
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         if (!_tagList.Contains(other.tag))
         {

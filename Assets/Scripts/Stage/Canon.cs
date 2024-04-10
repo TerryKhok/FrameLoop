@@ -25,17 +25,17 @@ public class Canon : MonoBehaviour
     private Transform _transform = null;
     private Vector3 _position = Vector3.zero;
     private Quaternion _rotation = Quaternion.identity;
-    private bool _isEnabled = false;
+    private bool _enable = false;
 
     private void Start()
     {
-        _isEnabled = _enabledOnAwake;
+        _enable = _enabledOnAwake;
         _transform = transform;
         _rotation = Quaternion.LookRotation(_direction);
         _position = _transform.position;
         _position += (Vector3)_direction.normalized;
 
-        if (!_isEnabled) { return; }
+        if (!_enable) { return; }
         _instance = Instantiate(_bulletPrefab, _position, _rotation);
         _bullet = _instance.GetComponent<Bullet>();
         _bullet.SetValues(_direction, _velocity, _range, _breakTag);
@@ -44,7 +44,7 @@ public class Canon : MonoBehaviour
 
     private void Update()
     {
-        if (!_isEnabled) {  return; }
+        if (!_enable) {  return; }
 
         _elapsedTime += Time.deltaTime;
 
@@ -57,8 +57,13 @@ public class Canon : MonoBehaviour
         }
     }
 
-    public void PowerSwitch(bool supply)
+    public void SetEnable(bool enable)
     {
-        _isEnabled = supply;
+        _enable = enable;
+    }
+
+    public void SwitchEnable()
+    {
+        _enable = !_enable;
     }
 }

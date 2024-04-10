@@ -5,7 +5,7 @@ public class PlayerTakeUp : MonoBehaviour
 {
     private bool _takeUpFg = false;
     private Transform _transform = null;
-    private Collider _collider = null;
+    private Collider2D _collider = null;
 
     private Rigidbody _box = null;
 
@@ -21,9 +21,14 @@ public class PlayerTakeUp : MonoBehaviour
         adjustPos();
     }
 
-    public void TakeUp(InputAction.CallbackContext context)
+    public void TakeUpStarted(InputAction.CallbackContext context)
     {
-        _takeUpFg |= context.performed;
+        _takeUpFg = true;
+    }
+
+    public void TakeUpCanceled(InputAction.CallbackContext context)
+    {
+        _takeUpFg = false;
     }
 
     private void takeUp()
@@ -58,7 +63,7 @@ public class PlayerTakeUp : MonoBehaviour
                     _box.useGravity = false;
                     _box.transform.SetParent(_transform);
                     _box.transform.localPosition = new Vector3(0, 0, 1);
-                    Physics.IgnoreCollision(_box.GetComponent<Collider>(),_collider,true);
+                    Physics2D.IgnoreCollision(_box.GetComponent<Collider2D>(),_collider,true);
                 }
             }
         }
@@ -80,7 +85,7 @@ public class PlayerTakeUp : MonoBehaviour
                 //_box.isKinematic = false;
                 _box.useGravity = true;
                 _box.AddForce(_transform.forward, ForceMode.VelocityChange);
-                Physics.IgnoreCollision(_box.GetComponent<Collider>(), _collider, false);
+                Physics2D.IgnoreCollision(_box.GetComponent<Collider2D>(), _collider, false);
                 _box = null;
             }
         }

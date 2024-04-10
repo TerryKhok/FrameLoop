@@ -6,7 +6,7 @@ public class PlayerMove : MonoBehaviour
 {
     [SerializeField,Tooltip("プレイヤーの速度上限(m/s)")]
     private float _targetVelocity = 5.0f;
-    private Rigidbody _rb = null;
+    private Rigidbody2D _rb = null;
     private Transform _transform;
     private Vector2 _currentInput = Vector2.zero;
 
@@ -29,7 +29,7 @@ public class PlayerMove : MonoBehaviour
     }
 
     //InputSystemのコールバックを受け取るメソッド
-    public void MoveInput(InputAction.CallbackContext context)
+    public void MovePerformed(InputAction.CallbackContext context)
     {
         //WASD、LeftStick、Dpadの入力をVector2として受け取る
         var input = context.ReadValue<Vector2>();
@@ -37,21 +37,31 @@ public class PlayerMove : MonoBehaviour
         _currentInput = Vector2.Scale(input, new Vector2(1, 0)).normalized;
     }
 
+    public void MoveCanceled(InputAction.CallbackContext context)
+    {
+        _currentInput = Vector2.zero;
+    }
+
     private void rotate()
     {
         //入力が無ければリターン
         if(_currentInput == Vector2.zero) { return; }
 
-        //移動方向を向かせる
-        var rotate = Quaternion.LookRotation(_currentInput);
-        _transform.rotation = rotate;
+        if(_currentInput.x < 0)
+        {
+            _transform.eulerAngles = new Vector3(0, 180, 0);
+        }
+        else
+        {
+            _transform.eulerAngles = new Vector3(0, 0, 0);
+        }
     }
 
     private void move()
     {
         //移動
         var currentPos = _rb.position;
-        currentPos += (Vector3)_currentInput * _targetVelocity * Time.fixedDeltaTime;
+        currentPos += _currentInput * _targetVelocity * Time.fixedDeltaTime;
         _rb.position = currentPos;
 
         //プレイヤーが等速になるように力を加える
@@ -59,16 +69,16 @@ public class PlayerMove : MonoBehaviour
         //_rb.AddForce(_currentInput*force, ForceMode.Acceleration);
 
         //入力が無くてプレイヤーが動いているor入力と移動方向が逆の時に速度を打ち消す
-        if (_currentInput.x == 0
-           || Mathf.Sign(_currentInput.x) != Mathf.Sign(_rb.velocity.x))
-        {
-            var currentVelocity = _rb.velocity;
-            currentVelocity.y = 0;
-            currentVelocity.x *= -1;
+        //if (_currentInput.x == 0
+        //   || Mathf.Sign(_currentInput.x) != Mathf.Sign(_rb.velocity.x))
+        //{
+        //    var currentVelocity = _rb.velocity;
+        //    currentVelocity.y = 0;
+        //    currentVelocity.x *= -1;
 
-            //空中は力を弱める
-            //if (!PlayerInfo.Instance.g_isGround) { currentVelocity.x *= 0.1f; }
-            _rb.AddForce(currentVelocity, ForceMode.VelocityChange);
-        }
+        //    //空中は力を弱める
+        //    //if (!PlayerInfo.Instance.g_isGround) { currentVelocity.x *= 0.1f; }
+        //    _rb.AddForce(currentVelocity * _rb.mass, ForceMode2D.Force);
+        //}
     }
 }

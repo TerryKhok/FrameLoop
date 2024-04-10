@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private Rigidbody _rb = null;
+    private Rigidbody2D _rb = null;
     private Vector2 _direction = Vector2.zero;
     private float _velocity = 1f;
     private float _lifeSpan = 1f;
@@ -13,13 +13,13 @@ public class Bullet : MonoBehaviour
 
     private void Start()
     {
-        _rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
         _elapsedTime += Time.deltaTime;
-        _rb.velocity = _direction.normalized * _velocity;
+        _rb.position += _direction.normalized * _velocity * Time.fixedDeltaTime;
 
         if(_lifeSpan < _elapsedTime)
         {
@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (_tagList.Contains(collision.transform.tag))
         {

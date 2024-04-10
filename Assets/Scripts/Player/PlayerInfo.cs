@@ -6,39 +6,33 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     LayerMask _platformLayer;
 
     [HideInInspector]
-    public Rigidbody g_rb = null;
+    public Rigidbody2D g_rb = null;
     [HideInInspector]
-    public BoxCollider g_collider = null;
+    public BoxCollider2D g_collider = null;
     //[HideInInspector]
     public bool g_isGround = true;
     [HideInInspector]
     public Transform g_transform = null;
 
-    new private void Awake()
+    private void Start()
     {
-        g_rb = GetComponent<Rigidbody>();
-        g_collider = GetComponent<BoxCollider>();
+        g_rb = GetComponent<Rigidbody2D>();
+        g_collider = GetComponent<BoxCollider2D>();
         g_transform = transform;
     }
 
     private void Update()
     {
         Ray ray = new Ray(g_transform.position, Vector3.down);
-        var size = new Vector3(g_collider.size.x, 0.5f, 1);
-        RaycastHit hit;
-        Debug.DrawRay(ray.origin, ray.direction * 1, Color.red, 0.1f);
+        var size = new Vector2(g_collider.size.x, 0.5f);
+        RaycastHit2D hit;
+        //Debug.DrawRay(ray.origin, ray.direction * 1, Color.red, 0.1f);
+        hit = Physics2D.BoxCast(ray.origin, size, 0, ray.direction, 1, _platformLayer);
 
-        if(Physics.BoxCast
-            (ray.origin,
-            size,
-            ray.direction,
-            out hit,
-            Quaternion.identity,
-            2f,
-            _platformLayer,
-            QueryTriggerInteraction.Ignore))
+        if (hit.collider != null)
         {
-            if(hit.distance < 0.55f)
+            //Debug.Log(hit.distance);
+            if(hit.distance < 0.6f)
             {
                 //Debug.Log($"{hit.distance}{hit.transform.name}");
                 g_isGround = true;
