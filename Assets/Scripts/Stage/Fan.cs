@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 
 public class Fan : MonoBehaviour,IParentOnTrigger
@@ -9,7 +10,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     [SerializeField]
     private Tile _tile = null;
     [SerializeField]
-    private float _range = 1f;
+    private int _range = 1;
     [SerializeField]
     private float _force = 1f;
     [SerializeField]
@@ -25,7 +26,9 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     private Transform _transform = null;
     private Tilemap _tilemap = null;
     private Dictionary<Collider2D, Rigidbody2D> _rbDic = new Dictionary<Collider2D, Rigidbody2D>();
-
+    private int _direction = 1;
+    private int _sizeX = 0;
+    
     private void Reset()
     {
         Transform child = transform.GetChild(0);
@@ -34,6 +37,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
 
     private void Start()
     {
+        _camera = Camera.main;
         _enable = _enableOnAwake;
         _transform = transform;
         Transform child = _transform.GetChild(0);
@@ -41,12 +45,14 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         child.AddComponent<ChildOnTrigger>();
         TilemapRenderer renderer = _tilemap.GetComponent<TilemapRenderer>();
         renderer.enabled = !_invisible;
-        Vector3Int intPos = Vector3Int.zero;
-        int direction = _inverse ? -1 : 1;
+        _direction = _inverse ? -1 : 1;
 
+        var frameObj = GameObject.FindGameObjectWithTag("Frame");
+        _sizeX = frameObj.GetComponent<FrameLoop>().GetSizeX();
+        Vector3Int intPos = Vector3Int.zero;
         for (int i=0; i < _range; i++)
         {
-            intPos.x += direction;
+            intPos.x += _direction;
             _tilemap.SetTile(intPos, _tile);
         }
     }
@@ -89,6 +95,59 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     public void OnStay(Collider2D collision)
     {
 
+    }
+
+    private Camera _camera = null;
+    public void FanLoopStarted()
+    {
+        bool inside = false;
+
+        var pos = _transform.position;
+        Vector3Int intPos = Vector3Int.zero;
+
+        for(int i = 0; i <= _range; i++,pos.x += _direction,intPos.x += _direction)
+        {
+            Ray ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos));
+            //Debug.DrawRay(ray.origin, ray.direction*10,Color.red,0.1f);
+
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 10, 1<<8);
+
+            if (i == 0) { inside = hit; }
+            else if (inside)
+            {
+                if (!hit)
+                {
+                    _tilemap.SetTile(intPos, null);
+
+                    var setPos = intPos;
+                    setPos.x -= _direction * _sizeX;
+                    _tilemap.SetTile(setPos, _tile);
+                }
+            }
+            else
+            {
+                if (hit)
+                {
+                    _tilemap.SetTile(intPos, null);
+
+                    var setPos = intPos;
+                    setPos.x += _direction * _sizeX;
+                    _tilemap.SetTile(setPos, _tile);
+                }
+            }
+        }
+    }
+
+    public void FanLoopCanceled()
+    {
+        _tilemap.ClearAllTiles();
+
+        Vector3Int intPos = Vector3Int.zero;
+        for (int i = 0; i < _range; i++)
+        {
+            intPos.x += _direction;
+            _tilemap.SetTile(intPos, _tile);
+        }
     }
 
     public void SetEnable(bool enable)

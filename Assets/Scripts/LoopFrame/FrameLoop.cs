@@ -18,7 +18,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
     [SerializeField]
     private Material _material = null;
     [SerializeField]
-    private Vector2 _size = Vector2.one;
+    private Vector2Int _size = Vector2Int.one;
     //[SerializeField]
     //private GameObject _colliderPrefab = null;
     [SerializeField]
@@ -34,7 +34,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
         _outsideColliderList = new List<GameObject> ();
     private List<(Transform origin, Transform instance)>
         _insideCopyList = new List<(Transform origin, Transform instance)>(),
-        _outsideCopyList = new List<(Transform origin, Transform instance)>(); 
+        _outsideCopyList = new List<(Transform origin, Transform instance)>();
+    private List<Fan> _fanList = new List<Fan>();
 
     private (float min, float max) _loopRangeX = (0, 0), _loopRangeY = (0, 0);
 
@@ -42,6 +43,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
     private Transform _playerTrans = null, _transform = null;
     private CompositeCollider2D _insideTileCol = null, _outsideTileCol = null;
     private bool _isCrouching = false;
+    private InputManager _inputManager = null;
 
     [System.NonSerialized]
     public bool g_isActive = false, g_usable = true;
@@ -60,6 +62,15 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
         TilemapRenderer outsideRenderer = _outsideTile.GetComponent<TilemapRenderer>();
         outsideRenderer.enabled = false;
         _material.color = new Color32(255, 255, 0, 40);
+
+        var managerObj = GameObject.FindGameObjectWithTag("GameManager");
+        _inputManager = managerObj.GetComponent<InputManager>();
+
+        var fanObjs = GameObject.FindGameObjectsWithTag("Fan");
+        foreach (var fanObj in fanObjs)
+        {
+            _fanList.Add(fanObj.GetComponent<Fan>());
+        }
 
         var children = transform.GetComponentsInChildren<Transform>().ToList();
         children.Remove(transform);
@@ -207,6 +218,11 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
             //    Physics2D.IgnoreCollision(collider1, collider2);
             //}
         }
+
+        foreach(var fan in _fanList)
+        {
+            fan.FanLoopStarted();
+        }
     }
 
     private void setColliderTile(Vector2 origin,int i, int j)
@@ -268,11 +284,17 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
         }
         _insideColliderList.Clear();
         _outsideColliderList.Clear();
+
+        foreach (var fan in _fanList)
+        {
+            fan.FanLoopCanceled();
+        }
     }
 
     public void FrameStarted(InputAction.CallbackContext context)
     {
         g_isActive = true;
+        _inputManager.SetVibration(0, 0.8f, 0.1f);
     }
 
     public void FrameCanceled(InputAction.CallbackContext context)
@@ -331,6 +353,11 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
             if (velocity.y < -15f) { velocity.y = -15f; }
             rb.velocity = velocity;
 
+            if(t.position != pos)
+            {
+                _inputManager.SetVibration(0, 0.8f, 0.1f);
+            }
+
             t.position = pos;
         }
 
@@ -371,6 +398,11 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
                 value.y = 0;
                 _outsiders[pair.Key] = value;
             }
+            if (pair.Key.position != pos)
+            {
+                _inputManager.SetVibration(0, 0.8f, 0.1f);
+            }
+
             pair.Key.position = pos;
         }
     }
@@ -429,5 +461,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
     public void SetCrouching(bool isCrouching)
     {
         _isCrouching = isCrouching;
+    }
+
+    public int GetSizeX()
+    {
+        return _size.x;
     }
 }

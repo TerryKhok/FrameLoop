@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 8106611505650389671}
   m_Layer: 0
   m_Name: Fan
-  m_TagString: Untagged
+  m_TagString: Fan
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -308,6 +308,7 @@ MonoBehaviour:
   _invisible: 0
   _tagList:
   - Player
+  _enableOnAwake: 1
 --- !u!212 &8106611505650389671
 SpriteRenderer:
   m_ObjectHideFlags: 0

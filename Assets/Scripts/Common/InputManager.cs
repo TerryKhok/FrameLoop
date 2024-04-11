@@ -1,11 +1,10 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    [SerializeField]
     private GameObject _player = null;
-    [SerializeField]
     private GameObject _frame = null;
 
     private PlayerInput _playerInput = null;
@@ -19,6 +18,9 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
+        _player = GameObject.FindGameObjectWithTag("Player");
+        _frame = GameObject.FindGameObjectWithTag("Frame");
+
         _playerInput = GetComponent<PlayerInput>();
         _playerMove = _player.GetComponent<PlayerMove>();
         _playerJump = _player.GetComponent <PlayerJump>();
@@ -38,7 +40,7 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        
+
     }
 
     private void OnEnable()
@@ -71,5 +73,33 @@ public class InputManager : MonoBehaviour
         _TakeUp.canceled -= _playerTakeUp.TakeUpCanceled;
         _FrameEnable.started -= _frameLoop.FrameStarted;
         _FrameEnable.canceled -= _frameLoop.FrameCanceled;
+    }
+
+    public void SetVibration(float lowFrequency, float highFrequency, float howLong)
+    {
+        StartCoroutine("vibration",(lowFrequency,highFrequency,howLong));
+    }
+
+    private IEnumerator vibration((float lowFrequency, float highFrequency, float howLong) value)
+    {
+        Debug.Log("vibe");
+        Gamepad gamepad = null;
+
+        if (Gamepad.current != null)
+        {
+            gamepad = Gamepad.current;
+        }
+        else
+        {
+            yield break;
+        }
+
+        value.lowFrequency = Mathf.Clamp01(value.lowFrequency);
+        value.highFrequency = Mathf.Clamp01(value.highFrequency);
+
+        gamepad.SetMotorSpeeds(value.lowFrequency, value.highFrequency);
+        yield return new WaitForSeconds(value.howLong);
+
+        gamepad.SetMotorSpeeds(0, 0);
     }
 }

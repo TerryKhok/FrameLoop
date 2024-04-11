@@ -9,6 +9,9 @@ TagManager:
   - Wall
   - Box
   - Breakable
+  - Fan
+  - Frame
+  - GameManager
   layers:
   - Default
   - TransparentFX
