@@ -1,100 +1,98 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerTakeUp : MonoBehaviour
 {
-    private bool _takeUpFg = false;
     private Transform _transform = null;
-    private Collider2D _collider = null;
-
-    private Rigidbody _box = null;
+    private PlayerInfo _playerInfo = null;
+    private BoxCollider2D _boxCollider = null;
+    private Box _box = null;
+    [SerializeField,Tooltip("êÿÇËë÷Ç¶")]
+    private bool _toggle = false;
 
     private void Start()
     {
-        _transform = PlayerInfo.Instance.g_transform; 
-        _collider = PlayerInfo.Instance.g_collider;
+        _playerInfo = PlayerInfo.Instance;
+        _transform = _playerInfo.g_transform;
+        _boxCollider = _playerInfo.g_collider;
     }
 
     private void Update()
     {
         takeUp();
-        adjustPos();
     }
 
     public void TakeUpStarted(InputAction.CallbackContext context)
     {
-        _takeUpFg = true;
+        if(_toggle && _playerInfo.g_takeUpFg)
+        {
+            _playerInfo.g_takeUpFg = false;
+            _playerInfo.g_wall = 0;
+            _box.Hold(null);
+            return;
+        }
+        _playerInfo.g_takeUpFg = true;
+        Ray ray = new Ray(_transform.position, _transform.right);
+        RaycastHit2D hit;
+        Vector3 size = new Vector3(0.5f, 0.5f, 0.5f);
+
+        hit = Physics2D.BoxCast(ray.origin, size, 0, ray.direction, 1f, 1 << 7);
+        if (hit.collider != null)
+        {
+            if (hit.transform.CompareTag("Box"))
+            {
+                _box = hit.transform.GetComponent<Box>();
+                _box.Hold(_transform);
+            }
+        }
     }
 
     public void TakeUpCanceled(InputAction.CallbackContext context)
     {
-        _takeUpFg = false;
+        if (_toggle) { return; }
+        _playerInfo.g_takeUpFg = false;
+        _playerInfo.g_wall = 0;
+        _box.Hold(null);
     }
 
     private void takeUp()
     {
-        if (!_takeUpFg) { return; }
+        if (!_playerInfo.g_takeUpFg) { return; }
 
-        _takeUpFg = false;
-        Ray ray = new Ray(_transform.position,_transform.forward);
-        RaycastHit hit;
-        Vector3 size = new Vector3(0.3f, 0.5f, 0.5f);
+        bool isTaking = false, movable = true;
+        _playerInfo.g_takeUpFg = true;
+        Ray ray = new Ray(_transform.position, _transform.right);
+        RaycastHit2D[] hits;
+        Vector3 size = new Vector3(0.5f, 0.5f, 0.5f);
+        float length = 1 + _boxCollider.size.x/2;
 
-        if (_box == null)
+        hits = Physics2D.BoxCastAll(ray.origin, size, 0, ray.direction, length, 1 << 6 | 1 << 7 | 1 << 9);
+        foreach(var hit in hits)
         {
-            if (Physics.BoxCast(
-                ray.origin,
-                size,
-                ray.direction,
-                out hit,
-                Quaternion.identity,
-                0.5f,
-                ~(1 << 3),
-                QueryTriggerInteraction.Ignore)
-            )
+            if (hit.transform.CompareTag("Box"))
             {
-                if (hit.transform.CompareTag("Box"))
-                {
-                    Rigidbody rb = hit.transform.GetComponent<Rigidbody>();
-                    if (rb == null) { return; }
-
-                    _box = rb;
-                    //rb.isKinematic = true;
-                    _box.useGravity = false;
-                    _box.transform.SetParent(_transform);
-                    _box.transform.localPosition = new Vector3(0, 0, 1);
-                    Physics2D.IgnoreCollision(_box.GetComponent<Collider2D>(),_collider,true);
-                }
+                isTaking = true;
             }
+            else
+            {
+                movable = false;
+            }
+        }
+
+        if (!isTaking)
+        {
+            _playerInfo.g_takeUpFg = false;
+            _box.Hold(null);
+        }
+        if (movable)
+        {
+            _playerInfo.g_wall = 0;
         }
         else
         {
-            if (Physics.BoxCast(
-                ray.origin,
-                size,
-                ray.direction,
-                out hit,
-                Quaternion.identity,
-                1f,
-                ~(1 << 3 | 1 << 7),
-                QueryTriggerInteraction.Ignore)
-            ){ Debug.Log(hit.transform.name); return; }
-            else
-            {
-                _box.transform.SetParent(null);
-                //_box.isKinematic = false;
-                _box.useGravity = true;
-                _box.AddForce(_transform.forward, ForceMode.VelocityChange);
-                Physics2D.IgnoreCollision(_box.GetComponent<Collider2D>(), _collider, false);
-                _box = null;
-            }
+            _playerInfo.g_wall = _transform.right.normalized.x;
         }
-    }
-
-    private void adjustPos()
-    {
-        if(_box == null) { return; }
-        //if (FrameLoop.Instance.g_isActive && FrameLoop.Instance.g_usable) { return; }
-        _box.transform.localPosition = new Vector3(0, 0, 1);
     }
 }

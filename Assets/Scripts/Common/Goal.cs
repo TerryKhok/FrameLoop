@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Goal : MonoBehaviour
 {
-    [SerializeField]
+    [SerializeField,Tooltip("クリア時に表示するキャンバス")]
     private Canvas _clearCanvas = null;
 
     private void Start()

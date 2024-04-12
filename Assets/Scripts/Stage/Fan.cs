@@ -7,24 +7,25 @@ using UnityEngine.Tilemaps;
 
 public class Fan : MonoBehaviour,IParentOnTrigger
 {
-    [SerializeField]
+    [SerializeField,Tooltip("•—ˆæ‚Éİ’u‚·‚éTile")]
     private Tile _tile = null;
-    [SerializeField]
+    [SerializeField,Tooltip("•—‚ÌË’ö")]
     private int _range = 1;
-    [SerializeField]
+    [SerializeField,Tooltip("—^‚¦‚é‘¬“x(m/s)")]
     private float _force = 1f;
-    [SerializeField]
+    [SerializeField,Tooltip("¶‚ğŒü‚¯‚é")]
     private bool _inverse = false;
-    [SerializeField]
+    [SerializeField,Tooltip("‰e‹¿”ÍˆÍ‚ğ”ñ•\¦‚É‚·‚é")]
     private bool _invisible = false;
-    [SerializeField, Tag]
+    [SerializeField, Tag,Tooltip("‰e‹¿‚ğ—^‚¦‚éTag")]
     private List<string> _tagList = new List<string>() { "Player"};
-    [SerializeField]
+    [SerializeField,Tooltip("‰‚ß‚©‚ç—LŒø‚©")]
     private bool _enableOnAwake = true;
-    private bool _enable = true;
+    private bool _enable = false;
 
     private Transform _transform = null;
     private Tilemap _tilemap = null;
+    private TilemapRenderer _tilemapRenderer = null;
     private Dictionary<Collider2D, Rigidbody2D> _rbDic = new Dictionary<Collider2D, Rigidbody2D>();
     private int _direction = 1;
     private int _sizeX = 0;
@@ -43,8 +44,8 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         Transform child = _transform.GetChild(0);
         _tilemap = child.GetComponent<Tilemap>();
         child.AddComponent<ChildOnTrigger>();
-        TilemapRenderer renderer = _tilemap.GetComponent<TilemapRenderer>();
-        renderer.enabled = !_invisible;
+        _tilemapRenderer = _tilemap.GetComponent<TilemapRenderer>();
+        _tilemapRenderer.enabled = !_invisible;
         _direction = _inverse ? -1 : 1;
 
         var frameObj = GameObject.FindGameObjectWithTag("Frame");
@@ -59,6 +60,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
 
     private void FixedUpdate()
     {
+        _tilemapRenderer.enabled = _enable && !_invisible;
         if (!_enable) { return; }
 
         foreach (var rb in _rbDic.Values)

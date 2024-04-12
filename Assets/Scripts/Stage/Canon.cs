@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class Canon : MonoBehaviour
 {
-    [SerializeField]
+    [SerializeField,Tooltip("”­Ë‚·‚éPrefab")]
     private GameObject _bulletPrefab = null;
-    [SerializeField, Tag]
+    [SerializeField, Tag,Tooltip("”j‰ó‰Â”\‚ÈTag")]
     private List<string> _breakTag = new List<string>();
-    [SerializeField]
+    [SerializeField,Tooltip("”­Ë•ûŒü")]
     private Vector2 _direction = Vector2.zero;
-    [SerializeField]
+    [SerializeField,Tooltip("”­Ë‘¬“x")]
     private float _velocity = 1f;
-    [SerializeField]
+    [SerializeField,Tooltip("Ë’ö")]
     private float _range = 1f;
-    [SerializeField]
+    [SerializeField,Tooltip("”­ËŠÔŠu(s)")]
     private float _interval = 1f;
-    [SerializeField]
+    [SerializeField,Tooltip("‰‚ß‚©‚ç—LŒø‚©")]
     private bool _enabledOnAwake = true;
 
     private GameObject _instance = null;
@@ -30,7 +30,7 @@ public class Canon : MonoBehaviour
     private void Start()
     {
         _enable = _enabledOnAwake;
-        _transform = transform;
+        _transform = transform.GetChild(0);
         _rotation = Quaternion.LookRotation(_direction);
         _position = _transform.position;
         _position += (Vector3)_direction.normalized;

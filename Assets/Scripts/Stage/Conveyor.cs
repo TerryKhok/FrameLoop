@@ -5,11 +5,11 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Conveyor : MonoBehaviour
 {
-    [SerializeField]
+    [SerializeField,Tooltip("‰ñ“]‘¬“x(m/s)")]
     private float _velocity = 1f;
-    [SerializeField, Tag]
+    [SerializeField, Tag, Tooltip("‰e‹¿‚ð—^‚¦‚éTag")]
     private List<string> _tagList = new List<string>() { "Player" };
-    [SerializeField]
+    [SerializeField,Tooltip("‹t‰ñ“]‚³‚¹‚é")]
     private bool _inverse = false;
     private BoxCollider2D _boxCollider = null;
 

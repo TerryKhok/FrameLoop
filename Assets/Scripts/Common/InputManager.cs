@@ -82,7 +82,6 @@ public class InputManager : MonoBehaviour
 
     private IEnumerator vibration((float lowFrequency, float highFrequency, float howLong) value)
     {
-        Debug.Log("vibe");
         Gamepad gamepad = null;
 
         if (Gamepad.current != null)

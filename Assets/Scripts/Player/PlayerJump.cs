@@ -7,7 +7,7 @@ public class PlayerJump : MonoBehaviour
 {
     private Rigidbody2D _rb = null;
     private bool _jumpFg = false;
-    [SerializeField]
+    [SerializeField,Tooltip("ƒWƒƒƒ“ƒv‚Ì‚‚³")]
     private float _jumpHeight = 2f;
     private float _jumpVelocity = 0;
     //private float _maxHeight = 0, _minHeight = 0;

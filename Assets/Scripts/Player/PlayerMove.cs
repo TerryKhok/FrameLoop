@@ -9,12 +9,14 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody2D _rb = null;
     private Transform _transform;
     private Vector2 _currentInput = Vector2.zero;
+    private PlayerInfo _playerInfo;
 
     private void Start()
     {
         //PlayerInfoクラスから変数を受け取る
-        _rb = PlayerInfo.Instance.g_rb;
-        _transform = PlayerInfo.Instance.g_transform;
+        _playerInfo = PlayerInfo.Instance;
+        _rb = _playerInfo.g_rb;
+        _transform = _playerInfo.g_transform;
     }
 
     private void Update()
@@ -46,6 +48,7 @@ public class PlayerMove : MonoBehaviour
     {
         //入力が無ければリターン
         if(_currentInput == Vector2.zero) { return; }
+        if (_playerInfo.g_takeUpFg) { return; }
 
         if(_currentInput.x < 0)
         {
@@ -59,26 +62,14 @@ public class PlayerMove : MonoBehaviour
 
     private void move()
     {
+        if(_currentInput.x == _playerInfo.g_wall)
+        {
+            return;
+        }
+
         //移動
         var currentPos = _rb.position;
         currentPos += _currentInput * _targetVelocity * Time.fixedDeltaTime;
         _rb.position = currentPos;
-
-        //プレイヤーが等速になるように力を加える
-        //var force = (_targetVelocity - Mathf.Abs(_rb.velocity.x)) * _moveForce;
-        //_rb.AddForce(_currentInput*force, ForceMode.Acceleration);
-
-        //入力が無くてプレイヤーが動いているor入力と移動方向が逆の時に速度を打ち消す
-        //if (_currentInput.x == 0
-        //   || Mathf.Sign(_currentInput.x) != Mathf.Sign(_rb.velocity.x))
-        //{
-        //    var currentVelocity = _rb.velocity;
-        //    currentVelocity.y = 0;
-        //    currentVelocity.x *= -1;
-
-        //    //空中は力を弱める
-        //    //if (!PlayerInfo.Instance.g_isGround) { currentVelocity.x *= 0.1f; }
-        //    _rb.AddForce(currentVelocity * _rb.mass, ForceMode2D.Force);
-        //}
     }
 }

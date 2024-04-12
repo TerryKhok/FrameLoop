@@ -1,0 +1,73 @@
+Prefabの仕様説明
+
+Player
+	PlayerInfo
+		PlatformLayer		:着地可能なレイヤー
+	PlayerJump
+		JumpHeight			:ジャンプの高さ（誤差あり）
+	PlayerMove
+		TargetVelocity		:移動速度（m/s）
+	PlayerTakeUp
+		Toggle				:チェックを付けると箱を運ぶのが切り替えになる
+
+Frame
+	FrameLoop
+		Tile				:どうせ見えないから何でもいいけどタイル
+		InsideTile			:Frameの内側に生成する当たり判定のTilemap
+		OutsideTile			:Frameの外側に生成する当たり判定のTilemap
+		Material			:Frameに適用するMaterial(色が変更されるので専用のものにする)
+		Size				:Frameの大きさ（整数値）
+		Y Offset			:FrameをPlayerの座標からどれだけY方向にずらすか
+		Y Offset_Crouching	:しゃがみ中にFrameをPlayerの座標からどれだけY方向にずらすか
+		Toggle				:チェックを付けるとFrameが切り替えになる
+
+Canon
+	Canon
+		BulletPrefab		:発射するPrefab
+		BreakTag			:破壊するTag
+		Direction			:発射方向
+		Velocity			:発射速度
+		Range				:射程
+		Interval			:発射間隔（s）
+		EnableOnAwake		:チェックを付けると初めから有効
+
+Fan
+	Fan
+		Tile				:風の範囲に設置されるTile
+		Range				:風の届く距離
+		Force				:与える力（m/s）
+		Inverse				:チェックを付けると左を向く
+		Invisible			:チェックを付けるとTileが非表示になる
+		TagList				:影響を与えるTag
+		EnableOnAwake		:チェックを付けると初めから有効
+
+Conveyor
+	Conveyor
+		Velocity			:動かす速度（m/s）
+		TagList				:影響するTag
+		Inverse				:チェックを付けると左回転する
+
+Button
+	Button
+		TagList				:ボタンを押下可能なTag
+		OnClick				:押された時に一度だけ実行されるメソッド
+		OnHold				:押されている間実行されるメソッド（FixedUpdate）
+		OnRelease			:離された時に一度だけ実行されるメソッド
+
+Box
+	Box
+		Width				:箱の横幅
+		BreakHeight			:破壊するのに必要な高さ
+		TagList				:破壊可能なTag
+
+Breakable
+		TagがBreakableのPrefab
+
+GameManager
+	InputManager
+		こいつがいないと動かない
+	Goal
+		ClearCanvas			:クリア時に表示するキャンバス
+	PlayerInput
+		DefaultScheme		:デフォルトの入力
+		Auto-Switch			:入力の自動切換え（チェックつけるとバグるから今はやめて）

@@ -9,10 +9,14 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     public Rigidbody2D g_rb = null;
     [HideInInspector]
     public BoxCollider2D g_collider = null;
-    //[HideInInspector]
+    [HideInInspector]
     public bool g_isGround = true;
     [HideInInspector]
     public Transform g_transform = null;
+    [HideInInspector]
+    public bool g_takeUpFg = false;
+    [HideInInspector]
+    public float g_wall = 0;
 
     private void Start()
     {

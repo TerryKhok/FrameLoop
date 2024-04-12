@@ -9,22 +9,24 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
 {
     //[SerializeField]
     //private GameObject _emptyObj = null;
-    [SerializeField]
+    [SerializeField,Tooltip("当たり判定を生成するために設置するTile")]
     private Tile _tile = null;
-    [SerializeField]
+    [SerializeField,Tooltip("内側の当たり判定用のTilemap")]
     private Tilemap _insideTile = null;
-    [SerializeField]
+    [SerializeField, Tooltip("外側の当たり判定用のTilemap")]
     private Tilemap _outsideTile = null;
-    [SerializeField]
+    [SerializeField,Tooltip("Frameに適用するMaterial(Scriptから色が変更されるので専用のものにする)")]
     private Material _material = null;
-    [SerializeField]
+    [SerializeField,Tooltip("FrameのSize")]
     private Vector2Int _size = Vector2Int.one;
     //[SerializeField]
     //private GameObject _colliderPrefab = null;
-    [SerializeField]
+    [SerializeField,Tooltip("プレイヤーの座標からY方向にどれだけずらすか")]
     private float _yOffset = 1f;
-    [SerializeField]
+    [SerializeField, Tooltip("しゃがみ中にプレイヤーの座標からY方向にどれだけずらすか")]
     private float _yOffset_Crouching = -2f;
+    [SerializeField,Tooltip("切り替え")]
+    private bool _toggle = false;
 
     private List<Transform>
         _insiders = new List<Transform>();
@@ -61,7 +63,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
         insideRenderer.enabled = false;
         TilemapRenderer outsideRenderer = _outsideTile.GetComponent<TilemapRenderer>();
         outsideRenderer.enabled = false;
-        _material.color = new Color32(255, 255, 0, 40);
+        _material.color = new Color32(255, 255, 0, 100);
 
         var managerObj = GameObject.FindGameObjectWithTag("GameManager");
         _inputManager = managerObj.GetComponent<InputManager>();
@@ -95,14 +97,14 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
             _loopRangeY.min = _transform.position.y - (_size.y / 2);
             _loopRangeY.max = _transform.position.y + (_size.y / 2);
 
-            _material.color = new Color32(50, 255, 0, 130);
+            _material.color = new Color32(0, 255, 0, 150);
         }
         else
         {
             _insiders.Clear();
             _outsiders.Clear();
 
-            _material.color = new Color32(255, 255, 0, 40);
+            _material.color = new Color32(255, 255, 0, 100);
         }
 
         g_usable |= PlayerInfo.instance.g_isGround;
@@ -293,12 +295,22 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
 
     public void FrameStarted(InputAction.CallbackContext context)
     {
+        if (_toggle)
+        {
+            g_isActive = !g_isActive;
+            if (g_isActive)
+            {
+                _inputManager.SetVibration(0, 0.8f, 0.1f);
+            }
+            return;
+        }
         g_isActive = true;
         _inputManager.SetVibration(0, 0.8f, 0.1f);
     }
 
     public void FrameCanceled(InputAction.CallbackContext context)
     {
+        if(_toggle) { return; }
         g_isActive = false;
     }
 
@@ -409,6 +421,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.CompareTag("Box")) { return; }
+
         if (!_insiders.Contains(other.transform) && !_outsiders.ContainsKey(other.transform))
         {
             var pos = other.transform.position;
@@ -447,6 +461,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        if (other.CompareTag("Box")) { return; }
+
         if (_insiders.Contains(other.transform))
         {
             _insiders.Remove(other.transform);
