@@ -337,6 +337,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
         List<Transform> insiders_copy = new List<Transform>(_insiders);
         foreach (var t in insiders_copy)
         {
+            if (t.CompareTag("Box"))
+            {
+                continue;
+            }
             if(t == null) 
             {
                 _insiders.Remove(t);
@@ -376,6 +380,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
         Dictionary<Transform, Vector2> outsiders_copy = new Dictionary<Transform, Vector2>(_outsiders);
         foreach (var pair in outsiders_copy)
         {
+            if (pair.Key.CompareTag("Box"))
+            {
+                continue;
+            }
             if (pair.Key == null)
             {
                 _outsiders.Remove(pair.Key);
@@ -421,8 +429,6 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Box")) { return; }
-
         if (!_insiders.Contains(other.transform) && !_outsiders.ContainsKey(other.transform))
         {
             var pos = other.transform.position;
@@ -461,8 +467,6 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Box")) { return; }
-
         if (_insiders.Contains(other.transform))
         {
             _insiders.Remove(other.transform);

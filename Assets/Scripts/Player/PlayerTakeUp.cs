@@ -92,12 +92,6 @@ public class PlayerTakeUp : MonoBehaviour
             _count++;
         }
 
-        if(_count > 3)
-        {
-            _count = 0;
-            _playerInfo.g_takeUpFg = false;
-            _box.Hold(null);
-        }
         if (movable)
         {
             _playerInfo.g_wall = 0;
@@ -105,6 +99,14 @@ public class PlayerTakeUp : MonoBehaviour
         else
         {
             _playerInfo.g_wall = _transform.right.normalized.x;
+        }
+
+        if (_count >= 10)
+        {
+            _count = 0;
+            _playerInfo.g_wall = 0;
+            _playerInfo.g_takeUpFg = false;
+            _box.Hold(null);
         }
     }
 }
