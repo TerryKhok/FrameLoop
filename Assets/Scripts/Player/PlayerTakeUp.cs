@@ -12,6 +12,8 @@ public class PlayerTakeUp : MonoBehaviour
     [SerializeField,Tooltip("Ø‚è‘Ö‚¦")]
     private bool _toggle = false;
 
+    private int _count = 0;
+
     private void Start()
     {
         _playerInfo = PlayerInfo.Instance;
@@ -81,8 +83,18 @@ public class PlayerTakeUp : MonoBehaviour
             }
         }
 
-        if (!isTaking)
+        if(isTaking)
         {
+            _count = 0;
+        }
+        else
+        {
+            _count++;
+        }
+
+        if(_count > 3)
+        {
+            _count = 0;
             _playerInfo.g_takeUpFg = false;
             _box.Hold(null);
         }
