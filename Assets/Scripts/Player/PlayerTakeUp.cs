@@ -48,7 +48,7 @@ public class PlayerTakeUp : MonoBehaviour
             {
                 _box = hit.transform.GetComponent<Box>();
                 _box.Hold(_transform);
-                _playerInfo.g_box = _transform;
+                _playerInfo.g_box = hit.transform;
             }
         }
     }
