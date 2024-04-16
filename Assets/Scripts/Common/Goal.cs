@@ -25,6 +25,7 @@ public class Goal : MonoBehaviour
         {
             _spriteRenderer.color = new Color32(255, 0, 0, 150);
         }
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

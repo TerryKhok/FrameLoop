@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _clearCanvas: {fileID: 0}
-  _buttonCount: 1
+  _buttonCount: 0
 --- !u!212 &7247296077937132864
 SpriteRenderer:
   m_ObjectHideFlags: 0
