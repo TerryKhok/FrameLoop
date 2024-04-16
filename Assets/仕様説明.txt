@@ -29,6 +29,10 @@ Player_________________________________________________________________
 	PlayerTakeUp
 		Toggle				:チェックを付けると箱を運ぶのが切り替えになる
 
+Goal______________________________________________________________________
+	Goal
+		ClearCanvas			:クリア時に表示するキャンバス
+		ButtonCount			:クリアするために必要なボタンの数
 Frame________________________________________________________________________________
 	FrameLoop
 		Tile				:どうせ見えないから何でもいいけどタイル
@@ -73,6 +77,23 @@ Button___________________________________________________________________
 		OnHold				:押されている間実行されるメソッド（FixedUpdate）
 		OnRelease			:離された時に一度だけ実行されるメソッド
 
+==========================================================================
+Buttonで使う事を想定したメソッド
+	Canon
+		SetEnable(bool enable)	:enableがtrueなら起動、falseなら停止
+		SwitchEnable()			:現在起動中なら停止、停止中なら起動
+	Fan
+		SetEnable(bool enable)	:enableがtrueなら起動、falseなら停止
+		SwitchEnable()			:現在起動中なら停止、停止中なら起動
+	Conveyor
+		SetInverce(bool inverce):inverceがtrueなら左回転、falseなら右回転
+		FripDirection()			:回転方向を反転させる
+	Goal
+		CountUp()				:Goalの内部カウントを＋１
+		CountDown()				:Goalの内部カウントをー１
+		//上記二つは踏んでいる間ゴールできるようにするボタンに追加
+		//CountUp()はOnClickにCountDown()はOnReleaseに追加する
+
 Box_______________________________________________________________________
 	Box
 		Width				:箱の横幅
@@ -85,8 +106,6 @@ Breakable______________________________________________
 GameManager____________________________________________________________________
 	InputManager
 		こいつがいないと動かない
-	Goal
-		ClearCanvas			:クリア時に表示するキャンバス
 	PlayerInput
 		DefaultScheme		:デフォルトの入力
 		Auto-Switch			:入力の自動切換え（チェックつけるとバグるから今はやめて）

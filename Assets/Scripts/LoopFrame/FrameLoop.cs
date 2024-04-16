@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
+using static UnityEngine.UI.Image;
 
 public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
 {
@@ -19,8 +20,6 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
     private Material _material = null;
     [SerializeField,Tooltip("FrameのSize")]
     private Vector2Int _size = Vector2Int.one;
-    //[SerializeField]
-    //private GameObject _colliderPrefab = null;
     [SerializeField,Tooltip("プレイヤーの座標からY方向にどれだけずらすか")]
     private float _yOffset = 1f;
     [SerializeField, Tooltip("しゃがみ中にプレイヤーの座標からY方向にどれだけずらすか")]
@@ -46,6 +45,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
     private CompositeCollider2D _insideTileCol = null, _outsideTileCol = null;
     private bool _isCrouching = false;
     private InputManager _inputManager = null;
+    private PlayerInfo _playerInfo = null;
+    private GameObject _colliderPrefab = null;
 
     [System.NonSerialized]
     public bool g_isActive = false, g_usable = true;
@@ -56,7 +57,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
         _transform = transform;
         _boxCollider = GetComponent<BoxCollider2D>();
         _boxCollider.size = new Vector3(_size.x+0.3f, _size.y+0.3f, 1);
-        _playerTrans = PlayerInfo.Instance.g_transform;
+        _playerInfo = PlayerInfo.Instance;
+        _playerTrans = _playerInfo.g_transform;
         _insideTileCol = _insideTile.GetComponent<CompositeCollider2D>();
         _outsideTileCol = _outsideTile.GetComponent<CompositeCollider2D>();
         TilemapRenderer insideRenderer = _insideTile.GetComponent<TilemapRenderer>();
@@ -64,6 +66,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
         TilemapRenderer outsideRenderer = _outsideTile.GetComponent<TilemapRenderer>();
         outsideRenderer.enabled = false;
         _material.color = new Color32(255, 255, 0, 100);
+        _colliderPrefab = (GameObject)Resources.Load("Collider");
 
         var managerObj = GameObject.FindGameObjectWithTag("GameManager");
         _inputManager = managerObj.GetComponent<InputManager>();
@@ -145,12 +148,32 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
             var collider = t.GetComponent<Collider2D>();
             Physics2D.IgnoreCollision(collider, _insideTileCol, false);
             Physics2D.IgnoreCollision(collider, _outsideTileCol, false);
+            foreach(var t2 in _insideColliderList)
+            {
+                var insideCol = t2.GetComponent<Collider2D>();
+                Physics2D.IgnoreCollision(collider, insideCol, false);
+            }
+            foreach (var t3 in _outsideColliderList)
+            {
+                var outsideCol = t3.GetComponent<Collider2D>();
+                Physics2D.IgnoreCollision(collider, outsideCol, false);
+            }
         }
         foreach (var t in _outsiders.Keys)
         {
             var collider = t.GetComponent<Collider2D>();
             Physics2D.IgnoreCollision(collider, _insideTileCol, false);
             Physics2D.IgnoreCollision(collider, _outsideTileCol, false);
+            foreach (var t2 in _insideColliderList)
+            {
+                var insideCol = t2.GetComponent<Collider2D>();
+                Physics2D.IgnoreCollision(collider, insideCol, false);
+            }
+            foreach (var t3 in _outsideColliderList)
+            {
+                var outsideCol = t3.GetComponent<Collider2D>();
+                Physics2D.IgnoreCollision(collider, outsideCol, false);
+            }
         }
 
         for (int i=0; i <= _size.x+1; i++)
@@ -172,7 +195,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
                 RaycastHit2D[] hit;
                 var screenPos = Camera.main.WorldToScreenPoint(origin);
                 Ray ray = Camera.main.ScreenPointToRay(screenPos);
-                hit = Physics2D.RaycastAll(ray.origin, ray.direction, 15, 1 << 6);
+                hit = Physics2D.RaycastAll(ray.origin, ray.direction, 15, 1 << 6 | 1 << 7);
                 if (hit.Length == 0)
                 {
                     continue;
@@ -184,6 +207,11 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
                     {
                         if (!_insideColliderList.Contains(item.transform.gameObject))
                         {
+                            if (item.transform.CompareTag("Box"))
+                            {
+                                ColliderInstantiate(item.transform.position, i, j);
+                                continue;
+                            }
                             _instantFg = true;
                         }
                     }
@@ -198,27 +226,27 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
 
         foreach(var t in _insiders)
         {
-            var collider = t.GetComponent<Collider2D>();
-            Physics2D.IgnoreCollision(collider, _insideTileCol);
-            //foreach(var obj in _insideColliderList)
-            //{
-            //    var collider2 = obj.GetComponent<Collider>();
+            var collider1 = t.GetComponent<Collider2D>();
+            Physics2D.IgnoreCollision(collider1, _insideTileCol);
+            foreach (var obj in _insideColliderList)
+            {
+                var collider2 = obj.GetComponent<Collider2D>();
 
-            //    Physics.IgnoreCollision(collider1, collider2);
-            //}
+                Physics2D.IgnoreCollision(collider1, collider2);
+            }
         }
 
         foreach(var t in _outsiders.Keys)
         {
-            var collider = t.GetComponent<Collider2D>();
-            Physics2D.IgnoreCollision(collider, _outsideTileCol);
+            var collider1 = t.GetComponent<Collider2D>();
+            Physics2D.IgnoreCollision(collider1, _outsideTileCol);
 
-            //foreach (var obj in _insideColliderList)
-            //{
-            //    var collider2 = obj.GetComponent<Collider>();
+            foreach (var obj in _insideColliderList)
+            {
+                var collider2 = obj.GetComponent<Collider2D>();
 
-            //    Physics2D.IgnoreCollision(collider1, collider2);
-            //}
+                Physics2D.IgnoreCollision(collider1, collider2);
+            }
         }
 
         foreach(var fan in _fanList)
@@ -234,19 +262,16 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
         else if (i >= _size.x) { pos.x -= _size.x; }
         else if (j <= 1) { pos.y += _size.y; }
         else if (j >= _size.y) { pos.y -= _size.y; }
-        //var instance = Instantiate(_colliderPrefab, pos, Quaternion.identity, _transform);
         if (pos.x < _loopRangeX.min || _loopRangeX.max < pos.x||
             pos.y < _loopRangeY.min || _loopRangeY.max < pos.y)
         {
             Vector3Int intPos = new Vector3Int((int)(pos.x-0.5f), (int)(pos.y-0.5f));
             _outsideTile.SetTile(intPos, _tile);
-            //_outsideColliderList.Add(instance);
         }
         else
         {
             Vector3Int intPos = new Vector3Int((int)(pos.x - 0.5f), (int)(pos.y - 0.5f));
             _insideTile.SetTile(intPos, _tile);
-            //_insideColliderList.Add(instance);
         }
 
         if (i == 1 || i == _size.x)
@@ -265,8 +290,42 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
                 {
                     _insideTile.SetTile(intPos, _tile);
                 }
-                //instance = Instantiate(_colliderPrefab, pos, Quaternion.identity, _transform);
-                //_outsideColliderList.Add(instance);
+            }
+        }
+    }
+
+    private void ColliderInstantiate(Vector3 pos,int i, int j)
+    {
+        if (i <= 1) { pos.x += _size.x; }
+        else if (i >= _size.x) { pos.x -= _size.x; }
+        else if (j <= 1) { pos.y += _size.y; }
+        else if (j >= _size.y) { pos.y -= _size.y; }
+        var instance = Instantiate(_colliderPrefab, pos, Quaternion.identity, _transform);
+        if (pos.x < _loopRangeX.min || _loopRangeX.max < pos.x ||
+            pos.y < _loopRangeY.min || _loopRangeY.max < pos.y)
+        {
+            _outsideColliderList.Add(instance);
+        }
+        else
+        {
+            _insideColliderList.Add(instance);
+        }
+
+        if (i == 1 || i == _size.x)
+        {
+            if (j <= 1 || j >= _size.y)
+            {
+                if (j <= 1) { pos.y += _size.y; }
+                if (j >= _size.y) { pos.y -= _size.y; }
+                instance = Instantiate(_colliderPrefab, pos, Quaternion.identity, _transform);
+                if (j == 1 || j == _size.y)
+                {
+                    _outsideColliderList.Add(instance);
+                }
+                else
+                {
+                    _insideColliderList.Add(instance);
+                }
             }
         }
     }
@@ -337,7 +396,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
         List<Transform> insiders_copy = new List<Transform>(_insiders);
         foreach (var t in insiders_copy)
         {
-            if (t.CompareTag("Box"))
+            if (t == _playerInfo.g_box)
             {
                 continue;
             }
@@ -380,7 +439,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
         Dictionary<Transform, Vector2> outsiders_copy = new Dictionary<Transform, Vector2>(_outsiders);
         foreach (var pair in outsiders_copy)
         {
-            if (pair.Key.CompareTag("Box"))
+            if (pair.Key == _playerInfo.g_box)
             {
                 continue;
             }
@@ -455,12 +514,22 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
                 _outsiders.Add(other.transform, vector);
                 var collider = other.GetComponent<Collider2D>();
                 Physics2D.IgnoreCollision(collider, _outsideTileCol);
+                foreach(var t in _outsideColliderList)
+                {
+                    var collider2 = t.GetComponent<Collider2D>();
+                    Physics2D.IgnoreCollision(collider, collider2);
+                }
             }
             else
             {
                 _insiders.Add(other.transform);
                 var collider = other.GetComponent<Collider2D>();
                 Physics2D.IgnoreCollision(collider, _insideTileCol);
+                foreach (var t in _insideColliderList)
+                {
+                    var collider2 = t.GetComponent<Collider2D>();
+                    Physics2D.IgnoreCollision(collider, collider2);
+                }
             }
         }
     }

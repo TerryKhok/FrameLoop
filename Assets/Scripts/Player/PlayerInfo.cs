@@ -17,6 +17,8 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     public bool g_takeUpFg = false;
     [HideInInspector]
     public float g_wall = 0;
+    [HideInInspector]
+    public Transform g_box = null;
 
     private void Start()
     {

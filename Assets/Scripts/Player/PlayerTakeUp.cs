@@ -33,6 +33,7 @@ public class PlayerTakeUp : MonoBehaviour
             _playerInfo.g_takeUpFg = false;
             _playerInfo.g_wall = 0;
             _box.Hold(null);
+            _playerInfo.g_box = null;
             return;
         }
         _playerInfo.g_takeUpFg = true;
@@ -47,6 +48,7 @@ public class PlayerTakeUp : MonoBehaviour
             {
                 _box = hit.transform.GetComponent<Box>();
                 _box.Hold(_transform);
+                _playerInfo.g_box = _transform;
             }
         }
     }
@@ -57,6 +59,7 @@ public class PlayerTakeUp : MonoBehaviour
         _playerInfo.g_takeUpFg = false;
         _playerInfo.g_wall = 0;
         _box.Hold(null);
+        _playerInfo.g_box = null;
     }
 
     private void takeUp()
@@ -107,6 +110,7 @@ public class PlayerTakeUp : MonoBehaviour
             _playerInfo.g_wall = 0;
             _playerInfo.g_takeUpFg = false;
             _box.Hold(null);
+            _playerInfo.g_box = null;
         }
     }
 }
