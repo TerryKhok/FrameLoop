@@ -359,17 +359,22 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
             g_isActive = !g_isActive;
             if (g_isActive)
             {
-                _inputManager.SetVibration(0, 0.8f, 0.1f);
+                _inputManager.SetVibration(0.2f, 0f, 0f);
+            }
+            else
+            {
+                _inputManager.SetVibration(0f, 0f, 0f);
             }
             return;
         }
         g_isActive = true;
-        _inputManager.SetVibration(0, 0.8f, 0.1f);
+        _inputManager.SetVibration(0.2f, 0f, 0f);
     }
 
     public void FrameCanceled(InputAction.CallbackContext context)
     {
         if(_toggle) { return; }
+        _inputManager.SetVibration(0, 0, 0);
         g_isActive = false;
     }
 
@@ -430,7 +435,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
 
             if(t.position != pos)
             {
-                _inputManager.SetVibration(0, 0.8f, 0.1f);
+                _inputManager.SetVibration(0.2f, 0.6f, 0.1f);
             }
 
             t.position = pos;
@@ -479,7 +484,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
             }
             if (pair.Key.position != pos)
             {
-                _inputManager.SetVibration(0, 0.8f, 0.1f);
+                _inputManager.SetVibration(0.2f, 0.6f, 0.1f);
             }
 
             pair.Key.position = pos;

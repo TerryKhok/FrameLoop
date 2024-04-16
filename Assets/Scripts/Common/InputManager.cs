@@ -16,6 +16,8 @@ public class InputManager : MonoBehaviour
 
     private InputAction _Move, _Jump, _FrameEnable, _Crouch, _TakeUp;
 
+    private (float low, float high) _prevFrequency = (0, 0);
+
     private void Awake()
     {
         _player = GameObject.FindGameObjectWithTag("Player");
@@ -97,8 +99,14 @@ public class InputManager : MonoBehaviour
         value.highFrequency = Mathf.Clamp01(value.highFrequency);
 
         gamepad.SetMotorSpeeds(value.lowFrequency, value.highFrequency);
-        yield return new WaitForSeconds(value.howLong);
-
-        gamepad.SetMotorSpeeds(0, 0);
+        if(value.howLong != 0)
+        {
+            yield return new WaitForSeconds(value.howLong);
+            gamepad.SetMotorSpeeds(_prevFrequency.low,_prevFrequency.high);
+        }
+        else
+        {
+            _prevFrequency = (value.lowFrequency,value.highFrequency);
+        }
     }
 }
