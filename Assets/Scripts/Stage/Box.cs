@@ -64,9 +64,27 @@ public class Box : MonoBehaviour
         if(_playerTransform == null) { return; }
 
         var pos = _rb.position;
+        var direction = ((Vector2)_playerTransform.position - pos).normalized;
         pos.x = _playerTransform.position.x;
         pos += (Vector2)_playerTransform.right * 1;
         _rb.position = pos;
+
+        Ray ray = new Ray(pos, direction);
+        RaycastHit2D[] hits;
+        Vector2 size = new Vector2(_width / 2, 0.5f);
+        hits = Physics2D.BoxCastAll(ray.origin, size, 0, ray.direction, 0.2f, 1 << 7);
+
+        if(hits.Length > 0)
+        {
+            foreach(var hit in hits)
+            {
+                if(hit.transform == _transform) { continue; }
+
+                var rb = hit.transform.GetComponent<Rigidbody2D>();
+                pos.x += _width;
+                rb.position = pos;
+            }
+        }
     }
 
     public void Hold(Transform t)

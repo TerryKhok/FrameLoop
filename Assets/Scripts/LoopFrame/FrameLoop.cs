@@ -536,14 +536,15 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        if (_outsiders.ContainsKey(other.transform))
+        {
+            _outsiders.Remove(other.transform);
+        }
+
+        if (g_isActive) { return; }
         if (_insiders.Contains(other.transform))
         {
             _insiders.Remove(other.transform);
-        }
-
-        if(_outsiders.ContainsKey(other.transform))
-        {
-            _outsiders.Remove(other.transform);
         }
     }
 
