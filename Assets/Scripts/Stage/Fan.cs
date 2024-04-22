@@ -71,7 +71,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         }
     }
 
-    public void OnEnter(Collider2D collision)
+    public void OnEnter(Collider2D collision, Transform transform)
     {
         if (!_tagList.Contains(collision.tag)) { return; }
 
@@ -85,7 +85,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         }
     }
 
-    public void OnExit(Collider2D collision)
+    public void OnExit(Collider2D collision, Transform transform)
     {
         if (!_tagList.Contains(collision.tag)) { return; }
 
@@ -94,7 +94,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
             _rbDic.Remove(collision);
         }
     }
-    public void OnStay(Collider2D collision)
+    public void OnStay(Collider2D collision, Transform transform)
     {
 
     }
