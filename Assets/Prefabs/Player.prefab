@@ -62,6 +62,7 @@ MonoBehaviour:
   g_takeUpFg: 0
   g_wall: 0
   g_box: {fileID: 0}
+  g_groundDistance: 0
 --- !u!114 &8592394612338021649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,7 +75,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8effe0655a004d24f990f7657a6279c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jumpHeight: 2
+  _jumpHeightMax: 2
+  _jumpHeightMin: 1
+  _jumpVelocity: 5
 --- !u!114 &4190485480700468127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,7 +168,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_Sprite: {fileID: 308747112, guid: a5932eb1306e31542bc1ad7faea999ff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
