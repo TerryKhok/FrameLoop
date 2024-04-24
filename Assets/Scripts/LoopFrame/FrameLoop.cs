@@ -136,7 +136,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>//,IParentOnTrigger
         }
 
         g_usable |= PlayerInfo.instance.g_isGround;
-        loop();
+        //loop();
         adjustPos();
 
         //List<(Transform origin, Transform instance)> copy = new List<(Transform, Transform)>(_outsideCopyList);
@@ -509,6 +509,21 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>//,IParentOnTrigger
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (_outsiders.ContainsKey(other))
+        {
+            if (!_enterOutSiders.Contains(other))
+            {
+                _enterOutSiders.Add(other);
+            }
+        }
+        else
+        {
+            if (!_insiders.Contains(other))
+            {
+                _insiders.Add(other);
+            }
+        }
+#if false
         if (!_insiders.Contains(other) && !_outsiders.ContainsKey(other))
         {
             var pos = other.transform.position;
@@ -551,22 +566,22 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>//,IParentOnTrigger
                 }
             }
         }
+#endif
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (_outsiders.ContainsKey(other))
-        {
-            _outsiders.Remove(other);
-        }
-
-        if (g_isActive) { return; }
         if (_insiders.Contains(other))
         {
             _insiders.Remove(other);
         }
+
+        if (_enterOutSiders.Contains(other))
+        {
+            _enterOutSiders.Remove(other);
+        }
     }
-#if false
+#if true
     public void OnEnter(Collider2D collision,Transform transform)
     {
         Vector2 vec = Vector2.zero;
@@ -602,14 +617,25 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>//,IParentOnTrigger
             }
         }
     }
+
+    public void OnExit(Collider2D collision, Transform transform)
+    {
+        if (_outsiders.ContainsKey(collision))
+        {
+            _outsiders.Remove(collision);
+        }
+
+        if (_exitInsiders.ContainsKey(collision))
+        {
+            _exitInsiders.Remove(collision);
+        }
+    }
+
     public void OnStay(Collider2D collision, Transform transform)
     {
 
     }
-    public void OnExit(Collider2D collision, Transform transform)
-    {
 
-    }
 #endif
     public void SetCrouching(bool isCrouching)
     {
