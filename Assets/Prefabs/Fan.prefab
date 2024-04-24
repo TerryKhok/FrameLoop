@@ -317,14 +317,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tile: {fileID: 11400000, guid: 9204ba83e6eac5c4e9886b2dd23a3d05, type: 2}
   _range: 5
-  _force: 3
+  _force: 7
   _inverse: 0
   _invisible: 0
   _tagList:
   - Player
-  _mask:
-    serializedVersion: 2
-    m_Bits: 0
+  _blockTagList:
+  - Platform
   _enableOnAwake: 1
 --- !u!212 &8106611505650389671
 SpriteRenderer:
