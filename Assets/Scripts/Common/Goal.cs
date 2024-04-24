@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Goal : MonoBehaviour
+public class Goal : SingletonMonoBehaviour<Goal>
 {
     [SerializeField,Tooltip("クリア時に表示するキャンバス")]
     private Canvas _clearCanvas = null;

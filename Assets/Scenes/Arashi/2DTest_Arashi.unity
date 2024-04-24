@@ -1448,6 +1448,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 968822573701578904, guid: edc9cd579ccdfc242b06a86ca744126a,
         type: 3}
+      propertyPath: _buttonCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 968822573701578904, guid: edc9cd579ccdfc242b06a86ca744126a,
+        type: 3}
       propertyPath: _clearCanvas
       value: 
       objectReference: {fileID: 754650086}
@@ -4194,6 +4199,11 @@ PrefabInstance:
       propertyPath: m_Tiles.Array.data[59].second.m_TileObjectToInstantiateIndex
       value: 65535
       objectReference: {fileID: 0}
+    - target: {fileID: 2645024188810987023, guid: c6d04906bf68c5f438b03708b307d573,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4220075341095023565, guid: c6d04906bf68c5f438b03708b307d573,
         type: 3}
       propertyPath: m_Name
@@ -6516,6 +6526,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4422826139879483322, guid: 0cb67999a3a1a0c46b5d865d9e8d5b9e,
         type: 3}
+      propertyPath: _toGoal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422826139879483322, guid: 0cb67999a3a1a0c46b5d865d9e8d5b9e,
+        type: 3}
       propertyPath: _tagList.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -6702,12 +6717,12 @@ PrefabInstance:
     - target: {fileID: 7249505979927583305, guid: 0cb67999a3a1a0c46b5d865d9e8d5b9e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.5
+      value: 5.5
       objectReference: {fileID: 0}
     - target: {fileID: 7249505979927583305, guid: 0cb67999a3a1a0c46b5d865d9e8d5b9e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.5
+      value: -4.5
       objectReference: {fileID: 0}
     - target: {fileID: 7249505979927583305, guid: 0cb67999a3a1a0c46b5d865d9e8d5b9e,
         type: 3}
