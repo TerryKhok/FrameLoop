@@ -12,6 +12,7 @@ TagManager:
   - Fan
   - Frame
   - GameManager
+  - Platform
   layers:
   - Default
   - TransparentFX

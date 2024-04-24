@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -19,16 +20,19 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     private bool _invisible = false;
     [SerializeField, Tag,Tooltip("影響を与えるTag")]
     private List<string> _tagList = new List<string>() { "Player"};
+    [SerializeField, Tag,Tooltip("遮られるTag")]
+    private List<string> _blockTagList = new List<string>() { "Platform"}; 
     [SerializeField,Tooltip("初めから有効か")]
     private bool _enableOnAwake = true;
     private bool _enable = false;
 
     private Transform _transform = null;
-    private Tilemap _tilemap = null;
-    private TilemapRenderer _tilemapRenderer = null;
+    private Tilemap _tilemap = null, _tilemap_out;
+    private TilemapRenderer _tilemapRenderer = null, _tilemapRenderer_out;
     private Dictionary<Collider2D, Rigidbody2D> _rbDic = new Dictionary<Collider2D, Rigidbody2D>();
     private int _direction = 1;
     private int _sizeX = 0;
+    private Transform _outsideT = null;
     
     private void Reset()
     {
@@ -41,21 +45,19 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         _camera = Camera.main;
         _enable = _enableOnAwake;
         _transform = transform;
-        Transform child = _transform.GetChild(0);
-        _tilemap = child.GetComponent<Tilemap>();
-        child.AddComponent<ChildOnTrigger>();
+        Transform child1 = _transform.GetChild(0);
+        _outsideT = _transform.GetChild(1);
+        _tilemap = child1.GetComponent<Tilemap>();
         _tilemapRenderer = _tilemap.GetComponent<TilemapRenderer>();
         _tilemapRenderer.enabled = !_invisible;
+        _tilemap_out = _outsideT.GetComponent<Tilemap>();
+        _tilemapRenderer_out = _tilemap_out.GetComponent<TilemapRenderer>();
+        _tilemapRenderer_out.enabled = !_invisible;
         _direction = _inverse ? -1 : 1;
 
         var frameObj = GameObject.FindGameObjectWithTag("Frame");
         _sizeX = frameObj.GetComponent<FrameLoop>().GetSizeX();
-        Vector3Int intPos = Vector3Int.zero;
-        for (int i=0; i < _range; i++)
-        {
-            intPos.x += _direction;
-            _tilemap.SetTile(intPos, _tile);
-        }
+        SetTiles();
     }
 
     private void FixedUpdate()
@@ -66,7 +68,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         foreach (var rb in _rbDic.Values)
         {
             var currentPos = rb.position;
-            currentPos += (Vector2)_transform.right * _force * Time.fixedDeltaTime;
+            currentPos += (Vector2)_transform.right * _direction * _force * Time.fixedDeltaTime;
             rb.position = currentPos;
         }
     }
@@ -74,6 +76,14 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     public void OnEnter(Collider2D collision, Transform transform)
     {
         if (!_tagList.Contains(collision.tag)) { return; }
+
+        if(transform == _outsideT)
+        {
+            if (collision.CompareTag("Player"))
+            {
+                return;
+            }
+        }
 
         if(!_rbDic.ContainsKey(collision))
         {
@@ -89,6 +99,14 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     {
         if (!_tagList.Contains(collision.tag)) { return; }
 
+        if (transform == _outsideT)
+        {
+            if (collision.CompareTag("Player"))
+            {
+                return;
+            }
+        }
+
         if (_rbDic.ContainsKey(collision))
         {
             _rbDic.Remove(collision);
@@ -102,6 +120,8 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     private Camera _camera = null;
     public void FanLoopStarted()
     {
+        _tilemap.ClearAllTiles();
+        _tilemap_out.ClearAllTiles();
         bool inside = false;
 
         var pos = _transform.position;
@@ -110,44 +130,131 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         for(int i = 0; i <= _range; i++,pos.x += _direction,intPos.x += _direction)
         {
             Ray ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos));
-            //Debug.DrawRay(ray.origin, ray.direction*10,Color.red,0.1f);
 
-            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 10, 1<<8);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10 , 1<<6 | 1<<8);
 
-            if (i == 0) { inside = hit; }
-            else if (inside)
+            if (i == 0)
             {
-                if (!hit)
+                inside = hits.Length > 0; 
+            }
+            else if (inside)//ファンがフレームの中か
+            {
+                //設置したい位置にオブジェクトがある場合
+                if(hits.Length > 0)
                 {
-                    _tilemap.SetTile(intPos, null);
-
-                    var setPos = intPos;
-                    setPos.x -= _direction * _sizeX;
-                    _tilemap.SetTile(setPos, _tile);
+                    bool instance_here = false, blocking = false;
+                    foreach (var hit in hits)
+                    {
+                        //障害物があったらblockingをtrueに
+                        if (_blockTagList.Contains(hit.transform.tag))
+                        {
+                            blocking = true;
+                        }
+                        //フレームの中ならinstance_hereをtrueに
+                        if (hit.transform.CompareTag("Frame"))
+                        {
+                            instance_here = true;
+                        }
+                    }
+                    //障害物のある座標に生成しようとしたらreturn
+                    if (blocking && instance_here)
+                    {
+                        return;
+                    }
+                    //フレームの中なら座標をずらさず生成して次の座標を確認
+                    if (instance_here)
+                    {
+                        _tilemap.SetTile(intPos, _tile);
+                        continue;
+                    }
                 }
+                var pos_sub = pos;
+                pos_sub.x -= _direction * _sizeX;
+                Ray ray_sub = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos_sub));
+                //生成先にRaycast
+                RaycastHit2D hit_sub = Physics2D.Raycast(ray_sub.origin, ray_sub.direction, 10, 1 << 6);
+
+                //障害物があったらreturn
+                if (hit_sub) { return; }
+                var setPos = intPos;
+                setPos.x -= _direction * _sizeX;
+                _tilemap.SetTile(setPos, _tile);
             }
             else
             {
-                if (hit)
+                //設置したい位置にオブジェクトがある場合
+                if (hits.Length > 0)
                 {
-                    _tilemap.SetTile(intPos, null);
+                    bool instance_here = true, blocking = false;
+                    foreach (var hit in hits)
+                    {
+                        //障害物があったらblockingをtrueに
+                        if (_blockTagList.Contains(hit.transform.tag))
+                        {
+                            blocking = true;
+                        }
+                        //フレームの中ならinstance_hereをfalseに
+                        if (hit.transform.CompareTag("Frame"))
+                        {
+                            instance_here = false;
+                        }
+                    }
+                    //フレームの中なら座標をずらして生成
+                    if (!instance_here)
+                    {
+                        var pos_sub = pos;
+                        pos_sub.x += _direction * _sizeX;
+                        Ray ray_sub = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos_sub));
+                        //生成先にRaycast
+                        RaycastHit2D hit_sub = Physics2D.Raycast(ray_sub.origin, ray_sub.direction, 10, 1 << 6);
 
-                    var setPos = intPos;
-                    setPos.x += _direction * _sizeX;
-                    _tilemap.SetTile(setPos, _tile);
+                        //障害物があったらreturn
+                        if (hit_sub) { return; }
+                        var setPos = intPos;
+                        setPos.x += _direction * _sizeX;
+                        _tilemap.SetTile(setPos, _tile);
+                        continue;
+
+                    }
+                    //障害物のある座標に生成しようとしたらreturn
+                    if (blocking && instance_here)
+                    {
+                        return;
+                    }
                 }
+                _tilemap.SetTile(intPos, _tile);
             }
         }
     }
 
     public void FanLoopCanceled()
     {
-        _tilemap.ClearAllTiles();
+        SetTiles();
+    }
 
+    private void SetTiles()
+    {
+        _tilemap.ClearAllTiles();
+        _tilemap_out.ClearAllTiles();
+
+        var pos = _transform.position;
         Vector3Int intPos = Vector3Int.zero;
+
         for (int i = 0; i < _range; i++)
         {
+            pos.x += _direction;
             intPos.x += _direction;
+            Ray ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos));
+            //Debug.DrawRay(ray.origin, ray.direction*10,Color.red,0.1f);
+
+            RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10, 1 << 6 | 1 << 8);
+            foreach(var hit in hits)
+            {
+                if (_blockTagList.Contains(hit.transform.tag))
+                {
+                    return;
+                }
+            }
             _tilemap.SetTile(intPos, _tile);
         }
     }

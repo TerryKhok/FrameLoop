@@ -396,6 +396,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>//,IParentOnTrigger
     private void adjustPos()
     {
         if(g_isActive && g_usable) { return; }
+        if(_playerTrans == null) { return; }
         var setPos = _playerTrans.position;
         if (_isCrouching)
         {

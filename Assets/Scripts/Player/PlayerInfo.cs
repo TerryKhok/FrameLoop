@@ -19,6 +19,8 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     public float g_wall = 0;
     [HideInInspector]
     public Transform g_box = null;
+    [HideInInspector]
+    public float g_groundDistance = 0;
 
     private void Start()
     {
@@ -33,17 +35,22 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
         var size = new Vector2(g_collider.size.x, 0.5f);
         RaycastHit2D hit;
         //Debug.DrawRay(ray.origin, ray.direction * 1, Color.red, 0.1f);
-        hit = Physics2D.BoxCast(ray.origin, size, 0, ray.direction, 1, _platformLayer);
+        hit = Physics2D.BoxCast(ray.origin, size, 0, ray.direction, 2, _platformLayer);
 
         if (hit.collider != null)
         {
+            g_groundDistance = hit.distance;
             //Debug.Log(hit.distance);
-            if(hit.distance < 0.6f)
+            if (hit.distance < 0.6f)
             {
                 //Debug.Log($"{hit.distance}{hit.transform.name}");
                 g_isGround = true;
                 return;
             }
+        }
+        else
+        {
+            g_groundDistance = Mathf.Infinity;
         }
         g_isGround = false;
     }
