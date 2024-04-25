@@ -130,8 +130,9 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         for(int i = 0; i <= _range; i++,pos.x += _direction,intPos.x += _direction)
         {
             Ray ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos));
+            LayerMask mask = LayerMask.NameToLayer("Frame");
 
-            RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10 , 1<<6 | 1<<8);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10 , mask);
 
             if (i == 0)
             {
@@ -172,7 +173,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                 pos_sub.x -= _direction * _sizeX;
                 Ray ray_sub = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos_sub));
                 //¶¬æ‚ÉRaycast
-                RaycastHit2D hit_sub = Physics2D.Raycast(ray_sub.origin, ray_sub.direction, 10, 1 << 6);
+                RaycastHit2D hit_sub = Physics2D.Raycast(ray_sub.origin, ray_sub.direction, 10, 1, LayerMask.NameToLayer("IPlatform"));
 
                 //áŠQ•¨‚ª‚ ‚Á‚½‚çreturn
                 if (hit_sub) { return; }
@@ -206,7 +207,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                         pos_sub.x += _direction * _sizeX;
                         Ray ray_sub = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos_sub));
                         //¶¬æ‚ÉRaycast
-                        RaycastHit2D hit_sub = Physics2D.Raycast(ray_sub.origin, ray_sub.direction, 10, 1 << 6);
+                        RaycastHit2D hit_sub = Physics2D.Raycast(ray_sub.origin, ray_sub.direction, 10, LayerMask.NameToLayer("OPlatform"));
 
                         //áŠQ•¨‚ª‚ ‚Á‚½‚çreturn
                         if (hit_sub) { return; }
@@ -246,8 +247,9 @@ public class Fan : MonoBehaviour,IParentOnTrigger
             intPos.x += _direction;
             Ray ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos));
             //Debug.DrawRay(ray.origin, ray.direction*10,Color.red,0.1f);
+            LayerMask mask = LayerMask.NameToLayer("OPlatform");
 
-            RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10, 1 << 6 | 1 << 8);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10, mask);
             foreach(var hit in hits)
             {
                 if (_blockTagList.Contains(hit.transform.tag))

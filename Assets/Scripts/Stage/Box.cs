@@ -41,7 +41,14 @@ public class Box : MonoBehaviour
         Ray ray = new Ray(_transform.position, Vector3.down);
         RaycastHit2D hit;
         Vector2 size = new Vector2(_width / 2, 0.5f);
-        hit = Physics2D.BoxCast(ray.origin, size, 0, ray.direction, 1, 1 << 6);
+
+        LayerMask mask = 1 << LayerMask.NameToLayer("OPlatform") | 1 << LayerMask.NameToLayer("OBox");
+        if(gameObject.layer == LayerMask.NameToLayer("IBox"))
+        {
+            mask = 1 << LayerMask.NameToLayer("IPlatform") | 1 << LayerMask.NameToLayer("IBox");
+        }
+
+        hit = Physics2D.BoxCast(ray.origin, size, 0, ray.direction, 1, mask);
         if (hit.collider != null)
         {
             if (hit.distance > 0.3f) { return; }
@@ -72,7 +79,13 @@ public class Box : MonoBehaviour
         Ray ray = new Ray(pos, direction);
         RaycastHit2D[] hits;
         Vector2 size = new Vector2(_width / 2, 0.5f);
-        hits = Physics2D.BoxCastAll(ray.origin, size, 0, ray.direction, 0.2f, 1 << 7);
+
+        LayerMask mask = 1 << LayerMask.NameToLayer("OBox");
+        if (gameObject.layer == LayerMask.NameToLayer("IBox"))
+        {
+            mask = 1 << LayerMask.NameToLayer("IBox");
+        }
+        hits = Physics2D.BoxCastAll(ray.origin, size, 0, ray.direction, 0.2f, mask);
 
         if(hits.Length > 0)
         {

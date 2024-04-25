@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 3686081634999564405}
   - component: {fileID: 4641737636778204299}
   - component: {fileID: 7053178199515520629}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -34,7 +34,7 @@ Transform:
   m_GameObject: {fileID: 1308987274351111380}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.8, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -54,7 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _platformLayer:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 0
   g_rb: {fileID: 0}
   g_collider: {fileID: 0}
   g_isGround: 1
@@ -63,6 +63,12 @@ MonoBehaviour:
   g_wall: 0
   g_box: {fileID: 0}
   g_groundDistance: 0
+  g_insideMask:
+    serializedVersion: 2
+    m_Bits: 0
+  g_outsideMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &8592394612338021649
 MonoBehaviour:
   m_ObjectHideFlags: 0

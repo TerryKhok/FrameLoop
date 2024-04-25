@@ -17,18 +17,18 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Player
+  - 
   - Water
   - UI
-  - Platform
-  - Box
+  - OPlayer
+  - IPlayer
   - Frame
+  - OPlatform
+  - IPlatform
+  - OBox
+  - IBox
   - Outside
   - Inside
-  - 
-  - 
-  - 
-  - 
   - 
   - 
   - 

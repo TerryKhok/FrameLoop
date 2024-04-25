@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6023722724636158303}
   - component: {fileID: 9057150486551267040}
   - component: {fileID: 8683249265570794887}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wind
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 703557772883672602}
   - component: {fileID: 787397320474026738}
   - component: {fileID: 8106611505650389671}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Fan
   m_TagString: Fan
   m_Icon: {fileID: 0}
@@ -322,9 +322,8 @@ MonoBehaviour:
   _invisible: 0
   _tagList:
   - Player
-  _mask:
-    serializedVersion: 2
-    m_Bits: 0
+  _blockTagList:
+  - Platform
   _enableOnAwake: 1
 --- !u!212 &8106611505650389671
 SpriteRenderer:
@@ -394,7 +393,7 @@ GameObject:
   - component: {fileID: 1013391756563876652}
   - component: {fileID: 8519265343507771706}
   - component: {fileID: 4921520784485951073}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: OutsideWind
   m_TagString: Untagged
   m_Icon: {fileID: 0}

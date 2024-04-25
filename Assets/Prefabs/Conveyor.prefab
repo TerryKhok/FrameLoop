@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7600300005888890643}
   - component: {fileID: 8610877138333269536}
   - component: {fileID: 5501480881131739443}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Conveyor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 2104953091719824556}
   - component: {fileID: 4516046011678424994}
   - component: {fileID: 4985579290472655021}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Conveyor_body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
