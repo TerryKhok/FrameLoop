@@ -617,8 +617,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>//,IParentOnTrigger
         _isCrouching = isCrouching;
     }
 
-    public int GetSizeX()
+    public Vector2Int GetSize()
     {
-        return _size.x;
+        return _size;
     }
 }

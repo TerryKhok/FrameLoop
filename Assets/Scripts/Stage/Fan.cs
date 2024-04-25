@@ -1,21 +1,22 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 
 public class Fan : MonoBehaviour,IParentOnTrigger
 {
+    private enum Direction
+    {
+        UP,DOWN,LEFT,RIGHT
+    }
+
+    [SerializeField,Tooltip("ïóÇÃï˚å¸")]
+    private Direction _direction = Direction.RIGHT;
     [SerializeField,Tooltip("ïóàÊÇ…ê›íuÇ∑ÇÈTile")]
     private Tile _tile = null;
     [SerializeField,Tooltip("ïóÇÃéÀíˆ")]
     private int _range = 1;
     [SerializeField,Tooltip("ó^Ç¶ÇÈë¨ìx(m/s)")]
     private float _force = 1f;
-    [SerializeField,Tooltip("ç∂Çå¸ÇØÇÈ")]
-    private bool _inverse = false;
     [SerializeField,Tooltip("âeãøîÕàÕÇîÒï\é¶Ç…Ç∑ÇÈ")]
     private bool _invisible = false;
     [SerializeField, Tag,Tooltip("âeãøÇó^Ç¶ÇÈTag")]
@@ -30,9 +31,9 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     private Tilemap _tilemap = null, _tilemap_out;
     private TilemapRenderer _tilemapRenderer = null, _tilemapRenderer_out;
     private Dictionary<Collider2D, Rigidbody2D> _rbDic = new Dictionary<Collider2D, Rigidbody2D>();
-    private int _direction = 1;
-    private int _sizeX = 0;
+    private Vector3Int _frameSize = Vector3Int.zero;
     private Transform _outsideT = null;
+    private Vector3Int _actualDirection = Vector3Int.right;
     
     private void Reset()
     {
@@ -45,6 +46,21 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         _camera = Camera.main;
         _enable = _enableOnAwake;
         _transform = transform;
+        switch (_direction)
+        {
+            case Direction.UP:
+                _actualDirection = Vector3Int.up;
+                break;
+            case Direction.DOWN:
+                _actualDirection = Vector3Int.down;
+                break;
+            case Direction.RIGHT:
+                _actualDirection = Vector3Int.right;
+                break;
+            case Direction.LEFT:
+                _actualDirection = Vector3Int.left;
+                break;
+        }
         Transform child1 = _transform.GetChild(0);
         _outsideT = _transform.GetChild(1);
         _tilemap = child1.GetComponent<Tilemap>();
@@ -53,10 +69,9 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         _tilemap_out = _outsideT.GetComponent<Tilemap>();
         _tilemapRenderer_out = _tilemap_out.GetComponent<TilemapRenderer>();
         _tilemapRenderer_out.enabled = !_invisible;
-        _direction = _inverse ? -1 : 1;
 
         var frameObj = GameObject.FindGameObjectWithTag("Frame");
-        _sizeX = frameObj.GetComponent<FrameLoop>().GetSizeX();
+        _frameSize = (Vector3Int)frameObj.GetComponent<FrameLoop>().GetSize();
         SetTiles();
     }
 
@@ -65,10 +80,11 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         _tilemapRenderer.enabled = _enable && !_invisible;
         if (!_enable) { return; }
 
+        Vector2 forceDirection = new Vector2(_actualDirection.x, _actualDirection.y);
         foreach (var rb in _rbDic.Values)
         {
             var currentPos = rb.position;
-            currentPos += (Vector2)_transform.right * _direction * _force * Time.fixedDeltaTime;
+            currentPos += (Vector2)_transform.right * forceDirection * _force * Time.fixedDeltaTime;
             rb.position = currentPos;
         }
     }
@@ -127,7 +143,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         var pos = _transform.position;
         Vector3Int intPos = Vector3Int.zero;
 
-        for(int i = 0; i <= _range; i++,pos.x += _direction,intPos.x += _direction)
+        for(int i = 0; i <= _range; i++,pos += (Vector3)_actualDirection,intPos += (Vector3Int)_actualDirection)
         {
             Ray ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos));
 
@@ -164,12 +180,12 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                     //ÉtÉåÅ[ÉÄÇÃíÜÇ»ÇÁç¿ïWÇÇ∏ÇÁÇ≥Ç∏ê∂ê¨ÇµÇƒéüÇÃç¿ïWÇämîF
                     if (instance_here)
                     {
-                        _tilemap.SetTile(intPos, _tile);
+                        SetTile(intPos, Quaternion.FromToRotation(Vector3.right,_actualDirection), _tilemap, _tile);
                         continue;
                     }
                 }
                 var pos_sub = pos;
-                pos_sub.x -= _direction * _sizeX;
+                pos_sub -= _actualDirection * _frameSize;
                 Ray ray_sub = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos_sub));
                 //ê∂ê¨êÊÇ…Raycast
                 RaycastHit2D hit_sub = Physics2D.Raycast(ray_sub.origin, ray_sub.direction, 10, 1 << 6);
@@ -177,8 +193,8 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                 //è·äQï®Ç™Ç†Ç¡ÇΩÇÁreturn
                 if (hit_sub) { return; }
                 var setPos = intPos;
-                setPos.x -= _direction * _sizeX;
-                _tilemap.SetTile(setPos, _tile);
+                setPos -= _actualDirection * _frameSize;
+                SetTile(setPos, Quaternion.FromToRotation(Vector3.right,_actualDirection), _tilemap, _tile);
             }
             else
             {
@@ -203,7 +219,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                     if (!instance_here)
                     {
                         var pos_sub = pos;
-                        pos_sub.x += _direction * _sizeX;
+                        pos_sub += _actualDirection * _frameSize;
                         Ray ray_sub = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos_sub));
                         //ê∂ê¨êÊÇ…Raycast
                         RaycastHit2D hit_sub = Physics2D.Raycast(ray_sub.origin, ray_sub.direction, 10, 1 << 6);
@@ -211,8 +227,8 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                         //è·äQï®Ç™Ç†Ç¡ÇΩÇÁreturn
                         if (hit_sub) { return; }
                         var setPos = intPos;
-                        setPos.x += _direction * _sizeX;
-                        _tilemap.SetTile(setPos, _tile);
+                        setPos += _actualDirection * _frameSize;
+                        SetTile(setPos, Quaternion.FromToRotation(Vector3.right,_actualDirection), _tilemap, _tile);
                         continue;
 
                     }
@@ -222,7 +238,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                         return;
                     }
                 }
-                _tilemap.SetTile(intPos, _tile);
+                SetTile(intPos, Quaternion.FromToRotation(Vector3.right, _actualDirection), _tilemap, _tile);
             }
         }
     }
@@ -242,8 +258,8 @@ public class Fan : MonoBehaviour,IParentOnTrigger
 
         for (int i = 0; i < _range; i++)
         {
-            pos.x += _direction;
-            intPos.x += _direction;
+            pos += _actualDirection;
+            intPos += _actualDirection;
             Ray ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos));
             //Debug.DrawRay(ray.origin, ray.direction*10,Color.red,0.1f);
 
@@ -255,7 +271,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                     return;
                 }
             }
-            _tilemap.SetTile(intPos, _tile);
+            SetTile(intPos, Quaternion.FromToRotation(Vector3.right,_actualDirection),_tilemap, _tile);
         }
     }
 
@@ -267,6 +283,12 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     public void SwitchEnable()
     {
         _enable = !_enable;
+    }
+
+    private void SetTile(Vector3Int pos, Quaternion rot, Tilemap tilemap, TileBase tile)
+    {
+        tilemap.SetTile(pos, tile);
+        tilemap.SetTransformMatrix(pos, Matrix4x4.TRS(Vector3.zero, rot, Vector3.one));
     }
 
 #if else
