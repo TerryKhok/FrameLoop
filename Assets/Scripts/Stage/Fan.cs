@@ -73,46 +73,46 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         }
     }
 
-    public void OnEnter(Collider2D collision, Transform transform)
+    public void OnEnter(Collider2D other, Transform transform)
     {
-        if (!_tagList.Contains(collision.tag)) { return; }
+        if (!_tagList.Contains(other.tag)) { return; }
 
         if(transform == _outsideT)
         {
-            if (collision.CompareTag("Player"))
+            if (other.CompareTag("Player"))
             {
                 return;
             }
         }
 
-        if(!_rbDic.ContainsKey(collision))
+        if(!_rbDic.ContainsKey(other))
         {
-            var rb = collision.GetComponent<Rigidbody2D>();
+            var rb = other.GetComponent<Rigidbody2D>();
             if(rb != null)
             {
-                _rbDic.Add(collision, rb);
+                _rbDic.Add(other, rb);
             }
         }
     }
 
-    public void OnExit(Collider2D collision, Transform transform)
+    public void OnExit(Collider2D other, Transform transform)
     {
-        if (!_tagList.Contains(collision.tag)) { return; }
+        if (!_tagList.Contains(other.tag)) { return; }
 
         if (transform == _outsideT)
         {
-            if (collision.CompareTag("Player"))
+            if (other.CompareTag("Player"))
             {
                 return;
             }
         }
 
-        if (_rbDic.ContainsKey(collision))
+        if (_rbDic.ContainsKey(other))
         {
-            _rbDic.Remove(collision);
+            _rbDic.Remove(other);
         }
     }
-    public void OnStay(Collider2D collision, Transform transform)
+    public void OnStay(Collider2D other, Transform transform)
     {
 
     }

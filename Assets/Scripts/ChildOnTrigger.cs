@@ -14,21 +14,21 @@ public class ChildOnTrigger : MonoBehaviour
         _parentOnTrigger = _transform.parent.GetComponent<IParentOnTrigger>();
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
+    public void OnTriggerEnter2D(Collider2D other)
     {
         if(_parentOnTrigger == null) { return; }
-        _parentOnTrigger.OnEnter(collision,_transform);
+        _parentOnTrigger.OnEnter(other,_transform);
     }
 
-    public void OnTriggerStay2D(Collider2D collision)
+    public void OnTriggerStay2D(Collider2D other)
     {
         if(_parentOnTrigger == null) { return; }
-        _parentOnTrigger.OnStay(collision, _transform);
+        _parentOnTrigger.OnStay(other, _transform);
     }
 
-    public void OnTriggerExit2D(Collider2D collision)
+    public void OnTriggerExit2D(Collider2D other)
     {
         if(_parentOnTrigger == null) { return; }
-        _parentOnTrigger.OnExit(collision, _transform);
+        _parentOnTrigger.OnExit(other, _transform);
     }
 }

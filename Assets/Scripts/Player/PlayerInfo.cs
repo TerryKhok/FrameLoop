@@ -22,6 +22,8 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     [HideInInspector]
     public float g_groundDistance = 0;
 
+    private const float Ground_Dist = 0.72f;
+
     private void Start()
     {
         g_rb = GetComponent<Rigidbody2D>();
@@ -39,11 +41,11 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
 
         if (hit.collider != null)
         {
+            //Debug.Log($"{hit.distance}{hit.transform.name}");
+
             g_groundDistance = hit.distance;
-            //Debug.Log(hit.distance);
-            if (hit.distance < 0.6f)
+            if (hit.distance < Ground_Dist)
             {
-                //Debug.Log($"{hit.distance}{hit.transform.name}");
                 g_isGround = true;
                 return;
             }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IParentOnTrigger
 {
-    public void OnEnter(Collider2D collision, Transform transform);
-    public void OnStay(Collider2D collision, Transform transform);
-    public void OnExit(Collider2D collision, Transform transform);
+    public void OnEnter(Collider2D other, Transform transform);
+    public void OnStay(Collider2D other, Transform transform);
+    public void OnExit(Collider2D other, Transform transform);
 }
