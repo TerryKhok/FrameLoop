@@ -132,7 +132,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             if(col == null) 
             {
                 _insiders.Remove(col);
-                _exitInsiders.Remove(col);
+                if (_exitInsiders.ContainsKey(col))
+                {
+                    _exitInsiders.Remove(col);
+                }
                 continue;
             }
             var rb = col.GetComponent<Rigidbody2D>();
@@ -150,7 +153,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             if (col == null)
             {
                 _outsiders.Remove(col);
-                _enterOutsiders.Remove(col);
+                if (_exitInsiders.ContainsKey(col))
+                {
+                    _enterOutsiders.Remove(col);
+                }
                 continue;
             }
         }
@@ -220,8 +226,21 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         _spriteMask.enabled = true;
         _material.color = new Color32(0, 255, 0, 150);
 
+        List<Collider2D> removeList = new List<Collider2D>();
+
         foreach (var col in _insiders)
         {
+            if (_outsiders.ContainsKey(col))
+            {
+                var pos = col.transform.position;
+                if (pos.x < _loopRangeX.min || pos.x > _loopRangeX.max ||
+                    pos.y < _loopRangeY.min || pos.y > _loopRangeY.max)
+                {
+                    removeList.Add(col);
+                    continue;
+                }
+            }
+
             SpriteRenderer renderer = col.GetComponent<SpriteRenderer>();
             renderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
 
@@ -242,6 +261,16 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             //    Physics2D.IgnoreCollision(col, outsideCol, false);
             //}
         }
+
+        foreach(var col in removeList)
+        {
+            _insiders.Remove(col);
+            if (_exitInsiders.ContainsKey(col))
+            {
+                _exitInsiders.Remove(col);
+            }
+        }
+
         //foreach (var col in _outsiders.Keys)
         //{
         //    Physics2D.IgnoreCollision(col, _insideTileCol, false);
@@ -450,20 +479,20 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             if (_exitInsiders.ContainsKey(col))
             {
                 var pos = col.transform.position;
-                if(col.transform.position.x < _loopRangeX.min)
+                if(pos.x < _loopRangeX.min)
                 {
                     pos.x += _size.x;
                 }
-                else if(col.transform.position.x > _loopRangeX.max)
+                else if(pos.x > _loopRangeX.max)
                 {
                     pos.x -= _size.x;
                 }
 
-                if (col.transform.position.y < _loopRangeY.min)
+                if (pos.y < _loopRangeY.min)
                 {
                     pos.y += _size.y;
                 }
-                else if (col.transform.position.y > _loopRangeY.max)
+                else if (pos.y > _loopRangeY.max)
                 {
                     pos.y -= _size.y;
                 }
@@ -482,10 +511,12 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         _outsideTile.ClearAllTiles();
         for(int i=0;i < _insideColliderList.Count; i++)
         {
+            if (_insideColliderList[i] == null) { continue; }
             Destroy(_insideColliderList[i].gameObject);
         }
         for (int i = 0; i < _outsideColliderList.Count; i++)
         {
+            if (_outsideColliderList[i] == null) { continue; }
             Destroy(_outsideColliderList[i].gameObject);
         }
 
@@ -723,6 +754,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         obj.AddComponent(setRenderer);
         var rb = obj.AddComponent(setRigidbody);
         rb.isKinematic = true;
+        rb.useAutoMass = false;
 
         if (t.CompareTag("Box"))
         {
