@@ -7663,6 +7663,81 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3651940390605301450, guid: 7781dc7be774a6c42ab38a2059c91d27,
+        type: 3}
+      propertyPath: TrailModule.ratio
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3651940390605301450, guid: 7781dc7be774a6c42ab38a2059c91d27,
+        type: 3}
+      propertyPath: TrailModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3651940390605301450, guid: 7781dc7be774a6c42ab38a2059c91d27,
+        type: 3}
+      propertyPath: TrailModule.worldSpace
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3651940390605301450, guid: 7781dc7be774a6c42ab38a2059c91d27,
+        type: 3}
+      propertyPath: ShapeModule.radius.mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3651940390605301450, guid: 7781dc7be774a6c42ab38a2059c91d27,
+        type: 3}
+      propertyPath: TrailModule.textureMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3651940390605301450, guid: 7781dc7be774a6c42ab38a2059c91d27,
+        type: 3}
+      propertyPath: ShapeModule.radius.spread
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3651940390605301450, guid: 7781dc7be774a6c42ab38a2059c91d27,
+        type: 3}
+      propertyPath: TrailModule.lifetime.scalar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3651940390605301450, guid: 7781dc7be774a6c42ab38a2059c91d27,
+        type: 3}
+      propertyPath: TrailModule.dieWithParticles
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3651940390605301450, guid: 7781dc7be774a6c42ab38a2059c91d27,
+        type: 3}
+      propertyPath: ShapeModule.randomPositionAmount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3651940390605301450, guid: 7781dc7be774a6c42ab38a2059c91d27,
+        type: 3}
+      propertyPath: TrailModule.generateLightingData
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3651940390605301450, guid: 7781dc7be774a6c42ab38a2059c91d27,
+        type: 3}
+      propertyPath: ShapeModule.randomDirectionAmount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3651940390605301450, guid: 7781dc7be774a6c42ab38a2059c91d27,
+        type: 3}
+      propertyPath: ShapeModule.sphericalDirectionAmount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3651940390605301450, guid: 7781dc7be774a6c42ab38a2059c91d27,
+        type: 3}
+      propertyPath: TrailModule.colorOverLifetime.maxColor.b
+      value: 0.5613208
+      objectReference: {fileID: 0}
+    - target: {fileID: 3651940390605301450, guid: 7781dc7be774a6c42ab38a2059c91d27,
+        type: 3}
+      propertyPath: TrailModule.colorOverLifetime.maxColor.g
+      value: 0.891876
+      objectReference: {fileID: 0}
+    - target: {fileID: 3651940390605301450, guid: 7781dc7be774a6c42ab38a2059c91d27,
+        type: 3}
+      propertyPath: TrailModule.colorOverLifetime.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5326223991955608284, guid: 7781dc7be774a6c42ab38a2059c91d27,
         type: 3}
       propertyPath: m_RootOrder
@@ -7738,6 +7813,16 @@ PrefabInstance:
       propertyPath: originalFrame
       value: 
       objectReference: {fileID: 370075004}
+    - target: {fileID: 8025800376426725728, guid: 7781dc7be774a6c42ab38a2059c91d27,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8025800376426725728, guid: 7781dc7be774a6c42ab38a2059c91d27,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4dd672e441b8aba46a608b8b8984899c, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
