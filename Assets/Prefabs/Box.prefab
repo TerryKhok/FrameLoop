@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 790627881603885105}
   - component: {fileID: 7428519980575709672}
   - component: {fileID: 9042639358960714843}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: Box
   m_TagString: Box
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 2
   m_SpriteSortPoint: 0
 --- !u!61 &7428519980575709672
 BoxCollider2D:

@@ -28,10 +28,11 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if(_count >= _buttonCount)
         {
+            Debug.Log(other.transform.name);
             _clearCanvas.enabled = true;
         }
     }

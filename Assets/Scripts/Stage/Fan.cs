@@ -89,46 +89,46 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         }
     }
 
-    public void OnEnter(Collider2D collision, Transform transform)
+    public void OnEnter(Collider2D other, Transform transform)
     {
-        if (!_tagList.Contains(collision.tag)) { return; }
+        if (!_tagList.Contains(other.tag)) { return; }
 
         if(transform == _outsideT)
         {
-            if (collision.CompareTag("Player"))
+            if (other.CompareTag("Player"))
             {
                 return;
             }
         }
 
-        if(!_rbDic.ContainsKey(collision))
+        if(!_rbDic.ContainsKey(other))
         {
-            var rb = collision.GetComponent<Rigidbody2D>();
+            var rb = other.GetComponent<Rigidbody2D>();
             if(rb != null)
             {
-                _rbDic.Add(collision, rb);
+                _rbDic.Add(other, rb);
             }
         }
     }
 
-    public void OnExit(Collider2D collision, Transform transform)
+    public void OnExit(Collider2D other, Transform transform)
     {
-        if (!_tagList.Contains(collision.tag)) { return; }
+        if (!_tagList.Contains(other.tag)) { return; }
 
         if (transform == _outsideT)
         {
-            if (collision.CompareTag("Player"))
+            if (other.CompareTag("Player"))
             {
                 return;
             }
         }
 
-        if (_rbDic.ContainsKey(collision))
+        if (_rbDic.ContainsKey(other))
         {
-            _rbDic.Remove(collision);
+            _rbDic.Remove(other);
         }
     }
-    public void OnStay(Collider2D collision, Transform transform)
+    public void OnStay(Collider2D other, Transform transform)
     {
 
     }
@@ -146,12 +146,21 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         for(int i = 0; i <= _range; i++,pos += (Vector3)_actualDirection,intPos += (Vector3Int)_actualDirection)
         {
             Ray ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos));
+            LayerMask mask = LayerMask.NameToLayer("Frame");
+            mask |= LayerMask.NameToLayer("IPlatform");
+            mask |= LayerMask.NameToLayer("OPlatform");
 
-            RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10 , 1<<6 | 1<<8);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10 , mask);
 
             if (i == 0)
             {
-                inside = hits.Length > 0; 
+                foreach(var hit in hits)
+                {
+                    if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Frame"))
+                    {
+                        inside = true; break;
+                    }
+                }
             }
             else if (inside)//ファンがフレームの中か
             {
@@ -188,7 +197,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                 pos_sub -= _actualDirection * _frameSize;
                 Ray ray_sub = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos_sub));
                 //生成先にRaycast
-                RaycastHit2D hit_sub = Physics2D.Raycast(ray_sub.origin, ray_sub.direction, 10, 1 << 6);
+                RaycastHit2D hit_sub = Physics2D.Raycast(ray_sub.origin, ray_sub.direction, 10, 1, LayerMask.NameToLayer("IPlatform"));
 
                 //障害物があったらreturn
                 if (hit_sub) { return; }
@@ -222,7 +231,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                         pos_sub += _actualDirection * _frameSize;
                         Ray ray_sub = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos_sub));
                         //生成先にRaycast
-                        RaycastHit2D hit_sub = Physics2D.Raycast(ray_sub.origin, ray_sub.direction, 10, 1 << 6);
+                        RaycastHit2D hit_sub = Physics2D.Raycast(ray_sub.origin, ray_sub.direction, 10, LayerMask.NameToLayer("OPlatform"));
 
                         //障害物があったらreturn
                         if (hit_sub) { return; }
@@ -262,8 +271,9 @@ public class Fan : MonoBehaviour,IParentOnTrigger
             intPos += _actualDirection;
             Ray ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos));
             //Debug.DrawRay(ray.origin, ray.direction*10,Color.red,0.1f);
+            LayerMask mask = LayerMask.NameToLayer("OPlatform");
 
-            RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10, 1 << 6 | 1 << 8);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10, mask);
             foreach(var hit in hits)
             {
                 if (_blockTagList.Contains(hit.transform.tag))

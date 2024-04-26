@@ -27,11 +27,11 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        if (_tagList.Contains(collision.transform.tag))
+        if (_tagList.Contains(other.transform.tag))
         {
-            Destroy(collision.gameObject);
+            Destroy(other.gameObject);
             return;
         }
         Destroy(this.gameObject);
