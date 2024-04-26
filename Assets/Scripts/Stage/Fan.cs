@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -28,7 +29,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     private bool _enable = false;
 
     private Transform _transform = null;
-    private Tilemap _tilemap = null, _tilemap_out;
+    private Tilemap _tilemapOutside = null, _tilemapInside;
     private TilemapRenderer _tilemapRenderer = null, _tilemapRenderer_out;
     private Dictionary<Collider2D, Rigidbody2D> _rbDic = new Dictionary<Collider2D, Rigidbody2D>();
     private Vector3Int _frameSize = Vector3Int.zero;
@@ -63,11 +64,11 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         }
         Transform child1 = _transform.GetChild(0);
         _outsideT = _transform.GetChild(1);
-        _tilemap = child1.GetComponent<Tilemap>();
-        _tilemapRenderer = _tilemap.GetComponent<TilemapRenderer>();
+        _tilemapOutside = child1.GetComponent<Tilemap>();
+        _tilemapRenderer = _tilemapOutside.GetComponent<TilemapRenderer>();
         _tilemapRenderer.enabled = !_invisible;
-        _tilemap_out = _outsideT.GetComponent<Tilemap>();
-        _tilemapRenderer_out = _tilemap_out.GetComponent<TilemapRenderer>();
+        _tilemapInside = _outsideT.GetComponent<Tilemap>();
+        _tilemapRenderer_out = _tilemapInside.GetComponent<TilemapRenderer>();
         _tilemapRenderer_out.enabled = !_invisible;
 
         var frameObj = GameObject.FindGameObjectWithTag("Frame");
@@ -84,7 +85,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         foreach (var rb in _rbDic.Values)
         {
             var currentPos = rb.position;
-            currentPos += (Vector2)_transform.right * forceDirection * _force * Time.fixedDeltaTime;
+            currentPos += forceDirection * _force * Time.fixedDeltaTime;
             rb.position = currentPos;
         }
     }
@@ -92,14 +93,6 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     public void OnEnter(Collider2D other, Transform transform)
     {
         if (!_tagList.Contains(other.tag)) { return; }
-
-        if(transform == _outsideT)
-        {
-            if (other.CompareTag("Player"))
-            {
-                return;
-            }
-        }
 
         if(!_rbDic.ContainsKey(other))
         {
@@ -115,14 +108,6 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     {
         if (!_tagList.Contains(other.tag)) { return; }
 
-        if (transform == _outsideT)
-        {
-            if (other.CompareTag("Player"))
-            {
-                return;
-            }
-        }
-
         if (_rbDic.ContainsKey(other))
         {
             _rbDic.Remove(other);
@@ -136,36 +121,51 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     private Camera _camera = null;
     public void FanLoopStarted()
     {
-        _tilemap.ClearAllTiles();
-        _tilemap_out.ClearAllTiles();
+        StartCoroutine("windLoop");
+    }
+
+    public void FanLoopCanceled()
+    {
+        StartCoroutine("asyncSetTiles");
+    }
+
+    private IEnumerator windLoop()
+    {
+        yield return new WaitForEndOfFrame();
+
+        _tilemapOutside.ClearAllTiles();
+        _tilemapInside.ClearAllTiles();
         bool inside = false;
 
         var pos = _transform.position;
         Vector3Int intPos = Vector3Int.zero;
 
-        for(int i = 0; i <= _range; i++,pos += (Vector3)_actualDirection,intPos += (Vector3Int)_actualDirection)
+        for (int i = 0; i <= _range; i++, pos += (Vector3)_actualDirection, intPos += _actualDirection)
         {
             Ray ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos));
-            LayerMask mask = LayerMask.NameToLayer("Frame");
-            mask |= LayerMask.NameToLayer("IPlatform");
-            mask |= LayerMask.NameToLayer("OPlatform");
+            LayerMask mask = 1 << LayerMask.NameToLayer("Frame");
 
-            RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10 , mask);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10, mask);
 
             if (i == 0)
             {
-                foreach(var hit in hits)
+                foreach (var hit in hits)
                 {
-                    if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Frame"))
+                    if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Frame"))
                     {
-                        inside = true; break;
+                        mask |= 1 << LayerMask.NameToLayer("IPlatform");
+                        inside = true;
+                    }
+                    else
+                    {
+                        mask |= 1 << LayerMask.NameToLayer("OPlatform");
                     }
                 }
             }
             else if (inside)//ファンがフレームの中か
             {
                 //設置したい位置にオブジェクトがある場合
-                if(hits.Length > 0)
+                if (hits.Length > 0)
                 {
                     bool instance_here = false, blocking = false;
                     foreach (var hit in hits)
@@ -184,26 +184,30 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                     //障害物のある座標に生成しようとしたらreturn
                     if (blocking && instance_here)
                     {
-                        return;
+                        yield break;
                     }
                     //フレームの中なら座標をずらさず生成して次の座標を確認
                     if (instance_here)
                     {
-                        SetTile(intPos, Quaternion.FromToRotation(Vector3.right,_actualDirection), _tilemap, _tile);
+                        SetTile(intPos, Quaternion.FromToRotation(Vector3.right, _actualDirection), _tilemapInside, _tile);
                         continue;
                     }
                 }
                 var pos_sub = pos;
                 pos_sub -= _actualDirection * _frameSize;
                 Ray ray_sub = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos_sub));
+                Debug.DrawRay(ray_sub.origin, ray_sub.direction * 10);
                 //生成先にRaycast
-                RaycastHit2D hit_sub = Physics2D.Raycast(ray_sub.origin, ray_sub.direction, 10, 1, LayerMask.NameToLayer("IPlatform"));
+                RaycastHit2D hit_sub = Physics2D.Raycast(ray_sub.origin, ray_sub.direction, 10, 1 << LayerMask.NameToLayer("IPlatform"));
+                //障害物があったら終了
+                if (hit_sub && _blockTagList.Contains(hit_sub.transform.tag))
+                {
+                    yield break;
+                }
 
-                //障害物があったらreturn
-                if (hit_sub) { return; }
                 var setPos = intPos;
                 setPos -= _actualDirection * _frameSize;
-                SetTile(setPos, Quaternion.FromToRotation(Vector3.right,_actualDirection), _tilemap, _tile);
+                SetTile(setPos, Quaternion.FromToRotation(Vector3.right, _actualDirection), _tilemapInside, _tile);
             }
             else
             {
@@ -231,36 +235,34 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                         pos_sub += _actualDirection * _frameSize;
                         Ray ray_sub = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos_sub));
                         //生成先にRaycast
-                        RaycastHit2D hit_sub = Physics2D.Raycast(ray_sub.origin, ray_sub.direction, 10, LayerMask.NameToLayer("OPlatform"));
+                        RaycastHit2D hit_sub = Physics2D.Raycast(ray_sub.origin, ray_sub.direction, 10, 1 << LayerMask.NameToLayer("OPlatform"));
 
                         //障害物があったらreturn
-                        if (hit_sub) { return; }
+                        if (hit_sub && _blockTagList.Contains(hit_sub.transform.tag))
+                        {
+                            yield break;
+                        }
                         var setPos = intPos;
                         setPos += _actualDirection * _frameSize;
-                        SetTile(setPos, Quaternion.FromToRotation(Vector3.right,_actualDirection), _tilemap, _tile);
+                        SetTile(setPos, Quaternion.FromToRotation(Vector3.right, _actualDirection), _tilemapOutside, _tile);
                         continue;
 
                     }
                     //障害物のある座標に生成しようとしたらreturn
                     if (blocking && instance_here)
                     {
-                        return;
+                        yield break;
                     }
                 }
-                SetTile(intPos, Quaternion.FromToRotation(Vector3.right, _actualDirection), _tilemap, _tile);
+                SetTile(intPos, Quaternion.FromToRotation(Vector3.right, _actualDirection), _tilemapOutside, _tile);
             }
         }
     }
 
-    public void FanLoopCanceled()
-    {
-        SetTiles();
-    }
-
     private void SetTiles()
     {
-        _tilemap.ClearAllTiles();
-        _tilemap_out.ClearAllTiles();
+        _tilemapOutside.ClearAllTiles();
+        _tilemapInside.ClearAllTiles();
 
         var pos = _transform.position;
         Vector3Int intPos = Vector3Int.zero;
@@ -271,7 +273,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
             intPos += _actualDirection;
             Ray ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos));
             //Debug.DrawRay(ray.origin, ray.direction*10,Color.red,0.1f);
-            LayerMask mask = LayerMask.NameToLayer("OPlatform");
+            LayerMask mask = 1 << LayerMask.NameToLayer("OPlatform");
 
             RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10, mask);
             foreach(var hit in hits)
@@ -281,8 +283,15 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                     return;
                 }
             }
-            SetTile(intPos, Quaternion.FromToRotation(Vector3.right,_actualDirection),_tilemap, _tile);
+            SetTile(intPos, Quaternion.FromToRotation(Vector3.right,_actualDirection),_tilemapOutside, _tile);
         }
+    }
+
+    private IEnumerator asyncSetTiles()
+    {
+        yield return new WaitForEndOfFrame();
+
+        SetTiles();
     }
 
     public void SetEnable(bool enable)
