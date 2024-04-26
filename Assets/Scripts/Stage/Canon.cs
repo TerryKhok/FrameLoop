@@ -31,7 +31,7 @@ public class Canon : MonoBehaviour
     {
         _enable = _enabledOnAwake;
         _transform = transform.GetChild(0);
-        _rotation = Quaternion.LookRotation(_direction);
+        _rotation = Quaternion.FromToRotation(Vector3.right,_direction);
         _position = _transform.position;
         _position += (Vector3)_direction.normalized;
 

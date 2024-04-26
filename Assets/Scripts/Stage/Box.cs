@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Box : MonoBehaviour
+public class Box : MonoBehaviour,IBox
 {
     private float _height = 0f;
     private Transform _transform, _playerTransform;

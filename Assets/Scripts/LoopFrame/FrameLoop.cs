@@ -38,8 +38,9 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         _outsideColliderList = new List<Collider2D> ();
 
     private Dictionary<Collider2D, Transform>
-        _insideCopyDic = new Dictionary<Collider2D, Transform>(),
         _outsideCopyDic = new Dictionary<Collider2D, Transform>();
+    private Dictionary<Collider2D, List<Transform>>
+    _insideCopyDic = new Dictionary<Collider2D, List<Transform>>();
 
     private List<Fan> _fanList = new List<Fan>();
 
@@ -47,6 +48,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
     private BoxCollider2D _boxCollider = null;
     private Transform _playerTrans = null, _transform = null;
+    private SpriteMask _spriteMask = null;
     private CompositeCollider2D _insideTileCol = null, _outsideTileCol = null;
     private bool _isCrouching = false;
     private InputManager _inputManager = null;
@@ -61,8 +63,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     private void Start()
     {
         _transform = transform;
+        _spriteMask = GetComponent<SpriteMask>();
+        _spriteMask.enabled = false;
         _boxCollider = GetComponent<BoxCollider2D>();
-        _boxCollider.size = new Vector3(_size.x + 0.3f, _size.y + 0.3f, 1);
+        _boxCollider.size = new Vector3(_size.x - 0.2f, _size.y - 0.2f, 1);
         _playerInfo = PlayerInfo.Instance;
         _playerTrans = _playerInfo.g_transform;
         _insideTileCol = _insideTile.GetComponent<CompositeCollider2D>();
@@ -117,11 +121,38 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
     private void Update()
     {
-        Debug.Log(_exitInsiders.Count);
         g_isActive &= g_usable;
         if (g_isActive)
         {
-            copy();
+            instantiateCopy();
+        }
+        List<Collider2D> workList = new List<Collider2D>(_insiders);
+        foreach(var col in workList)
+        {
+            if(col == null) 
+            {
+                _insiders.Remove(col);
+                _exitInsiders.Remove(col);
+                continue;
+            }
+            var rb = col.GetComponent<Rigidbody2D>();
+            var velocity = rb.velocity;
+            if(velocity.y < -15f)
+            {
+                velocity.y = -15f;
+                rb.velocity = velocity;
+            }
+        }
+
+        Dictionary<Collider2D, Vector2> workDict = new Dictionary<Collider2D, Vector2>(_outsiders);
+        foreach (var col in workDict.Keys)
+        {
+            if (col == null)
+            {
+                _outsiders.Remove(col);
+                _enterOutsiders.Remove(col);
+                continue;
+            }
         }
 
         g_usable |= PlayerInfo.instance.g_isGround;
@@ -186,10 +217,14 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         _loopRangeY.min = _transform.position.y - (_size.y / 2);
         _loopRangeY.max = _transform.position.y + (_size.y / 2);
 
+        _spriteMask.enabled = true;
         _material.color = new Color32(0, 255, 0, 150);
 
         foreach (var col in _insiders)
         {
+            SpriteRenderer renderer = col.GetComponent<SpriteRenderer>();
+            renderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+
             if (col.CompareTag("Player"))
             {
                 continue;
@@ -241,7 +276,6 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 Ray ray = Camera.main.ScreenPointToRay(screenPos);
                 LayerMask layerMask = 0;
                 layerMask |= 1 << LayerMask.NameToLayer("OPlatform");
-                layerMask |= 1 << LayerMask.NameToLayer("IBox");
                 layerMask |= 1 << LayerMask.NameToLayer("OBox");
                 hit = Physics2D.RaycastAll(ray.origin, ray.direction, 15, layerMask);
                 if (hit.Length == 0)
@@ -257,9 +291,13 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                         {
                             if (item.transform.CompareTag("Box"))
                             {
-                                ColliderInstantiate(item.transform.position, i, j, item.transform);
+                                if (i == 0 || i < _size.x + 1 || j == 0 || j < _size.y + 1)
+                                {
+                                    ColliderInstantiate(item.transform.position, i, j, item.transform);
+                                }
                                 continue;
                             }
+                            
                             _instantFg = true;
                         }
                     }
@@ -350,50 +388,88 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
     private void ColliderInstantiate(Vector3 pos,int i, int j, Transform parent)
     {
+        foreach(var tList in _insideCopyDic.Values)
+        {
+            if (tList.Contains(parent))
+            {
+                return;
+            }
+        }
+
         if (i <= 1) { pos.x += _size.x; }
         else if (i >= _size.x) { pos.x -= _size.x; }
         else if (j <= 1) { pos.y += _size.y; }
         else if (j >= _size.y) { pos.y -= _size.y; }
         var instance = Instantiate(_colliderPrefab, pos, Quaternion.identity, parent);
         var col = instance.GetComponent<Collider2D>();
-        if (pos.x < _loopRangeX.min || _loopRangeX.max < pos.x ||
-            pos.y < _loopRangeY.min || _loopRangeY.max < pos.y)
-        {
-            instance.layer = 11;
-            _outsideColliderList.Add(col);
-        }
-        else
-        {
-            instance.layer = 12;
-            _insideColliderList.Add(col);
-        }
+        instance.layer = 11;
+        _outsideColliderList.Add(col);
+        //if (pos.x < _loopRangeX.min || _loopRangeX.max < pos.x ||
+        //    pos.y < _loopRangeY.min || _loopRangeY.max < pos.y)
+        //{
+        //    instance.layer = 12;
+        //    _insideColliderList.Add(col);
+        //}
+        //else
+        //{
+        //    instance.layer = 11;
+        //    _outsideColliderList.Add(col);
+        //}
 
-        if (i == 1 || i == _size.x)
-        {
-            if (j <= 1 || j >= _size.y)
-            {
-                if (j <= 1) { pos.y += _size.y; }
-                if (j >= _size.y) { pos.y -= _size.y; }
-                instance = Instantiate(_colliderPrefab, pos, Quaternion.identity, _transform);
-                col = instance.GetComponent<Collider2D>();
-                if (j == 1 || j == _size.y)
-                {
-                    _outsideColliderList.Add(col);
-                }
-                else
-                {
-                    _insideColliderList.Add(col);
-                }
-            }
-        }
+        //if (i == 1 || i == _size.x)
+        //{
+        //    if (j <= 1 || j >= _size.y)
+        //    {
+        //        if (j <= 1) { pos.y += _size.y; }
+        //        if (j >= _size.y) { pos.y -= _size.y; }
+        //        instance = Instantiate(_colliderPrefab, pos, Quaternion.identity, _transform);
+        //        col = instance.GetComponent<Collider2D>();
+        //        if (j == 1 || j == _size.y)
+        //        {
+        //            _insideColliderList.Add(col);
+        //        }
+        //        else
+        //        {
+        //            _outsideColliderList.Add(col);
+        //        }
+        //    }
+        //}
     }
 
     private void onInactive()
     {
         _material.color = new Color32(255, 255, 0, 100);
 
+        _spriteMask.enabled = false;
+
         foreach(var col in _insiders)
         {
+            SpriteRenderer renderer = col.GetComponent<SpriteRenderer>();
+            renderer.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
+
+            if (_exitInsiders.ContainsKey(col))
+            {
+                var pos = col.transform.position;
+                if(col.transform.position.x < _loopRangeX.min)
+                {
+                    pos.x += _size.x;
+                }
+                else if(col.transform.position.x > _loopRangeX.max)
+                {
+                    pos.x -= _size.x;
+                }
+
+                if (col.transform.position.y < _loopRangeY.min)
+                {
+                    pos.y += _size.y;
+                }
+                else if (col.transform.position.y > _loopRangeY.max)
+                {
+                    pos.y -= _size.y;
+                }
+                col.transform.position = pos;
+            }
+
             if (col.CompareTag("Player"))
             {
                 continue;
@@ -412,8 +488,34 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         {
             Destroy(_outsideColliderList[i].gameObject);
         }
+
+        Dictionary<Collider2D, List<Transform>> workDic = new Dictionary<Collider2D, List<Transform>>(_insideCopyDic); 
+        foreach(var col in workDic.Keys)
+        {
+            foreach(Transform t in _insideCopyDic[col])
+            {
+                if (t == null)
+                {
+                    continue;
+                }
+                Destroy(t.gameObject);
+            }
+        }
+        Dictionary<Collider2D, Transform> workDic2 = new Dictionary<Collider2D, Transform>(_outsideCopyDic);
+        foreach (var col in workDic2.Keys)
+        {
+            if (_outsideCopyDic[col] == null)
+            {
+                continue;
+            }
+            Destroy(_outsideCopyDic[col].gameObject);
+        }
         _insideColliderList.Clear();
         _outsideColliderList.Clear();
+        _insideCopyDic.Clear();
+        _outsideCopyDic.Clear();
+        _exitInsiders.Clear();
+        _enterOutsiders.Clear();
 
         foreach (var fan in _fanList)
         {
@@ -561,56 +663,114 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         }
     }
 
-    private void copy()
+    private void instantiateCopy()
     {
         foreach (var col in _exitInsiders.Keys)
         {
             if (!_insideCopyDic.ContainsKey(col))
             {
-                GameObject instanceObject = new GameObject(col.transform.name + "_copy");
-                SpriteRenderer setRenderer = col.GetComponent<SpriteRenderer>();
-                Rigidbody2D setRigidbody = col.GetComponent<Rigidbody2D>();
-
-                instanceObject.AddComponent(setRenderer);
-                var rb = instanceObject.AddComponent(setRigidbody);
-                rb.isKinematic = true;
+                GameObject obj = copy(col.transform);
 
                 var pos = col.transform.position;
-                var vec = _exitInsiders[col];
-                switch (col)
+                pos -= new Vector3(_size.x,_size.y);
+
+                List<Transform> tList = new List<Transform>();
+                for(int i = 0; i < 3; i++)
                 {
-                    case BoxCollider2D:
-                        BoxCollider2D setBoxCol = col as BoxCollider2D;
-                        instanceObject.AddComponent(setBoxCol);
-                        break;
-                    case CircleCollider2D:
-                        CircleCollider2D setCircleCol = col as CircleCollider2D;
-                        instanceObject.AddComponent(setCircleCol);
-                        break;
-                    case CapsuleCollider2D:
-                        CapsuleCollider2D setCapsuleCol = col as CapsuleCollider2D;
-                        instanceObject.AddComponent(setCapsuleCol);
-                        break;
+                    for(int j = 0; j < 3; j++)
+                    {
+                        if(i == 1 &&  j == 1) { continue; }
+
+                        Vector3 setPos = pos;
+                        setPos += new Vector3(_size.x * i, _size.y * j);
+                        var instanceObj = Instantiate(obj, setPos, col.transform.rotation, col.transform);
+                        tList.Add(instanceObj.transform);
+                    }
                 }
 
-                vec *= _size;
-                pos -= (Vector3)vec;
+                _insideCopyDic.Add(col, tList);
+                Destroy( obj );
+            }
+        }
 
-                instanceObject.transform.SetParent(col.transform, false);
-                instanceObject.transform.position = pos;
-                _insideCopyDic.Add(col, instanceObject.transform);
+        foreach(var col in _enterOutsiders)
+        {
+            if (!_outsideCopyDic.ContainsKey(col))
+            {
+                GameObject obj = copy(col.transform);
+
+                var vec = _outsiders[col];
+
+                var pos = col.transform.position;
+                pos -= Vector3.Scale(vec, new Vector3(_size.x,_size.y));
+
+                var instanceObj = Instantiate(obj, pos, col.transform.rotation, col.transform);
+
+                _outsideCopyDic.Add(col, instanceObj.transform);
+                Destroy(obj);
             }
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private GameObject copy(Transform t)
     {
-        if (_insideCopyDic.ContainsValue(other.transform) || _outsideCopyDic.ContainsValue(other.transform))
+        GameObject obj = new GameObject(t.name + "_copy");
+        obj.layer = t.gameObject.layer;
+        SpriteRenderer setRenderer = t.GetComponent<SpriteRenderer>();
+        Rigidbody2D setRigidbody = t.GetComponent<Rigidbody2D>();
+
+        obj.AddComponent<ParentDestroy>();
+        obj.AddComponent(setRenderer);
+        var rb = obj.AddComponent(setRigidbody);
+        rb.isKinematic = true;
+
+        if (t.CompareTag("Box"))
+        {
+            obj.AddComponent<BoxChild>();
+        }
+
+        var col = t.GetComponent<Collider2D>();
+
+        switch (col)
+        {
+            case BoxCollider2D:
+                BoxCollider2D setBoxCol = col as BoxCollider2D;
+                obj.AddComponent(setBoxCol);
+                break;
+            case CircleCollider2D:
+                CircleCollider2D setCircleCol = col as CircleCollider2D;
+                obj.AddComponent(setCircleCol);
+                break;
+            case CapsuleCollider2D:
+                CapsuleCollider2D setCapsuleCol = col as CapsuleCollider2D;
+                obj.AddComponent(setCapsuleCol);
+                break;
+        }
+
+        return obj;
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        foreach(var col in _insideCopyDic.Keys)
+        {
+            if (_insideCopyDic[col].Contains(other.transform))
+            {
+                return;
+            }
+        }
+
+        if (_outsideCopyDic.ContainsValue(other.transform))
         {
             return;
         }
 
-        if (_outsiders.ContainsKey(other))
+        if(_insideColliderList.Contains(other) | _outsideColliderList.Contains(other))
+        {
+            return;
+        }
+
+        if (_outsiders.ContainsKey(other) && g_isActive)
         {
             if (!_enterOutsiders.Contains(other))
             {
@@ -619,7 +779,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         }
         else
         {
-            if (!_insiders.Contains(other))
+            if (!_insiders.Contains(other) && !g_isActive)
             {
                 _insiders.Add(other);
             }
@@ -688,6 +848,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             if (!g_isActive)
             {
                 _insiders.Remove(other);
+                if (_exitInsiders.ContainsKey(other))
+                {
+                    _exitInsiders.Remove(other);
+                }
             }
         }
 
@@ -697,9 +861,16 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         }
     }
 
-    public void OnEnter(Collider2D other,Transform transform)
+    public void OnStay(Collider2D other,Transform transform)
     {
-        if (_insideCopyDic.ContainsValue(other.transform) || _outsideCopyDic.ContainsValue(other.transform))
+        foreach (var col in _insideCopyDic.Keys)
+        {
+            if (_insideCopyDic[col].Contains(other.transform))
+            {
+                return;
+            }
+        }
+        if (_outsideCopyDic.ContainsValue(other.transform))
         {
             return;
         }
@@ -714,7 +885,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         if (transform == _rightT) { vec.x = 1; }
         if (transform == _leftT) { vec.x = -1; }
 
-        if (_insiders.Contains(other))
+        if (_insiders.Contains(other) && g_isActive)
         {
             if (!_exitInsiders.ContainsKey(other))
             {
@@ -756,6 +927,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         if (_outsiders.ContainsKey(other))
         {
             _outsiders.Remove(other);
+            if (_enterOutsiders.Contains(other))
+            {
+                _enterOutsiders.Remove(other);
+            }
         }
 
         if (_exitInsiders.ContainsKey(other))
@@ -764,7 +939,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         }
     }
 
-    public void OnStay(Collider2D other, Transform transform)
+    public void OnEnter(Collider2D other, Transform transform)
     {
 
     }

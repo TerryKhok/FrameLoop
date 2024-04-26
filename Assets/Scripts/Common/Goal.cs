@@ -32,6 +32,7 @@ public class Goal : MonoBehaviour
     {
         if(_count >= _buttonCount)
         {
+            Debug.Log(other.transform.name);
             _clearCanvas.enabled = true;
         }
     }

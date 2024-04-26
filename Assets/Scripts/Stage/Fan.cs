@@ -1,9 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 
 public class Fan : MonoBehaviour,IParentOnTrigger
@@ -131,12 +127,20 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         {
             Ray ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos));
             LayerMask mask = LayerMask.NameToLayer("Frame");
+            mask |= LayerMask.NameToLayer("IPlatform");
+            mask |= LayerMask.NameToLayer("OPlatform");
 
             RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10 , mask);
 
             if (i == 0)
             {
-                inside = hits.Length > 0; 
+                foreach(var hit in hits)
+                {
+                    if(hit.transform.gameObject.layer == LayerMask.NameToLayer("Frame"))
+                    {
+                        inside = true; break;
+                    }
+                }
             }
             else if (inside)//ファンがフレームの中か
             {

@@ -54,7 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _platformLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 7680
   g_rb: {fileID: 0}
   g_collider: {fileID: 0}
   g_isGround: 1
@@ -184,7 +184,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 2
   m_SpriteSortPoint: 0
 --- !u!50 &4641737636778204299
 Rigidbody2D:

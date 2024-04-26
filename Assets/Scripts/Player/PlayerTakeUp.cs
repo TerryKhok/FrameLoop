@@ -8,7 +8,7 @@ public class PlayerTakeUp : MonoBehaviour
     private PlayerInfo _playerInfo = null;
     private FrameLoop _frameLoop = null;
     private BoxCollider2D _boxCollider = null;
-    private Box _box = null;
+    private IBox _box = null;
     [SerializeField,Tooltip("êÿÇËë÷Ç¶")]
     private bool _toggle = false;
 
@@ -59,11 +59,10 @@ public class PlayerTakeUp : MonoBehaviour
         {
             if (hit.transform.CompareTag("Box"))
             {
-                Debug.Log("hoge");
-                _playerInfo.g_takeUpFg = true;
-                _box = hit.transform.GetComponent<Box>();
+                _box = hit.transform.GetComponent<IBox>();
                 _box.Hold(_transform);
                 _playerInfo.g_box = hit.transform;
+                _playerInfo.g_takeUpFg = true;
             }
         }
     }

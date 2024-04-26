@@ -18,7 +18,7 @@ public static class ComponentUtility
         PropertyInfo[] props = type.GetProperties();
         foreach (var prop in props)
         {
-            if (!prop.CanWrite || !prop.CanRead || prop.Name == "name") continue;
+            if (!prop.CanWrite || !prop.CanRead || prop.Name == "name" || prop.Name == "usedByComposite") continue;
             prop.SetValue(self, prop.GetValue(other));
         }
 
