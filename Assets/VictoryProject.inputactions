@@ -264,7 +264,7 @@
                 {
                     "name": "",
                     "id": "80b7ebb7-2af8-478b-abbc-19e067b208e2",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -297,18 +297,7 @@
                 {
                     "name": "",
                     "id": "11cbe8fe-651e-4791-969d-8b41eb1d5a2f",
-                    "path": "<Gamepad>/dpad/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Crouch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "39004d04-7660-4902-afbb-34844c709da9",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/leftStick/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
