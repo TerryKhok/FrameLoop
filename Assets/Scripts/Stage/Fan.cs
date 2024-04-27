@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+/*  ProjectName :FrameLoop
+ *  ClassName   :Fan
+ *  Creator     :Fujishita.Arashi
+ *  
+ *  Summary     :風のタイルを生成する
+ *               
+ *  Created     :2024/04/27
+ */
 public class Fan : MonoBehaviour,IParentOnTrigger
 {
     private enum Direction
@@ -31,15 +39,25 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     private Transform _transform = null;
     private Tilemap _tilemapOutside = null, _tilemapInside;
     private TilemapRenderer _tilemapRenderer = null, _tilemapRenderer_out;
+
+    //風に触れてるRigidbodyのdictionary
     private Dictionary<Collider2D, Rigidbody2D> _rbDic = new Dictionary<Collider2D, Rigidbody2D>();
+
     private Vector3Int _frameSize = Vector3Int.zero;
     private Transform _outsideT = null;
     private Vector3Int _actualDirection = Vector3Int.right;
-    
+
+    private Camera _camera = null;
+
+
+    //Tilemapの座標を調整
     private void Reset()
     {
         Transform child = transform.GetChild(0);
         child.localPosition = new Vector3(-0.5f, -0.5f, 0);
+
+        child = transform.GetChild(1);
+        child.localPosition = new Vector3(-0.5f,-0.5f, 0);
     }
 
     private void Start()
@@ -47,6 +65,8 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         _camera = Camera.main;
         _enable = _enableOnAwake;
         _transform = transform;
+
+        //_directionで風の発射方向を決める
         switch (_direction)
         {
             case Direction.UP:
@@ -62,40 +82,56 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                 _actualDirection = Vector3Int.left;
                 break;
         }
+
+        //各種Componentを取得--------------------------------------------------
         Transform child1 = _transform.GetChild(0);
         _outsideT = _transform.GetChild(1);
         _tilemapOutside = child1.GetComponent<Tilemap>();
         _tilemapRenderer = _tilemapOutside.GetComponent<TilemapRenderer>();
         _tilemapRenderer.enabled = !_invisible;
+
         _tilemapInside = _outsideT.GetComponent<Tilemap>();
         _tilemapRenderer_out = _tilemapInside.GetComponent<TilemapRenderer>();
         _tilemapRenderer_out.enabled = !_invisible;
+        //--------------------------------------------------------------------
 
+
+        //フレームのサイズを取得
         var frameObj = GameObject.FindGameObjectWithTag("Frame");
         _frameSize = (Vector3Int)frameObj.GetComponent<FrameLoop>().GetSize();
+
+        //風を発射
         SetTiles();
     }
 
     private void FixedUpdate()
     {
+        //有効で見える状態ならrendererを有効にする
         _tilemapRenderer.enabled = _enable && !_invisible;
+
         if (!_enable) { return; }
 
+        //発射方向をVector2に変換
         Vector2 forceDirection = new Vector2(_actualDirection.x, _actualDirection.y);
+
+        //風に触れているrigidbodyを全て確認
         foreach (var rb in _rbDic.Values)
         {
+            //発射方向に一定速度で移動させる
             var currentPos = rb.position;
             currentPos += forceDirection * _force * Time.fixedDeltaTime;
             rb.position = currentPos;
         }
     }
 
+    //Tilemapに触れているcolliderを受け取る
     public void OnEnter(Collider2D other, Transform transform)
     {
         if (!_tagList.Contains(other.tag)) { return; }
 
         if(!_rbDic.ContainsKey(other))
         {
+            //rigidbodyを取得してdictionaryへ追加
             var rb = other.GetComponent<Rigidbody2D>();
             if(rb != null)
             {
@@ -104,10 +140,12 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         }
     }
 
+    //Tilemapから離れたcolliderを受け取る
     public void OnExit(Collider2D other, Transform transform)
     {
         if (!_tagList.Contains(other.tag)) { return; }
 
+        //dictionaryに存在していたら削除する
         if (_rbDic.ContainsKey(other))
         {
             _rbDic.Remove(other);
@@ -115,35 +153,47 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     }
     public void OnStay(Collider2D other, Transform transform)
     {
-
+        //IParentOnTriggerの必要メソッド
     }
 
-    private Camera _camera = null;
+    //フレームが有効になったときに一度呼ばれる
     public void FanLoopStarted()
     {
         StartCoroutine("windLoop");
     }
 
+    //フレームが無効になったときに一度呼ばれる
     public void FanLoopCanceled()
     {
         StartCoroutine("asyncSetTiles");
     }
 
+    //フレームがあるときの風の生成
     private IEnumerator windLoop()
     {
+        //フレームの終了を待つ
+        //待たないとフレームで生成したColliderにRayが当たらない
         yield return new WaitForEndOfFrame();
 
+        //Tilemapを全てクリア
         _tilemapOutside.ClearAllTiles();
         _tilemapInside.ClearAllTiles();
+
+        //Fanがフレームの内側にあるか
         bool inside = false;
 
         var pos = _transform.position;
         Vector3Int intPos = Vector3Int.zero;
 
+        //フレームにだけ当たるLayerMaskを作成
+        LayerMask mask = 1 << LayerMask.NameToLayer("Frame");
+
+        //風の最大距離+1回分のループ
         for (int i = 0; i <= _range; i++, pos += (Vector3)_actualDirection, intPos += _actualDirection)
         {
+
+            //Fanの位置から1マスずつずらしてRayを飛ばす
             Ray ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos));
-            LayerMask mask = 1 << LayerMask.NameToLayer("Frame");
 
             RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10, mask);
 
@@ -153,11 +203,13 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                 {
                     if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Frame"))
                     {
+                        //フレームの内側ならRayを内側の足場に当たるようにする
                         mask |= 1 << LayerMask.NameToLayer("IPlatform");
                         inside = true;
                     }
                     else
                     {
+                        //フレームの外側ならRayを外側の足場に当たるようにする
                         mask |= 1 << LayerMask.NameToLayer("OPlatform");
                     }
                 }
@@ -181,7 +233,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                             instance_here = true;
                         }
                     }
-                    //障害物のある座標に生成しようとしたらreturn
+                    //障害物のある座標に生成しようとしたら終了
                     if (blocking && instance_here)
                     {
                         yield break;
@@ -193,12 +245,15 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                         continue;
                     }
                 }
+
                 var pos_sub = pos;
                 pos_sub -= _actualDirection * _frameSize;
                 Ray ray_sub = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos_sub));
                 Debug.DrawRay(ray_sub.origin, ray_sub.direction * 10);
+
                 //生成先にRaycast
                 RaycastHit2D hit_sub = Physics2D.Raycast(ray_sub.origin, ray_sub.direction, 10, 1 << LayerMask.NameToLayer("IPlatform"));
+                
                 //障害物があったら終了
                 if (hit_sub && _blockTagList.Contains(hit_sub.transform.tag))
                 {
@@ -234,10 +289,11 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                         var pos_sub = pos;
                         pos_sub += _actualDirection * _frameSize;
                         Ray ray_sub = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos_sub));
+
                         //生成先にRaycast
                         RaycastHit2D hit_sub = Physics2D.Raycast(ray_sub.origin, ray_sub.direction, 10, 1 << LayerMask.NameToLayer("OPlatform"));
 
-                        //障害物があったらreturn
+                        //障害物があったら終了
                         if (hit_sub && _blockTagList.Contains(hit_sub.transform.tag))
                         {
                             yield break;
@@ -248,7 +304,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                         continue;
 
                     }
-                    //障害物のある座標に生成しようとしたらreturn
+                    //障害物のある座標に生成しようとしたら終了
                     if (blocking && instance_here)
                     {
                         yield break;
@@ -259,23 +315,30 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         }
     }
 
+    //フレームがない時の風の生成
     private void SetTiles()
     {
+        //Tilemapを全てクリア
         _tilemapOutside.ClearAllTiles();
         _tilemapInside.ClearAllTiles();
 
         var pos = _transform.position;
         Vector3Int intPos = Vector3Int.zero;
 
+        //風の最大距離分ループ
         for (int i = 0; i < _range; i++)
         {
             pos += _actualDirection;
             intPos += _actualDirection;
             Ray ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos));
             //Debug.DrawRay(ray.origin, ray.direction*10,Color.red,0.1f);
+
+            //フレームの外側の足場に当たるLayermaskを作成
             LayerMask mask = 1 << LayerMask.NameToLayer("OPlatform");
 
             RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10, mask);
+
+            //障害物に当たったら終了
             foreach(var hit in hits)
             {
                 if (_blockTagList.Contains(hit.transform.tag))
@@ -287,6 +350,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         }
     }
 
+    //フレーム終了を待ってから風を生成する
     private IEnumerator asyncSetTiles()
     {
         yield return new WaitForEndOfFrame();
@@ -294,72 +358,22 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         SetTiles();
     }
 
+    //有効かどうかを引数で変更する
     public void SetEnable(bool enable)
     {
         _enable = enable;
     }
 
+    //有効か無効かを反転させる
     public void SwitchEnable()
     {
         _enable = !_enable;
     }
 
+    //タイルの向きを指定してセットする
     private void SetTile(Vector3Int pos, Quaternion rot, Tilemap tilemap, TileBase tile)
     {
         tilemap.SetTile(pos, tile);
         tilemap.SetTransformMatrix(pos, Matrix4x4.TRS(Vector3.zero, rot, Vector3.one));
     }
-
-#if else
-    [SerializeField]
-    private GameObject _windPrefab = null;
-    [SerializeField,Tag]
-    private List<string> _tagList = new List<string> ();
-    [SerializeField]
-    private Vector2 _direction = Vector2.zero;
-    [SerializeField]
-    private float _velocity = 1f;
-    [SerializeField]
-    private float _lifeSpan = 1f;
-    [SerializeField]
-    private bool _enabledOnAwake = true;
-
-    private GameObject _instance = null;
-    private Wind _wind = null;
-    private float _elapsedTime = 0f;
-    private Transform _transform = null;
-    private Vector3 _position = Vector3.zero;
-    private Quaternion _rotation = Quaternion.identity;
-    private float _interval = 0f;
-
-    private bool _isEnabled = false;
-
-    private void Start()
-    {
-        _isEnabled = _enabledOnAwake;
-        _transform = transform;
-        _rotation = Quaternion.LookRotation(_direction);
-        _position = _transform.position;
-        _position += (Vector3)_direction.normalized;
-        _interval = 1 / _velocity;
-    }
-
-    private void Update()
-    {
-        if (!_isEnabled) { return; }
-        _elapsedTime += Time.deltaTime;
-
-        if (_interval <= _elapsedTime)
-        {
-            _instance = Instantiate(_windPrefab, _position, _rotation);
-            _wind = _instance.GetComponent<Wind>();
-            _wind.SetValues(_direction, _velocity, _lifeSpan, _tagList);
-            _elapsedTime = 0f;
-        }
-    }
-    public void PowerSwitch(bool supply)
-    {
-        _isEnabled = supply;
-    }
-#endif
 }

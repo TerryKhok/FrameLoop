@@ -2,6 +2,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+
+/*  ProjectName :FrameLoop
+ *  ClassName   :Button
+ *  Creator     :Fujishita.Arashi
+ *  
+ *  Summary     :ボタンの状態によってイベントを実行する
+ *               
+ *  Created     :2024/04/27
+ */
 [RequireComponent(typeof(BoxCollider2D))]
 public class Button : MonoBehaviour
 {
@@ -28,7 +37,10 @@ public class Button : MonoBehaviour
 
     private void Update()
     {
+        //前フレームでの状態を保存
         _prevPressed = _isPressed;
+
+        //重なっているオブジェクトがあるかで状態を判定
         _isPressed = _hitCount > 0;
 
         if(_isPressed)
@@ -36,15 +48,21 @@ public class Button : MonoBehaviour
             if(_prevPressed)
             {
                 //Debug.Log("hold");
+
+                //押されている間実行する処理
                 _onHold.Invoke();
             }
             else
             {
                 //Debug.Log("click");
+
+                //ゴールに必要なボタンならカウントアップ
                 if (_toGoal)
                 {
                     Goal.Instance.CountUp();
                 }
+
+                //押された時に一度実行する処理
                 _onClick.Invoke();
             }
         }
@@ -53,10 +71,14 @@ public class Button : MonoBehaviour
             if (_prevPressed)
             {
                 //Debug.Log("release");
+
+                //ゴールに必要なボタンならカウントダウン
                 if (_toGoal)
                 {
                     Goal.Instance.CountDown();
                 }
+
+                //離された時に一度実行する処理
                 _onRelease.Invoke();
             }
         }
@@ -64,6 +86,7 @@ public class Button : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        //ボタンを押せるタグのオブジェクトならカウントを増やす
         if (!_tagList.Contains(other.tag))
         {
             return;
@@ -73,6 +96,7 @@ public class Button : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        //ボタンを押せるタグのオブジェクトならカウントを減らす
         if (!_tagList.Contains(other.tag))
         {
             return;

@@ -1,5 +1,13 @@
 using UnityEngine;
 
+/*  ProjectName :FrameLoop
+ *  ClassName   :Goal
+ *  Creator     :Fujishita.Arashi
+ *  
+ *  Summary     :Goal判定をする
+ *               
+ *  Created     :2024/04/27
+ */
 public class Goal : SingletonMonoBehaviour<Goal>
 {
     [SerializeField,Tooltip("クリア時に表示するキャンバス")]
@@ -17,6 +25,7 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
     private void Update()
     {
+        //必要なボタンの数を超えているかで色を変更
         if(_count >= _buttonCount)
         {
             _spriteRenderer.color = new Color32(0, 255, 0, 150);
@@ -30,6 +39,7 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        //ボタンの数が足りていたらゴール
         if(_count >= _buttonCount)
         {
             Debug.Log(other.transform.name);
@@ -37,11 +47,13 @@ public class Goal : SingletonMonoBehaviour<Goal>
         }
     }
 
+    //ボタンの数を加算
     public void CountUp()
     {
         _count++;
     }
 
+    //ボタンの数を減算
     public void CountDown()
     {
         _count--;

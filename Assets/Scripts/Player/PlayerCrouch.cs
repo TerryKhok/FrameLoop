@@ -1,8 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/*  ProjectName :FrameLoop
+ *  ClassName   :PlayerCrouch
+ *  Creator     :Fujishita.Arashi
+ *  
+ *  Summary     :PlayerÇÇµÇ·Ç™Ç‹ÇπÇÈ
+ *               
+ *  Created     :2024/04/27
+ */
 public class PlayerCrouch : MonoBehaviour
 {
     private bool _isCrouching = false;
@@ -10,6 +16,7 @@ public class PlayerCrouch : MonoBehaviour
     private void Update()
     {
         crouch();
+
         FrameLoop.Instance.SetCrouching(_isCrouching);
     }
 
@@ -26,5 +33,7 @@ public class PlayerCrouch : MonoBehaviour
     private void crouch()
     {
         if (!_isCrouching) { return; }
+
+        //ÇµÇ·Ç™ÇÒÇ≈Ç¢ÇÈä‘Ç…çsÇ¢ÇΩÇ¢èàóù
     }
 }

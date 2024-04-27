@@ -1,6 +1,15 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/*  ProjectName :FrameLoop
+ *  ClassName   :PlayerJump
+ *  Creator     :Fujishita.Arashi
+ *  
+ *  Summary     :プレイヤーのジャンプ
+ *               ジャンプキーが押されている間は重力を無効にしてジャンプの高さを変更している
+ *               
+ *  Created     :2024/04/27
+ */
 public class PlayerJump : MonoBehaviour
 {
     private Rigidbody2D _rb = null;
@@ -23,8 +32,13 @@ public class PlayerJump : MonoBehaviour
         _playerInfo = PlayerInfo.Instance;
         _rb = _playerInfo.g_rb;
         _gravityScale = _rb.gravityScale;
+
+        //_jumpVelocityで真上に跳んだ時の高さを計算する
         var jumpUnitHeight = (_jumpVelocity * _jumpVelocity) / (2 * Mathf.Abs(Physics2D.gravity.y) * _gravityScale);
+
+        //_jumpVelocityでジャンプの最低高度まで到達するのにかかる時間を計算する
         _minJumpTime = (_jumpHeightMin - jumpUnitHeight) / _jumpVelocity;
+        //同じく最高高度までの時間を計算する
         _maxJumpTime = (_jumpHeightMax - jumpUnitHeight) / _jumpVelocity;
     }
 
@@ -45,12 +59,14 @@ public class PlayerJump : MonoBehaviour
             jumpCancel();
         }
 
+        //経過時間が最大時間より長かったらジャンプを終了
         if(_elapsedTime >= _maxJumpTime)
         {
             _releasedJump = true;
         }
     }
 
+    //ジャンプキーを押したときの処理
     public void JumpStarted(InputAction.CallbackContext context)
     {
         _elapsedTime = 0;
@@ -58,6 +74,7 @@ public class PlayerJump : MonoBehaviour
         _isJumping = true;
     }
     
+    //ジャンプキーを離したときの処理
     public void JumpCanceled(InputAction.CallbackContext context)
     {
         if (_isJumping)
@@ -66,12 +83,15 @@ public class PlayerJump : MonoBehaviour
         }
     }
 
+    //ジャンプ処理
     private void jump()
     {
         if (_playerInfo.g_isGround)
         {
             var currentVelocity = _rb.velocity;
             currentVelocity.y = 0;
+
+            //重力を無効にして上に力を加える
             _rb.gravityScale = 0;
             _rb.velocity = currentVelocity;
             _rb.AddForce(Vector3.up * _jumpVelocity * _rb.mass, ForceMode2D.Impulse);
@@ -79,10 +99,15 @@ public class PlayerJump : MonoBehaviour
         _pressedJump = false;
     }
 
+    //ジャンプの終了処理
     private void jumpCancel()
     {
+        //経過時間が最低時間より短かったらreturn
         if(_elapsedTime <= _minJumpTime) { return; }
+
+        //重力を元に戻す
         _rb.gravityScale = _gravityScale;
+
         _elapsedTime = 0;
         _isJumping = false;
         _releasedJump = false;

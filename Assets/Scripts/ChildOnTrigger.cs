@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+/*  ProjectName :FrameLoop
+ *  ClassName   :ChildOnTrigger
+ *  Creator     :Fujishita.Arashi
+ *  
+ *  Summary     :親オブジェクトのIParentOnTriggerのメソッドを実行する
+ *               
+ *  Created     :2024/04/27
+ */
 public class ChildOnTrigger : MonoBehaviour
 {
     private IParentOnTrigger _parentOnTrigger = null;
@@ -11,7 +19,9 @@ public class ChildOnTrigger : MonoBehaviour
     private void OnEnable()
     {
         _transform = transform;
-        _parentOnTrigger = _transform.parent.GetComponent<IParentOnTrigger>();
+
+        //IParentOnTriggerを親オブジェクトから取得
+        _parentOnTrigger = _transform.GetComponentInParent<IParentOnTrigger>();
     }
 
     public void OnTriggerEnter2D(Collider2D other)

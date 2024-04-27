@@ -1,7 +1,14 @@
 using UnityEngine;
 using System;
 
-//任意のクラスをシングルトンにする
+/*  ProjectName :FrameLoop
+ *  ClassName   :SingletonMonoBehavior
+ *  Creator     :Fujishita.Arashi(https://qiita.com/Teach/items/c146c7939db7acbd7eee)
+ *  
+ *  Summary     :任意のクラスTをシングルトンにする
+ *               
+ *  Created     :2024/04/27
+ */
 public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
 {
     protected static T instance;

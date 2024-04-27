@@ -1,7 +1,14 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/*  ProjectName :FrameLoop
+ *  ClassName   :PlayerTakeUp
+ *  Creator     :Fujishita.Arashi
+ *  
+ *  Summary     :箱を掴む
+ *               
+ *  Created     :2024/04/27
+ */
 public class PlayerTakeUp : MonoBehaviour
 {
     private Transform _transform = null;
@@ -21,6 +28,7 @@ public class PlayerTakeUp : MonoBehaviour
         _frameLoop = FrameLoop.Instance;
         _transform = _playerInfo.g_transform;
         _boxCollider = _playerInfo.g_collider;
+
         _insideMask = 1 << LayerMask.NameToLayer("IBox");
         _outsideMask = 1 << LayerMask.NameToLayer("OBox");
     }
@@ -30,16 +38,21 @@ public class PlayerTakeUp : MonoBehaviour
         takeUp();
     }
 
+    //箱があるかの判定と掴み
     public void TakeUpStarted(InputAction.CallbackContext context)
     {
+        //切り替え操作の処理
         if(_toggle && _playerInfo.g_takeUpFg)
         {
+            //箱を離す
             _playerInfo.g_takeUpFg = false;
             _playerInfo.g_wall = 0;
             _box.Hold(null);
             _playerInfo.g_box = null;
             return;
         }
+
+        //プレイヤーの進行方向へのRay
         Ray ray = new Ray(_transform.position, _transform.right);
         RaycastHit2D hit;
         Vector3 size = new Vector3(0.5f, 0.5f, 0.5f);
@@ -54,12 +67,16 @@ public class PlayerTakeUp : MonoBehaviour
             mask = _outsideMask;
         }
 
+        //プレイヤーの進行方向に箱があるか判定
         hit = Physics2D.BoxCast(ray.origin, size, 0, ray.direction, 1f,mask);
         if (hit.collider != null)
         {
             if (hit.transform.CompareTag("Box"))
             {
+                //IBoxを継承したComponentを取得
                 _box = hit.transform.GetComponent<IBox>();
+
+                //箱を掴む
                 _box.Hold(_transform);
                 _playerInfo.g_box = hit.transform;
                 _playerInfo.g_takeUpFg = true;
@@ -67,32 +84,43 @@ public class PlayerTakeUp : MonoBehaviour
         }
     }
 
+    //箱から手を離す
     public void TakeUpCanceled(InputAction.CallbackContext context)
     {
+        //切り替え操作の場合はreturn
         if (_toggle) { return; }
+
         _playerInfo.g_takeUpFg = false;
         _playerInfo.g_wall = 0;
         _box.Hold(null);
         _playerInfo.g_box = null;
     }
 
+    //箱を掴んでいる間の処理
     private void takeUp()
     {
+        //箱を掴んでなかったらreturn
         if (!_playerInfo.g_takeUpFg) { return; }
 
         bool isTaking = false, movable = true;
         _playerInfo.g_takeUpFg = true;
+
+        //進行方向へのRay
         Ray ray = new Ray(_transform.position, _transform.right);
         RaycastHit2D[] hits;
+
         Vector3 size = new Vector3(0.5f, 0.5f, 0.5f);
         float length = 1 + _boxCollider.size.x/2;
 
+
+        //フレームが有効かどうかでLayerMaskを変更
         LayerMask mask = 1 << LayerMask.NameToLayer("OPlatform") | 1 << LayerMask.NameToLayer("OBox");
         if (_frameLoop.g_isActive)
         {
             mask = 1 << LayerMask.NameToLayer("IPlatform") | 1 << LayerMask.NameToLayer("IBox");
         }
 
+        //箱か壁があるかを判定
         hits = Physics2D.BoxCastAll(ray.origin, size, 0, ray.direction, length, mask);
         foreach(var hit in hits)
         {
@@ -108,22 +136,27 @@ public class PlayerTakeUp : MonoBehaviour
 
         if(isTaking)
         {
+            //箱があればカウントをリセット
             _count = 0;
         }
         else
         {
+            //箱が無かったらカウントを加算
             _count++;
         }
 
         if (movable)
         {
+            //壁が無かったら壁の情報をリセット
             _playerInfo.g_wall = 0;
         }
         else
         {
+            //壁があったら壁の情報を更新
             _playerInfo.g_wall = _transform.right.normalized.x;
         }
 
+        //カウントが一定数以上になったら箱を離す
         if (_count >= 10)
         {
             _count = 0;
