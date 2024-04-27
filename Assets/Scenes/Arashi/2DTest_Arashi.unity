@@ -3425,7 +3425,7 @@ PrefabInstance:
     - target: {fileID: 6938498192269732005, guid: 91d4c7ae7329060428ca631876e717df,
         type: 3}
       propertyPath: _toggle
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6938498192269732005, guid: 91d4c7ae7329060428ca631876e717df,
         type: 3}

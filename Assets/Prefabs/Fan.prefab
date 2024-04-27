@@ -315,10 +315,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c4122e35c2debb49bc00b679c61c618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _direction: 3
   _tile: {fileID: 11400000, guid: 9204ba83e6eac5c4e9886b2dd23a3d05, type: 2}
   _range: 5
   _force: 7
-  _inverse: 0
   _invisible: 0
   _tagList:
   - Player

@@ -658,9 +658,9 @@ GameObject:
   - component: {fileID: 1404857715}
   - component: {fileID: 1404857714}
   - component: {fileID: 1404857713}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Tilemap
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7603,7 +7603,7 @@ GameObject:
   - component: {fileID: 1664571947}
   m_Layer: 10
   m_Name: Frame_inside
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7858,7 +7858,7 @@ GameObject:
   - component: {fileID: 1816133032}
   m_Layer: 9
   m_Name: Frame_outside
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8525,17 +8525,17 @@ PrefabInstance:
     - target: {fileID: 4843666376994921159, guid: 91d4c7ae7329060428ca631876e717df,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5498073340825331144, guid: 91d4c7ae7329060428ca631876e717df,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5519243890661377678, guid: 91d4c7ae7329060428ca631876e717df,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6938498192269732005, guid: 91d4c7ae7329060428ca631876e717df,
         type: 3}
@@ -8610,7 +8610,7 @@ PrefabInstance:
     - target: {fileID: 7539065971499779919, guid: 91d4c7ae7329060428ca631876e717df,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
