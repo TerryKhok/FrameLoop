@@ -8,17 +8,12 @@ public class ParticleFrameScript : MonoBehaviour
 {
     [SerializeField]
     private Transform framePos;
-    [SerializeField]
-    private Transform particleFramePos;
 
-    [SerializeField, Tooltip("Inactive top")]
-    private ParticleSystem ps1; //top
-    [SerializeField, Tooltip("Inactive bottom")]
-    private ParticleSystem ps2; //bottom
-    [SerializeField, Tooltip("Inactive left")]
-    private ParticleSystem ps3; //left
-    [SerializeField, Tooltip("Inactive right")]
-    private ParticleSystem ps4; //right
+    [SerializeField]
+    private GameObject originalFrame; //non particle frame
+    private FrameLoop frameLoop; //script
+    [SerializeField]
+    private GameObject player;
 
     ParticleSystem.Particle[] particles;
 
@@ -27,69 +22,87 @@ public class ParticleFrameScript : MonoBehaviour
     private float lerpSpeed = 15f;
 
     [SerializeField]
-    private GameObject originalFrame; //non particle frame
-    private FrameLoop frameLoop; //script
+    private Transform particleFramePos;
+
     [SerializeField]
-    private GameObject player;
+    private GameObject activeFrameObject;
 
-    //default values
-    float particleStartingSpeed = 9.19f;
-    float particleRateOverTime = 13.39f;
-
-    //modifier values
-    float updateStartingSpeed = 0f;
-    float updateRate = 50f;
-
-    bool spawnFlag = false;
-
+    [SerializeField]
+    private float frameTransparency = 0.2f;
     [SerializeField]
     private Material mat;
     private Color matColInactive;
     private Color matColActive;
+
     [SerializeField]
-    private float frameTransparency = 0.2f;
+    private ParticleSystem ps1; //top
+    [SerializeField]
+    private ParticleSystem ps2; //bottom
+    [SerializeField]
+    private ParticleSystem ps3; //left
+    [SerializeField]
+    private ParticleSystem ps4; //right
 
     [SerializeField]
     private GameObject frameClick;
-    [SerializeField, Tooltip("Inactive top")]
+    [SerializeField]
     private ParticleSystem burst1; //top
-    [SerializeField, Tooltip("Inactive bottom")]
+    [SerializeField]
     private ParticleSystem burst2; //bottom
-    [SerializeField, Tooltip("Inactive left")]
+    [SerializeField]
     private ParticleSystem burst3; //left
-    [SerializeField, Tooltip("Inactive right")]
+    [SerializeField]
     private ParticleSystem burst4; //right
 
-    bool burstFlag = false;
+    bool burstFlag = true;
 
-    float frameScale = 100f;
-    [SerializeField]
-    private float frameScaleFactor = 10f;
-    private float currentFrameSize = 0f;
+    bool frameActivated = false;
+
+    float frameColorVal = 1f;
 
     private void Start()
     {
         frameLoop = originalFrame.GetComponent<FrameLoop>();
         transform.position = player.transform.position;
+        burstFlag = true;
+        activeFrameObject.SetActive(false);
     }
 
     private void Update()
     {
         if(!frameLoop.g_isActive)
         {
+            activeFrameObject.SetActive(false);
+            frameActivated = true;
+            frameColorVal = 1f;
             matColInactive = new Color(1f, 1f, 1f, frameTransparency);
             mat.color = matColInactive;
-            burstFlag = false;
-        }
-        else
-        {
-            matColActive = new Color(0f, 0f, 0.3f, 1f);
-            mat.color = matColActive;
             if (!burstFlag)
             {
                 burst1.Play(); burst2.Play(); burst3.Play(); burst4.Play();
                 burstFlag = true;
             }
+        }
+        else
+        {
+            //while (!frameActivated)
+            //{
+            //    if (frameColorVal > 0.3f)
+            //    {
+            //        frameColorVal -= 0.1f;
+            //        matColActive = new Color(0f, 0f, 0.3f, 1f);
+            //        mat.color = matColActive;
+            //    }
+            //    else
+            //    {
+            //        frameColorVal = 0.3f;
+            //        frameActivated = true;
+            //    }
+            //}
+            activeFrameObject.SetActive(true);
+            matColActive = new Color(0f, 0f, 0.3f, 1f);
+            mat.color = matColActive;
+            burstFlag = false;
         }
 
         if (particleFramePos.position != framePos.position)
