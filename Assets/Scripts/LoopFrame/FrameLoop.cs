@@ -43,6 +43,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     _insideCopyDic = new Dictionary<Collider2D, List<Transform>>();
 
     private List<Fan> _fanList = new List<Fan>();
+    private List<Button> _buttonList = new List<Button>();
 
     private (float min, float max) _loopRangeX = (0, 0), _loopRangeY = (0, 0);
 
@@ -53,6 +54,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     private bool _isCrouching = false;
     private InputManager _inputManager = null;
     private PlayerInfo _playerInfo = null;
+    private Goal _goal = null;
     private GameObject _colliderPrefab = null;
     private Transform _topT = null, _bottomT = null, _rightT = null, _leftT = null;
 
@@ -68,6 +70,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         _boxCollider = GetComponent<BoxCollider2D>();
         _boxCollider.size = new Vector3(_size.x - 0.2f, _size.y - 0.2f, 1);
         _playerInfo = PlayerInfo.Instance;
+        _goal = Goal.Instance;
         _playerTrans = _playerInfo.g_transform;
         _insideTileCol = _insideTile.GetComponent<CompositeCollider2D>();
         _outsideTileCol = _outsideTile.GetComponent<CompositeCollider2D>();
@@ -85,6 +88,12 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         foreach (var fanObj in fanObjs)
         {
             _fanList.Add(fanObj.GetComponent<Fan>());
+        }
+
+        var buttonObjs = GameObject.FindGameObjectsWithTag("Button");
+        foreach (var buttonObj in buttonObjs)
+        {
+            _buttonList.Add(buttonObj.GetComponent<Button>());
         }
 
         var children = transform.GetComponentsInChildren<Transform>().ToList();
@@ -362,6 +371,13 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         {
             fan.FanLoopStarted();
         }
+
+        _goal.GoalLayerCheck();
+
+        foreach(var button in _buttonList)
+        {
+            button.ButtonLayerCheck();
+        }
     }
 
     private void setColliderTile(Vector2 origin,int i, int j)
@@ -551,6 +567,13 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         foreach (var fan in _fanList)
         {
             fan.FanLoopCanceled();
+        }
+
+        _goal.SetOutsideLayer();
+
+        foreach (var button in _buttonList)
+        {
+            button.SetOutsideLayer();
         }
     }
 
@@ -954,6 +977,9 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             vec *= _size;
             pos -= (Vector3)vec;
             t.position = pos;
+
+            Destroy(_outsideCopyDic[other].gameObject);
+            _outsideCopyDic.Remove(other);
         }
 
         if (_outsiders.ContainsKey(other))

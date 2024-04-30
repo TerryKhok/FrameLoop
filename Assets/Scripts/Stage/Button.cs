@@ -84,6 +84,34 @@ public class Button : MonoBehaviour
         }
     }
 
+    //フレームに重なっているかでレイヤーを変更する
+    public void ButtonLayerCheck()
+    {
+        //スクリーン座標に変換
+        var pos = Camera.main.WorldToScreenPoint(transform.position);
+
+        //座標に位置にレイを飛ばす
+        Ray ray = Camera.main.ScreenPointToRay(pos);
+        LayerMask mask = 1 << LayerMask.NameToLayer("Frame");
+
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 10, mask);
+
+        if (hit.collider != null)
+        {
+            gameObject.layer = LayerMask.NameToLayer("Inside");
+        }
+        else
+        {
+            gameObject.layer = LayerMask.NameToLayer("Outside");
+        }
+    }
+
+    //レイヤーを戻す
+    public void SetOutsideLayer()
+    {
+        gameObject.layer = LayerMask.NameToLayer("Outside");
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         //ボタンを押せるタグのオブジェクトならカウントを増やす
@@ -102,5 +130,10 @@ public class Button : MonoBehaviour
             return;
         }
         _hitCount--;
+    }
+
+    public bool IsToGoal()
+    {
+        return _toGoal;
     }
 }

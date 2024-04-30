@@ -12,7 +12,6 @@ public class Goal : SingletonMonoBehaviour<Goal>
 {
     [SerializeField,Tooltip("クリア時に表示するキャンバス")]
     private Canvas _clearCanvas = null;
-    [SerializeField,Tooltip("ゴールに必要なボタンの数")]
     private int _buttonCount = 0;
     private int _count = 0;
     private SpriteRenderer _spriteRenderer;
@@ -21,6 +20,15 @@ public class Goal : SingletonMonoBehaviour<Goal>
     {
         _clearCanvas.enabled = false;
         _spriteRenderer = GetComponent<SpriteRenderer>();
+
+        var objs = GameObject.FindGameObjectsWithTag("Button");
+        foreach( var obj in objs)
+        {
+            if (obj.GetComponent<Button>().IsToGoal())
+            {
+                _buttonCount++;
+            }
+        }
     }
 
     private void Update()
@@ -39,12 +47,41 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (!other.CompareTag("Player")) { return; }
+
         //ボタンの数が足りていたらゴール
         if(_count >= _buttonCount)
         {
-            Debug.Log(other.transform.name);
             _clearCanvas.enabled = true;
         }
+    }
+
+    //フレームに重なっているかでレイヤーを変更する
+    public void GoalLayerCheck()
+    {
+        //スクリーン座標に変換
+        var pos = Camera.main.WorldToScreenPoint(transform.position);
+
+        //座標に位置にレイを飛ばす
+        Ray ray = Camera.main.ScreenPointToRay(pos);
+        LayerMask mask = 1 << LayerMask.NameToLayer("Frame");
+
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 10, mask);
+
+        if (hit.collider != null)
+        {
+            gameObject.layer = LayerMask.NameToLayer("Inside");
+        }
+        else
+        {
+            gameObject.layer = LayerMask.NameToLayer("Outside");
+        }
+    }
+
+    //レイヤーを戻す
+    public void SetOutsideLayer()
+    {
+        gameObject.layer = LayerMask.NameToLayer("Outside");
     }
 
     //ボタンの数を加算
