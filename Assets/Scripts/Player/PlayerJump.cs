@@ -27,9 +27,12 @@ public class PlayerJump : MonoBehaviour
     private bool _isJumping = false;
 
     private PlayerInfo _playerInfo = null;
+    private PlayerAnimation _playerAnimation = null;
+
     private void Start()
     {
         _playerInfo = PlayerInfo.Instance;
+        _playerAnimation = PlayerAnimation.Instance;
         _rb = _playerInfo.g_rb;
         _gravityScale = _rb.gravityScale;
 
@@ -88,6 +91,9 @@ public class PlayerJump : MonoBehaviour
     {
         if (_playerInfo.g_isGround)
         {
+            //Jumpアニメーションを再生
+            _playerAnimation.PlayJumpAnimation();
+
             var currentVelocity = _rb.velocity;
             currentVelocity.y = 0;
 

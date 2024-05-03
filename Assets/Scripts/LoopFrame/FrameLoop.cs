@@ -397,8 +397,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         if (pos.x < _loopRangeX.min || _loopRangeX.max < pos.x||
             pos.y < _loopRangeY.min || _loopRangeY.max < pos.y)
         {
-            //Vector3Int intPos = new Vector3Int((int)(pos.x-0.5f), (int)(pos.y-0.5f));
-            //_insideTile.SetTile(intPos, _tile);
+            Vector3Int intPos = new Vector3Int((int)(pos.x-0.5f), (int)(pos.y-0.5f));
+            _insideTile.SetTile(intPos, _tile);
             intPos = new Vector3Int((int)(origin.x - 0.5f), (int)(origin.y - 0.5f));
             _insideTile.SetTile(intPos, _tile);
         }

@@ -10,6 +10,7 @@ public class PlayerMove : MonoBehaviour
     private Transform _transform;
     private Vector2 _currentInput = Vector2.zero;
     private PlayerInfo _playerInfo;
+    private PlayerAnimation _playerAnimation;
 
     private void Start()
     {
@@ -17,6 +18,8 @@ public class PlayerMove : MonoBehaviour
         _playerInfo = PlayerInfo.Instance;
         _rb = _playerInfo.g_rb;
         _transform = _playerInfo.g_transform;
+
+        _playerAnimation = PlayerAnimation.Instance;
     }
 
     private void Update()
@@ -33,6 +36,9 @@ public class PlayerMove : MonoBehaviour
     //InputSystemのコールバックを受け取るメソッド
     public void MovePerformed(InputAction.CallbackContext context)
     {
+        //Walkアニメーションを再生
+        _playerAnimation.SetWalkAnimation(true);
+
         //WASD、LeftStick、Dpadの入力をVector2として受け取る
         var input = context.ReadValue<Vector2>();
         //Y軸の入力を無効化する
@@ -41,6 +47,9 @@ public class PlayerMove : MonoBehaviour
 
     public void MoveCanceled(InputAction.CallbackContext context)
     {
+        //Walkアニメーションを停止
+        _playerAnimation.SetWalkAnimation(false);
+
         _currentInput = Vector2.zero;
     }
 
