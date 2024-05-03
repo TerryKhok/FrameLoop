@@ -96,6 +96,7 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
             if (hit.distance < Ground_Dist)
             {
                 g_isGround = true;
+                g_isGround &= g_rb.velocity.y <= 0;
                 return;
             }
         }

@@ -12,9 +12,17 @@ using UnityEngine.InputSystem;
 public class PlayerCrouch : MonoBehaviour
 {
     private bool _isCrouching = false;
+    private PlayerAnimation _playerAnimation = null;
+
+    private void Start()
+    {
+        _playerAnimation = PlayerAnimation.Instance;
+    }
 
     private void Update()
     {
+        _playerAnimation.SetCrouchAnimation(_isCrouching);
+
         crouch();
 
         FrameLoop.Instance.SetCrouching(_isCrouching);
@@ -23,6 +31,7 @@ public class PlayerCrouch : MonoBehaviour
     public void CrouchStarted(InputAction.CallbackContext context)
     {
         _isCrouching = true;
+
     }
 
     public void CrouchCanceled(InputAction.CallbackContext context)

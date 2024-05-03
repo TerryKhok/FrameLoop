@@ -7530,6 +7530,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4422826139879483322, guid: 0cb67999a3a1a0c46b5d865d9e8d5b9e,
         type: 3}
+      propertyPath: _toGoal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422826139879483322, guid: 0cb67999a3a1a0c46b5d865d9e8d5b9e,
+        type: 3}
       propertyPath: _tagList.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -7541,12 +7546,12 @@ PrefabInstance:
     - target: {fileID: 4422826139879483322, guid: 0cb67999a3a1a0c46b5d865d9e8d5b9e,
         type: 3}
       propertyPath: _onClick.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4422826139879483322, guid: 0cb67999a3a1a0c46b5d865d9e8d5b9e,
         type: 3}
       propertyPath: _onRelease.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4422826139879483322, guid: 0cb67999a3a1a0c46b5d865d9e8d5b9e,
         type: 3}
