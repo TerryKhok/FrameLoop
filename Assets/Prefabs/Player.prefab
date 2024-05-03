@@ -83,6 +83,8 @@ MonoBehaviour:
   _jumpHeightMax: 2.5
   _jumpHeightMin: 1.5
   _jumpVelocity: 5
+  _audioManager: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
+    type: 3}
 --- !u!114 &4190485480700468127
 MonoBehaviour:
   m_ObjectHideFlags: 0

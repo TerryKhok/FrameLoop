@@ -32,6 +32,9 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     [SerializeField,Tooltip("切り替え")]
     private bool _toggle = false;
 
+    [SerializeField]    //SE
+    private AudioManager _audioManager = null;
+
     private List<Collider2D>
         _insiders = new List<Collider2D>(),                         //フレームの内側のオブジェクトのリスト
         _enterOutsiders = new List<Collider2D>();                   //フレームの外に出ようとしているオブジェクトのリスト
@@ -397,7 +400,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         if (pos.x < _loopRangeX.min || _loopRangeX.max < pos.x||
             pos.y < _loopRangeY.min || _loopRangeY.max < pos.y)
         {
-            //Vector3Int intPos = new Vector3Int((int)(pos.x-0.5f), (int)(pos.y-0.5f));
+            Vector3Int intPos = new Vector3Int((int)(pos.x-0.5f), (int)(pos.y-0.5f));
             //_insideTile.SetTile(intPos, _tile);
             intPos = new Vector3Int((int)(origin.x - 0.5f), (int)(origin.y - 0.5f));
             _insideTile.SetTile(intPos, _tile);
@@ -582,11 +585,21 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             g_isActive = !g_isActive;
             if (g_isActive)
             {
-                _inputManager.SetVibration(0.2f, 0f, 0f);
+                _inputManager.SetVibration(0.2f, 0.2f, 0.1f);
+                _inputManager.SetVibration(0.07f, 0.0f, 0f);
+
+                if (g_isActive) { _audioManager.Play("Frame"); }
             }
             else
             {
                 _inputManager.SetVibration(0f, 0f, 0f);
+                _inputManager.SetVibration(0.2f, 0.2f, 0.1f);
+
+                if (!g_isActive) 
+                { 
+                    _audioManager.Stop("Frame");
+                    _audioManager.Play("FrameTP");
+                }
             }
             return;
         }

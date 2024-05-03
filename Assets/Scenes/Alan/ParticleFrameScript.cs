@@ -15,6 +15,9 @@ public class ParticleFrameScript : MonoBehaviour
     [SerializeField]
     private GameObject player;
 
+    [SerializeField]
+    private AudioManager _audioManager = null;
+
     ParticleSystem.Particle[] particles;
 
     private float elapsedTime;
@@ -66,6 +69,8 @@ public class ParticleFrameScript : MonoBehaviour
         transform.position = player.transform.position;
         burstFlag = true;
         activeFrameObject.SetActive(false);
+
+        //_audioManager.Play("Main BGM");
     }
 
     private void Update()

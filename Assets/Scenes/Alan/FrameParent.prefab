@@ -24375,6 +24375,8 @@ MonoBehaviour:
   framePos: {fileID: 0}
   originalFrame: {fileID: 0}
   player: {fileID: 0}
+  _audioManager: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
+    type: 3}
   lerpSpeed: 20
   particleFramePos: {fileID: 5326223991955608284}
   activeFrameObject: {fileID: 3679099229901370938}
