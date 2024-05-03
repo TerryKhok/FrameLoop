@@ -25,14 +25,23 @@ public class Button : MonoBehaviour
     private UnityEvent _onHold = null;
     [SerializeField,Tooltip("離したときに実行するメソッド")]
     private UnityEvent _onRelease = null;
+    [SerializeField, Tooltip("押されている状態のsprite")]
+    private Sprite _pushed;
 
+    private Sprite _unpushed;
+
+    private SpriteRenderer _renderer;
     private int _hitCount = 0;
     private bool _isPressed = false, _prevPressed = false;
+
 
     private void Start()
     {
         _collider = GetComponent<BoxCollider2D>();
         _collider.isTrigger = true;
+
+        _renderer = GetComponent<SpriteRenderer>();
+        _unpushed = _renderer.sprite;
     }
 
     private void Update()
@@ -43,8 +52,11 @@ public class Button : MonoBehaviour
         //重なっているオブジェクトがあるかで状態を判定
         _isPressed = _hitCount > 0;
 
+
         if(_isPressed)
         {
+            _renderer.sprite = _pushed;
+
             if(_prevPressed)
             {
                 //Debug.Log("hold");
@@ -68,6 +80,8 @@ public class Button : MonoBehaviour
         }
         else
         {
+            _renderer.sprite= _unpushed;
+
             if (_prevPressed)
             {
                 //Debug.Log("release");

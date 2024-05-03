@@ -29,8 +29,15 @@ public class PlayerAnimation : SingletonMonoBehaviour<PlayerAnimation>
         _animator.SetBool("Walk", isWalking);
     }
 
+    public void SetCrouchAnimation(bool isCrouching)
+    {
+        _animator.SetBool("Crouch", isCrouching);
+    }
+
     private void Update()
     {
         _animator.SetBool("IsGround", _playerInfo.g_isGround);
+
+        _animator.SetFloat("GroundDistance", _playerInfo.g_groundDistance);
     }
 }
