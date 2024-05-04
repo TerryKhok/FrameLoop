@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -42,8 +41,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
     private Dictionary<Collider2D, Vector2>
         _outsiders = new Dictionary<Collider2D, Vector2>(),         //フレームの外側のオブジェクトと入ってくる方向のリスト
-        _exitInsiders = new Dictionary<Collider2D, Vector2>(),      //フレームの中に入ろうとしているオブジェクトと入ってくる方向のリスト
-        _prevExitInsiders = new Dictionary<Collider2D, Vector2>();  //前フレームの上のリスト
+        _exitInsiders = new Dictionary<Collider2D, Vector2>();      //フレームの中に入ろうとしているオブジェクトと入ってくる方向のリスト
 
     private List<Collider2D> 
         _insideColliderList = new List<Collider2D>(),               //内側に生成したコライダーのリスト
@@ -239,38 +237,6 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         _prevActive = g_isActive;
     }
 
-    private void OnEnable()
-    {
-        StartCoroutine(nameof(UpdateLateFixedUpdate));
-    }
-
-    private void OnDisable()
-    {
-        StopCoroutine(nameof(UpdateLateFixedUpdate));
-    }
-
-    //FixedUpdateの後にLateFixedUpdateを呼び出す
-    private IEnumerator UpdateLateFixedUpdate()
-    {
-        var waitForFixedUpdate = new WaitForFixedUpdate();
-
-        while (true)
-        {
-            yield return waitForFixedUpdate;
-            LateFixedUpdate();
-        }
-    }
-
-    //FixedUpdateの後に呼び出されるメソッド
-    private void LateFixedUpdate()
-    {
-        _prevExitInsiders = new Dictionary<Collider2D, Vector2>(_exitInsiders);
-        foreach(var col in _prevExitInsiders.Keys)
-        {
-            _exitInsiders[col] = Vector2.zero;
-        }
-    }
-
     //フレームが有効になった時に一度実行するメソッド
     private void onActive()
     {
@@ -435,11 +401,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             pos.y < _loopRangeY.min || _loopRangeY.max < pos.y)
         {
             Vector3Int intPos = new Vector3Int((int)(pos.x-0.5f), (int)(pos.y-0.5f));
-<<<<<<< HEAD
             //_insideTile.SetTile(intPos, _tile);
-=======
-            _insideTile.SetTile(intPos, _tile);
->>>>>>> 5b6e903d6603e8d5e2dc065b922691c92878d001
             intPos = new Vector3Int((int)(origin.x - 0.5f), (int)(origin.y - 0.5f));
             _insideTile.SetTile(intPos, _tile);
         }
@@ -849,7 +811,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         if (_exitInsiders.ContainsKey(other) && g_isActive)
         {
             //出ていく方向を取得
-            Vector2 vec = _prevExitInsiders[other];
+            Vector2 vec = _exitInsiders[other];
 
             //座標を取得
             Transform t = other.transform;
@@ -919,10 +881,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 _exitInsiders.Add(other, vec);
             }
             else
-            {
-                var setVec = _exitInsiders[other];
-                setVec += vec;
-                _exitInsiders[other] = setVec;
+            {;
+                _exitInsiders[other] = vec;
             }
         }
         else
