@@ -435,11 +435,13 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             pos.y < _loopRangeY.min || _loopRangeY.max < pos.y)
         {
             Vector3Int intPos = new Vector3Int((int)(pos.x-0.5f), (int)(pos.y-0.5f));
-<<<<<<< HEAD
+
+            //******************
+            //Merge conflict 1
             //_insideTile.SetTile(intPos, _tile);
-=======
             _insideTile.SetTile(intPos, _tile);
->>>>>>> 5b6e903d6603e8d5e2dc065b922691c92878d001
+            //******************
+
             intPos = new Vector3Int((int)(origin.x - 0.5f), (int)(origin.y - 0.5f));
             _insideTile.SetTile(intPos, _tile);
         }
