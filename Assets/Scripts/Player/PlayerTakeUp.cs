@@ -102,68 +102,35 @@ public class PlayerTakeUp : MonoBehaviour
         //箱を掴んでなかったらreturn
         if (!_playerInfo.g_takeUpFg) { return; }
 
-        bool isTaking = false, movable = true;
         _playerInfo.g_takeUpFg = true;
 
         //進行方向へのRay
         Ray ray = new Ray(_transform.position, _transform.right);
-        RaycastHit2D[] hits;
+        RaycastHit2D hit;
 
         Vector3 size = new Vector3(0.5f, 0.5f, 0.5f);
         float length = 1 + _boxCollider.size.x/2;
 
 
         //フレームが有効かどうかでLayerMaskを変更
-        LayerMask mask = 1 << LayerMask.NameToLayer("OPlatform") | 1 << LayerMask.NameToLayer("OBox");
+        LayerMask mask = 1 << LayerMask.NameToLayer("OPlatform");
         if (_frameLoop.g_isActive)
         {
-            mask = 1 << LayerMask.NameToLayer("IPlatform") | 1 << LayerMask.NameToLayer("IBox");
+            mask = 1 << LayerMask.NameToLayer("IPlatform");
         }
 
         //箱か壁があるかを判定
-        hits = Physics2D.BoxCastAll(ray.origin, size, 0, ray.direction, length, mask);
-        foreach(var hit in hits)
-        {
-            if (hit.transform.CompareTag("Box"))
-            {
-                isTaking = true;
-            }
-            else
-            {
-                movable = false;
-            }
-        }
+        hit = Physics2D.BoxCast(ray.origin, size, 0, ray.direction, length, mask);
 
-        if(isTaking)
-        {
-            //箱があればカウントをリセット
-            _count = 0;
-        }
-        else
-        {
-            //箱が無かったらカウントを加算
-            _count++;
-        }
-
-        if (movable)
-        {
-            //壁が無かったら壁の情報をリセット
-            _playerInfo.g_wall = 0;
-        }
-        else
+        if(hit.collider != null)
         {
             //壁があったら壁の情報を更新
             _playerInfo.g_wall = _transform.right.normalized.x;
         }
-
-        //カウントが一定数以上になったら箱を離す
-        if (_count >= 10)
+        else
         {
-            _count = 0;
+            //壁が無かったら壁の情報をリセット
             _playerInfo.g_wall = 0;
-            _playerInfo.g_takeUpFg = false;
-            _box.Hold(null);
-            _playerInfo.g_box = null;
         }
     }
 }

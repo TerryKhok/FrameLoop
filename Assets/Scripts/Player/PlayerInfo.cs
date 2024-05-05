@@ -67,7 +67,7 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     {
 
         Ray ray = new Ray(g_transform.position, Vector3.down);
-        var size = new Vector2(g_collider.size.x, 0.5f);
+        var size = new Vector2(g_collider.size.x - 0.1f, 0.5f);
         RaycastHit2D hit;
 
         LayerMask mask = 0;

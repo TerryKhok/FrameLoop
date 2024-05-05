@@ -435,12 +435,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             pos.y < _loopRangeY.min || _loopRangeY.max < pos.y)
         {
             Vector3Int intPos = new Vector3Int((int)(pos.x-0.5f), (int)(pos.y-0.5f));
-
-            //******************
-            //Merge conflict 1
-            //_insideTile.SetTile(intPos, _tile);
             _insideTile.SetTile(intPos, _tile);
-            //******************
 
             intPos = new Vector3Int((int)(origin.x - 0.5f), (int)(origin.y - 0.5f));
             _insideTile.SetTile(intPos, _tile);
@@ -857,10 +852,43 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             Transform t = other.transform;
             var pos = t.position;
 
+            if(vec.x < 0)
+            {
+                if(pos.x >= _loopRangeX.min)
+                {
+                    vec.x = 0;
+                }
+            }
+            else if(vec.x > 0)
+            {
+                if (pos.x <= _loopRangeX.max)
+                {
+                    vec.x = 0;
+                }
+            }
+
+
+            if (vec.y < 0)
+            {
+                if (pos.y >= _loopRangeY.min)
+                {
+                    vec.y = 0;
+                }
+            }
+            else if (vec.y > 0)
+            {
+                if (pos.y <= _loopRangeY.max)
+                {
+                    vec.y = 0;
+                }
+            }
+
             //o‚Ä‚¢‚­•ûŒü‚Æ”½‘Î‚ÌÀ•W‚ÉˆÚ“®
             vec *= _size;
             pos -= (Vector3)vec;
             t.position = pos;
+
+            //Debug.Log($"{t.name}{vec}");
         }
 
         if (_insiders.Contains(other))

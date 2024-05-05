@@ -22,11 +22,14 @@ public class Box : MonoBehaviour,IBox
     private List<string> _tagList = new List<string>() { "Breakable"};
 
     private Rigidbody2D _rb = null;
+    private PlayerInfo _playerInfo = null;
 
     private void Start()
     {
         _transform = transform;
         _rb = GetComponent<Rigidbody2D>();
+
+        _playerInfo = PlayerInfo.Instance;
 
         //y軸以外の動きを制限
         _rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
@@ -34,6 +37,10 @@ public class Box : MonoBehaviour,IBox
 
     private void Update()
     {
+        if (!_playerInfo.g_takeUpFg)
+        {
+            _playerTransform = null;
+        }
         platformBreak();
     }
 
@@ -52,7 +59,7 @@ public class Box : MonoBehaviour,IBox
         }
 
         Ray ray = new Ray(_transform.position, Vector3.down);
-        RaycastHit2D hit;
+        RaycastHit2D[] hits;
         Vector2 size = new Vector2(_width / 2, 0.5f);
 
         /*このままだとフレームの中にある時Breakableの床を壊せない
@@ -65,24 +72,37 @@ public class Box : MonoBehaviour,IBox
             mask = 1 << LayerMask.NameToLayer("IPlatform") | 1 << LayerMask.NameToLayer("IBox");
         }
 
-        hit = Physics2D.BoxCast(ray.origin, size, 0, ray.direction, 1, mask);
-        if (hit.collider != null)
+        hits = Physics2D.BoxCastAll(ray.origin, size, 0, ray.direction, 1, mask);
+        if (hits.Length > 0)
         {
-            if (hit.distance > 0.3f) { return; }
-            if (_tagList.Contains(hit.transform.tag))
+            foreach (var hit in hits)
             {
-                //最高点との差が一定以上なら破壊する
-                //最高点のリセットは行わない
-                if (_height - _transform.position.y >= _breakHeight)
+                if (hit.distance > 0.3f)
                 {
-                    Destroy(hit.transform.gameObject);
+                    _playerTransform = null;
+                    _playerInfo.g_takeUpFg = false;
+                    return;
+                }
+                if (_tagList.Contains(hit.transform.tag))
+                {
+                    //最高点との差が一定以上なら破壊する
+                    //最高点のリセットは行わない
+                    if (_height - _transform.position.y >= _breakHeight)
+                    {
+                        Destroy(hit.transform.gameObject);
+                    }
+                }
+                else
+                {
+                    //地面に触れたら最高点をリセット
+                    _height = _transform.position.y;
                 }
             }
-            else
-            {
-                //地面に触れたら最高点をリセット
-                _height = _transform.position.y;
-            }
+        }
+        else
+        {
+            _playerTransform = null;
+            _playerInfo.g_takeUpFg = false;
         }
     }
 
@@ -92,6 +112,8 @@ public class Box : MonoBehaviour,IBox
         if(_playerTransform == null) { return; }
 
         var pos = _rb.position;
+
+        //Debug.Log(pos);
         var direction = ((Vector2)_playerTransform.position - pos).normalized;
         pos.x = _playerTransform.position.x;
         pos += (Vector2)_playerTransform.right * 1;

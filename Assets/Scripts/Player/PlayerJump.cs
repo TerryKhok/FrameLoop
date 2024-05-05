@@ -105,6 +105,8 @@ public class PlayerJump : MonoBehaviour
             _rb.velocity = currentVelocity;
             _rb.AddForce(Vector3.up * _jumpVelocity * _rb.mass, ForceMode2D.Impulse);
 
+            _playerInfo.g_takeUpFg = false;
+
             if (_isJumping) { _audioManager.Play("Jump"); }
         }
         _pressedJump = false;
