@@ -5,19 +5,19 @@ public class SceneLoader : MonoBehaviour
 {
     [SerializeField] PauseMenu _pauseMenu;
 
-    [SerializeField]
-    AudioManager _audioManager = null;
+    //[SerializeField]
+    //AudioManager _audioManager = null;
 
     public void LoadScene(string sceneName)
     {
         // FindObjectOfType<AudioManager>().Play("ButtonPressed");
         // FindObjectOfType<AudioManager>().Stop("BGM2");
         // FindObjectOfType<AudioManager>().Play("BGM1");
-        if (sceneName != "StageSelection")
-        {
-            _audioManager.Play("Main BGM");
-            DontDestroyOnLoad(_audioManager);
-        }
+        //if (sceneName != "StageSelection")
+        //{
+        //    _audioManager.Play("Main BGM");
+        //    DontDestroyOnLoad(_audioManager);
+        //}
         Time.timeScale = 1f;
         SceneManager.LoadScene(sceneName);
         //Debug.Log("Scene loaded");

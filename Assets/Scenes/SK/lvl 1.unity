@@ -8505,6 +8505,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
         type: 3}
+      propertyPath: musicMixerGroup
+      value: 
+      objectReference: {fileID: 6604220338598337925, guid: 689486575468f584d8f6869e7300206c,
+        type: 2}
+    - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
+        type: 3}
+      propertyPath: sounds.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
+        type: 3}
+      propertyPath: sounds.Array.data[4].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 04c4ef2addb837641bc211638c60058f, type: 3}
+    - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
+        type: 3}
+      propertyPath: sounds.Array.data[4].loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
+        type: 3}
+      propertyPath: sounds.Array.data[4].name
+      value: Walk
+      objectReference: {fileID: 0}
+    - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
+        type: 3}
       propertyPath: sounds.Array.data[0].pitch
       value: 1
       objectReference: {fileID: 0}
@@ -8517,6 +8543,11 @@ PrefabInstance:
         type: 3}
       propertyPath: sounds.Array.data[3].pitch
       value: 0.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
+        type: 3}
+      propertyPath: sounds.Array.data[4].pitch
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
         type: 3}
@@ -8540,12 +8571,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
         type: 3}
+      propertyPath: sounds.Array.data[4].volume
+      value: 0.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
+        type: 3}
       propertyPath: sounds.Array.data[0].spatialBlend
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
         type: 3}
       propertyPath: sounds.Array.data[3].spatialBlend
+      value: 0.823
+      objectReference: {fileID: 0}
+    - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
+        type: 3}
+      propertyPath: sounds.Array.data[4].spatialBlend
       value: 0.823
       objectReference: {fileID: 0}
     m_RemovedComponents: []

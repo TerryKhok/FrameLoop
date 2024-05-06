@@ -39,6 +39,9 @@ public class PlayerMove : MonoBehaviour
         //Walkアニメーションを再生
         _playerAnimation.SetWalkAnimation(true);
 
+        //足跡の音
+        AudioManager.instance.Play("Walk");
+
         //WASD、LeftStick、Dpadの入力をVector2として受け取る
         var input = context.ReadValue<Vector2>();
         //Y軸の入力を無効化する
@@ -49,6 +52,9 @@ public class PlayerMove : MonoBehaviour
     {
         //Walkアニメーションを停止
         _playerAnimation.SetWalkAnimation(false);
+
+        //足跡の音
+        AudioManager.instance.Stop("Walk");
 
         _currentInput = Vector2.zero;
     }

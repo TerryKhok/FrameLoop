@@ -1,6 +1,7 @@
 using UnityEngine.Audio;
 using System;
 using UnityEngine;
+using UnityEngine.SubsystemsImplementation;
 
 public class AudioManager : MonoBehaviour
 {
@@ -11,6 +12,16 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         foreach (Sound s in sounds)
         {
             s.src = gameObject.AddComponent<AudioSource>();
@@ -32,6 +43,11 @@ public class AudioManager : MonoBehaviour
             s.src.spatialBlend = s.spatialBlend;
             s.src.rolloffMode = AudioRolloffMode.Linear;
         }
+    }
+
+    private void Start()
+    {
+        Play("Main BGM");
     }
 
     public void Play(string name)

@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!244 &-5401266963951289718
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 05440133ccfb796408c89421de769ecd
+  m_EffectName: Lowpass Simple
+  m_MixLevel: d82e019441c497d46b6f539ef171d547
+  m_Parameters:
+  - m_ParameterName: Cutoff freq
+    m_GUID: 1bd443d7be35fbe4cb22cb9fed6c2662
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!243 &-3372571691777260695
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -15,6 +31,8 @@ AudioMixerGroupController:
   m_Send: 00000000000000000000000000000000
   m_Effects:
   - {fileID: -2706915318103524966}
+  - {fileID: -5401266963951289718}
+  - {fileID: 751296095166108837}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0
@@ -110,20 +128,82 @@ AudioMixerSnapshotController:
   m_FloatValues:
     1dd924506c10e7147b78c006caeb6aac: 0
     de4df4a0973b3344181dcd087f079e3d: 0.64
+    d4df31b020bb0ba47a84c011b71e409d: 100
+    c78e242156b3f3f45a96617b68679604: 1
     268b8bf1dc05cfa44bbd1dfe2d5a831b: 8085
     ac449ef19fd98674ea7e299c1a147f45: 9.8
+    20adbe42baa7c8040bf6bdf3297a48eb: 0
     775be0625696fb748804fecfcd689972: 3.3
+    a8facdb2285bb1b4c820e44185507ef9: 1
+    cf6e59d24811f694f8bcffce23c00d11: 100
+    5092c8736b7ae7c40ac2afe27a5d8d81: 100
     783b0004cd1a78746a92f6038817740d: 0.078
+    a771dd64097d3694fad640c8b149c58c: 1
+    0424fa945d0af4e4481d7851149fc955: 0
+    aa2681e48a3cbdc4eae0b2666788c99d: 1065
     2767d0851beac14449cc9ac794703c13: -7461
     b4b1f4769f6f8b048a760feb0f4fb4c5: 1733
+    456a5596bd7184e448606cf516681545: 3129
     ce7d8eb6e1d7e064c96cdbdced60f96d: 85
+    f6f282f60c879cb43b87f8a6b7ab6f47: 297
+    1bd443d7be35fbe4cb22cb9fed6c2662: 2704
     da6444181c103024fa0dc380d5ff6011: -7636
+    2675a42831fc66f4a98c95ef262d1bbb: -1782
+    7ae6d1e802720aa41bda5b0a09fa0450: -0
+    fb15684913139304ead154576db3a181: -10000
     62ae061bdb0d76345bc25b30d8d0813d: 0
     dc29e33b1f4d52f4f8257746d3c4c631: 21329
     05cf629bc0ba36d478a468d8d41b1358: 80.5
+    561804fb42b5a8f4c9fc66e3bac67f09: 1
+    511c8ffb1d4227c4da22808730d5b3a3: 1
+    91f7642daedcc30478be88be4c1631b4: 1
     ee4a438ddec2cca488adbd125c2c620d: 367
+    b06252cdf585a6145a8dddb0825791eb: 20
+    1f02845f159e4374aabca408c22201d4: -4.560346
     dc0cc59f3e776154e808912ec631715e: -2171
   m_TransitionOverrides: {}
+--- !u!244 &751296095166108837
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: ef10c737fd4caab49b19d8863fcce8e4
+  m_EffectName: SFX Reverb
+  m_MixLevel: bbd1970a645d23146bd432ad406b21e1
+  m_Parameters:
+  - m_ParameterName: Dry Level
+    m_GUID: aa5fac849bdcdd24a98b10b530d47f11
+  - m_ParameterName: Room
+    m_GUID: 2675a42831fc66f4a98c95ef262d1bbb
+  - m_ParameterName: Room HF
+    m_GUID: 11b808f395793c44ba9e0e99bf9011ed
+  - m_ParameterName: Decay Time
+    m_GUID: c649c50bd7541624998a24b3a9b91427
+  - m_ParameterName: Decay HF Ratio
+    m_GUID: 20081830a17f418428eeda8aa472d51e
+  - m_ParameterName: Reflections
+    m_GUID: 73f63fd8fd3f00041b8d9aea6a305d29
+  - m_ParameterName: Reflect Delay
+    m_GUID: 1a4aa52eca8e6c2428286668e02f3ce2
+  - m_ParameterName: Reverb
+    m_GUID: fa8238dce5d47ef40940803077a63438
+  - m_ParameterName: Reverb Delay
+    m_GUID: 06fac418d6fa3424c9131d0b39592510
+  - m_ParameterName: Diffusion
+    m_GUID: 59f9839f340c38a4b9b8949b0bf89c0f
+  - m_ParameterName: Density
+    m_GUID: 7ef4f5e0f4c0dce40a5758d4161cc41a
+  - m_ParameterName: HF Reference
+    m_GUID: 10be5cd69ffa0ca428267a8093deecc2
+  - m_ParameterName: Room LF
+    m_GUID: 0dd5471e6018782428e24dab671ad4ac
+  - m_ParameterName: LF Reference
+    m_GUID: 4729c3f5ddf53104bad317ae66559ead
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!243 &6604220338598337925
 AudioMixerGroupController:
   m_ObjectHideFlags: 0

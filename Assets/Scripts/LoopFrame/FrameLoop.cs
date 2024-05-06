@@ -33,8 +33,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     [SerializeField,Tooltip("切り替え")]
     private bool _toggle = false;
 
-    [SerializeField]    //SE
-    private AudioManager _audioManager = null;
+    //[SerializeField]    //SE
+    //private AudioManager _audioManager = null;
 
     private List<Collider2D>
         _insiders = new List<Collider2D>(),                         //フレームの内側のオブジェクトのリスト
@@ -623,7 +623,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 _inputManager.SetVibration(0.2f, 0.2f, 0.1f);
                 _inputManager.SetVibration(0.07f, 0.0f, 0f);
 
-                if (g_isActive) { _audioManager.Play("Frame"); }
+                if (g_isActive) { AudioManager.instance.Play("Frame"); }
             }
             else
             {
@@ -631,9 +631,9 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 _inputManager.SetVibration(0.2f, 0.2f, 0.1f);
 
                 if (!g_isActive) 
-                { 
-                    _audioManager.Stop("Frame");
-                    _audioManager.Play("FrameTP");
+                {
+                    AudioManager.instance.Stop("Frame");
+                    AudioManager.instance.Play("FrameTP");
                 }
             }
             return;

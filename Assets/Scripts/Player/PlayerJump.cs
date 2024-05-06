@@ -21,8 +21,8 @@ public class PlayerJump : MonoBehaviour
     [SerializeField,Tooltip("ƒWƒƒƒ“ƒv‚Ì‘¬“x")]
     private float _jumpVelocity = 5f;
 
-    [SerializeField]
-    private AudioManager _audioManager = null;
+    //[SerializeField]
+    //private AudioManager _audioManager = null;
 
     private float _minJumpTime = 0, _maxJumpTime = 0;
     private float _elapsedTime = 0;
@@ -107,7 +107,7 @@ public class PlayerJump : MonoBehaviour
 
             _playerInfo.g_takeUpFg = false;
 
-            if (_isJumping) { _audioManager.Play("Jump"); }
+            if (_isJumping) { AudioManager.instance.Play("Jump"); }
         }
         _pressedJump = false;
     }

@@ -48,7 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SEMixerGroup: {fileID: -3372571691777260695, guid: 689486575468f584d8f6869e7300206c,
     type: 2}
-  musicMixerGroup: {fileID: 0}
+  musicMixerGroup: {fileID: 6604220338598337925, guid: 689486575468f584d8f6869e7300206c,
+    type: 2}
   sounds:
   - audioType: 1
     name: Main BGM
@@ -60,8 +61,8 @@ MonoBehaviour:
     src: {fileID: 0}
   - audioType: 0
     name: Jump
-    clip: {fileID: 8300000, guid: a1b81806820bfe4479a3f9b8c8bc09fa, type: 3}
-    volume: 0.28
+    clip: {fileID: 8300000, guid: 9859171d9e04bd042877062cc90770d5, type: 3}
+    volume: 0.59
     pitch: 1
     loop: 0
     spatialBlend: 1
@@ -81,6 +82,14 @@ MonoBehaviour:
     pitch: 0.48
     loop: 0
     spatialBlend: 0.823
+    src: {fileID: 0}
+  - audioType: 0
+    name: Walk
+    clip: {fileID: 8300000, guid: 04c4ef2addb837641bc211638c60058f, type: 3}
+    volume: 0.59
+    pitch: 1
+    loop: 0
+    spatialBlend: 1
     src: {fileID: 0}
 --- !u!1 &4261951593256342253
 GameObject:
