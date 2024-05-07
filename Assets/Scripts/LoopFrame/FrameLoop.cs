@@ -545,6 +545,18 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             {
                 continue;
             }
+
+            if (col.CompareTag("Box"))
+            {
+                var box = col.GetComponent<Box>();
+                var offset = box.GetOffset();
+
+                if(offset != Vector2.zero)
+                {
+                    box.Hold(null);
+                }
+                box.SetOffset(Vector2.zero);
+            }
             col.gameObject.layer--;
         }
 
