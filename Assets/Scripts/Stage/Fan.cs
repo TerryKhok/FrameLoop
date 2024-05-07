@@ -212,20 +212,18 @@ public class Fan : MonoBehaviour,IParentOnTrigger
 
             if (i == 0)
             {
-                foreach (var hit in hits)
+                if(hits.Length > 0)
                 {
-                    if (hit.transform.gameObject.layer == LayerMask.NameToLayer("Frame"))
-                    {
-                        //フレームの内側ならRayを内側の足場に当たるようにする
-                        mask |= 1 << LayerMask.NameToLayer("IPlatform");
-                        inside = true;
-                    }
-                    else
-                    {
-                        //フレームの外側ならRayを外側の足場に当たるようにする
-                        mask |= 1 << LayerMask.NameToLayer("OPlatform");
-                    }
+                    //フレームの内側ならRayを内側の足場に当たるようにする
+                    mask |= 1 << LayerMask.NameToLayer("IPlatform");
+                    inside = true;
                 }
+                else
+                {
+                    //フレームの外側ならRayを外側の足場に当たるようにする
+                    mask |= 1 << LayerMask.NameToLayer("OPlatform");
+                }
+
             }
             else if (inside)//ファンがフレームの中か
             {

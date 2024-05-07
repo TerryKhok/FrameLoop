@@ -392,6 +392,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             }
         }
 
+        copyInsiders();
+
         //風をループさせる
         foreach(var fan in _fanList)
         {
@@ -695,11 +697,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         _transform.position = setPos;
     }
 
-    //フレームでループするオブジェクトをコピーする
-    private void instantiateCopy()
+    private void copyInsiders()
     {
         //外側に出るオブジェクトを全て確認
-        foreach (var col in _exitInsiders.Keys)
+        foreach (var col in _insiders)
         {
             //コピーが無ければ複製する
             if (!_insideCopyDic.ContainsKey(col))
@@ -711,14 +712,14 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 var pos = col.transform.position;
 
                 //座標をフレームの大きさ分ひたり下にずらす
-                pos -= new Vector3(_size.x,_size.y);
+                pos -= new Vector3(_size.x, _size.y);
 
                 List<Transform> tList = new List<Transform>();
-                for(int i = 0; i < 3; i++)
+                for (int i = 0; i < 3; i++)
                 {
-                    for(int j = 0; j < 3; j++)
+                    for (int j = 0; j < 3; j++)
                     {
-                        if(i == 1 &&  j == 1) { continue; }
+                        if (i == 1 && j == 1) { continue; }
 
                         //座標を左下からループして子オブジェクトとして生成
                         //上下左右に八個のコピーが生成される
@@ -733,10 +734,14 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 _insideCopyDic.Add(col, tList);
 
                 //コピー用のオブジェクトを削除する
-                Destroy( obj );
+                Destroy(obj);
             }
         }
+    }
 
+    //フレームでループするオブジェクトをコピーする
+    private void instantiateCopy()
+    {
         //内側に入るオブジェクトを全て確認
         foreach(var col in _enterOutsiders)
         {

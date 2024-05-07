@@ -2092,6 +2092,11 @@ PrefabInstance:
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[10].Array.data[5].Y
       value: -80000000
       objectReference: {fileID: 0}
+    - target: {fileID: 1517137564176344631, guid: c6d04906bf68c5f438b03708b307d573,
+        type: 3}
+      propertyPath: _type
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2775150803108835419, guid: c6d04906bf68c5f438b03708b307d573,
         type: 3}
       propertyPath: m_Size.x
@@ -2879,8 +2884,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1517137564176344631, guid: c6d04906bf68c5f438b03708b307d573, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
