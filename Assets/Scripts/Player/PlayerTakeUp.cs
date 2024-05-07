@@ -108,7 +108,7 @@ public class PlayerTakeUp : MonoBehaviour
         Ray ray = new Ray(_transform.position, _transform.right);
         RaycastHit2D hit;
 
-        Vector3 size = new Vector3(0.5f, 0.5f, 0.5f);
+        Vector3 size = new Vector3(0.42f, 0.5f, 0.5f);
         float length = 1 + _boxCollider.size.x/2;
 
 

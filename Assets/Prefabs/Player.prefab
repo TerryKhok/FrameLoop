@@ -82,13 +82,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8effe0655a004d24f990f7657a6279c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  
   _jumpHeightMax: 2.2
   _jumpHeightMin: 1.2
   _jumpVelocity: 6.5
-  _audioManager: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
-    type: 3}
-
 --- !u!114 &4190485480700468127
 MonoBehaviour:
   m_ObjectHideFlags: 0

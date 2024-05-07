@@ -191,6 +191,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7428519980575709672, guid: 113792fa088baf84f814367e3c935bcd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9042639358960714843, guid: 113792fa088baf84f814367e3c935bcd,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1017,12 +1027,12 @@ PrefabInstance:
     - target: {fileID: 5049831105090285726, guid: 113792fa088baf84f814367e3c935bcd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.06
+      value: -5.5
       objectReference: {fileID: 0}
     - target: {fileID: 5049831105090285726, guid: 113792fa088baf84f814367e3c935bcd,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.64
+      value: 5.5
       objectReference: {fileID: 0}
     - target: {fileID: 5049831105090285726, guid: 113792fa088baf84f814367e3c935bcd,
         type: 3}
@@ -1063,6 +1073,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7428519980575709672, guid: 113792fa088baf84f814367e3c935bcd,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6362,9 +6377,13 @@ Tilemap:
   m_TileAssetArray:
   - m_RefCount: 489
     m_Data: {fileID: 11400000, guid: e3fb04fd1bbbea44598d801c831f3c1e, type: 2}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileSpriteArray:
   - m_RefCount: 489
     m_Data: {fileID: 21300000, guid: 120facfcfd18ea54ab1a6360be4385b0, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileMatrixArray:
   - m_RefCount: 489
     m_Data:
@@ -6994,6 +7013,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AudioManagerObject
+      objectReference: {fileID: 0}
+    - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
         type: 3}
@@ -7964,12 +7988,12 @@ PrefabInstance:
     - target: {fileID: 1436886016970384547, guid: 94fbc3e51eae746409ad4afd3d51fb89,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.14
+      value: -11
       objectReference: {fileID: 0}
     - target: {fileID: 1436886016970384547, guid: 94fbc3e51eae746409ad4afd3d51fb89,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.12
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 1436886016970384547, guid: 94fbc3e51eae746409ad4afd3d51fb89,
         type: 3}

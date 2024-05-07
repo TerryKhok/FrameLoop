@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,6 +25,8 @@ public class Box : MonoBehaviour,IBox
     private Rigidbody2D _rb = null;
     private PlayerInfo _playerInfo = null;
 
+    private Vector2 _offset = Vector2.zero;
+
     private void Start()
     {
         _transform = transform;
@@ -39,13 +42,36 @@ public class Box : MonoBehaviour,IBox
     {
         if (!_playerInfo.g_takeUpFg)
         {
-            _playerTransform = null;
+            holdCancel();
         }
-        platformBreak();
     }
 
-    private void FixedUpdate()
+    private void OnEnable()
     {
+        StartCoroutine(nameof(UpdateLateFixedUpdate));
+    }
+
+    private void OnDisable()
+    {
+        StopCoroutine(nameof(UpdateLateFixedUpdate));
+    }
+
+    //FixedUpdateの後にLateFixedUpdateを呼び出す
+    private IEnumerator UpdateLateFixedUpdate()
+    {
+        var waitForFixedUpdate = new WaitForFixedUpdate();
+
+        while (true)
+        {
+            yield return waitForFixedUpdate;
+            LateFixedUpdate();
+        }
+    }
+
+    //FixedUpdateの後に呼び出されるメソッド
+    private void LateFixedUpdate()
+    {
+        platformBreak();
         isHold();
     }
 
@@ -77,12 +103,16 @@ public class Box : MonoBehaviour,IBox
         {
             foreach (var hit in hits)
             {
-                if (hit.distance > 0.3f)
+                //Rayが当たったのが自身ならcontinueする
+                if(hit.transform == _transform) { continue; }
+
+                //空中に押し出されたら掴みをキャンセルする
+                if (hit.distance > 0.3f && _rb.velocity.y <= -0.1f)
                 {
-                    _playerTransform = null;
-                    _playerInfo.g_takeUpFg = false;
+                    holdCancel();
                     return;
                 }
+
                 if (_tagList.Contains(hit.transform.tag))
                 {
                     //最高点との差が一定以上なら破壊する
@@ -91,19 +121,75 @@ public class Box : MonoBehaviour,IBox
                     {
                         Destroy(hit.transform.gameObject);
                     }
+
+                    return;
                 }
                 else
                 {
                     //地面に触れたら最高点をリセット
                     _height = _transform.position.y;
+                    return;
                 }
             }
+
+            //自身以外にRayが当たってなかったら掴みをキャンセル
+            if(_rb.velocity.y <= -0.1f)
+            {
+                holdCancel();
+            }
         }
-        else
+        else if(_rb.velocity.y <= -0.1f)
         {
-            _playerTransform = null;
-            _playerInfo.g_takeUpFg = false;
+            holdCancel();
         }
+    }
+
+    private void holdCancel()
+    {
+        if(_playerTransform == null)
+        {
+            return;
+        }
+
+        _playerTransform = null;
+        _playerInfo.g_takeUpFg = false;
+        _playerInfo.g_box = null;
+
+        Vector2 pos = _transform.position;
+        var gap = new Vector2(pos.x % 0.5f, pos.y % 0.5f);
+
+        if(gap.x > 0.25f)
+        {
+            gap.x = gap.x - 0.5f;
+        }
+        else if(gap.x < -0.25f)
+        {
+            gap.x = gap.x + 0.5f;
+        }
+
+        if (gap.y > 0.25f)
+        {
+            gap.y = gap.y - 0.5f;
+        }
+        else if (gap.y < -0.25f)
+        {
+            gap.y = gap.y + 0.5f;
+        }
+
+        var absGap = new Vector2(Mathf.Abs(gap.x), Mathf.Abs(gap.y));
+
+        if (0.1f < absGap.x && absGap.x < 0.4f)
+        {
+            gap.x = 0;
+        }
+
+        if (0.1f < absGap.y && absGap.y < 0.4f)
+        {
+            gap.y = 0;
+        }
+
+        pos -= gap;
+        _transform.position = pos;
     }
 
     //プレイヤーが箱を持っているときの処理
@@ -113,10 +199,12 @@ public class Box : MonoBehaviour,IBox
 
         var pos = _rb.position;
 
-        //Debug.Log(pos);
         var direction = ((Vector2)_playerTransform.position - pos).normalized;
         pos.x = _playerTransform.position.x;
-        pos += (Vector2)_playerTransform.right * 1;
+        pos += (Vector2)_playerTransform.right * 1f;
+
+        //箱かプレイヤーのどちらかがループしている場合は座標をずらす
+        pos += _offset;
 
         //x座標をプレイヤーの座標から一定距離ずらした位置にする
         _rb.position = pos;
@@ -147,6 +235,21 @@ public class Box : MonoBehaviour,IBox
     //箱を移動させる基準のtransformを受け取る
     public void Hold(Transform t)
     {
+        if(t == null)
+        {
+            holdCancel();
+            return;
+        }
         _playerTransform = t;
+    }
+
+    public void SetOffset(Vector2 vec)
+    {
+        _offset = vec;
+    }
+
+    public Vector2 GetOffset()
+    {
+        return _offset;
     }
 }

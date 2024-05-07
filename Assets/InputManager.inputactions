@@ -252,6 +252,17 @@
                 },
                 {
                     "name": "",
+                    "id": "b8473061-c0a9-4657-8944-efa96821776d",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "TakeUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "ef620bda-e16c-4aeb-8d1d-c046ecf1d895",
                     "path": "<Keyboard>/shift",
                     "interactions": "",

@@ -86,11 +86,11 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         //各種Componentを取得--------------------------------------------------
         Transform child1 = _transform.GetChild(0);
         _outsideT = _transform.GetChild(1);
-        _tilemapOutside = child1.GetComponent<Tilemap>();
+        _tilemapOutside = _outsideT.GetComponent<Tilemap>();
         _tilemapRenderer = _tilemapOutside.GetComponent<TilemapRenderer>();
         _tilemapRenderer.enabled = !_invisible;
 
-        _tilemapInside = _outsideT.GetComponent<Tilemap>();
+        _tilemapInside = child1.GetComponent<Tilemap>();
         _tilemapRenderer_out = _tilemapInside.GetComponent<TilemapRenderer>();
         _tilemapRenderer_out.enabled = !_invisible;
         //--------------------------------------------------------------------
@@ -117,6 +117,8 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         //風に触れているrigidbodyを全て確認
         foreach (var rb in _rbDic.Values)
         {
+            Debug.Log(rb.name);
+
             //発射方向に一定速度で移動させる
             var currentPos = rb.position;
             currentPos += forceDirection * _force * Time.fixedDeltaTime;
@@ -136,6 +138,11 @@ public class Fan : MonoBehaviour,IParentOnTrigger
             if(rb != null)
             {
                 _rbDic.Add(other, rb);
+
+                if (other.CompareTag("Box"))
+                {
+                    rb.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
+                }
             }
         }
     }
@@ -149,6 +156,12 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         if (_rbDic.ContainsKey(other))
         {
             _rbDic.Remove(other);
+
+            if (other.CompareTag("Box"))
+            {
+                var rb = other.GetComponent<Rigidbody2D>();
+                rb.constraints |= RigidbodyConstraints2D.FreezePositionX;
+            }
         }
     }
     public void OnStay(Collider2D other, Transform transform)

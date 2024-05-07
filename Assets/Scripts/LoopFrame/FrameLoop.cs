@@ -322,7 +322,6 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             }
         }
 
-
         //フレームの範囲+-1マス分の範囲をループ
         for (int i=0; i <= _size.x+1; i++)
         {
@@ -425,19 +424,17 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         }
 
         //座標がフレームの端か外側なら座標をループさせる
-        if (i <= 1) { pos.x += _size.x; }
-        else if (i >= _size.x) { pos.x -= _size.x; }
-        else if (j <= 1) { pos.y += _size.y; }
-        else if (j >= _size.y) { pos.y -= _size.y; }
+        if (i <= 1 && j != 0 && j != _size.y+1) { pos.x += _size.x; }
+        else if (i >= _size.x && j != 0 && j != _size.y + 1) { pos.x -= _size.x; }
+        else if (j <= 1 && i != 0 && i != _size.x + 1) { pos.y += _size.y; }
+        else if (j >= _size.y && i != 0 && i != _size.x + 1) { pos.y -= _size.y; }
 
         //生成する座標がフレームの外側なら内側用の当たり判定を生成
         if (pos.x < _loopRangeX.min || _loopRangeX.max < pos.x||
             pos.y < _loopRangeY.min || _loopRangeY.max < pos.y)
         {
             Vector3Int intPos = new Vector3Int((int)(pos.x-0.5f), (int)(pos.y-0.5f));
-            _insideTile.SetTile(intPos, _tile);
 
-            intPos = new Vector3Int((int)(origin.x - 0.5f), (int)(origin.y - 0.5f));
             _insideTile.SetTile(intPos, _tile);
         }
         else
@@ -483,11 +480,19 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             }
         }
 
+        foreach(var item in _outsideColliderList)
+        {
+            if(item.transform.parent == parent)
+            {
+                return;
+            }
+        }
+
         //座標をループさせる
-        if (i <= 1) { pos.x += _size.x; }
-        else if (i >= _size.x) { pos.x -= _size.x; }
-        else if (j <= 1) { pos.y += _size.y; }
-        else if (j >= _size.y) { pos.y -= _size.y; }
+        if (i <= 1 && j != 0 && j != _size.y + 1) { pos.x += _size.x; }
+        else if (i >= _size.x && j != 0 && j != _size.y + 1) { pos.x -= _size.x; }
+        else if (j <= 1 && i != 0 && i != _size.x + 1) { pos.y += _size.y; }
+        else if (j >= _size.y && i != 0 && i != _size.x + 1) { pos.y -= _size.y; }
 
         //当たり判定を箱の子オブジェクトとして生成
         var instance = Instantiate(_colliderPrefab, pos, Quaternion.identity, parent);
@@ -888,7 +893,20 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             pos -= (Vector3)vec;
             t.position = pos;
 
-            //Debug.Log($"{t.name}{vec}");
+            if (t.CompareTag("Box"))
+            {
+                Box box = t.GetComponent<Box>();
+                var offset = box.GetOffset();
+                offset -= vec;
+                box.SetOffset(offset);
+            }
+            else if (t.CompareTag("Player"))
+            {
+                Box box = _playerInfo.g_box.GetComponent<Box>();
+                var offset = box.GetOffset();
+                offset += vec;
+                box.SetOffset(offset);
+            }
         }
 
         if (_insiders.Contains(other))

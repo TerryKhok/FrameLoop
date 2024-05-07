@@ -65,6 +65,11 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
 
     private void Update()
     {
+        if (!g_takeUpFg)
+        {
+            g_wall = 0;
+        }
+
 
         Ray ray = new Ray(g_transform.position, Vector3.down);
         var size = new Vector2(g_collider.size.x - 0.1f, 0.5f);
@@ -96,7 +101,8 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
             if (hit.distance < Ground_Dist)
             {
                 g_isGround = true;
-                g_isGround &= g_rb.velocity.y <= 0;
+
+                g_isGround &= g_rb.velocity.y <= 0.1f;
                 return;
             }
         }
