@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
@@ -71,6 +72,11 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     private Goal _goal = null;
     private GameObject _colliderPrefab = null;
     private Transform _topT = null, _bottomT = null, _rightT = null, _leftT = null;
+
+    private bool[] _topHitArray = new bool[10],
+                   _bottomHitArray = new bool[10],
+                   _rightHitArray = new bool[8],
+                   _leftHitArray = new bool[8];
 
     [System.NonSerialized]
     public bool g_isActive = false, g_usable = true;
@@ -169,12 +175,6 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         //使用可能かと合わせて状態を決定する
         g_isActive &= g_usable;
 
-        if (g_isActive)
-        {
-            //オブジェクトのコピーを生成
-            instantiateCopy();
-        }
-
         //nullチェックをしてnullならリストから削除
         List<Collider2D> workList = new List<Collider2D>(_insiders);
         foreach(var col in workList)
@@ -212,6 +212,15 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 }
                 continue;
             }
+        }
+
+        if (g_isActive)
+        {
+            //コピーのスプライトをコピー元とリンクさせる
+            insiderSpriteLink();
+
+            //オブジェクトのコピーを生成
+            instantiateCopy();
         }
 
         //着地したら使用可能に戻す
@@ -422,6 +431,24 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             {
                 Vector3Int intPos = new Vector3Int((int)(pos.x - 0.5f), (int)(pos.y - 0.5f));
                 _insideTile.SetTile(intPos, _tile);
+
+                if(j == _size.y)
+                {
+                    _topHitArray[i] = true;
+                }
+                else if(j == 1)
+                {
+                    _bottomHitArray[i] = true;
+                }
+
+                if(i == 1)
+                {
+                    _leftHitArray[j] = true;
+                }
+                else if(i == _size.x)
+                {
+                    _rightHitArray[j] = true;
+                }
             }
         }
 
@@ -438,6 +465,24 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             Vector3Int intPos = new Vector3Int((int)(pos.x-0.5f), (int)(pos.y-0.5f));
 
             _insideTile.SetTile(intPos, _tile);
+
+            if(j == 0)
+            {
+                _topHitArray[i] = true;
+            }
+            else if(j == _size.y + 1)
+            {
+                _bottomHitArray[i] = true;
+            }
+
+            if (i == 0)
+            {
+                _rightHitArray[j] = true;
+            }
+            else if (i == _size.x + 1)
+            {
+                _leftHitArray[j] = true;
+            }
         }
         else
         {
@@ -460,6 +505,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 if(j == 1 || j == _size.y)
                 {
                     _insideTile.SetTile(intPos, _tile);
+
+
                 }
                 else
                 {
@@ -697,6 +744,23 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         _transform.position = setPos;
     }
 
+    private void insiderSpriteLink()
+    {
+        foreach(var col in _insiders)
+        {
+            if (!_insideCopyDic.ContainsKey(col)) { continue; }
+
+            var renderer = col.GetComponent<SpriteRenderer>();
+            var sprite = renderer.sprite;
+
+            foreach(var t in _insideCopyDic[col])
+            {
+                var copyRenderer = t.GetComponent<SpriteRenderer>();
+                copyRenderer.sprite = sprite;
+            }
+        }
+    }
+
     private void copyInsiders()
     {
         //外側に出るオブジェクトを全て確認
@@ -739,7 +803,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         }
     }
 
-    //フレームでループするオブジェクトをコピーする
+    //フレームに入ってくるするオブジェクトをコピーする
     private void instantiateCopy()
     {
         //内側に入るオブジェクトを全て確認
@@ -919,10 +983,13 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             }
             else if (t.CompareTag("Player"))
             {
-                Box box = _playerInfo.g_box.GetComponent<Box>();
-                var offset = box.GetOffset();
-                offset += vec;
-                box.SetOffset(offset);
+                if (_playerInfo.g_box != null)
+                {
+                    Box box = _playerInfo.g_box.GetComponent<Box>();
+                    var offset = box.GetOffset();
+                    offset += vec;
+                    box.SetOffset(offset);
+                }
             }
         }
 
@@ -1026,7 +1093,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             t.position = pos;
 
             //コピーオブジェクトを削除する
-            Destroy(_outsideCopyDic[other].gameObject);
+            if (_outsideCopyDic.ContainsKey(other))
+            {
+                Destroy(_outsideCopyDic[other].gameObject);
+            }
             _outsideCopyDic.Remove(other);
         }
 
@@ -1064,5 +1134,22 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     public Vector2Int GetSize()
     {
         return _size;
+    }
+
+    public bool[] GetHitArray(int select)
+    {
+        switch(select)
+        {
+            case 0:
+                return _topHitArray;
+            case 1:
+                return _bottomHitArray;
+            case 2:
+                return _leftHitArray;
+            case 3:
+                return _rightHitArray;
+            default:
+                return null;
+        }
     }
 }

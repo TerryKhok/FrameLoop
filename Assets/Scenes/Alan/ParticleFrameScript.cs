@@ -1,16 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.ParticleSystemJobs;
 
 public class ParticleFrameScript : MonoBehaviour
 {
     [SerializeField]
     private Transform framePos;
 
-    [SerializeField]
-    private GameObject originalFrame; //non particle frame
     private FrameLoop frameLoop; //script
     [SerializeField]
     private GameObject player;
@@ -63,12 +57,26 @@ public class ParticleFrameScript : MonoBehaviour
 
     float frameColorVal = 1f;
 
+    private FrameParticleSwitch[] topParticleSwitchArray, bottomParticleSwitchArray, leftParticleSwitchArray, rightParticleSwitchArray;
+
     private void Start()
     {
-        frameLoop = originalFrame.GetComponent<FrameLoop>();
+        frameLoop = FrameLoop.Instance;
         transform.position = player.transform.position;
         burstFlag = true;
         activeFrameObject.SetActive(false);
+
+        var particleParent = activeFrameObject.transform.GetChild(0);
+        topParticleSwitchArray = particleParent.GetComponentsInChildren<FrameParticleSwitch>();
+
+        particleParent = activeFrameObject.transform.GetChild(1);
+        bottomParticleSwitchArray = particleParent.GetComponentsInChildren<FrameParticleSwitch>();
+
+        particleParent = activeFrameObject.transform.GetChild(2);
+        leftParticleSwitchArray = particleParent.GetComponentsInChildren<FrameParticleSwitch>();
+
+        particleParent = activeFrameObject.transform.GetChild(3);
+        rightParticleSwitchArray = particleParent.GetComponentsInChildren<FrameParticleSwitch>();
 
         //_audioManager.Play("Main BGM");
     }
@@ -104,6 +112,17 @@ public class ParticleFrameScript : MonoBehaviour
             //        frameActivated = true;
             //    }
             //}
+
+            for (int i = 0; i < 4; i++)
+            {
+                bool[] workArray = frameLoop.GetHitArray(i);
+
+                for (int j = 0; j < workArray.Length; i++)
+                {
+                    topParticleSwitchArray[j].SetParticle(workArray[j]);
+                }
+            }
+
             activeFrameObject.SetActive(true);
             matColActive = new Color(0f, 0f, 0.3f, 1f);
             mat.color = matColActive;
@@ -121,10 +140,10 @@ public class ParticleFrameScript : MonoBehaviour
             particleFramePos.position = framePos.position;
         }
 
-        partTrans(ref ps1);
-        partTrans(ref ps2);
-        partTrans(ref ps3);
-        partTrans(ref ps4);
+        //partTrans(ref ps1);
+        //partTrans(ref ps2);
+        //partTrans(ref ps3);
+        //partTrans(ref ps4);
     }
 
     private void startLifeTimeSet(ref ParticleSystem ps, float lifetime)

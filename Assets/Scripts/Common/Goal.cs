@@ -16,10 +16,15 @@ public class Goal : SingletonMonoBehaviour<Goal>
     private int _count = 0;
     private SpriteRenderer _spriteRenderer;
 
+    [SerializeField,Tooltip("開いているドアのスプライト")]
+    private Sprite _opendSprite = null;
+    private Sprite _closedSprite = null;
+
     private void Start()
     {
         _clearCanvas.enabled = false;
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _closedSprite = _spriteRenderer.sprite;
 
         var objs = GameObject.FindGameObjectsWithTag("Button");
         foreach( var obj in objs)
@@ -43,6 +48,19 @@ public class Goal : SingletonMonoBehaviour<Goal>
             _spriteRenderer.color = new Color32(255, 0, 0, 150);
         }
 
+        //SetSprite(_count >= _buttonCount);
+    }
+
+    private void SetSprite(bool opened)
+    {
+        if (opened)
+        {
+            _spriteRenderer.sprite = _opendSprite;
+        }
+        else
+        {
+            _spriteRenderer.sprite = _closedSprite;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

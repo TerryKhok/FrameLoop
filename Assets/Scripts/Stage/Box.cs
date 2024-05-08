@@ -154,6 +154,7 @@ public class Box : MonoBehaviour,IBox
         _playerTransform = null;
         _playerInfo.g_takeUpFg = false;
         _playerInfo.g_box = null;
+        SetOffset(Vector2.zero);
 
         Vector2 pos = _transform.position;
         var gap = new Vector2(pos.x % 0.5f, pos.y % 0.5f);

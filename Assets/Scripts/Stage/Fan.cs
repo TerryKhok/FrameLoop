@@ -117,8 +117,6 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         //風に触れているrigidbodyを全て確認
         foreach (var rb in _rbDic.Values)
         {
-            Debug.Log(rb.name);
-
             //発射方向に一定速度で移動させる
             var currentPos = rb.position;
             currentPos += forceDirection * _force * Time.fixedDeltaTime;
