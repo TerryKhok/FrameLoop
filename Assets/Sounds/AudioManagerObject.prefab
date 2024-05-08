@@ -61,9 +61,9 @@ MonoBehaviour:
     src: {fileID: 0}
   - audioType: 0
     name: Jump
-    clip: {fileID: 8300000, guid: 9859171d9e04bd042877062cc90770d5, type: 3}
-    volume: 0.59
-    pitch: 1
+    clip: {fileID: 8300000, guid: c88efbdefd5354d44ae5ffbf80ceeaad, type: 3}
+    volume: 0.21
+    pitch: 1.51
     loop: 0
     spatialBlend: 1
     src: {fileID: 0}
@@ -79,16 +79,24 @@ MonoBehaviour:
     name: FrameTP
     clip: {fileID: 8300000, guid: 5428cca1a73a1614a98fd61cc3e86d68, type: 3}
     volume: 0.32
-    pitch: 0.48
+    pitch: 1.03
     loop: 0
-    spatialBlend: 0.823
+    spatialBlend: 0.878
+    src: {fileID: 0}
+  - audioType: 0
+    name: Box Pull
+    clip: {fileID: 8300000, guid: e1502f7225a6d494a865625e029c0fe8, type: 3}
+    volume: 0.25
+    pitch: 0.92
+    loop: 1
+    spatialBlend: 1
     src: {fileID: 0}
   - audioType: 0
     name: Walk
     clip: {fileID: 8300000, guid: 04c4ef2addb837641bc211638c60058f, type: 3}
     volume: 0.59
     pitch: 1
-    loop: 0
+    loop: 1
     spatialBlend: 1
     src: {fileID: 0}
 --- !u!1 &4261951593256342253

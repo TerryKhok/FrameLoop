@@ -12,6 +12,9 @@ public class PlayerMove : MonoBehaviour
     private PlayerInfo _playerInfo;
     private PlayerAnimation _playerAnimation;
 
+    //box.csで使われている
+    public bool _isMoving = false;
+
     private void Start()
     {
         //PlayerInfoクラスから変数を受け取る
@@ -41,6 +44,8 @@ public class PlayerMove : MonoBehaviour
 
         //足跡の音
         AudioManager.instance.Play("Walk");
+        _isMoving = true;
+        Debug.Log("ismoving true");
 
         //WASD、LeftStick、Dpadの入力をVector2として受け取る
         var input = context.ReadValue<Vector2>();
@@ -55,6 +60,8 @@ public class PlayerMove : MonoBehaviour
 
         //足跡の音
         AudioManager.instance.Stop("Walk");
+        _isMoving = false;
+        Debug.Log("ismoving false");
 
         _currentInput = Vector2.zero;
     }

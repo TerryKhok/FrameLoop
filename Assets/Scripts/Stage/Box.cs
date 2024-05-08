@@ -239,9 +239,19 @@ public class Box : MonoBehaviour,IBox
         if(t == null)
         {
             holdCancel();
+            AudioManager.instance.Stop("Box Pull");
             return;
         }
         _playerTransform = t;
+        AudioManager.instance.Play("Box Pull");
+        if (_playerTransform.GetComponent<PlayerMove>()._isMoving == false)
+        {
+            AudioManager.instance.Stop("Box Pull");
+        }
+        else
+        {
+            AudioManager.instance.Play("Box Pull");
+        }
     }
 
     public void SetOffset(Vector2 vec)

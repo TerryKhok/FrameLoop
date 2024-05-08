@@ -48,6 +48,13 @@ public class PlayerJump : MonoBehaviour
         _maxJumpTime = (_jumpHeightMax - jumpUnitHeight) / _jumpVelocity;
     }
 
+    public bool GetJumpBool()
+    {
+        //playermove‚É‚àŽg‚í‚ê‚Ä‚¢‚é
+        Debug.Log("getjumpbool = " + _releasedJump);
+        return _releasedJump;
+    }
+
     private void FixedUpdate()
     {
         if (_isJumping)
@@ -108,6 +115,8 @@ public class PlayerJump : MonoBehaviour
             _playerInfo.g_takeUpFg = false;
 
             if (_isJumping) { AudioManager.instance.Play("Jump"); }
+
+            AudioManager.instance.Stop("Walk");
         }
         _pressedJump = false;
     }
