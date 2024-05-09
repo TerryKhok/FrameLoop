@@ -57,9 +57,7 @@ MonoBehaviour:
   _size: {x: 8, y: 6}
   _yOffset: 1
   _yOffset_Crouching: -2
-  _toggle: 0
-  _audioManager: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
-    type: 3}
+  _toggle: 1
 --- !u!61 &7926284231534802099
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -28,6 +28,9 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
         //Debug.Log(_rb.velocity);
+
+        //Walkアニメーションを再生
+        _playerAnimation.SetWalkAnimation(_isMoving);
     }
 
     private void FixedUpdate()
@@ -39,9 +42,6 @@ public class PlayerMove : MonoBehaviour
     //InputSystemのコールバックを受け取るメソッド
     public void MovePerformed(InputAction.CallbackContext context)
     {
-        //Walkアニメーションを再生
-        _playerAnimation.SetWalkAnimation(true);
-
         //足跡の音
         AudioManager.instance.Play("Walk");
         _isMoving = true;
@@ -55,9 +55,6 @@ public class PlayerMove : MonoBehaviour
 
     public void MoveCanceled(InputAction.CallbackContext context)
     {
-        //Walkアニメーションを停止
-        _playerAnimation.SetWalkAnimation(false);
-
         //足跡の音
         AudioManager.instance.Stop("Walk");
         _isMoving = false;

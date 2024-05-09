@@ -712,51 +712,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManagerObject
       objectReference: {fileID: 0}
-    - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
-        type: 3}
-      propertyPath: sounds.Array.data[0].pitch
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
-        type: 3}
-      propertyPath: sounds.Array.data[2].pitch
-      value: 1.14
-      objectReference: {fileID: 0}
-    - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
-        type: 3}
-      propertyPath: sounds.Array.data[3].pitch
-      value: 0.48
-      objectReference: {fileID: 0}
-    - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
-        type: 3}
-      propertyPath: sounds.Array.data[0].volume
-      value: 0.44
-      objectReference: {fileID: 0}
-    - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
-        type: 3}
-      propertyPath: sounds.Array.data[1].volume
-      value: 0.28
-      objectReference: {fileID: 0}
-    - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
-        type: 3}
-      propertyPath: sounds.Array.data[2].volume
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
-        type: 3}
-      propertyPath: sounds.Array.data[3].volume
-      value: 0.32
-      objectReference: {fileID: 0}
-    - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
-        type: 3}
-      propertyPath: sounds.Array.data[0].spatialBlend
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5363092043423582692, guid: 7e349955545773f47adad37d85fbab8d,
-        type: 3}
-      propertyPath: sounds.Array.data[3].spatialBlend
-      value: 0.823
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8657,26 +8612,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Frame
       objectReference: {fileID: 0}
-    - target: {fileID: 4843666376994921159, guid: 91d4c7ae7329060428ca631876e717df,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5498073340825331144, guid: 91d4c7ae7329060428ca631876e717df,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5519243890661377678, guid: 91d4c7ae7329060428ca631876e717df,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6938498192269732005, guid: 91d4c7ae7329060428ca631876e717df,
-        type: 3}
-      propertyPath: _toggle
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6938498192269732005, guid: 91d4c7ae7329060428ca631876e717df,
         type: 3}
       propertyPath: _insideTile
@@ -8687,11 +8622,6 @@ PrefabInstance:
       propertyPath: _outsideTile
       value: 
       objectReference: {fileID: 1816133036}
-    - target: {fileID: 6938498192269732005, guid: 91d4c7ae7329060428ca631876e717df,
-        type: 3}
-      propertyPath: _audioManager
-      value: 
-      objectReference: {fileID: 1150202052}
     - target: {fileID: 7259424582915136166, guid: 91d4c7ae7329060428ca631876e717df,
         type: 3}
       propertyPath: m_RootOrder
@@ -8746,11 +8676,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7539065971499779919, guid: 91d4c7ae7329060428ca631876e717df,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
