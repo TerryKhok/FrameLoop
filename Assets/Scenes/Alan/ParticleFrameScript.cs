@@ -66,6 +66,9 @@ public class ParticleFrameScript : MonoBehaviour
         burstFlag = true;
         activeFrameObject.SetActive(false);
 
+        //----------------------------------------------------------------------------------------------
+        //当たり判定の有無で切り替えるパーティクルからコンポーネントを取得して配列に格納する
+        //----------------------------------------------------------------------------------------------
         var particleParent = activeFrameObject.transform.GetChild(0);
         topParticleSwitchArray = particleParent.GetComponentsInChildren<FrameParticleSwitch>();
 
@@ -77,6 +80,8 @@ public class ParticleFrameScript : MonoBehaviour
 
         particleParent = activeFrameObject.transform.GetChild(3);
         rightParticleSwitchArray = particleParent.GetComponentsInChildren<FrameParticleSwitch>();
+
+        //-----------------------------------------------------------------------------------------------
 
         //_audioManager.Play("Main BGM");
     }
@@ -112,21 +117,42 @@ public class ParticleFrameScript : MonoBehaviour
             //        frameActivated = true;
             //    }
             //}
+        }
 
-            for (int i = 0; i < 4; i++)
-            {
-                bool[] workArray = frameLoop.GetHitArray(i);
-
-                for (int j = 0; j < workArray.Length; i++)
-                {
-                    topParticleSwitchArray[j].SetParticle(workArray[j]);
-                }
-            }
-
+        //フレームが起動したときに一度実行
+        if (frameLoop.g_activeTrigger)
+        {
             activeFrameObject.SetActive(true);
             matColActive = new Color(0f, 0f, 0.3f, 1f);
             mat.color = matColActive;
             burstFlag = false;
+
+            //上下左右の当たり判定を取得するために4回ループ
+            for (int i = 0; i < 4; i++)
+            {
+                //当たり判定の配列（bool）を取得
+                bool[] workArray = frameLoop.GetHitArray(i);
+
+                //当たり判定でパーティクルを切り替え
+                for (int j = 0; j < workArray.Length; j++)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            topParticleSwitchArray[j].SetParticle(workArray[j]);
+                            break;
+                        case 1:
+                            bottomParticleSwitchArray[j].SetParticle(workArray[j]);
+                            break;
+                        case 2:
+                            leftParticleSwitchArray[j].SetParticle(workArray[j]);
+                            break;
+                        case 3:
+                            rightParticleSwitchArray[j].SetParticle(workArray[j]);
+                            break;
+                    }
+                }
+            }
         }
 
         if (particleFramePos.position != framePos.position)
@@ -146,6 +172,7 @@ public class ParticleFrameScript : MonoBehaviour
         //partTrans(ref ps4);
     }
 
+#if false
     private void startLifeTimeSet(ref ParticleSystem ps, float lifetime)
     {
         ParticleSystem.MainModule main = ps.main;
@@ -167,4 +194,5 @@ public class ParticleFrameScript : MonoBehaviour
         }
         ps.SetParticles(particles, particlesAmount);
     }
+#endif
 }
