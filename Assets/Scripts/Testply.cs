@@ -15,12 +15,14 @@ public class Testply : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Gamepad gamepad = Gamepad.current;
+
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
         }
-        else if (Input.GetKeyDown(KeyCode.L) || Gamepad.current.buttonNorth.wasPressedThisFrame)
+        else if (Input.GetKeyDown(KeyCode.L))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
@@ -29,6 +31,15 @@ public class Testply : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
 
+        }
+
+        if(gamepad != null)
+        {
+            if (gamepad.buttonNorth.wasPressedThisFrame)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            }
+            
         }
     }
 }

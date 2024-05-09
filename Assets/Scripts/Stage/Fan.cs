@@ -182,9 +182,14 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     //フレームがあるときの風の生成
     private IEnumerator windLoop()
     {
+        if (!_enable) { yield break; }
+
         //フレームの終了を待つ
         //待たないとフレームで生成したColliderにRayが当たらない
         yield return new WaitForEndOfFrame();
+
+        //風に触れてるオブジェクトのリストをクリア
+        _rbDic.Clear();
 
         //Tilemapを全てクリア
         _tilemapOutside.ClearAllTiles();
@@ -327,6 +332,11 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     //フレームがない時の風の生成
     private void SetTiles()
     {
+        if (!_enable) { return; }
+
+        //風に触れてるオブジェクトのリストをクリア
+        _rbDic.Clear();
+
         //Tilemapを全てクリア
         _tilemapOutside.ClearAllTiles();
         _tilemapInside.ClearAllTiles();
@@ -371,12 +381,14 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     public void SetEnable(bool enable)
     {
         _enable = enable;
+        SetTiles();
     }
 
     //有効か無効かを反転させる
     public void SwitchEnable()
     {
         _enable = !_enable;
+        SetTiles();
     }
 
     //タイルの向きを指定してセットする
