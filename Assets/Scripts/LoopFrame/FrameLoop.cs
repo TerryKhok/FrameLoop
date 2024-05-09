@@ -73,13 +73,13 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     private GameObject _colliderPrefab = null;
     private Transform _topT = null, _bottomT = null, _rightT = null, _leftT = null;
 
-    private bool[] _topHitArray = new bool[10],
-                   _bottomHitArray = new bool[10],
-                   _rightHitArray = new bool[8],
-                   _leftHitArray = new bool[8];
+    private bool[] _topHitArray = new bool[8],
+                   _bottomHitArray = new bool[8],
+                   _rightHitArray = new bool[6],
+                   _leftHitArray = new bool[6];
 
     [System.NonSerialized]
-    public bool g_isActive = false, g_usable = true;
+    public bool g_isActive = false, g_usable = true, g_activeTrigger;
     private bool _prevActive = false;
 
     private void Start()
@@ -229,8 +229,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         //フレームの座標を調節
         adjustPos();
 
+        g_activeTrigger = !_prevActive && g_isActive;
+
         //フレームが有効になったとき行う処理
-        if (!_prevActive && g_isActive)
+        if (g_activeTrigger)
         {
             onActive();
         }
@@ -330,6 +332,29 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 _exitInsiders.Remove(col);
             }
         }
+
+        //--------------------------------------------------------
+        //当たり判定の配列を全て初期化
+        //--------------------------------------------------------
+
+        for(int i=0; i < _topHitArray.Length; i++)
+        {
+            _topHitArray[i] = false;
+        }
+        for (int i = 0; i < _bottomHitArray.Length; i++)
+        {
+            _bottomHitArray[i] = false;
+        }
+        for (int i = 0; i < _leftHitArray.Length; i++)
+        {
+            _leftHitArray[i] = false;
+        }
+        for (int i = 0; i < _rightHitArray.Length; i++)
+        {
+            _rightHitArray[i] = false;
+        }
+
+        //---------------------------------------------------------
 
         //フレームの範囲+-1マス分の範囲をループ
         for (int i=0; i <= _size.x+1; i++)
@@ -432,23 +457,28 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 Vector3Int intPos = new Vector3Int((int)(pos.x - 0.5f), (int)(pos.y - 0.5f));
                 _insideTile.SetTile(intPos, _tile);
 
-                if(j == _size.y)
+                //-----------------------------------------
+                //当たり判定がある部分をtrueに上書き
+                //-----------------------------------------
+
+                if (j == _size.y)
                 {
-                    _topHitArray[i] = true;
+                    _topHitArray[i - 1] = true;
                 }
-                else if(j == 1)
+                else if (j == 1)
                 {
-                    _bottomHitArray[i] = true;
+                    _bottomHitArray[i - 1] = true;
                 }
 
-                if(i == 1)
+                if (i == _size.x)
                 {
-                    _leftHitArray[j] = true;
+                    _rightHitArray[j - 1] = true;
                 }
-                else if(i == _size.x)
+                else if (i == 1)
                 {
-                    _rightHitArray[j] = true;
+                    _leftHitArray[j - 1] = true;
                 }
+                //------------------------------------------
             }
         }
 
@@ -466,23 +496,28 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
             _insideTile.SetTile(intPos, _tile);
 
-            if(j == 0)
+
+            //----------------------------------------------
+            //当たり判定がある部分をループを考慮してtrueに上書き
+            //----------------------------------------------
+            if (j == 1)
             {
-                _topHitArray[i] = true;
+                _topHitArray[i-1] = true;
             }
-            else if(j == _size.y + 1)
+            else if(j == _size.y)
             {
-                _bottomHitArray[i] = true;
+                _bottomHitArray[i-1] = true;
             }
 
-            if (i == 0)
+            if (i == 1)
             {
-                _rightHitArray[j] = true;
+                _rightHitArray[j-1] = true;
             }
-            else if (i == _size.x + 1)
+            else if (i == _size.x)
             {
-                _leftHitArray[j] = true;
+                _leftHitArray[j-1] = true;
             }
+            //----------------------------------------------
         }
         else
         {
@@ -506,7 +541,14 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 {
                     _insideTile.SetTile(intPos, _tile);
 
-
+                    if(j == 1)
+                    {
+                        _topHitArray[i-1] = true;
+                    }
+                    else if(j == _size.y)
+                    {
+                        _bottomHitArray[i-1] = true;
+                    }
                 }
                 else
                 {
@@ -1136,6 +1178,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         return _size;
     }
 
+    //当たり判定の配列を返す
     public bool[] GetHitArray(int select)
     {
         switch(select)
