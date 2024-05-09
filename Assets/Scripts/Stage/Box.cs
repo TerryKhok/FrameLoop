@@ -24,6 +24,7 @@ public class Box : MonoBehaviour,IBox
 
     private Rigidbody2D _rb = null;
     private PlayerInfo _playerInfo = null;
+    private PlayerMove _playerMove = null;
 
     private Vector2 _offset = Vector2.zero;
 
@@ -151,6 +152,9 @@ public class Box : MonoBehaviour,IBox
             return;
         }
 
+        //” ‚ğ‰Ÿ‚·‰¹‚ğ~‚ß‚é
+        AudioManager.instance.Stop("Box Pull");
+
         _playerTransform = null;
         _playerInfo.g_takeUpFg = false;
         _playerInfo.g_box = null;
@@ -198,6 +202,16 @@ public class Box : MonoBehaviour,IBox
     {
         if(_playerTransform == null) { return; }
 
+        //ƒvƒŒƒCƒ„[‚ªˆÚ“®’†‚µ‚Ä‚È‚¢‚Í‰¹‚ğ~‚ß‚é
+        if (_playerMove._isMoving == false)
+        {
+            AudioManager.instance.Stop("Box Pull");
+        }
+        else
+        {
+            AudioManager.instance.Play("Box Pull");
+        }
+
         var pos = _rb.position;
 
         var direction = ((Vector2)_playerTransform.position - pos).normalized;
@@ -231,6 +245,7 @@ public class Box : MonoBehaviour,IBox
                 rb.position = pos;
             }
         }
+
     }
 
     //” ‚ğˆÚ“®‚³‚¹‚éŠî€‚Ìtransform‚ğó‚¯æ‚é
@@ -239,19 +254,14 @@ public class Box : MonoBehaviour,IBox
         if(t == null)
         {
             holdCancel();
-            AudioManager.instance.Stop("Box Pull");
             return;
         }
         _playerTransform = t;
+
+        _playerMove = PlayerInfo.Instance.g_transform.GetComponent<PlayerMove>();
+
+        //” ‚ğ‰Ÿ‚·‰¹‚ğÄ¶
         AudioManager.instance.Play("Box Pull");
-        if (_playerTransform.GetComponent<PlayerMove>()._isMoving == false)
-        {
-            AudioManager.instance.Stop("Box Pull");
-        }
-        else
-        {
-            AudioManager.instance.Play("Box Pull");
-        }
     }
 
     public void SetOffset(Vector2 vec)
