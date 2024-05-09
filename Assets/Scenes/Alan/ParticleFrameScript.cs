@@ -113,20 +113,34 @@ public class ParticleFrameScript : MonoBehaviour
             //    }
             //}
 
+            activeFrameObject.SetActive(true);
+            matColActive = new Color(0f, 0f, 0.3f, 1f);
+            mat.color = matColActive;
+            burstFlag = false;
+
             for (int i = 0; i < 4; i++)
             {
                 bool[] workArray = frameLoop.GetHitArray(i);
 
                 for (int j = 0; j < workArray.Length; i++)
                 {
-                    topParticleSwitchArray[j].SetParticle(workArray[j]);
+                    switch (i)
+                    {
+                        case 0:
+                            topParticleSwitchArray[j].SetParticle(workArray[j]);
+                            break;
+                        case 1:
+                            bottomParticleSwitchArray[j].SetParticle(workArray[j]);
+                            break;
+                        case 2:
+                            leftParticleSwitchArray[j].SetParticle(workArray[j]);
+                            break;
+                        case 3:
+                            rightParticleSwitchArray[j].SetParticle(workArray[j]);
+                            break;
+                    }
                 }
             }
-
-            activeFrameObject.SetActive(true);
-            matColActive = new Color(0f, 0f, 0.3f, 1f);
-            mat.color = matColActive;
-            burstFlag = false;
         }
 
         if (particleFramePos.position != framePos.position)

@@ -331,6 +331,23 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             }
         }
 
+        for(int i=0; i < _topHitArray.Length; i++)
+        {
+            _topHitArray[i] = false;
+        }
+        for (int i = 0; i < _bottomHitArray.Length; i++)
+        {
+            _bottomHitArray[i] = false;
+        }
+        for (int i = 0; i < _leftHitArray.Length; i++)
+        {
+            _leftHitArray[i] = false;
+        }
+        for (int i = 0; i < _rightHitArray.Length; i++)
+        {
+            _rightHitArray[i] = false;
+        }
+
         //フレームの範囲+-1マス分の範囲をループ
         for (int i=0; i <= _size.x+1; i++)
         {
@@ -506,7 +523,14 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 {
                     _insideTile.SetTile(intPos, _tile);
 
-
+                    if(j == 1)
+                    {
+                        _topHitArray[i] = true;
+                    }
+                    else if(j == _size.y)
+                    {
+                        _bottomHitArray[i] = true;
+                    }
                 }
                 else
                 {
