@@ -44,13 +44,14 @@ public class PlayerMove : MonoBehaviour
     {
         //‘«Õ‚Ì‰¹
         AudioManager.instance.Play("Walk");
-        _isMoving = true;
-        Debug.Log("ismoving true");
+        //Debug.Log("ismoving true");
 
         //WASDALeftStickADpad‚Ì“ü—Í‚ğVector2‚Æ‚µ‚Äó‚¯æ‚é
         var input = context.ReadValue<Vector2>();
         //Y²‚Ì“ü—Í‚ğ–³Œø‰»‚·‚é
         _currentInput = Vector2.Scale(input, new Vector2(1, 0)).normalized;
+
+        _isMoving = _currentInput.x != 0;
     }
 
     public void MoveCanceled(InputAction.CallbackContext context)
@@ -58,7 +59,7 @@ public class PlayerMove : MonoBehaviour
         //‘«Õ‚Ì‰¹
         AudioManager.instance.Stop("Walk");
         _isMoving = false;
-        Debug.Log("ismoving false");
+        //Debug.Log("ismoving false");
 
         _currentInput = Vector2.zero;
     }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /*  ProjectName :FrameLoop
@@ -31,10 +32,12 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     [HideInInspector]
     public float g_groundDistance = 0;
 
-    private const float Ground_Dist = 0.72f;
+    private const float Ground_Dist = 0.8f;
     private string _layermaskValue;
     [HideInInspector]
     public LayerMask g_insideMask, g_outsideMask;
+
+    private List<Transform> _copyList = new List<Transform>();
 
     private void Start()
     {
@@ -69,7 +72,90 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
         {
             g_wall = 0;
         }
+        //Debug.Log(g_groundDistance);
 
+        float actualDistance = Mathf.Infinity, work = Mathf.Infinity;
+
+        actualDistance = checkGround();
+
+        List<Transform> removeList = new List<Transform>();
+
+        //コピーからも着地判定を取る
+        foreach (var t in _copyList)
+        {
+            if (t == null)
+            {
+                removeList.Add(t);
+                continue;
+            }
+
+            work = checkGround(t);
+            if (actualDistance > work)
+            {
+                actualDistance = work;
+            }
+        }
+
+        foreach(var t in removeList)
+        {
+            _copyList.Remove(t);
+        }
+
+        g_groundDistance = actualDistance;
+
+        //Debug.Log($"{g_groundDistance}： {actualDistance}");
+
+        if (g_groundDistance < Ground_Dist)
+        {
+            g_isGround = true;
+
+            g_isGround &= g_rb.velocity.y <= 0.1f;
+        }
+        else
+        {
+            g_isGround = false;
+        }
+    }
+
+    private float checkGround(Transform t)
+    {
+        var distance = Mathf.Infinity;
+
+        Ray ray = new Ray(t.position, Vector3.down);
+        var size = new Vector2(g_collider.size.x - 0.1f, 0.5f);
+        RaycastHit2D hit;
+
+        LayerMask mask = 0;
+
+        //フレームが有効かどうかでLayerMaskとLayerを変更
+        if (FrameLoop.Instance.g_isActive)
+        {
+            mask = g_insideMask;
+            gameObject.layer = LayerMask.NameToLayer("IPlayer");
+        }
+        else
+        {
+            mask = g_outsideMask;
+            gameObject.layer = LayerMask.NameToLayer("OPlayer");
+        }
+
+        //足元に設置判定
+        hit = Physics2D.BoxCast(ray.origin, size, 0, ray.direction, 2, mask);
+        if (hit.collider != null)
+        {
+            //Debug.Log($"{hit.distance}{hit.transform.name}");
+
+            //地面との距離を更新
+            distance = hit.distance;
+
+        }
+
+        return distance;
+    }
+
+    private float checkGround()
+    {
+        var distance = Mathf.Infinity;
 
         Ray ray = new Ray(g_transform.position, Vector3.down);
         var size = new Vector2(g_collider.size.x - 0.1f, 0.5f);
@@ -96,20 +182,31 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
             //Debug.Log($"{hit.distance}{hit.transform.name}");
 
             //地面との距離を更新
-            g_groundDistance = hit.distance;
+            distance = hit.distance;
 
-            if (hit.distance < Ground_Dist)
-            {
-                g_isGround = true;
-
-                g_isGround &= g_rb.velocity.y <= 0.1f;
-                return;
-            }
         }
-        else
+
+        return distance;
+    }
+
+    public void AddCopyList(Transform t)
+    {
+        if (!_copyList.Contains(t))
         {
-            g_groundDistance = Mathf.Infinity;
+            _copyList.Add(t);
         }
-        g_isGround = false;
+    }
+
+    public void RemoveCopyList(Transform t)
+    {
+        if (_copyList.Contains(t))
+        {
+            _copyList.Remove(t);
+        }
+    }
+
+    public void ClearCopyList()
+    {
+        _copyList.Clear();
     }
 }

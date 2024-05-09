@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3164714717638057459}
   - component: {fileID: 1812976224035567896}
   - component: {fileID: 1516350329940770204}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: AcidTilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}

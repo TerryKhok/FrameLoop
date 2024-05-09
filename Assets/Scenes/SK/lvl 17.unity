@@ -10017,16 +10017,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 854876826080497489, guid: 330e5f57b1fb5c244a39c0097047eed1,
-        type: 3}
-      propertyPath: m_DefaultControlScheme
-      value: Gamepad
-      objectReference: {fileID: 0}
-    - target: {fileID: 854876826080497489, guid: 330e5f57b1fb5c244a39c0097047eed1,
-        type: 3}
-      propertyPath: m_NeverAutoSwitchControlSchemes
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3008026380744571632, guid: 330e5f57b1fb5c244a39c0097047eed1,
         type: 3}
       propertyPath: m_RootOrder

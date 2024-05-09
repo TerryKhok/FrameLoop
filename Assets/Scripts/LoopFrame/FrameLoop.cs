@@ -312,7 +312,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             }
 
             //内側のオブジェクトをSpriteMaskの中でのみ表示されるよう変更
-            SpriteRenderer renderer = col.GetComponent<SpriteRenderer>();
+            SpriteRenderer renderer = col.GetComponentInChildren<SpriteRenderer>();
             renderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
 
             //Player以外の内側のオブジェクトはレイヤーをI~~~レイヤーに変更
@@ -604,14 +604,20 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         foreach(var col in _insiders)
         {
             //SpriteMaskの外側で表示されるように変更
-            SpriteRenderer renderer = col.GetComponent<SpriteRenderer>();
+            SpriteRenderer renderer = col.GetComponentInChildren<SpriteRenderer>();
             renderer.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
 
             //外に出ようとしているオブジェクトの位置を確定
             if (_exitInsiders.ContainsKey(col))
             {
                 var pos = col.transform.position;
-                if(pos.x < _loopRangeX.min)
+
+                if (col.CompareTag("Player"))
+                {
+                    pos.y -= 0.1f;
+                }
+
+                if (pos.x < _loopRangeX.min)
                 {
                     pos.x += _size.x;
                 }
@@ -680,6 +686,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 {
                     continue;
                 }
+                _playerInfo.RemoveCopyList(t);
                 Destroy(t.gameObject);
             }
         }
@@ -722,6 +729,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     //キーが押された時に一度実行されるメソッド
     public void FrameStarted(InputAction.CallbackContext context)
     {
+        Debug.Log("hoge");
         //操作が切り替えなら押されるたびに状態を切り替え
         if (_toggle)
         {
@@ -755,8 +763,9 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     //キーが離された時に一度実行されるメソッド
     public void FrameCanceled(InputAction.CallbackContext context)
     {
+        Debug.Log("hogehoge");
         //操作が切り替えならreturn
-        if(_toggle) { return; }
+        if (_toggle) { return; }
 
         //操作がホールドならフレームを無効にする
         _inputManager.SetVibration(0, 0, 0);
@@ -792,7 +801,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         {
             if (!_insideCopyDic.ContainsKey(col)) { continue; }
 
-            var renderer = col.GetComponent<SpriteRenderer>();
+            var renderer = col.GetComponentInChildren<SpriteRenderer>();
             var sprite = renderer.sprite;
 
             foreach(var t in _insideCopyDic[col])
@@ -833,6 +842,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                         setPos += new Vector3(_size.x * i, _size.y * j);
                         var instanceObj = Instantiate(obj, setPos, col.transform.rotation, col.transform);
                         tList.Add(instanceObj.transform);
+                        _playerInfo.AddCopyList(instanceObj.transform);
                     }
                 }
 
@@ -883,7 +893,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         obj.layer = t.gameObject.layer;
 
         //コンポーネントをコピー
-        SpriteRenderer setRenderer = t.GetComponent<SpriteRenderer>();
+        SpriteRenderer setRenderer = t.GetComponentInChildren<SpriteRenderer>();
         //Rigidbody2D setRigidbody = t.GetComponent<Rigidbody2D>();
 
         obj.AddComponent<ParentDestroy>();
