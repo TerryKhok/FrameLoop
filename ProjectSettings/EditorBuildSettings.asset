@@ -45,7 +45,7 @@ EditorBuildSettings:
     path: Assets/Scenes/SK/lvl 9.unity
     guid: 97074e9e653be054ea5700989a88cf91
   - enabled: 1
-    path: Assets/Scenes/SK/lvl 11.unity
+    path: Assets/Scenes/SK/test/lvl 11 test.unity
     guid: 3cb4ac79063ba2942aa1534845606b7a
   - enabled: 1
     path: Assets/Scenes/SK/lvl 12.unity
@@ -54,12 +54,12 @@ EditorBuildSettings:
     path: Assets/Scenes/SK/test/lvl 13 test.unity
     guid: e64351124d36c2d4d89e2d4f1520fa97
   - enabled: 1
-    path: Assets/Scenes/SK/lvl 14.unity
+    path: Assets/Scenes/SK/lvl 15.unity
     guid: d4939de79eb78734da6f3d62c38e5c7b
   - enabled: 1
-    path: Assets/Scenes/SK/lvl 15.unity
+    path: Assets/Scenes/SK/lvl 16.unity
     guid: 9caa9778d58239f4a814cf5cddca1c1a
   - enabled: 1
-    path: Assets/Scenes/SK/lvl 16.unity
+    path: Assets/Scenes/SK/lvl 17.unity
     guid: 6ad0b090387a21d43977aad2e4555a10
   m_configObjects: {}
