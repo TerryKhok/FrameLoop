@@ -42,7 +42,7 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-
+        
     }
 
     private void OnEnable()

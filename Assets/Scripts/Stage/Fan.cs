@@ -125,7 +125,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     }
 
     //Tilemapに触れているcolliderを受け取る
-    public void OnEnter(Collider2D other, Transform transform)
+    public void OnStay(Collider2D other, Transform transform)
     {
         if (!_tagList.Contains(other.tag)) { return; }
 
@@ -162,7 +162,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
             }
         }
     }
-    public void OnStay(Collider2D other, Transform transform)
+    public void OnEnter(Collider2D other, Transform transform)
     {
         //IParentOnTriggerの必要メソッド
     }
