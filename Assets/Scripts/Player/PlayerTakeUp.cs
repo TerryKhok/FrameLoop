@@ -22,10 +22,13 @@ public class PlayerTakeUp : MonoBehaviour
     private int _count = 0;
     private LayerMask _insideMask = 0, _outsideMask = 0;
 
+    private PlayerAnimation _playerAnimation = null;
+
     private void Start()
     {
         _playerInfo = PlayerInfo.Instance;
         _frameLoop = FrameLoop.Instance;
+        _playerAnimation = PlayerAnimation.Instance;
         _transform = _playerInfo.g_transform;
         _boxCollider = _playerInfo.g_collider;
 
@@ -36,6 +39,7 @@ public class PlayerTakeUp : MonoBehaviour
     private void Update()
     {
         takeUp();
+        _playerAnimation.SetHoldAnimation(_playerInfo.g_takeUpFg);
     }
 
     //” ‚ª‚ ‚é‚©‚Ì”»’è‚Æ’Í‚Ý

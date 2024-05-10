@@ -13,15 +13,18 @@ public class PlayerCrouch : MonoBehaviour
 {
     private bool _isCrouching = false;
     private PlayerAnimation _playerAnimation = null;
+    private PlayerInfo _playerInfo = null;
 
     private void Start()
     {
         _playerAnimation = PlayerAnimation.Instance;
+        _playerInfo = PlayerInfo.Instance;
     }
 
     private void Update()
     {
         _playerAnimation.SetCrouchAnimation(_isCrouching);
+        _playerInfo.g_isCrouch = _isCrouching;
 
         crouch();
 

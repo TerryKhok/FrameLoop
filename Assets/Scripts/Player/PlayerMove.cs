@@ -6,6 +6,10 @@ public class PlayerMove : MonoBehaviour
 {
     [SerializeField,Tooltip("プレイヤーの速度上限(m/s)")]
     private float _targetVelocity = 5.0f;
+
+    [SerializeField, Tooltip("しゃがみ中の移動速度")]
+    private float _crouchVelocity = 3.0f;
+
     private Rigidbody2D _rb = null;
     private Transform _transform;
     private Vector2 _currentInput = Vector2.zero;
@@ -14,6 +18,8 @@ public class PlayerMove : MonoBehaviour
 
     //box.csで使われている
     public bool _isMoving = false;
+
+    private bool _se = false;
 
     private void Start()
     {
@@ -28,9 +34,29 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
         //Debug.Log(_rb.velocity);
+        _playerAnimation.SetMoveX((int)_currentInput.x);
 
         //Walkアニメーションを再生
-        _playerAnimation.SetWalkAnimation(_isMoving);
+        _playerAnimation.SetWalkAnimation(_isMoving && _playerInfo.g_isGround);
+
+        if(_isMoving && _playerInfo.g_isGround)
+        {
+            if (!_se)
+            {
+                //足跡の音
+                AudioManager.instance.Play("Walk");
+                _se = true;
+            }
+        }
+        else
+        {
+            if (_se)
+            {
+                //足跡の音
+                AudioManager.instance.Stop("Walk");
+                _se = false;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -42,8 +68,6 @@ public class PlayerMove : MonoBehaviour
     //InputSystemのコールバックを受け取るメソッド
     public void MovePerformed(InputAction.CallbackContext context)
     {
-        //足跡の音
-        AudioManager.instance.Play("Walk");
         //Debug.Log("ismoving true");
 
         //WASD、LeftStick、Dpadの入力をVector2として受け取る
@@ -56,8 +80,6 @@ public class PlayerMove : MonoBehaviour
 
     public void MoveCanceled(InputAction.CallbackContext context)
     {
-        //足跡の音
-        AudioManager.instance.Stop("Walk");
         _isMoving = false;
         //Debug.Log("ismoving false");
 
@@ -87,9 +109,16 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
+        var velocity = _targetVelocity;
+
+        if(_playerInfo.g_takeUpFg || _playerInfo.g_isCrouch) 
+        {
+            velocity = _crouchVelocity;
+        }
+
         //移動
         var currentPos = _rb.position;
-        currentPos += _currentInput * _targetVelocity * Time.fixedDeltaTime;
+        currentPos += _currentInput * velocity * Time.fixedDeltaTime;
         _rb.position = currentPos;
     }
 }

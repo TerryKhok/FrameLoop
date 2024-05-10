@@ -31,6 +31,8 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     public Transform g_box = null;
     [HideInInspector]
     public float g_groundDistance = 0;
+    [HideInInspector]
+    public bool g_isCrouch = false;
 
     private const float Ground_Dist = 0.8f;
     private string _layermaskValue;

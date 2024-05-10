@@ -34,6 +34,16 @@ public class PlayerAnimation : SingletonMonoBehaviour<PlayerAnimation>
         _animator.SetBool("Crouch", isCrouching);
     }
 
+    public void SetHoldAnimation(bool isHolding)
+    {
+        _animator.SetBool("Hold", isHolding);
+    }
+
+    public void SetMoveX(int moveX)
+    {
+        _animator.SetInteger("MoveX", moveX);
+    }
+
     private void Update()
     {
         _animator.SetBool("IsGround", _playerInfo.g_isGround);
