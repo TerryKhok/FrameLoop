@@ -729,7 +729,6 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     //キーが押された時に一度実行されるメソッド
     public void FrameStarted(InputAction.CallbackContext context)
     {
-        Debug.Log("hoge");
         //操作が切り替えなら押されるたびに状態を切り替え
         if (_toggle)
         {
@@ -763,7 +762,6 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     //キーが離された時に一度実行されるメソッド
     public void FrameCanceled(InputAction.CallbackContext context)
     {
-        Debug.Log("hogehoge");
         //操作が切り替えならreturn
         if (_toggle) { return; }
 
