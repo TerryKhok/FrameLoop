@@ -41,7 +41,16 @@ public class PlayerAnimation : SingletonMonoBehaviour<PlayerAnimation>
 
     public void SetMoveX(int moveX)
     {
-        _animator.SetInteger("MoveX", moveX);
+        int direction = _playerInfo.g_boxDirection * moveX;
+
+        if (direction == 0) { return; }
+
+        _animator.SetInteger("MoveX", direction);
+    }
+
+    public void SetCrouchSpeed(float speed)
+    {
+        _animator.SetFloat("CrouchSpeed", speed);
     }
 
     private void Update()

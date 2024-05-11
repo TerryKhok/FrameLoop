@@ -49,10 +49,7 @@ public class PlayerTakeUp : MonoBehaviour
         if(_toggle && _playerInfo.g_takeUpFg)
         {
             //” ‚ğ—£‚·
-            _playerInfo.g_takeUpFg = false;
-            _playerInfo.g_wall = 0;
             _box.Hold(null);
-            _playerInfo.g_box = null;
             return;
         }
 
@@ -82,8 +79,7 @@ public class PlayerTakeUp : MonoBehaviour
 
                 //” ‚ğ’Í‚Ş
                 _box.Hold(_transform);
-                _playerInfo.g_box = hit.transform;
-                _playerInfo.g_takeUpFg = true;
+                _playerInfo.g_boxDirection = (int)ray.direction.x;
             }
         }
     }
@@ -94,10 +90,7 @@ public class PlayerTakeUp : MonoBehaviour
         //Ø‚è‘Ö‚¦‘€ì‚Ìê‡‚Íreturn
         if (_toggle) { return; }
 
-        _playerInfo.g_takeUpFg = false;
-        _playerInfo.g_wall = 0;
         _box.Hold(null);
-        _playerInfo.g_box = null;
     }
 
     //” ‚ğ’Í‚ñ‚Å‚¢‚éŠÔ‚Ìˆ—
@@ -123,7 +116,7 @@ public class PlayerTakeUp : MonoBehaviour
             mask = 1 << LayerMask.NameToLayer("IPlatform");
         }
 
-        //” ‚©•Ç‚ª‚ ‚é‚©‚ğ”»’è
+        //•Ç‚ª‚ ‚é‚©‚ğ”»’è
         hit = Physics2D.BoxCast(ray.origin, size, 0, ray.direction, length, mask);
 
         if(hit.collider != null)

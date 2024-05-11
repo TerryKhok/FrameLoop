@@ -23,15 +23,20 @@ public class Box : MonoBehaviour,IBox
     private List<string> _tagList = new List<string>() { "Breakable"};
 
     private Rigidbody2D _rb = null;
+    private BoxCollider2D _collider2D = null;
+
     private PlayerInfo _playerInfo = null;
     private PlayerMove _playerMove = null;
 
     private Vector2 _offset = Vector2.zero;
 
+    private List<Transform> _copyList = new List<Transform>();
+
     private void Start()
     {
         _transform = transform;
         _rb = GetComponent<Rigidbody2D>();
+        _collider2D = GetComponent<BoxCollider2D>();
 
         _playerInfo = PlayerInfo.Instance;
 
@@ -155,9 +160,34 @@ public class Box : MonoBehaviour,IBox
         //箱を押す音を止める
         AudioManager.instance.Stop("Box Pull");
 
+        //--------------------------------------------------------------------------------
+        //プレイヤーと箱の当たり判定を復活
+        //--------------------------------------------------------------------------------
+        var playerCol = _playerTransform.GetComponent<Collider2D>();
+
+        Physics2D.IgnoreCollision(_collider2D, playerCol);
+
+
+        foreach (var boxCopy in _copyList)
+        {
+            var boxCopyCol = boxCopy.GetComponent<Collider2D>();
+
+            foreach (var playerCopy in _playerInfo.GetCopyList())
+            {
+                var playerCopyCol = playerCopy.GetComponent<Collider2D>();
+
+                Physics2D.IgnoreCollision(boxCopyCol, playerCopyCol,false);
+            }
+
+            Physics2D.IgnoreCollision(boxCopyCol, playerCol,false);
+        }
+        //---------------------------------------------------------------------------------
+
         _playerTransform = null;
         _playerInfo.g_takeUpFg = false;
         _playerInfo.g_box = null;
+        _playerInfo.g_wall = 0;
+        _playerInfo.g_boxDirection = 0;
         SetOffset(Vector2.zero);
 
         Vector2 pos = _transform.position;
@@ -216,7 +246,16 @@ public class Box : MonoBehaviour,IBox
 
         var direction = ((Vector2)_playerTransform.position - pos).normalized;
         pos.x = _playerTransform.position.x;
-        pos += (Vector2)_playerTransform.right * 1f;
+
+        float offset = 0.95f;
+        int relativeDirection = _playerInfo.g_currentInputX * _playerInfo.g_boxDirection;
+
+        if (relativeDirection < 0)
+        {
+            offset = 0.8f;
+        }
+
+        pos += (Vector2)_playerTransform.right * offset;
 
         //箱かプレイヤーのどちらかがループしている場合は座標をずらす
         pos += _offset;
@@ -258,6 +297,32 @@ public class Box : MonoBehaviour,IBox
         }
         _playerTransform = t;
 
+        _playerInfo.g_box = _transform;
+        _playerInfo.g_takeUpFg = true;
+
+        //--------------------------------------------------------------------------------
+        //プレイヤーと箱の当たり判定を無くす
+        //--------------------------------------------------------------------------------
+        var playerCol = _playerTransform.GetComponent<Collider2D>();
+
+        Physics2D.IgnoreCollision(_collider2D, playerCol);
+
+
+        foreach (var boxCopy in _copyList)
+        {
+            var boxCopyCol = boxCopy.GetComponent<Collider2D>();
+
+            foreach (var playerCopy in _playerInfo.GetCopyList())
+            {
+                var playerCopyCol = playerCopy.GetComponent<Collider2D>();
+
+                Physics2D.IgnoreCollision(boxCopyCol, playerCopyCol);
+            }
+
+            Physics2D.IgnoreCollision(boxCopyCol, playerCol);
+        }
+        //---------------------------------------------------------------------------------
+
         _playerMove = PlayerInfo.Instance.g_transform.GetComponent<PlayerMove>();
 
         //箱を押す音を再生
@@ -272,5 +337,42 @@ public class Box : MonoBehaviour,IBox
     public Vector2 GetOffset()
     {
         return _offset;
+    }
+
+    public void AddCopyList(Transform t)
+    {
+        if (!_copyList.Contains(t))
+        {
+            _copyList.Add(t);
+        }
+
+        var col = t.GetComponent<Collider2D>();
+
+        if(_playerTransform != null)
+        {
+            var playerCol = _playerTransform.GetComponent<Collider2D>();
+
+            Physics2D.IgnoreCollision(col, playerCol);
+        }
+
+        foreach (var playerCopy in _playerInfo.GetCopyList())
+        {
+            var playerCopyCol = playerCopy.GetComponent<Collider2D>();
+
+            Physics2D.IgnoreCollision(col, playerCopyCol);
+        }
+    }
+
+    public void RemoveCopyList(Transform t)
+    {
+        if (_copyList.Contains(t))
+        {
+            _copyList.Remove(t);
+        }
+    }
+
+    public void ClearCopyList()
+    {
+        _copyList.Clear();
     }
 }

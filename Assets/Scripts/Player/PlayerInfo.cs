@@ -30,9 +30,13 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     [HideInInspector]
     public Transform g_box = null;
     [HideInInspector]
+    public int g_boxDirection = 0;
+    [HideInInspector]
     public float g_groundDistance = 0;
     [HideInInspector]
     public bool g_isCrouch = false;
+    [HideInInspector]
+    public int g_currentInputX = 0;
 
     private const float Ground_Dist = 0.8f;
     private string _layermaskValue;
@@ -210,5 +214,10 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     public void ClearCopyList()
     {
         _copyList.Clear();
+    }
+
+    public List<Transform> GetCopyList()
+    {
+        return _copyList;
     }
 }

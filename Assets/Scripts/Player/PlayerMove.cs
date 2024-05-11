@@ -29,6 +29,8 @@ public class PlayerMove : MonoBehaviour
         _transform = _playerInfo.g_transform;
 
         _playerAnimation = PlayerAnimation.Instance;
+
+        _playerAnimation.SetCrouchSpeed(_crouchVelocity / _targetVelocity);
     }
 
     private void Update()
@@ -38,6 +40,8 @@ public class PlayerMove : MonoBehaviour
 
         //Walkアニメーションを再生
         _playerAnimation.SetWalkAnimation(_isMoving && _playerInfo.g_isGround);
+
+        _playerInfo.g_currentInputX = (int)_currentInput.x;
 
         if(_isMoving && _playerInfo.g_isGround)
         {

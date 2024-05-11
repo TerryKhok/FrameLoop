@@ -62,6 +62,7 @@ MonoBehaviour:
   g_wall: 0
   g_box: {fileID: 0}
   g_groundDistance: 0
+  g_isCrouch: 0
   g_insideMask:
     serializedVersion: 2
     m_Bits: 0
@@ -96,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetVelocity: 10
+  _crouchVelocity: 5
   _isMoving: 0
 --- !u!114 &8658406718331771471
 MonoBehaviour:

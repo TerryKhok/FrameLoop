@@ -687,6 +687,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                     continue;
                 }
                 _playerInfo.RemoveCopyList(t);
+                if (t.CompareTag("Box"))
+                {
+                    t.GetComponentInParent<Box>().RemoveCopyList(t);
+                }
                 Destroy(t.gameObject);
             }
         }
@@ -818,6 +822,14 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             //コピーが無ければ複製する
             if (!_insideCopyDic.ContainsKey(col))
             {
+                bool isBox = false;
+                Box box = null;
+                if (col.CompareTag("Box"))
+                {
+                    isBox = true;
+                    box = col.GetComponent<Box>();
+                }
+
                 //外側に出るオブジェクトのコピーを取得
                 GameObject obj = copy(col.transform);
 
@@ -840,7 +852,16 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                         setPos += new Vector3(_size.x * i, _size.y * j);
                         var instanceObj = Instantiate(obj, setPos, col.transform.rotation, col.transform);
                         tList.Add(instanceObj.transform);
-                        _playerInfo.AddCopyList(instanceObj.transform);
+
+                        if (col.CompareTag("Player"))
+                        {
+                            _playerInfo.AddCopyList(instanceObj.transform);
+                        }
+
+                        if (isBox)
+                        {
+                            box.AddCopyList(instanceObj.transform);
+                        }
                     }
                 }
 

@@ -326,6 +326,12 @@ MonoBehaviour:
   _blockTagList:
   - Platform
   _enableOnAwake: 1
+  _leftMaterial: {fileID: -876546973899608171, guid: 790575b8c6c525542885e8a88bffa474,
+    type: 3}
+  _upMaterial: {fileID: -876546973899608171, guid: 0e2cf4699f0d1784180c392f520f0081,
+    type: 3}
+  _downMaterial: {fileID: -876546973899608171, guid: b44218e71f1c7e74395b43d1fc9071c0,
+    type: 3}
 --- !u!212 &8106611505650389671
 SpriteRenderer:
   m_ObjectHideFlags: 0

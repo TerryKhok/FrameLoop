@@ -34,6 +34,12 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     private List<string> _blockTagList = new List<string>() { "Platform"}; 
     [SerializeField,Tooltip("初めから有効か")]
     private bool _enableOnAwake = true;
+    [SerializeField,Tooltip("左向きのアテリアル")]
+    private Material _leftMaterial = null;
+    [SerializeField,Tooltip("上向きのアテリアル")]
+    private Material _upMaterial = null;
+    [SerializeField,Tooltip("下向きのアテリアル")]
+    private Material _downMaterial = null;
     private bool _enable = false;
 
     private Transform _transform = null;
@@ -66,23 +72,6 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         _enable = _enableOnAwake;
         _transform = transform;
 
-        //_directionで風の発射方向を決める
-        switch (_direction)
-        {
-            case Direction.UP:
-                _actualDirection = Vector3Int.up;
-                break;
-            case Direction.DOWN:
-                _actualDirection = Vector3Int.down;
-                break;
-            case Direction.RIGHT:
-                _actualDirection = Vector3Int.right;
-                break;
-            case Direction.LEFT:
-                _actualDirection = Vector3Int.left;
-                break;
-        }
-
         //各種Componentを取得--------------------------------------------------
         Transform child1 = _transform.GetChild(0);
         _outsideT = _transform.GetChild(1);
@@ -95,6 +84,28 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         _tilemapRenderer_out.enabled = !_invisible;
         //--------------------------------------------------------------------
 
+        //_directionで風の発射方向を決める
+        switch (_direction)
+        {
+            case Direction.UP:
+                _actualDirection = Vector3Int.up;
+                _tilemapRenderer.material = _upMaterial;
+                _tilemapRenderer_out.material = _upMaterial;
+                break;
+            case Direction.DOWN:
+                _actualDirection = Vector3Int.down;
+                _tilemapRenderer.material = _downMaterial;
+                _tilemapRenderer_out.material = _downMaterial;
+                break;
+            case Direction.RIGHT:
+                _actualDirection = Vector3Int.right;
+                break;
+            case Direction.LEFT:
+                _actualDirection = Vector3Int.left;
+                _tilemapRenderer.material = _leftMaterial;
+                _tilemapRenderer_out.material = _leftMaterial;
+                break;
+        }
 
         //フレームのサイズを取得
         var frameObj = GameObject.FindGameObjectWithTag("Frame");
