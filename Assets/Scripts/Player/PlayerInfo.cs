@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /*  ProjectName :FrameLoop
  *  ClassName   :PlayerInfo
@@ -15,14 +16,15 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     [SerializeField,Tooltip("プレイヤーが着地できるレイヤー")]
     LayerMask _platformLayer;
 
+
+    [HideInInspector]
+    public Transform g_transform = null;
     [HideInInspector]
     public Rigidbody2D g_rb = null;
     [HideInInspector]
     public BoxCollider2D g_collider = null;
     [HideInInspector]
     public bool g_isGround = true;
-    [HideInInspector]
-    public Transform g_transform = null;
     [HideInInspector]
     public bool g_takeUpFg = false;
     [HideInInspector]
@@ -47,9 +49,10 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
 
     private void Start()
     {
-        g_rb = GetComponent<Rigidbody2D>();
-        g_collider = GetComponent<BoxCollider2D>();
-        g_transform = transform;
+        g_transform = GameObject.FindGameObjectWithTag("Player").transform;
+
+        g_rb = g_transform.GetComponent<Rigidbody2D>();
+        g_collider = g_transform.GetComponent<BoxCollider2D>();
 
         //床のレイヤーを二進数に変換
         _layermaskValue = Convert.ToString(_platformLayer.value,2);
@@ -74,6 +77,12 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
 
     private void Update()
     {
+
+        if(g_transform == null)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
         if (!g_takeUpFg)
         {
             g_wall = 0;
@@ -137,12 +146,12 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
         if (FrameLoop.Instance.g_isActive)
         {
             mask = g_insideMask;
-            gameObject.layer = LayerMask.NameToLayer("IPlayer");
+            g_transform.gameObject.layer = LayerMask.NameToLayer("IPlayer");
         }
         else
         {
             mask = g_outsideMask;
-            gameObject.layer = LayerMask.NameToLayer("OPlayer");
+            g_transform.gameObject.layer = LayerMask.NameToLayer("OPlayer");
         }
 
         //足元に設置判定
@@ -170,15 +179,20 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
         LayerMask mask = 0;
 
         //フレームが有効かどうかでLayerMaskとLayerを変更
-        if (FrameLoop.Instance.g_isActive)
+        if(FrameLoop.Instance == null)
+        {
+            mask = g_outsideMask;
+            g_transform.gameObject.layer = LayerMask.NameToLayer("OPlayer");
+        }
+        else if (FrameLoop.Instance.g_isActive)
         {
             mask = g_insideMask;
-            gameObject.layer = LayerMask.NameToLayer("IPlayer");
+            g_transform.gameObject.layer = LayerMask.NameToLayer("IPlayer");
         }
         else
         {
             mask = g_outsideMask;
-            gameObject.layer = LayerMask.NameToLayer("OPlayer");
+            g_transform.gameObject.layer = LayerMask.NameToLayer("OPlayer");
         }
 
         //足元に設置判定
@@ -191,7 +205,6 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
             distance = hit.distance;
 
         }
-
         return distance;
     }
 

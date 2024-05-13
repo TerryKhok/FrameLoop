@@ -125,4 +125,11 @@ public class PlayerMove : MonoBehaviour
         currentPos += _currentInput * velocity * Time.fixedDeltaTime;
         _rb.position = currentPos;
     }
+
+    public void SetMove(int x)
+    {
+        _currentInput = new Vector2(x, 0);
+
+        _isMoving = _currentInput.x != 0;
+    }
 }

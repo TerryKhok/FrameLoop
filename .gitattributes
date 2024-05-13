@@ -46,6 +46,7 @@
 # Unity specific assets
 *-[Nn]av[Mm]esh.asset lfs-file
 *-[Tt]errain.asset lfs-file
+*.asset lfs-file
 *OcclusionCullingData.asset
 # Creative software
 *.rns lfs-file
