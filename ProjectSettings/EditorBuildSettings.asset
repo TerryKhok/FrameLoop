@@ -60,9 +60,12 @@ EditorBuildSettings:
     path: Assets/Scenes/SK/lvl 15.unity
     guid: d4939de79eb78734da6f3d62c38e5c7b
   - enabled: 1
-    path: Assets/Scenes/SK/lvl 16.unity
+    path: Assets/Scenes/SK/lvl 15.unity
     guid: 9caa9778d58239f4a814cf5cddca1c1a
   - enabled: 1
-    path: Assets/Scenes/SK/lvl 17.unity
+    path: Assets/Scenes/SK/lvl 16.unity
     guid: 6ad0b090387a21d43977aad2e4555a10
+  - enabled: 1
+    path: Assets/Scenes/StageSelect/World1.unity
+    guid: 617b7629bd33fca47a5c70c1351cf5d5
   m_configObjects: {}
