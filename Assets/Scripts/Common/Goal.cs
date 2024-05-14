@@ -17,15 +17,14 @@ public class Goal : SingletonMonoBehaviour<Goal>
     private int _count = 0;
     private SpriteRenderer _spriteRenderer;
 
-    [SerializeField,Tooltip("開いているドアのスプライト")]
-    private Sprite _opendSprite = null;
-    private Sprite _closedSprite = null;
+    private Animator _animator;
+    private bool _isOpened = false;
 
     private void Start()
     {
+        _animator = GetComponent<Animator>();
+
         _clearCanvas.enabled = false;
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        _closedSprite = _spriteRenderer.sprite;
 
         var objs = GameObject.FindGameObjectsWithTag("Button");
         foreach( var obj in objs)
@@ -39,29 +38,21 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
     private void Update()
     {
+        _isOpened = _count >= _buttonCount;
+        _animator.SetBool("isOpened", _isOpened);
+
+
         //必要なボタンの数を超えているかで色を変更
-        if(_count >= _buttonCount)
-        {
-            _spriteRenderer.color = new Color32(0, 255, 0, 150);
-        }
-        else
-        {
-            _spriteRenderer.color = new Color32(255, 0, 0, 150);
-        }
+        //if (_isOpened)
+        //{
+        //    _spriteRenderer.color = new Color32(0, 255, 0, 150);
+        //}
+        //else
+        //{
+        //    _spriteRenderer.color = new Color32(255, 0, 0, 150);
+        //}
 
         //SetSprite(_count >= _buttonCount);
-    }
-
-    private void SetSprite(bool opened)
-    {
-        if (opened)
-        {
-            _spriteRenderer.sprite = _opendSprite;
-        }
-        else
-        {
-            _spriteRenderer.sprite = _closedSprite;
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
