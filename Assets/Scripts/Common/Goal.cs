@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 /*  ProjectName :FrameLoop
  *  ClassName   :Goal
@@ -63,7 +62,6 @@ public class Goal : SingletonMonoBehaviour<Goal>
         if(_count >= _buttonCount)
         {
             _clearCanvas.enabled = true;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 

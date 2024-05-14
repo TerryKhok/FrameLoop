@@ -40,7 +40,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     private Material _upMaterial = null;
     [SerializeField,Tooltip("下向きのアテリアル")]
     private Material _downMaterial = null;
-    private bool _isEnable = false;
+    private bool _enable = false;
 
     private Transform _transform = null;
     private Tilemap _tilemapOutside = null, _tilemapInside;
@@ -52,8 +52,6 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     private Vector3Int _frameSize = Vector3Int.zero;
     private Transform _outsideT = null;
     private Vector3Int _actualDirection = Vector3Int.right;
-
-    private Animator _animator;
 
     private Camera _camera = null;
 
@@ -71,10 +69,8 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     private void Start()
     {
         _camera = Camera.main;
-        _isEnable = _enableOnAwake;
+        _enable = _enableOnAwake;
         _transform = transform;
-
-        _animator = GetComponentInChildren<Animator>();
 
         //各種Componentを取得--------------------------------------------------
         Transform child1 = _transform.GetChild(0);
@@ -88,9 +84,6 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         _tilemapRenderer_out.enabled = !_invisible;
         //--------------------------------------------------------------------
 
-        SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        Transform rendererTransform = spriteRenderer.transform;
-
         //_directionで風の発射方向を決める
         switch (_direction)
         {
@@ -98,13 +91,11 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                 _actualDirection = Vector3Int.up;
                 _tilemapRenderer.material = _upMaterial;
                 _tilemapRenderer_out.material = _upMaterial;
-                rendererTransform.localEulerAngles = new Vector3(0, 0, 90);
                 break;
             case Direction.DOWN:
                 _actualDirection = Vector3Int.down;
                 _tilemapRenderer.material = _downMaterial;
                 _tilemapRenderer_out.material = _downMaterial;
-                rendererTransform.localEulerAngles = new Vector3(0, 0, -90);
                 break;
             case Direction.RIGHT:
                 _actualDirection = Vector3Int.right;
@@ -113,7 +104,6 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                 _actualDirection = Vector3Int.left;
                 _tilemapRenderer.material = _leftMaterial;
                 _tilemapRenderer_out.material = _leftMaterial;
-                rendererTransform.localEulerAngles = new Vector3(0, 180, 0);
                 break;
         }
 
@@ -125,17 +115,12 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         SetTiles();
     }
 
-    private void Update()
-    {
-        _animator.SetBool("isEnable", _isEnable);
-    }
-
     private void FixedUpdate()
     {
         //有効で見える状態ならrendererを有効にする
-        _tilemapRenderer.enabled = _isEnable && !_invisible;
+        _tilemapRenderer.enabled = _enable && !_invisible;
 
-        if (!_isEnable) { return; }
+        if (!_enable) { return; }
 
         //発射方向をVector2に変換
         Vector2 forceDirection = new Vector2(_actualDirection.x, _actualDirection.y);
@@ -208,7 +193,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     //フレームがあるときの風の生成
     private IEnumerator windLoop()
     {
-        if (!_isEnable) { yield break; }
+        if (!_enable) { yield break; }
 
         //フレームの終了を待つ
         //待たないとフレームで生成したColliderにRayが当たらない
@@ -374,7 +359,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     //フレームがない時の風の生成
     private void SetTiles()
     {
-        if (!_isEnable) { return; }
+        if (!_enable) { return; }
 
         //風に触れてるオブジェクトのリストをクリア
         _rbDic.Clear();
@@ -422,14 +407,14 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     //有効かどうかを引数で変更する
     public void SetEnable(bool enable)
     {
-        _isEnable = enable;
+        _enable = enable;
         SetTiles();
     }
 
     //有効か無効かを反転させる
     public void SwitchEnable()
     {
-        _isEnable = !_isEnable;
+        _enable = !_enable;
         SetTiles();
     }
 

@@ -1,3 +1,56 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:184ce6a5142ed9ca3e8aaf5c7f31eaa55eacdb0c8af517e11e0d1ea6dd3cd0d3
-size 606
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Wind
+  - Bullet
+  - Wall
+  - Box
+  - Breakable
+  - Fan
+  - Frame
+  - GameManager
+  - Platform
+  - Button
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - OPlayer
+  - IPlayer
+  - Frame
+  - OPlatform
+  - IPlatform
+  - OBox
+  - IBox
+  - Outside
+  - Inside
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Particles
+    uniqueID: 798712241
+    locked: 0
