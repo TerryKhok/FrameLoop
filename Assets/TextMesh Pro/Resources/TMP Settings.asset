@@ -21,11 +21,7 @@ MonoBehaviour:
   m_GetFontFeaturesAtRuntime: 1
   m_missingGlyphCharacter: 0
   m_warningsDisabled: 0
-<<<<<<< HEAD
   m_defaultFontAsset: {fileID: 11400000, guid: 35665052977dcbf458a7d0b835a1785f, type: 2}
-=======
-  m_defaultFontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
->>>>>>> parent of 4dc8d72d (タイトルsceneをいい感じに)
   m_defaultFontAssetPath: Fonts & Materials/
   m_defaultFontSize: 36
   m_defaultAutoSizeMinRatio: 0.5
@@ -33,10 +29,7 @@ MonoBehaviour:
   m_defaultTextMeshProTextContainerSize: {x: 20, y: 5}
   m_defaultTextMeshProUITextContainerSize: {x: 200, y: 50}
   m_autoSizeTextContainer: 0
-<<<<<<< HEAD
   m_IsTextObjectScaleStatic: 0
-=======
->>>>>>> parent of 4dc8d72d (タイトルsceneをいい感じに)
   m_fallbackFontAssets: []
   m_matchMaterialPreset: 1
   m_defaultSpriteAsset: {fileID: 11400000, guid: c41005c129ba4d66911b75229fd70b45,
