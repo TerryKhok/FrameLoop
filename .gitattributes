@@ -47,6 +47,7 @@
 *-[Nn]av[Mm]esh.asset lfs-file
 *-[Tt]errain.asset lfs-file
 *OcclusionCullingData.asset
+*TMP_Font.asset lfs-file
 # Creative software
 *.rns lfs-file
 *.reason lfs-file
