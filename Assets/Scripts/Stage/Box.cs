@@ -165,7 +165,7 @@ public class Box : MonoBehaviour,IBox
         //--------------------------------------------------------------------------------
         var playerCol = _playerTransform.GetComponent<Collider2D>();
 
-        Physics2D.IgnoreCollision(_collider2D, playerCol,false);
+        Physics2D.IgnoreCollision(_collider2D, playerCol);
 
 
         foreach (var boxCopy in _copyList)
