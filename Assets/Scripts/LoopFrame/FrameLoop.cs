@@ -436,6 +436,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
         //ゴールのレイヤーをプレイヤーが触れられるレイヤーに変更
         _goal.GoalLayerCheck();
+        _goal.FrameCount();
 
         //ボタンのレイヤーをプレイヤーが触れられるレイヤーに変更
         foreach (var button in _buttonList)

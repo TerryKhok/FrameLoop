@@ -2934,6 +2934,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Goal_Large
       objectReference: {fileID: 0}
+    - target: {fileID: 5617347341314748967, guid: 09d88473e246a814986de2b3b88c1d07,
+        type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 8906548133063933084, guid: 09d88473e246a814986de2b3b88c1d07,
         type: 3}
       propertyPath: _clearCanvas

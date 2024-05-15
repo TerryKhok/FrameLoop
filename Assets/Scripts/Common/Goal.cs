@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 /*  ProjectName :FrameLoop
@@ -11,18 +13,40 @@ using UnityEngine.SceneManagement;
  */
 public class Goal : SingletonMonoBehaviour<Goal>
 {
-    [SerializeField,Tooltip("クリア時に表示するキャンバス")]
+    [SerializeField, Tooltip("ゴールに必要なフレームの使用回数")]
+    private int _minFrameCount = 1;
+
     private Canvas _clearCanvas = null;
     private int _buttonCount = 0;
     private int _count = 0;
-    private SpriteRenderer _spriteRenderer;
 
     private Animator _animator;
     private bool _isOpened = false;
 
+    private int _frameCount = 0;
+
+    private List<Animator> _starAnimators = new List<Animator>();
+
+    private PlayerInput _playerInput;
+
+    //最低回数＋何回までを星2つにするか
+    private const int STAR_GAP = 1;
+
     private void Start()
     {
         _animator = GetComponent<Animator>();
+        _clearCanvas = GetComponentInChildren<Canvas>();
+        _playerInput = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerInput>();
+
+        var animatorArray = GetComponentsInChildren<Animator>();
+        foreach (var animator in animatorArray)
+        {
+            if (animator.CompareTag("Star"))
+            {
+                _starAnimators.Add(animator);
+                animator.SetBool("Bright", true);
+            }
+        }
 
         _clearCanvas.enabled = false;
 
@@ -63,7 +87,8 @@ public class Goal : SingletonMonoBehaviour<Goal>
         if(_count >= _buttonCount)
         {
             _clearCanvas.enabled = true;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            _playerInput.SwitchCurrentActionMap("UI");
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 
@@ -105,5 +130,49 @@ public class Goal : SingletonMonoBehaviour<Goal>
     public void CountDown()
     {
         _count--;
+    }
+
+    public void FrameCount()
+    {
+        _frameCount++;
+        SetStarParamater();
+    }
+
+    private void SetStarParamater()
+    {
+        if(_frameCount <= _minFrameCount)
+        {
+            foreach(var anim in _starAnimators)
+            {
+                anim.SetBool("Bright", true);
+            }
+        }
+        else if(_frameCount <= _minFrameCount + STAR_GAP)
+        {
+            _starAnimators[0].SetBool("Bright", true);
+            _starAnimators[1].SetBool("Bright", true);
+            _starAnimators[2].SetBool("Bright", false);
+        }
+        else
+        {
+            _starAnimators[0].SetBool("Bright", true);
+            _starAnimators[1].SetBool("Bright", false);
+            _starAnimators[2].SetBool("Bright", false);
+        }
+    }
+
+    public void Next()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public void Retry()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void Title()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
