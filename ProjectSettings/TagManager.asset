@@ -14,6 +14,8 @@ TagManager:
   - GameManager
   - Platform
   - Button
+  - Star
+  - ClearScreen
   layers:
   - Default
   - TransparentFX

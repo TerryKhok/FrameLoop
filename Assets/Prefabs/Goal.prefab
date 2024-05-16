@@ -31,7 +31,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 839676412270916394}
+  - {fileID: 2750776759415868782}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -146,7 +146,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.9, y: 0.9}
   m_EdgeRadius: 0
---- !u!1001 &2268298651195780457
+--- !u!1001 &3670719870041396013
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -187,7 +187,7 @@ PrefabInstance:
     - target: {fileID: 1503565269391056451, guid: 41f706168a811b24c8f4104853e420cf,
         type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1503565269391056451, guid: 41f706168a811b24c8f4104853e420cf,
         type: 3}
@@ -302,12 +302,7 @@ PrefabInstance:
     - target: {fileID: 3973177953951885825, guid: 41f706168a811b24c8f4104853e420cf,
         type: 3}
       propertyPath: m_Name
-      value: ClearCanvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 4241276726737085862, guid: 41f706168a811b24c8f4104853e420cf,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: Canvas_Clear
       objectReference: {fileID: 0}
     - target: {fileID: 4241276726737085862, guid: 41f706168a811b24c8f4104853e420cf,
         type: 3}
@@ -334,9 +329,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41f706168a811b24c8f4104853e420cf, type: 3}
---- !u!224 &839676412270916394 stripped
+--- !u!224 &2750776759415868782 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1503565269391056451, guid: 41f706168a811b24c8f4104853e420cf,
     type: 3}
-  m_PrefabInstance: {fileID: 2268298651195780457}
+  m_PrefabInstance: {fileID: 3670719870041396013}
   m_PrefabAsset: {fileID: 0}

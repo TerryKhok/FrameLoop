@@ -23,10 +23,14 @@ public class Goal : SingletonMonoBehaviour<Goal>
     private Animator _animator;
     private bool _isOpened = false;
 
+    private bool _clear = false;
+
     private int _frameCount = 0;
 
     private List<Animator> _starAnimators = new List<Animator>();
+    private Animator _clearScreenAnimator = null;
 
+    private PlayerInfo _playerInfo = null;
     private PlayerInput _playerInput;
 
     //ç≈í·âÒêîÅ{âΩâÒÇ‹Ç≈ÇêØ2Ç¬Ç…Ç∑ÇÈÇ©
@@ -36,6 +40,7 @@ public class Goal : SingletonMonoBehaviour<Goal>
     {
         _animator = GetComponent<Animator>();
         _clearCanvas = GetComponentInChildren<Canvas>();
+        _playerInfo = PlayerInfo.Instance;
         _playerInput = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerInput>();
 
         var animatorArray = GetComponentsInChildren<Animator>();
@@ -46,8 +51,11 @@ public class Goal : SingletonMonoBehaviour<Goal>
                 _starAnimators.Add(animator);
                 animator.SetBool("Bright", true);
             }
+            else if (animator.CompareTag("ClearScreen"))
+            {
+                _clearScreenAnimator = animator;
+            }
         }
-
         _clearCanvas.enabled = false;
 
         var objs = GameObject.FindGameObjectsWithTag("Button");
@@ -81,13 +89,14 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.CompareTag("Player")) { return; }
-
+        if (!other == _playerInfo.g_transform) { return; }
+        if (_clear) { return; }
         //É{É^ÉìÇÃêîÇ™ë´ÇËÇƒÇ¢ÇΩÇÁÉSÅ[Éã
         if(_count >= _buttonCount)
         {
             _clearCanvas.enabled = true;
             _playerInput.SwitchCurrentActionMap("UI");
+            _clearScreenAnimator.SetTrigger("Scale");
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
