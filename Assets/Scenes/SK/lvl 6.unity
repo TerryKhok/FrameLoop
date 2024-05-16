@@ -406,6 +406,11 @@ PrefabInstance:
       propertyPath: _clearCanvas
       value: 
       objectReference: {fileID: 754650086}
+    - target: {fileID: 968822573701578904, guid: edc9cd579ccdfc242b06a86ca744126a,
+        type: 3}
+      propertyPath: _minFrameCount
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1772404072732502189, guid: edc9cd579ccdfc242b06a86ca744126a,
         type: 3}
       propertyPath: m_RootOrder
