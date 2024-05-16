@@ -38,7 +38,7 @@ public class PlayerTakeUp : MonoBehaviour
 
     private void Update()
     {
-        takeUp();
+        //takeUp();
         _playerAnimation.SetHoldAnimation(_playerInfo.g_takeUpFg);
     }
 
@@ -102,7 +102,7 @@ public class PlayerTakeUp : MonoBehaviour
         _playerInfo.g_takeUpFg = true;
 
         //êiçsï˚å¸Ç÷ÇÃRay
-        Ray ray = new Ray(_transform.position, _transform.right);
+        Ray ray = new Ray(_transform.position - new Vector3(-0.5f,0,0), _transform.right);
         RaycastHit2D hit;
 
         Vector3 size = new Vector3(0.42f, 0.5f, 0.5f);

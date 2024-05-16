@@ -33,6 +33,10 @@ public static class ComponentUtility
         {
             if (!prop.CanWrite || !prop.CanRead || prop.Name == "name" || prop.Name == "usedByComposite") continue;
 
+            if(prop == null) {  continue; }
+            if(other == null) { continue; }
+            if(self == null) { continue; }
+
             //プロパティをコピー
             prop.SetValue(self, prop.GetValue(other));
         }

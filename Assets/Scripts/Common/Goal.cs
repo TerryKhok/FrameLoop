@@ -23,6 +23,9 @@ public class Goal : SingletonMonoBehaviour<Goal>
     private Animator _animator;
     private bool _isOpened = false;
 
+    private BoxCollider2D _boxCollider;
+    private Vector2 _offset = Vector2.zero;
+
     private bool _clear = false;
 
     private int _frameCount = 0;
@@ -40,6 +43,10 @@ public class Goal : SingletonMonoBehaviour<Goal>
     {
         _animator = GetComponent<Animator>();
         _clearCanvas = GetComponentInChildren<Canvas>();
+
+        _boxCollider = GetComponent<BoxCollider2D>();
+        _offset = _boxCollider.offset;
+
         _playerInfo = PlayerInfo.Instance;
         _playerInput = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerInput>();
 
@@ -89,7 +96,7 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other == _playerInfo.g_transform) { return; }
+        if (!other == _playerInfo.g_goalHitBox) { return; }
         if (_clear) { return; }
         //ボタンの数が足りていたらゴール
         if(_count >= _buttonCount)
@@ -105,7 +112,7 @@ public class Goal : SingletonMonoBehaviour<Goal>
     public void GoalLayerCheck()
     {
         //スクリーン座標に変換
-        var pos = Camera.main.WorldToScreenPoint(transform.position);
+        var pos = Camera.main.WorldToScreenPoint(transform.position + (Vector3)_offset);
 
         //座標に位置にレイを飛ばす
         Ray ray = Camera.main.ScreenPointToRay(pos);

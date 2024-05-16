@@ -168,6 +168,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         childCol = _leftT.GetComponent<BoxCollider2D>();
         childCol.size = new Vector2(5f, 1f + 2 / (float)_size.y);
         childCol.offset = new Vector2(-2.5f, 0);
+
+        _insiders.Add(_playerInfo.g_collider);
     }
 
     private void Update()
@@ -988,6 +990,12 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         }
         else
         {
+            //何かの子オブジェクトならreturn
+            if(other.transform.parent != null)
+            {
+                return;
+            }
+
             //内側のオブジェクトのリストに無くて、フレームが無効な時
             if (!_insiders.Contains(other) && !g_isActive)
             {

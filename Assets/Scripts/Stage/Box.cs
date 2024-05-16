@@ -244,7 +244,7 @@ public class Box : MonoBehaviour,IBox
 
         var pos = _rb.position;
 
-        var direction = ((Vector2)_playerTransform.position - pos).normalized;
+        var direction = new Vector2(_playerInfo.g_currentInputX,0);
         pos.x = _playerTransform.position.x;
 
         float offset = 0.95f;
@@ -270,8 +270,19 @@ public class Box : MonoBehaviour,IBox
 
         //自分と同じレイヤーのBoxが進行方向にあるかチェック
         LayerMask mask = 1 << gameObject.layer;
-        hits = Physics2D.BoxCastAll(ray.origin, size, 0, ray.direction, 0.2f, mask);
 
+        if (LayerMask.LayerToName(gameObject.layer)[0] == 'I')
+        {
+            mask |= 1 << LayerMask.NameToLayer("IPlatform");
+        }
+        else
+        {
+            mask |= 1 << LayerMask.NameToLayer("OPlatform");
+        }
+
+        hits = Physics2D.BoxCastAll(ray.origin, size, 0, ray.direction, 0.25f, mask);
+
+        bool hitWall = false;
         if(hits.Length > 0)
         {
             foreach(var hit in hits)
@@ -279,12 +290,24 @@ public class Box : MonoBehaviour,IBox
                 //自分を除外して、座標を移動させる
                 if(hit.transform == _transform) { continue; }
 
-                var rb = hit.transform.GetComponent<Rigidbody2D>();
-                pos.x += _width;
-                rb.position = pos;
+                if (hit.transform.CompareTag("Box"))
+                {
+                    var rb = hit.transform.GetComponent<Rigidbody2D>();
+                    pos.x += _width * ray.direction.normalized.x;
+                    rb.position = pos;
+
+                    continue;
+                }
+
+                hitWall = true;
+                _playerInfo.g_wall = ray.direction.normalized.x;
             }
         }
 
+        if (!hitWall)
+        {
+            _playerInfo.g_wall = 0;
+        }
     }
 
     //箱を移動させる基準のtransformを受け取る

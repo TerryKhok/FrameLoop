@@ -16,6 +16,7 @@ TagManager:
   - Button
   - Star
   - ClearScreen
+  - GoalHitBox
   layers:
   - Default
   - TransparentFX

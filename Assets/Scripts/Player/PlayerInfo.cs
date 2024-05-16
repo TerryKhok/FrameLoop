@@ -20,6 +20,8 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     [HideInInspector]
     public Transform g_transform = null;
     [HideInInspector]
+    public BoxCollider2D g_goalHitBox = null;
+    [HideInInspector]
     public Rigidbody2D g_rb = null;
     [HideInInspector]
     public BoxCollider2D g_collider = null;
@@ -52,7 +54,19 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
         g_transform = GameObject.FindGameObjectWithTag("Player").transform;
 
         g_rb = g_transform.GetComponent<Rigidbody2D>();
-        g_collider = g_transform.GetComponent<BoxCollider2D>();
+        var colliders = g_transform.GetComponentsInChildren<BoxCollider2D>();
+
+        foreach(var col in colliders)
+        {
+            if(col.CompareTag("Player"))
+            {
+                g_collider = col;
+            }
+            else if (col.CompareTag("GoalHitBox"))
+            {
+                g_goalHitBox = col;
+            }
+        }
 
         //床のレイヤーを二進数に変換
         _layermaskValue = Convert.ToString(_platformLayer.value,2);
@@ -146,12 +160,10 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
         if (FrameLoop.Instance.g_isActive)
         {
             mask = g_insideMask;
-            g_transform.gameObject.layer = LayerMask.NameToLayer("IPlayer");
         }
         else
         {
             mask = g_outsideMask;
-            g_transform.gameObject.layer = LayerMask.NameToLayer("OPlayer");
         }
 
         //足元に設置判定
@@ -182,17 +194,17 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
         if(FrameLoop.Instance == null)
         {
             mask = g_outsideMask;
-            g_transform.gameObject.layer = LayerMask.NameToLayer("OPlayer");
+            SetLayerRecursively(g_transform.gameObject, LayerMask.NameToLayer("OPlayer"));
         }
         else if (FrameLoop.Instance.g_isActive)
         {
             mask = g_insideMask;
-            g_transform.gameObject.layer = LayerMask.NameToLayer("IPlayer");
+            SetLayerRecursively(g_transform.gameObject, LayerMask.NameToLayer("IPlayer"));
         }
         else
         {
             mask = g_outsideMask;
-            g_transform.gameObject.layer = LayerMask.NameToLayer("OPlayer");
+            SetLayerRecursively(g_transform.gameObject, LayerMask.NameToLayer("OPlayer"));
         }
 
         //足元に設置判定
@@ -206,6 +218,16 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
 
         }
         return distance;
+    }
+
+    private void SetLayerRecursively(GameObject self, int layer)
+    {
+        self.layer = layer;
+
+        foreach (Transform n in self.transform)
+        {
+            SetLayerRecursively(n.gameObject, layer);
+        }
     }
 
     public void AddCopyList(Transform t)
