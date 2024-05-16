@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 
 public class InputManager : MonoBehaviour
 {
@@ -38,11 +39,6 @@ public class InputManager : MonoBehaviour
 
         _playerInput.SwitchCurrentActionMap("Player");
         //_playerInput.SwitchCurrentControlScheme("Gamepad");
-    }
-
-    private void Update()
-    {
-        
     }
 
     private void OnEnable()

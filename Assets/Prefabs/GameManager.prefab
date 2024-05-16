@@ -53,6 +53,7 @@ MonoBehaviour:
     m_Bits: 7680
   g_transform: {fileID: 1436886016970384547, guid: 94fbc3e51eae746409ad4afd3d51fb89,
     type: 3}
+  g_goalHitBox: {fileID: 0}
   g_rb: {fileID: 0}
   g_collider: {fileID: 0}
   g_isGround: 1
@@ -192,7 +193,7 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 371acb06-1d26-4cf8-ab3d-46cbf3352064
     m_ActionName: UI/TrackedDeviceOrientation
-  m_NeverAutoSwitchControlSchemes: 1
+  m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
