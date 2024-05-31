@@ -12,6 +12,6 @@ public class ParentDestroy : MonoBehaviour
 {
     private void OnDestroy()
     {
-        //Destroy(transform.parent.gameObject);
+        Destroy(transform.parent.gameObject);
     }
 }

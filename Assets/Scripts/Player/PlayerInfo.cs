@@ -95,6 +95,7 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
         if(g_transform == null)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            return;
         }
 
         if (!g_takeUpFg)
@@ -182,6 +183,11 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
 
     private float checkGround()
     {
+        if (g_transform == null)
+        {
+            return -1;
+        }
+
         var distance = Mathf.Infinity;
 
         Ray ray = new Ray(g_transform.position, Vector3.down);

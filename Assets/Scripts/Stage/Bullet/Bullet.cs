@@ -30,7 +30,7 @@ public class Bullet : MonoBehaviour
         _elapsedTime += Time.deltaTime;
 
         //“™‘¬‚ÅˆÚ“®
-        _rb.position += _direction.normalized * _velocity * Time.fixedDeltaTime;
+        _rb.position += _direction.normalized * _velocity * Time.deltaTime;
 
         //ˆê’èŠÔŒo‰ß‚µ‚½‚ç©g‚ğ”j‰ó
         if(_lifeSpan < _elapsedTime)
@@ -58,5 +58,10 @@ public class Bullet : MonoBehaviour
         _velocity = velocity;
         _lifeSpan = range/velocity;
         _tagList = new List<string>(tagList);
+    }
+
+    public List<string> GetTagList()
+    {
+        return _tagList;
     }
 }

@@ -17,6 +17,7 @@ TagManager:
   - Star
   - ClearScreen
   - GoalHitBox
+  - BreakableParent
   layers:
   - Default
   - TransparentFX
