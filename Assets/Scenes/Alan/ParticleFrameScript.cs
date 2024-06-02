@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class ParticleFrameScript : MonoBehaviour
+public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
 {
     [SerializeField]
     private Transform framePos;
@@ -58,6 +59,8 @@ public class ParticleFrameScript : MonoBehaviour
     float frameColorVal = 1f;
 
     private FrameParticleSwitch[] topParticleSwitchArray, bottomParticleSwitchArray, leftParticleSwitchArray, rightParticleSwitchArray;
+
+    private Dictionary<TileReplace, List<(int switchNum, int num)>> _breakableDic = new Dictionary<TileReplace, List<(int switchNum, int num)>>();
 
     private void Start()
     {
@@ -153,6 +156,9 @@ public class ParticleFrameScript : MonoBehaviour
                     }
                 }
             }
+
+
+            _breakableDic = frameLoop.GetBreakableDic();
         }
 
         if (particleFramePos.position != framePos.position)
@@ -170,6 +176,35 @@ public class ParticleFrameScript : MonoBehaviour
         //partTrans(ref ps2);
         //partTrans(ref ps3);
         //partTrans(ref ps4);
+    }
+
+    public void SendDestroyMsg(TileReplace tileReplace)
+    {
+        if (!_breakableDic.ContainsKey(tileReplace))
+        {
+            return;
+        }
+        List<(int switchNum, int num)> numbersList = _breakableDic[tileReplace];
+
+        foreach (var numbers in numbersList)
+        {
+
+            switch (numbers.switchNum)
+            {
+                case 0:
+                    topParticleSwitchArray[numbers.num].SetParticle(false);
+                    break;
+                case 1:
+                    bottomParticleSwitchArray[numbers.num].SetParticle(false);
+                    break;
+                case 2:
+                    leftParticleSwitchArray[numbers.num].SetParticle(false);
+                    break;
+                case 3:
+                    rightParticleSwitchArray[numbers.num].SetParticle(false);
+                    break;
+            }
+        }
     }
 
 #if false

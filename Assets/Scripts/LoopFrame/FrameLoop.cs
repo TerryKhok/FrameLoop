@@ -80,6 +80,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                    _rightHitArray = new bool[6],
                    _leftHitArray = new bool[6];
 
+    private Dictionary<TileReplace, List<(int switchNum, int num)>> _breakableDic = new Dictionary<TileReplace, List<(int switchNum, int num)>>();
+
     [System.NonSerialized]
     public bool g_isActive = false, g_usable = true, g_activeTrigger;
     private bool _prevActive = false;
@@ -312,6 +314,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         _material.color = new Color32(0, 255, 0, 150);
 
         List<Collider2D> removeList = new List<Collider2D>();
+        _breakableDic.Clear();
 
         foreach (var col in _insiders)
         {
@@ -499,19 +502,63 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 if (j == _size.y)
                 {
                     _topHitArray[i - 1] = true;
+                    if(breakble)
+                    {
+                        if(_breakableDic.ContainsKey(tileReplace))
+                        {
+                            _breakableDic[tileReplace].Add((0, i - 1));
+                        }
+                        else
+                        {
+                            _breakableDic.Add(tileReplace, new List<(int switchNum, int num)>() { (0, i - 1) });
+                        }
+                    }
                 }
                 else if (j == 1)
                 {
                     _bottomHitArray[i - 1] = true;
+                    if (breakble)
+                    {
+                        if (_breakableDic.ContainsKey(tileReplace))
+                        {
+                            _breakableDic[tileReplace].Add((1, i - 1));
+                        }
+                        else
+                        {
+                            _breakableDic.Add(tileReplace, new List<(int switchNum, int num)>() { (1, i - 1) });
+                        }
+                    }
                 }
 
                 if (i == _size.x)
                 {
                     _rightHitArray[j - 1] = true;
+                    if (breakble)
+                    {
+                        if (_breakableDic.ContainsKey(tileReplace))
+                        {
+                            _breakableDic[tileReplace].Add((3, j - 1));
+                        }
+                        else
+                        {
+                            _breakableDic.Add(tileReplace, new List<(int switchNum, int num)>() { (3, j - 1) });
+                        }
+                    }
                 }
                 else if (i == 1)
                 {
                     _leftHitArray[j - 1] = true;
+                    if (breakble)
+                    {
+                        if (_breakableDic.ContainsKey(tileReplace))
+                        {
+                            _breakableDic[tileReplace].Add((2, j - 1));
+                        }
+                        else
+                        {
+                            _breakableDic.Add(tileReplace, new List<(int switchNum, int num)>() { (2, j - 1) });
+                        }
+                    }
                 }
                 //------------------------------------------
             }
@@ -546,19 +593,63 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             if (j == 1)
             {
                 _topHitArray[i-1] = true;
+                if (breakble)
+                {
+                    if (_breakableDic.ContainsKey(tileReplace))
+                    {
+                        _breakableDic[tileReplace].Add((0, i - 1));
+                    }
+                    else
+                    {
+                        _breakableDic.Add(tileReplace, new List<(int switchNum, int num)>() { (0, i - 1) });
+                    }
+                }
             }
             else if(j == _size.y)
             {
                 _bottomHitArray[i-1] = true;
+                if (breakble)
+                {
+                    if (_breakableDic.ContainsKey(tileReplace))
+                    {
+                        _breakableDic[tileReplace].Add((1, i - 1));
+                    }
+                    else
+                    {
+                        _breakableDic.Add(tileReplace, new List<(int switchNum, int num)>() { (1, i - 1) });
+                    }
+                }
             }
 
             if (i == 1)
             {
                 _rightHitArray[j-1] = true;
+                if (breakble)
+                {
+                    if (_breakableDic.ContainsKey(tileReplace))
+                    {
+                        _breakableDic[tileReplace].Add((3, j - 1));
+                    }
+                    else
+                    {
+                        _breakableDic.Add(tileReplace, new List<(int switchNum, int num)>() { (3, j - 1) });
+                    }
+                }
             }
             else if (i == _size.x)
             {
                 _leftHitArray[j-1] = true;
+                if (breakble)
+                {
+                    if (_breakableDic.ContainsKey(tileReplace))
+                    {
+                        _breakableDic[tileReplace].Add((2, j - 1));
+                    }
+                    else
+                    {
+                        _breakableDic.Add(tileReplace, new List<(int switchNum, int num)>() { (2, j - 1) });
+                    }
+                }
             }
             //----------------------------------------------
         }
@@ -604,10 +695,32 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                     if(j == 1)
                     {
                         _topHitArray[i-1] = true;
+                        if (breakble)
+                        {
+                            if (_breakableDic.ContainsKey(tileReplace))
+                            {
+                                _breakableDic[tileReplace].Add((0, i - 1));
+                            }
+                            else
+                            {
+                                _breakableDic.Add(tileReplace, new List<(int switchNum, int num)>() { (0, i - 1) });
+                            }
+                        }
                     }
                     else if(j == _size.y)
                     {
                         _bottomHitArray[i-1] = true;
+                        if (breakble)
+                        {
+                            if (_breakableDic.ContainsKey(tileReplace))
+                            {
+                                _breakableDic[tileReplace].Add((1, i - 1));
+                            }
+                            else
+                            {
+                                _breakableDic.Add(tileReplace, new List<(int switchNum, int num)>() { (1, i - 1) });
+                            }
+                        }
                     }
                 }
                 else
@@ -1305,5 +1418,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             default:
                 return null;
         }
+    }
+
+    public Dictionary<TileReplace, List<(int, int)>> GetBreakableDic()
+    {
+        return _breakableDic;
     }
 }

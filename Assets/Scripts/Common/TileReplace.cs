@@ -101,4 +101,13 @@ public class TileReplace : MonoBehaviour
 
         return tilePositions;
     }
+
+    private void OnDestroy()
+    {
+        if (ParticleFrameScript.Instance != null)
+        {
+
+            ParticleFrameScript.Instance.SendDestroyMsg(this);
+        }
+        }
 }
