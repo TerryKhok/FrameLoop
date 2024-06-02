@@ -1960,6 +1960,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2316628933435642262, guid: 61805572a075e4543b6898454dcd2d07,
         type: 3}
+      propertyPath: _interval
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2316628933435642262, guid: 61805572a075e4543b6898454dcd2d07,
+        type: 3}
+      propertyPath: _velocity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2316628933435642262, guid: 61805572a075e4543b6898454dcd2d07,
+        type: 3}
       propertyPath: _breakTag.Array.size
       value: 1
       objectReference: {fileID: 0}

@@ -15,7 +15,7 @@ public class InputManager : MonoBehaviour
     private PlayerTakeUp _playerTakeUp = null;
     private FrameLoop _frameLoop = null;
 
-    private InputAction _Move, _Jump, _FrameEnable, _Crouch, _TakeUp;
+    private InputAction _Move, _Jump, _FrameEnable, _Crouch, _TakeUp, _Pause, _Resume;
 
     private (float low, float high) _prevFrequency = (0, 0);
 
@@ -36,6 +36,8 @@ public class InputManager : MonoBehaviour
         _FrameEnable = _playerInput.actions["FrameEnable"];
         _Crouch = _playerInput.actions["Crouch"];
         _TakeUp = _playerInput.actions["TakeUp"];
+        _Pause = _playerInput.actions["Pause"];
+        _Resume = _playerInput.actions["Resume"];
 
         _playerInput.SwitchCurrentActionMap("Player");
         //_playerInput.SwitchCurrentControlScheme("Gamepad");
@@ -55,6 +57,8 @@ public class InputManager : MonoBehaviour
         _TakeUp.canceled += _playerTakeUp.TakeUpCanceled;
         _FrameEnable.started += _frameLoop.FrameStarted;
         _FrameEnable.canceled += _frameLoop.FrameCanceled;
+        _Pause.started += PauseMenu.Instance.OnPause;
+        _Resume.started += PauseMenu.Instance.OnPause;
     }
 
     private void OnDisable()
@@ -71,6 +75,8 @@ public class InputManager : MonoBehaviour
         _TakeUp.canceled -= _playerTakeUp.TakeUpCanceled;
         _FrameEnable.started -= _frameLoop.FrameStarted;
         _FrameEnable.canceled -= _frameLoop.FrameCanceled;
+        _Pause.started -= PauseMenu.Instance.OnPause;
+        _Resume.started -= PauseMenu.Instance.OnPause;
     }
 
     public void SetVibration(float lowFrequency, float highFrequency, float howLong)

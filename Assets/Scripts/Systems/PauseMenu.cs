@@ -1,35 +1,41 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class PauseMenu : MonoBehaviour
+public class PauseMenu : SingletonMonoBehaviour<PauseMenu>
 {
     [SerializeField] public static bool IsPaused = false;
 
     public GameObject pauseMenuUI;
 
+    private PlayerInput playerInput;
+
     private void Start()
     {
         IsPaused = false;
         Time.timeScale = 1f;
+
+        playerInput = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerInput>();
     }
-    void Update()
+
+    public void OnPause(InputAction.CallbackContext context)
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (IsPaused)
         {
-            if (IsPaused)
-            {
-                Resume();
-            }
-            else
-            {
-                Pause();
-            }
+            Resume();
+        }
+        else
+        {
+            Pause();
         }
     }
 
     public void Resume()
     {
         //FindObjectOfType<AudioManager>().Play("ButtonPressed");
+
+        playerInput.SwitchCurrentActionMap("Player");
+
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         IsPaused = false;
@@ -38,6 +44,9 @@ public class PauseMenu : MonoBehaviour
     void Pause()
     {
         //FindObjectOfType<AudioManager>().Play("ButtonPressed");
+
+        playerInput.SwitchCurrentActionMap("UI");
+
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         IsPaused = true;
