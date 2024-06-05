@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
@@ -15,6 +16,8 @@ public class Goal : SingletonMonoBehaviour<Goal>
 {
     [SerializeField, Tooltip("ゴールに必要なフレームの使用回数")]
     private int _minFrameCount = 1;
+    [SerializeField, Tooltip("最初に選択するボタン")]
+    private GameObject _selectButton;
 
     private Canvas _clearCanvas = null;
     private int _buttonCount = 0;
@@ -80,7 +83,6 @@ public class Goal : SingletonMonoBehaviour<Goal>
         _isOpened = _count >= _buttonCount;
         _animator.SetBool("isOpened", _isOpened);
 
-
         //必要なボタンの数を超えているかで色を変更
         //if (_isOpened)
         //{
@@ -103,6 +105,10 @@ public class Goal : SingletonMonoBehaviour<Goal>
         {
             _clearCanvas.enabled = true;
             _playerInput.SwitchCurrentActionMap("UI");
+
+
+            EventSystem.current.SetSelectedGameObject(_selectButton);
+
             _clearScreenAnimator.SetTrigger("Scale");
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }

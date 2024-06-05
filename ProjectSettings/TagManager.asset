@@ -18,6 +18,7 @@ TagManager:
   - ClearScreen
   - GoalHitBox
   - BreakableParent
+  - Mask
   layers:
   - Default
   - TransparentFX

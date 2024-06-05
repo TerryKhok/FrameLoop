@@ -13,7 +13,10 @@ GameObject:
   - component: {fileID: 7913549326104525736}
   - component: {fileID: -3539532434599245392}
   - component: {fileID: -6538531021317051309}
+  - component: {fileID: 1296784790961167848}
   - component: {fileID: 854876826080497489}
+  - component: {fileID: 5761522018283854855}
+  - component: {fileID: 506639960066142763}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -107,6 +110,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62e0dbad2e1ae224b8ecaa2d85630590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1296784790961167848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3066823082972983098}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58665a7efcaae7a4fab5a7ab40edb68f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &854876826080497489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,7 +137,7 @@ MonoBehaviour:
   m_Actions: {fileID: -944628639613478452, guid: 1520c270e8445b84b994f7c354812522,
     type: 3}
   m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
+  m_UIInputModule: {fileID: 506639960066142763}
   m_DeviceLostEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -193,8 +208,72 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 371acb06-1d26-4cf8-ab3d-46cbf3352064
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4e293b88-7e60-4020-a4e2-3e981c4f0770
+    m_ActionName: Player/Pause[/Keyboard/escape,/DualShock4GamepadHID/start]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fe75e890-65e6-4d35-8065-cfa2e34c6e7e
+    m_ActionName: UI/Resume[/Keyboard/escape,/DualShock4GamepadHID/start]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &5761522018283854855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3066823082972983098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!114 &506639960066142763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3066823082972983098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 0}
+  m_ActionsAsset: {fileID: -944628639613478452, guid: 1520c270e8445b84b994f7c354812522,
+    type: 3}
+  m_PointAction: {fileID: 2235318533190497423, guid: 1520c270e8445b84b994f7c354812522,
+    type: 3}
+  m_MoveAction: {fileID: -893912270891402203, guid: 1520c270e8445b84b994f7c354812522,
+    type: 3}
+  m_SubmitAction: {fileID: 4888185386061275173, guid: 1520c270e8445b84b994f7c354812522,
+    type: 3}
+  m_CancelAction: {fileID: 7448758597519525182, guid: 1520c270e8445b84b994f7c354812522,
+    type: 3}
+  m_LeftClickAction: {fileID: 602500118747276075, guid: 1520c270e8445b84b994f7c354812522,
+    type: 3}
+  m_MiddleClickAction: {fileID: -1411911794597959467, guid: 1520c270e8445b84b994f7c354812522,
+    type: 3}
+  m_RightClickAction: {fileID: -6853356132729156607, guid: 1520c270e8445b84b994f7c354812522,
+    type: 3}
+  m_ScrollWheelAction: {fileID: 1232665960701613862, guid: 1520c270e8445b84b994f7c354812522,
+    type: 3}
+  m_TrackedDevicePositionAction: {fileID: 7113328198513623430, guid: 1520c270e8445b84b994f7c354812522,
+    type: 3}
+  m_TrackedDeviceOrientationAction: {fileID: -714680582003092978, guid: 1520c270e8445b84b994f7c354812522,
+    type: 3}
+  m_DeselectOnBackgroundClick: 1
+  m_PointerBehavior: 0
+  m_CursorLockBehavior: 0

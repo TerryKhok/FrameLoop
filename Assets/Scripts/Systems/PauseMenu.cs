@@ -18,19 +18,24 @@ public class PauseMenu : SingletonMonoBehaviour<PauseMenu>
         playerInput = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerInput>();
     }
 
-    public void OnPause(InputAction.CallbackContext context)
+    //public void OnPause(InputAction.CallbackContext context)
+    //{
+    //    if (IsPaused)
+    //    {
+    //        Resume();
+    //    }
+    //    else
+    //    {
+    //        Pause();
+    //    }
+    //}
+
+    public void OnResume(InputAction.CallbackContext context)
     {
-        if (IsPaused)
-        {
-            Resume();
-        }
-        else
-        {
-            Pause();
-        }
+        Resume();
     }
 
-    public void Resume()
+    private void Resume()
     {
         //FindObjectOfType<AudioManager>().Play("ButtonPressed");
 
@@ -41,7 +46,12 @@ public class PauseMenu : SingletonMonoBehaviour<PauseMenu>
         IsPaused = false;
     }
 
-    void Pause()
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        Pause();
+    }
+
+    private void Pause()
     {
         //FindObjectOfType<AudioManager>().Play("ButtonPressed");
 

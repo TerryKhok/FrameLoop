@@ -1,7 +1,10 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
+using UnityEngine.SceneManagement;
 
 public class InputManager : MonoBehaviour
 {
@@ -15,6 +18,8 @@ public class InputManager : MonoBehaviour
     private PlayerTakeUp _playerTakeUp = null;
     private FrameLoop _frameLoop = null;
 
+    private EventSystem _eventSystem = null;
+
     private InputAction _Move, _Jump, _FrameEnable, _Crouch, _TakeUp, _Pause, _Resume;
 
     private (float low, float high) _prevFrequency = (0, 0);
@@ -23,13 +28,22 @@ public class InputManager : MonoBehaviour
     {
         _player = GameObject.FindGameObjectWithTag("Player");
         _frame = GameObject.FindGameObjectWithTag("Frame");
+        _eventSystem = GetComponent<EventSystem>();
 
         _playerInput = GetComponent<PlayerInput>();
-        _playerMove = _player.GetComponent<PlayerMove>();
-        _playerJump = _player.GetComponent <PlayerJump>();
-        _playerCrouch = _player.GetComponent<PlayerCrouch>();
-        _playerTakeUp = _player.GetComponent<PlayerTakeUp>();
-        _frameLoop = _frame.GetComponent<FrameLoop>();
+
+        if(_player != null)
+        {
+            _playerMove = _player.GetComponent<PlayerMove>();
+            _playerJump = _player.GetComponent<PlayerJump>();
+            _playerCrouch = _player.GetComponent<PlayerCrouch>();
+            _playerTakeUp = _player.GetComponent<PlayerTakeUp>();
+        }
+
+        if(_frame != null)
+        {
+            _frameLoop = _frame.GetComponent<FrameLoop>();
+        }
 
         _Move = _playerInput.actions["Move"];
         _Jump = _playerInput.actions["Jump"];
@@ -39,44 +53,96 @@ public class InputManager : MonoBehaviour
         _Pause = _playerInput.actions["Pause"];
         _Resume = _playerInput.actions["Resume"];
 
-        _playerInput.SwitchCurrentActionMap("Player");
-        //_playerInput.SwitchCurrentControlScheme("Gamepad");
+        if(SceneManager.GetActiveScene().name == "MainMenu")
+        {
+            _playerInput.SwitchCurrentActionMap("UI");
+        }
+        else
+        {
+            _playerInput.SwitchCurrentActionMap("Player");
+        }
     }
 
     private void OnEnable()
     {
         if(_playerInput == null) { return; }
 
-        _Move.performed += _playerMove.MovePerformed;
-        _Move.canceled += _playerMove.MoveCanceled;
-        _Jump.started += _playerJump.JumpStarted;
-        _Jump.canceled += _playerJump.JumpCanceled;
-        _Crouch.started += _playerCrouch.CrouchStarted;
-        _Crouch.canceled += _playerCrouch.CrouchCanceled;
-        _TakeUp.started += _playerTakeUp.TakeUpStarted;
-        _TakeUp.canceled += _playerTakeUp.TakeUpCanceled;
-        _FrameEnable.started += _frameLoop.FrameStarted;
-        _FrameEnable.canceled += _frameLoop.FrameCanceled;
-        _Pause.started += PauseMenu.Instance.OnPause;
-        _Resume.started += PauseMenu.Instance.OnPause;
+        if (_playerMove != null)
+        {
+            _Move.performed += _playerMove.MovePerformed;
+            _Move.canceled += _playerMove.MoveCanceled;
+        }
+
+        if (_playerJump != null)
+        {
+            _Jump.started += _playerJump.JumpStarted;
+            _Jump.canceled += _playerJump.JumpCanceled;
+        }
+
+        if (_playerCrouch != null)
+        {
+            _Crouch.started += _playerCrouch.CrouchStarted;
+            _Crouch.canceled += _playerCrouch.CrouchCanceled;
+        }
+
+        if (_playerTakeUp != null)
+        {
+            _TakeUp.started += _playerTakeUp.TakeUpStarted;
+            _TakeUp.canceled += _playerTakeUp.TakeUpCanceled;
+        }
+
+        if (_frameLoop != null)
+        {
+            _FrameEnable.started += _frameLoop.FrameStarted;
+            _FrameEnable.canceled += _frameLoop.FrameCanceled;
+        }
+
+        if(PauseMenu.Instance != null)
+        {
+            _Pause.started += PauseMenu.Instance.OnPause;
+            _Resume.started += PauseMenu.Instance.OnResume;
+        }
     }
 
     private void OnDisable()
     {
         if (_playerInput == null) { return; }
 
-        _Move.performed -= _playerMove.MovePerformed;
-        _Move.canceled -= _playerMove.MoveCanceled;
-        _Jump.started -= _playerJump.JumpStarted;
-        _Jump.canceled -= _playerJump.JumpCanceled;
-        _Crouch.started -= _playerCrouch.CrouchStarted;
-        _Crouch.canceled -= _playerCrouch.CrouchCanceled;
-        _TakeUp.started -= _playerTakeUp.TakeUpStarted;
-        _TakeUp.canceled -= _playerTakeUp.TakeUpCanceled;
-        _FrameEnable.started -= _frameLoop.FrameStarted;
-        _FrameEnable.canceled -= _frameLoop.FrameCanceled;
-        _Pause.started -= PauseMenu.Instance.OnPause;
-        _Resume.started -= PauseMenu.Instance.OnPause;
+        if (_playerMove != null)
+        {
+            _Move.performed -= _playerMove.MovePerformed;
+            _Move.canceled -= _playerMove.MoveCanceled;
+        }
+
+        if (_playerJump != null)
+        {
+            _Jump.started -= _playerJump.JumpStarted;
+            _Jump.canceled -= _playerJump.JumpCanceled;
+        }
+
+        if (_playerCrouch != null)
+        {
+            _Crouch.started -= _playerCrouch.CrouchStarted;
+            _Crouch.canceled -= _playerCrouch.CrouchCanceled;
+        }
+
+        if (_playerTakeUp != null)
+        {
+            _TakeUp.started -= _playerTakeUp.TakeUpStarted;
+            _TakeUp.canceled -= _playerTakeUp.TakeUpCanceled;
+        }
+
+        if (_frameLoop != null)
+        {
+            _FrameEnable.started -= _frameLoop.FrameStarted;
+            _FrameEnable.canceled -= _frameLoop.FrameCanceled;
+        }
+
+        if (PauseMenu.Instance != null)
+        {
+            _Pause.started -= PauseMenu.Instance.OnPause;
+            _Resume.started -= PauseMenu.Instance.OnResume;
+        }
     }
 
     public void SetVibration(float lowFrequency, float highFrequency, float howLong)
