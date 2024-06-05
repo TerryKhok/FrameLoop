@@ -1,15 +1,52 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class OptionMenu : MonoBehaviour
 {
     [SerializeField]
     private GameObject OptionUI;
+    [SerializeField]
+    private AudioMixer _audioMixer;
+    [SerializeField]
+    private TextMeshProUGUI _masterText;
+    [SerializeField]
+    private TextMeshProUGUI _seText;
+    [SerializeField]
+    private TextMeshProUGUI _bgmText;
 
     private void Start()
     {
         OptionUI.SetActive(false);
+    }
+
+    public void SetMasterVolume(float rawValue)
+    {
+        var value = rawValue/10;
+        var volume = Mathf.Clamp(Mathf.Log10(value) * 20f, -80f, 0f);
+
+        _audioMixer.SetFloat("VolumeMaster", volume);
+        _masterText.text = rawValue.ToString();
+    }
+
+    public void SetSEVolume(float rawValue)
+    {
+        var value = rawValue / 10;
+        var volume = Mathf.Clamp(Mathf.Log10(value) * 20f, -80f, 0f);
+
+        _audioMixer.SetFloat("VolumeSE", volume);
+        _seText.text = rawValue.ToString();
+    }
+
+    public void SetBGMVolume(float rawValue)
+    {
+        var value = rawValue / 10;
+        var volume = Mathf.Clamp(Mathf.Log10(value) * 20f, -80f, 0f);
+
+        _audioMixer.SetFloat("VolumeBGM", volume);
+        _bgmText.text = rawValue.ToString();
     }
 
     public void Open()

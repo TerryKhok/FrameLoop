@@ -1,49 +1,103 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.Utilities;
+using System.Linq;
 
 public class KeyBindManager : MonoBehaviour
 {
     private PlayerInput _playerInput;
     private GameObject _mask;
-    private InputActionRebindingExtensions.RebindingOperation _rebindingOperation;
+    private InputAction _action;
+    private TextMeshProUGUI _setText;
+    private bool isWaitingForInput = false;
+    private int bindingIndexToOverride = -1;
 
-    private void Start()
+    void Awake()
     {
         _mask = GameObject.FindGameObjectWithTag("Mask");
         _mask.SetActive(false);
         _playerInput = GetComponent<PlayerInput>();
     }
 
-    // リバインドを開始するメソッド
-    public void StartRebinding(string actionName, int index)
+    void Update()
     {
-        _mask.SetActive(true);
-
-        // アクションを取得
-        InputAction action = _playerInput.actions.FindAction(actionName);
-        if (action == null)
+        if (isWaitingForInput)
         {
-            Debug.LogError($"{actionName}が見つかりません");
-            return;
+            // キーボード入力をキャプチャ
+            var keyboard = Keyboard.current;
+            if (keyboard != null)
+            {
+                foreach (var keyControl in keyboard.allKeys)
+                {
+                    if (keyControl.wasPressedThisFrame)
+                    {
+                        string controlPath = keyControl.path;
+                        ApplyBindingOverride(controlPath);
+                        isWaitingForInput = false;
+                        return;
+                    }
+                }
+            }
+
+            // ゲームパッド入力をキャプチャ
+            var gamepads = Gamepad.all;
+            foreach (var gamepad in gamepads)
+            {
+                foreach (var control in gamepad.allControls)
+                {
+                    if (control is ButtonControl buttonControl && buttonControl.wasPressedThisFrame)
+                    {
+                        string controlPath = control.path;
+                        ApplyBindingOverride(controlPath);
+                        isWaitingForInput = false;
+                        return;
+                    }
+                }
+            }
+
+            // マウス入力をキャプチャ
+            var mouse = Mouse.current;
+            if (mouse != null)
+            {
+                foreach (var buttonControl in mouse.allControls)
+                {
+                    if (buttonControl is ButtonControl mouseButton && mouseButton.wasPressedThisFrame)
+                    {
+                        string controlPath = mouseButton.path;
+                        ApplyBindingOverride(controlPath);
+                        isWaitingForInput = false;
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    public void StartListeningForInput(int index, string acitonName, TextMeshProUGUI text)
+    {
+        bindingIndexToOverride = index;
+        _action = _playerInput.actions.FindAction(acitonName);
+
+        _setText = text;
+
+        isWaitingForInput = true;
+
+        _mask.SetActive(true);
+    }
+
+    private void ApplyBindingOverride(string controlPath)
+    {
+        if (bindingIndexToOverride >= 0)
+        {
+            _action.ApplyBindingOverride(bindingIndexToOverride, controlPath);
+            Debug.Log($"Binding overridden to: {controlPath}");
         }
 
-        action.Disable();
+        _setText.text = _action.bindings[bindingIndexToOverride].ToDisplayString().ToUpper();
 
-        // リバインドの設定
-        _rebindingOperation = action.PerformInteractiveRebinding(index)
-            .WithControlsExcluding("<Keyboard>/escape")
-            .WithExpectedControlType("Button")
-            .OnMatchWaitForAnother(0.1f)
-            .OnComplete(operation =>
-            {
-                // リバインドが完了したらアクションを有効化
-                action.Enable();
-                operation.Dispose();
-                _mask.SetActive(false);
-            })
-            .Start();
+        _mask.SetActive(false);
     }
 
     // デフォルトのリバインドを削除するメソッド

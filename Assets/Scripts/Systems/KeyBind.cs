@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class KeyBind : MonoBehaviour
@@ -12,26 +13,57 @@ public class KeyBind : MonoBehaviour
     private string _actionName;
     private InputAction _action;
     [SerializeField]
-    private TextMeshProUGUI _binding;
+    private string _compositeBindingName;
     [SerializeField]
+    private string _bindingName;
+    [SerializeField]
+    private TextMeshProUGUI _bindingText;
+
     private int _index = 0;
 
     private void Start()
     {
         _manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<KeyBindManager>();
         _action = _manager.GetPlayerInput().actions.FindAction(_actionName);
-        _binding.text = _action.bindings[0].ToDisplayString();
-    }
 
-    private void Update()
-    {
-        _binding.text = _action.GetBindingDisplayString(_index, InputBinding.DisplayStringOptions.DontIncludeInteractions);
+        if (_compositeBindingName != "")
+        {
+            bool partOfComposite = false;
+            for (int i = 0; i < _action.bindings.Count; i++)
+            {
+                if (_action.bindings[i].name == _compositeBindingName)
+                {
+                    partOfComposite = true;
+                }
+
+                if (partOfComposite && _action.bindings[i].name == _bindingName)
+                {
+
+                    _index = i;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < _action.bindings.Count; i++)
+            {
+                if (_action.bindings[i].name == _bindingName)
+                {
+
+                    _index = i;
+                    break;
+                }
+            }
+        }
+
+        _bindingText.text = _action.bindings[_index].ToDisplayString().ToUpper();
     }
 
     // UIボタンから呼び出されるメソッド
     public void OnChangeKeyButtonPressed()
     {
-        _manager.StartRebinding(_actionName,_index);
+        _manager.StartListeningForInput(_index, _actionName, _bindingText);
     }
 
     // デフォルトのリバインドを削除するボタン
