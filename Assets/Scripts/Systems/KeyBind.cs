@@ -18,7 +18,7 @@ public class KeyBind : MonoBehaviour
     private string _bindingName;
     [SerializeField]
     private TextMeshProUGUI _bindingText;
-
+    [SerializeField]
     private int _index = 0;
 
     private void Start()
@@ -37,18 +37,6 @@ public class KeyBind : MonoBehaviour
                 }
 
                 if (partOfComposite && _action.bindings[i].name == _bindingName)
-                {
-
-                    _index = i;
-                    break;
-                }
-            }
-        }
-        else
-        {
-            for (int i = 0; i < _action.bindings.Count; i++)
-            {
-                if (_action.bindings[i].name == _bindingName)
                 {
 
                     _index = i;
