@@ -99,6 +99,22 @@ MonoBehaviour:
     loop: 1
     spatialBlend: 1
     src: {fileID: 0}
+  - audioType: 0
+    name: Wind
+    clip: {fileID: 8300000, guid: aa8e5da6995d0f8498f56f502997f3db, type: 3}
+    volume: 0.15
+    pitch: 1
+    loop: 1
+    spatialBlend: 1
+    src: {fileID: 0}
+  - audioType: 0
+    name: Button
+    clip: {fileID: 8300000, guid: f3df5a5aa93737e499d700e0d79cf50f, type: 3}
+    volume: 0.43
+    pitch: 1
+    loop: 0
+    spatialBlend: 1
+    src: {fileID: 0}
 --- !u!1 &4261951593256342253
 GameObject:
   m_ObjectHideFlags: 0

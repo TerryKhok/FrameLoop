@@ -34,6 +34,7 @@ public class Button : MonoBehaviour
     private int _hitCount = 0;
     private bool _isPressed = false, _prevPressed = false;
 
+    private bool pressedSoundFlag = false;
 
     private void Start()
     {
@@ -55,6 +56,12 @@ public class Button : MonoBehaviour
 
         if(_isPressed)
         {
+            if (!pressedSoundFlag)
+            {
+                AudioManager.instance.Play("Button");
+                pressedSoundFlag = true;
+            }
+
             _renderer.sprite = _pushed;
 
             if(_prevPressed)
@@ -81,6 +88,11 @@ public class Button : MonoBehaviour
         else
         {
             _renderer.sprite= _unpushed;
+
+            if (pressedSoundFlag)
+            {
+                pressedSoundFlag = false;
+            }
 
             if (_prevPressed)
             {

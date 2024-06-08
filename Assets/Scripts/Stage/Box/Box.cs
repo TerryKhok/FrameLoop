@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Drawing.Inspector.PropertyDrawers;
 using UnityEngine;
 
 /*  ProjectName :FrameLoop
@@ -31,6 +32,8 @@ public class Box : MonoBehaviour,IBox
     private Vector2 _offset = Vector2.zero;
 
     private List<Transform> _copyList = new List<Transform>();
+
+    private bool soundFlag = false;
 
     private void Start()
     {
@@ -159,6 +162,7 @@ public class Box : MonoBehaviour,IBox
 
         //” ‚ğ‰Ÿ‚·‰¹‚ğ~‚ß‚é
         AudioManager.instance.Stop("Box Pull");
+        soundFlag = false;
 
         //--------------------------------------------------------------------------------
         //ƒvƒŒƒCƒ„[‚Æ” ‚Ì“–‚½‚è”»’è‚ğ•œŠˆ
@@ -236,10 +240,15 @@ public class Box : MonoBehaviour,IBox
         if (_playerMove._isMoving == false)
         {
             AudioManager.instance.Stop("Box Pull");
+            soundFlag = false;
         }
         else
         {
-            AudioManager.instance.Play("Box Pull");
+            if(!soundFlag)
+            {
+                AudioManager.instance.Play("Box Pull");
+                soundFlag = true;
+            }
         }
 
         var pos = _rb.position;
@@ -349,7 +358,11 @@ public class Box : MonoBehaviour,IBox
         _playerMove = PlayerInfo.Instance.g_transform.GetComponent<PlayerMove>();
 
         //” ‚ğ‰Ÿ‚·‰¹‚ğÄ¶
-        AudioManager.instance.Play("Box Pull");
+        if(!soundFlag)
+        {
+            AudioManager.instance.Play("Box Pull");
+            soundFlag = true;
+        }
     }
 
     public void SetOffset(Vector2 vec)

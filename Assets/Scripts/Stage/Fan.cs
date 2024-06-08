@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Drawing.Inspector.PropertyDrawers;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -56,6 +57,8 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     private Animator _animator;
 
     private Camera _camera = null;
+
+    private bool windSoundFlag = false;
 
 
     //Tilemapの座標を調整
@@ -128,6 +131,17 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     private void Update()
     {
         _animator.SetBool("isEnable", _isEnable);
+
+        if (!windSoundFlag && _isEnable)
+        {
+            AudioManager.instance.Play("Wind");
+            windSoundFlag = true;
+        }
+        if (windSoundFlag && !_isEnable)
+        {
+            AudioManager.instance.Stop("Wind");
+            windSoundFlag = false;
+        }
     }
 
     private void FixedUpdate()
@@ -135,7 +149,10 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         //有効で見える状態ならrendererを有効にする
         _tilemapRenderer.enabled = _isEnable && !_invisible;
 
-        if (!_isEnable) { return; }
+        if (!_isEnable) 
+        {
+            return; 
+        }
 
         //発射方向をVector2に変換
         Vector2 forceDirection = new Vector2(_actualDirection.x, _actualDirection.y);
@@ -208,7 +225,10 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     //フレームがあるときの風の生成
     private IEnumerator windLoop()
     {
-        if (!_isEnable) { yield break; }
+        if (!_isEnable) 
+        {
+            yield break; 
+        }
 
         //フレームの終了を待つ
         //待たないとフレームで生成したColliderにRayが当たらない
