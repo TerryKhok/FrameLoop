@@ -94,14 +94,14 @@ public class Box : MonoBehaviour,IBox
         RaycastHit2D[] hits;
         Vector2 size = new Vector2(_width / 2, 0.5f);
 
-        /*‚±‚Ì‚Ü‚Ü‚¾‚ÆƒtƒŒ[ƒ€‚Ì’†‚É‚ ‚éBreakable‚Ì°‚ğ‰ó‚¹‚È‚¢
-         * 
-         * —vC³
-         */
-        LayerMask mask = 1 << LayerMask.NameToLayer("OPlatform") | 1 << LayerMask.NameToLayer("OBox");
+        LayerMask mask = 1 << LayerMask.NameToLayer("OPlatform") | 
+                         1 << LayerMask.NameToLayer("OBox") | 
+                         1 << LayerMask.NameToLayer("OPlayer");
         if(gameObject.layer == LayerMask.NameToLayer("IBox"))
         {
-            mask = 1 << LayerMask.NameToLayer("IPlatform") | 1 << LayerMask.NameToLayer("IBox");
+            mask = 1 << LayerMask.NameToLayer("IPlatform") |
+                   1 << LayerMask.NameToLayer("IBox") |
+                   1 << LayerMask.NameToLayer("IPlayer");
         }
 
         hits = Physics2D.BoxCastAll(ray.origin, size, 0, ray.direction, 1, mask);

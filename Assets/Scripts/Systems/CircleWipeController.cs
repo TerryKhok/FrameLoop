@@ -14,6 +14,8 @@ public class CircleWipeController : MonoBehaviour
 
     private void Start()
     {
+        _circleWipeMaterial.SetFloat("_cutoff", 0);
+
         Vector2 playerPos =  PlayerInfo.Instance.g_transform.position;
         Vector2 playerViewPortPos = Camera.main.WorldToViewportPoint(playerPos);
 
@@ -40,11 +42,6 @@ public class CircleWipeController : MonoBehaviour
                 _circleWipeImage.enabled = false;
             }
         }
-    }
-
-    private void OnDestroy()
-    {
-        _circleWipeMaterial.SetFloat("_cutoff", 0);
     }
 
     public void BeginTransition()

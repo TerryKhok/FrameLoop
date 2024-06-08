@@ -19,7 +19,6 @@ public class PlayerTakeUp : MonoBehaviour
     [SerializeField,Tooltip("Ø‚è‘Ö‚¦")]
     private bool _toggle = false;
 
-    private int _count = 0;
     private LayerMask _insideMask = 0, _outsideMask = 0;
 
     private PlayerAnimation _playerAnimation = null;
