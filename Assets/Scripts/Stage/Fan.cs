@@ -350,12 +350,13 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                         {
                             blocking = true;
                         }
-                        //フレームの中ならinstance_hereをfalseに
+                        //フレームの中ならenterFlagをtrueに
                         if (hit.transform.CompareTag("Frame"))
                         {
                             enterFlag = true;
                         }
                     }
+
 
                     //障害物のある座標に生成しようとしたら終了
                     if (blocking && !enterFlag)
@@ -443,14 +444,30 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     public void SetEnable(bool enable)
     {
         _isEnable = enable;
-        SetTiles();
+
+        if (FrameLoop.Instance.g_isActive)
+        {
+            FanLoopStarted();
+        }
+        else
+        {
+            SetTiles();
+        }
     }
 
     //有効か無効かを反転させる
     public void SwitchEnable()
     {
         _isEnable = !_isEnable;
-        SetTiles();
+
+        if (FrameLoop.Instance.g_isActive)
+        {
+            FanLoopStarted();
+        }
+        else
+        {
+            SetTiles();
+        }
     }
 
     //タイルの向きを指定してセットする
