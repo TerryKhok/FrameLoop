@@ -1311,21 +1311,24 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             pos -= (Vector3)vec;
             t.position = pos;
 
-            if (t.CompareTag("Box"))
+            if (_playerInfo.g_takeUpFg)
             {
-                Box box = t.GetComponent<Box>();
-                var offset = box.GetOffset();
-                offset -= vec;
-                box.SetOffset(offset);
-            }
-            else if (t.CompareTag("Player"))
-            {
-                if (_playerInfo.g_box != null)
+                if (t.CompareTag("Box"))
                 {
-                    Box box = _playerInfo.g_box.GetComponent<Box>();
+                    Box box = t.GetComponent<Box>();
                     var offset = box.GetOffset();
-                    offset += vec;
+                    offset -= vec;
                     box.SetOffset(offset);
+                }
+                else if (t.CompareTag("Player"))
+                {
+                    if (_playerInfo.g_box != null)
+                    {
+                        Box box = _playerInfo.g_box.GetComponent<Box>();
+                        var offset = box.GetOffset();
+                        offset += vec;
+                        box.SetOffset(offset);
+                    }
                 }
             }
         }
