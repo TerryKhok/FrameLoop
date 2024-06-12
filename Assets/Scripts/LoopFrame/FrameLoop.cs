@@ -864,8 +864,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                     Vector2 checkPos = setPos;
 
                     //頭の位置に当たり判定があるかを調べる--------------------------------------------------------------
-                    setPos.y += 0.5f;
-                    Vector2 screenPos = Camera.main.WorldToScreenPoint(setPos);
+                    checkPos.y += 0.5f;
+                    Vector2 screenPos = Camera.main.WorldToScreenPoint(checkPos);
                     Ray ray = Camera.main.ScreenPointToRay(screenPos);
                     RaycastHit2D hit;
 
@@ -1213,8 +1213,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     //フレームの内側に入った時のメソッド
     private void OnTriggerStay2D(Collider2D other)
     {
+        if (other.CompareTag("GoalHitBox")) { return; }
+
         //コピーオブジェクトならreturn
-        foreach(var col in _insideCopyDic.Keys)
+        foreach (var col in _insideCopyDic.Keys)
         {
             if (_insideCopyDic[col].Contains(other.transform))
             {
@@ -1261,6 +1263,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     //フレームの内側から出た時のメソッド
     private void OnTriggerExit2D(Collider2D other)
     {
+        if (other.CompareTag("GoalHitBox")) { return; }
+
         //外側に出るオブジェクトのリストにあって、フレームが有効なら
         if (_exitInsiders.ContainsKey(other) && g_isActive)
         {
@@ -1349,6 +1353,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     //フレームの周りの当たり判定に入ったときのメソッド
     public void OnStay(Collider2D other,Transform transform)
     {
+        if (other.CompareTag("GoalHitBox")) { return; }
+
         //コピーオブジェクトならreturn
         foreach (var col in _insideCopyDic.Keys)
         {
@@ -1465,6 +1471,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     //フレームの周りの当たり判定から出た時のメソッド
     public void OnExit(Collider2D other, Transform transform)
     {
+        if (other.CompareTag("GoalHitBox")) { return; }
+
         //内側に入るオブジェクトのリストにあって、フレームが有効なら
         if (_enterOutsiders.Contains(other) && g_isActive)
         {
