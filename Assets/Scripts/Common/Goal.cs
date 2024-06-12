@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
  *  
  *  Summary     :Goal判定をする
  *               
- *  Created     :2024/04/27
+ *  Created     :2024/06/12
  */
 public class Goal : SingletonMonoBehaviour<Goal>
 {
@@ -24,11 +24,12 @@ public class Goal : SingletonMonoBehaviour<Goal>
     private int _count = 0;
 
     private Animator _animator;
-    private bool _isOpened = false;
 
     private BoxCollider2D _boxCollider;
     private Vector2 _offset = Vector2.zero;
 
+    private bool _isOpened = false;
+    private bool _inputW = false;
     private bool _clear = false;
 
     private int _frameCount = 0;
@@ -82,27 +83,19 @@ public class Goal : SingletonMonoBehaviour<Goal>
     {
         _isOpened = _count >= _buttonCount;
         _animator.SetBool("isOpened", _isOpened);
-
-        //必要なボタンの数を超えているかで色を変更
-        //if (_isOpened)
-        //{
-        //    _spriteRenderer.color = new Color32(0, 255, 0, 150);
-        //}
-        //else
-        //{
-        //    _spriteRenderer.color = new Color32(255, 0, 0, 150);
-        //}
-
-        //SetSprite(_count >= _buttonCount);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (!other == _playerInfo.g_goalHitBox) { return; }
+        if (collision != _playerInfo.g_goalHitBox) { return; }
+
+        //クリア済みならreturn
         if (_clear) { return; }
-        //ボタンの数が足りていたらゴール
-        if(_count >= _buttonCount)
+
+        //ボタンの数が足りていて、接地していて、入力があればゴール
+        if(_isOpened && _inputW && PlayerInfo.Instance.g_isGround)
         {
+            _clear = true;
             _clearCanvas.enabled = true;
             _playerInput.SwitchCurrentActionMap("UI");
 
@@ -112,6 +105,17 @@ public class Goal : SingletonMonoBehaviour<Goal>
             _clearScreenAnimator.SetTrigger("Scale");
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
+    }
+
+
+    public void GoalStarted(InputAction.CallbackContext context)
+    {
+        _inputW = true;
+    }
+
+    public void GoalCanceled(InputAction.CallbackContext context)
+    {
+        _inputW = false;
     }
 
     //フレームに重なっているかでレイヤーを変更する

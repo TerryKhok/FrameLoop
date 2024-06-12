@@ -69,7 +69,10 @@ public class OptionMenu : MonoBehaviour
     {
         OptionUI.SetActive(true);
 
-        _eventSystem.SetSelectedGameObject(_firstSelect);
+        if (Gamepad.current != null)
+        {
+            _eventSystem.SetSelectedGameObject(_firstSelect);
+        }
 
         bool gamepadConectting = Gamepad.current != null;
 
@@ -81,7 +84,10 @@ public class OptionMenu : MonoBehaviour
     {
         OptionUI.SetActive(false);
 
-        _eventSystem.SetSelectedGameObject(_returnSelect);
+        if (Gamepad.current != null)
+        {
+            _eventSystem.SetSelectedGameObject(_returnSelect);
+        }
 
         _gamepadRebind.SetActive(false);
         _keyboardRebind.SetActive(false);

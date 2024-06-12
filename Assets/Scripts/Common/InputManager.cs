@@ -20,7 +20,7 @@ public class InputManager : MonoBehaviour
 
     private EventSystem _eventSystem = null;
 
-    private InputAction _Move, _Jump, _FrameEnable, _Crouch, _TakeUp, _Pause, _Resume;
+    private InputAction _Move, _Jump, _FrameEnable, _Crouch, _TakeUp, _Pause, _Resume, _Goal;
 
     private (float low, float high) _prevFrequency = (0, 0);
 
@@ -52,6 +52,7 @@ public class InputManager : MonoBehaviour
         _TakeUp = _playerInput.actions["TakeUp"];
         _Pause = _playerInput.actions["Pause"];
         _Resume = _playerInput.actions["Resume"];
+        _Goal = _playerInput.actions["Goal"];
 
         if(SceneManager.GetActiveScene().name == "MainMenu")
         {
@@ -101,6 +102,12 @@ public class InputManager : MonoBehaviour
         {
             _Pause.started += PauseMenu.Instance.OnPause;
             _Resume.started += PauseMenu.Instance.OnResume;
+        }
+
+        if(Goal.Instance != null)
+        {
+            _Goal.started += Goal.Instance.GoalStarted;
+            _Goal.canceled += Goal.Instance.GoalCanceled;
         }
     }
 
