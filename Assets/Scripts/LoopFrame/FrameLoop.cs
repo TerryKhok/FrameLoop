@@ -56,6 +56,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     private Dictionary<Collider2D, List<Transform>>
     _insideCopyDic = new Dictionary<Collider2D, List<Transform>>(); //フレームの内側のオブジェクトのコピーのリスト
 
+    private bool[] _ableToLoop = { true, true, true, true };    //角を通れるかどうか（上底、下底、左辺、右辺の順）
+
     private List<Fan> _fanList = new List<Fan>();                   //Fanクラスを取得したリスト
     private List<Button> _buttonList = new List<Button>();          //Buttonクラスを取得したリスト
     private List<TileReplace> _replaceTileList = new List<TileReplace>();// タイルの置き直し用コンポーネントのリスト
@@ -303,6 +305,12 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     //フレームが有効になった時に一度実行するメソッド
     private void onActive()
     {
+        //角でループできるかをリセット
+        for(int i=0; i < _ableToLoop.Length;i++)
+        {
+            _ableToLoop[i] = true;
+        }
+
         //フレームの端の座標を更新して確定
         _loopRangeX.min = _transform.position.x - (_size.x / 2);
         _loopRangeX.max = _transform.position.x + (_size.x / 2);
@@ -447,6 +455,23 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                     //箱以外に当たっていたらTileをセットする
                     if (instantFg)
                     {
+                        if( j == _size.y && (i == 0 || i == _size.x+1))
+                        {
+                            _ableToLoop[0] = false;
+                        }
+                        if (j == 1 && (i == 0 || i == _size.x+1))
+                        {
+                            _ableToLoop[1] = false;
+                        }
+                        if (i == 1 && (j == 0 || j == _size.y+1))
+                        {
+                            _ableToLoop[2] = false;
+                        }
+                        if (i == _size.x && (j == 0 || j == _size.y+1))
+                        {
+                            _ableToLoop[3] = false;
+                        }
+
                         setColliderTile(origin, i, j, breakable, tileReplace);
                         breakable = false;
                         tileReplace = null;
@@ -1331,14 +1356,69 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             //Playerならreturn
             if (other.CompareTag("Player")) { return; }
 
+            Vector3 otherPos = other.transform.position;
+
+            bool ignoreCol = false;
+
+            //角の場合にループ可能なら当たり判定を消す
+            if(vec.x != 0 )//横から
+            {
+                //上の端
+                if (_loopRangeY.max - 1 < otherPos.y && otherPos.y < _loopRangeY.max)
+                {
+                    if (_ableToLoop[0])
+                    {
+                        Physics2D.IgnoreCollision(other.GetComponent<Collider2D>(), _outsideTileCol);
+                        ignoreCol = true;
+                    }
+
+                }
+                //下の端
+                else if (_loopRangeY.min < otherPos.y && otherPos.y < _loopRangeY.min + 1)
+                {
+                    if (_ableToLoop[1])
+                    {
+                        Physics2D.IgnoreCollision(other.GetComponent<Collider2D>(), _outsideTileCol);
+                        ignoreCol = true;
+                    }
+                }
+            }
+            else if (vec.x != 0)//上下から
+            {
+                //左の端
+                if (_loopRangeX.min < otherPos.x && otherPos.x < _loopRangeY.min + 1)
+                {
+                    if (_ableToLoop[2])
+                    {
+                        Physics2D.IgnoreCollision(other.GetComponent<Collider2D>(), _outsideTileCol);
+                        ignoreCol = true;
+                    }
+
+                }
+                //右の端
+                else if (_loopRangeX.max - 1 < otherPos.x && otherPos.x < _loopRangeX.max)
+                {
+                    if (_ableToLoop[3])
+                    {
+                        Physics2D.IgnoreCollision(other.GetComponent<Collider2D>(), _outsideTileCol);
+                        ignoreCol = true;
+                    }
+                }
+            }
+
+
             //外側のオブジェクトのリストに無ければ追加する
-            if(!_outsiders.ContainsKey(other))
+            if (!_outsiders.ContainsKey(other))
             {
                 _outsiders.Add(other, vec);
             }
             else
             {
                 _outsiders[other] = vec;
+                if (!ignoreCol)//ループ可能じゃないなら当たり判定を復活
+                {
+                    Physics2D.IgnoreCollision(other.GetComponent<Collider2D>(), _outsideTileCol, false);
+                }
             }
         }
     }
@@ -1366,6 +1446,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             {
                 Destroy(_outsideCopyDic[other].gameObject);
             }
+
+            //当たり判定を戻す
+            Physics2D.IgnoreCollision(other.GetComponent<Collider2D>(), _outsideTileCol, false);
+
             _outsideCopyDic.Remove(other);
         }
 
