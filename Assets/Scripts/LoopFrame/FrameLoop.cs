@@ -520,7 +520,19 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 }
                 else
                 {
-                    _insideTile.SetTile(intPos, _tile);
+                    for(int k=0; k < 3; k++)
+                    {
+                        for(int l=0; l < 3; l++)
+                        {
+                            Vector3Int setPos = intPos;
+                            setPos.x -= _size.x*(-1+k);
+                            setPos.y -= _size.y*(-1+l);
+
+                            _insideTile.SetTile(setPos, _tile);
+
+                        }
+                    }
+
                 }
 
                 //-----------------------------------------
@@ -818,31 +830,58 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             //外に出ようとしているオブジェクトの位置を確定
             if (_exitInsiders.ContainsKey(col))
             {
-                var pos = col.transform.position;
+                var currentPos = col.transform.position;
+                var setPos = currentPos;
 
                 if (col.CompareTag("Player"))
                 {
-                    pos.y -= 0.1f;
+                    setPos.y -= 0.1f;
                 }
 
-                if (pos.x < _loopRangeX.min)
+                if (setPos.x < _loopRangeX.min)
                 {
-                    pos.x += _size.x;
+                    setPos.x += _size.x;
                 }
-                else if(pos.x > _loopRangeX.max)
+                else if(setPos.x > _loopRangeX.max)
                 {
-                    pos.x -= _size.x;
+                    setPos.x -= _size.x;
                 }
 
-                if (pos.y < _loopRangeY.min)
+                if (setPos.y < _loopRangeY.min)
                 {
-                    pos.y += _size.y;
+                    setPos.y += _size.y;
                 }
-                else if (pos.y > _loopRangeY.max)
+                else if (setPos.y > _loopRangeY.max)
                 {
-                    pos.y -= _size.y;
+                    setPos.y -= _size.y;
                 }
-                col.transform.position = pos;
+
+                //位置マスの高さの座標にループしないようにする
+                if(col.CompareTag("Player"))
+                {
+                    //ループ予定の座標を取得
+                    setPos.y += 0.1f;
+                    Vector2 checkPos = setPos;
+
+                    //頭の位置に当たり判定があるかを調べる--------------------------------------------------------------
+                    setPos.y += 0.5f;
+                    Vector2 screenPos = Camera.main.WorldToScreenPoint(setPos);
+                    Ray ray = Camera.main.ScreenPointToRay(screenPos);
+                    RaycastHit2D hit;
+
+                    hit = Physics2D.Raycast(ray.origin, ray.direction, 5.0f, 1 << LayerMask.NameToLayer("OPlatform"));
+
+                    //--------------------------------------------------------------------------------------------------
+                    
+                    //当たり判定があればループ前の座標のままにする
+                    if(hit.collider != null)
+                    {
+                        setPos = currentPos;
+                    }
+                }
+
+                col.transform.position = setPos;
+
             }
 
             //Player以外のレイヤーをO~~~レイヤーに変更

@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90c13764961eaab47886dba1dee2a4e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetFPS: 120
+  _targetFPS: 30
 --- !u!114 &-6538531021317051309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,6 +216,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: fe75e890-65e6-4d35-8065-cfa2e34c6e7e
     m_ActionName: UI/Resume[/Keyboard/escape,/DualShock4GamepadHID/start]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f68e2eac-35af-4f97-a0df-edc3fe6b08dd
+    m_ActionName: Player/Goal[/Keyboard/w]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

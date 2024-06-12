@@ -41,6 +41,9 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     public bool g_isCrouch = false;
     [HideInInspector]
     public int g_currentInputX = 0;
+    
+    private bool _prevGround = false;
+    private bool _currentGround = false;
 
     private const float Ground_Dist = 0.8f;
     private string _layermaskValue;
@@ -91,7 +94,6 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
 
     private void Update()
     {
-
         if(g_transform == null)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -102,7 +104,6 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
         {
             g_wall = 0;
         }
-        //Debug.Log(g_groundDistance);
 
         float actualDistance = Mathf.Infinity, work = Mathf.Infinity;
 
@@ -133,18 +134,20 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
 
         g_groundDistance = actualDistance;
 
-        //Debug.Log($"{g_groundDistance}ÅF {actualDistance}");
+        _prevGround = _currentGround;
 
         if (g_groundDistance < Ground_Dist)
         {
-            g_isGround = true;
+            _currentGround = true;
 
-            g_isGround &= g_rb.velocity.y <= 0.1f;
+            _currentGround &= g_rb.velocity.y <= 0.1f;
         }
         else
         {
-            g_isGround = false;
+            _currentGround = false;
         }
+
+        g_isGround = _currentGround || _prevGround;
     }
 
     private float checkGround(Transform t)

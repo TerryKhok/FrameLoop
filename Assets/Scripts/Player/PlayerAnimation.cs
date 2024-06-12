@@ -53,7 +53,7 @@ public class PlayerAnimation : SingletonMonoBehaviour<PlayerAnimation>
         _animator.SetFloat("CrouchSpeed", speed);
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         _animator.SetBool("IsGround", _playerInfo.g_isGround);
 
