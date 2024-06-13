@@ -18,8 +18,9 @@ public class Goal : SingletonMonoBehaviour<Goal>
     private int _minFrameCount = 1;
     [SerializeField, Tooltip("ç≈èâÇ…ëIëÇ∑ÇÈÉ{É^Éì")]
     private GameObject _selectButton;
+    [SerializeField]
+    private GameObject _clearCanvas;
 
-    private Canvas _clearCanvas = null;
     private int _buttonCount = 0;
     private int _count = 0;
 
@@ -35,6 +36,8 @@ public class Goal : SingletonMonoBehaviour<Goal>
     private int _frameCount = 0;
 
     private List<Animator> _starAnimators = new List<Animator>();
+    private bool[] _starBrightArray = new bool[4] { true, true, true, true };
+
     private Animator _clearScreenAnimator = null;
 
     private PlayerInfo _playerInfo = null;
@@ -48,7 +51,6 @@ public class Goal : SingletonMonoBehaviour<Goal>
     private void Start()
     {
         _animator = GetComponent<Animator>();
-        _clearCanvas = GetComponentInChildren<Canvas>();
 
         _boxCollider = GetComponent<BoxCollider2D>();
         _offset = _boxCollider.offset;
@@ -71,7 +73,7 @@ public class Goal : SingletonMonoBehaviour<Goal>
                 _clearScreenAnimator = animator;
             }
         }
-        _clearCanvas.enabled = false;
+        _clearCanvas.SetActive(false);
 
         var objs = GameObject.FindGameObjectsWithTag("Button");
         foreach( var obj in objs)
@@ -100,7 +102,13 @@ public class Goal : SingletonMonoBehaviour<Goal>
         if(_isOpened && _inputW && PlayerInfo.Instance.g_isGround)
         {
             _clear = true;
-            _clearCanvas.enabled = true;
+            _clearCanvas.SetActive(true);
+
+            for(int i=0; i < _starAnimators.Count; i++)
+            {
+                _starAnimators[i].SetBool("Bright", _starBrightArray[i]);
+            }
+
             _playerInput.SwitchCurrentActionMap("UI");
 
             if(_gamepadUISelect != null)
@@ -177,22 +185,22 @@ public class Goal : SingletonMonoBehaviour<Goal>
     {
         if(_frameCount <= _minFrameCount)
         {
-            foreach(var anim in _starAnimators)
+            for(int i=0; i < _starBrightArray.Length; i ++)
             {
-                anim.SetBool("Bright", true);
+                _starBrightArray[i] = true;
             }
         }
         else if(_frameCount <= _minFrameCount + STAR_GAP)
         {
-            _starAnimators[0].SetBool("Bright", true);
-            _starAnimators[1].SetBool("Bright", true);
-            _starAnimators[2].SetBool("Bright", false);
-        }
-        else
-        {
-            _starAnimators[0].SetBool("Bright", true);
-            _starAnimators[1].SetBool("Bright", false);
-            _starAnimators[2].SetBool("Bright", false);
+            _starBrightArray[0] = true;
+            _starBrightArray[1] = true;
+            _starBrightArray[2] = false;
+        }                       
+        else                    
+        {                       
+            _starBrightArray[0] = true;
+            _starBrightArray[1] = false;
+            _starBrightArray[2] = false;
         }
     }
 

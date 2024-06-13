@@ -51,6 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _minFrameCount: 1
   _selectButton: {fileID: 8760366922977934535}
+  _clearCanvas: {fileID: 7565703937128753081}
 --- !u!114 &2833634222319188644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,6 +65,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _firstSelect: {fileID: 8760366922977934535}
+  _enableOnAwake: 0
 --- !u!212 &6234668189130511313
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -368,6 +370,12 @@ PrefabInstance:
 --- !u!224 &1261383134903547410 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1503565269391056451, guid: 41f706168a811b24c8f4104853e420cf,
+    type: 3}
+  m_PrefabInstance: {fileID: 386440826046326865}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7565703937128753081 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7899927579432734696, guid: 41f706168a811b24c8f4104853e420cf,
     type: 3}
   m_PrefabInstance: {fileID: 386440826046326865}
   m_PrefabAsset: {fileID: 0}

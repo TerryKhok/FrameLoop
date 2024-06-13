@@ -8400,11 +8400,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8906548133063933084, guid: 09d88473e246a814986de2b3b88c1d07,
         type: 3}
-      propertyPath: _clearCanvas
-      value: 
-      objectReference: {fileID: 754650086}
-    - target: {fileID: 8906548133063933084, guid: 09d88473e246a814986de2b3b88c1d07,
-        type: 3}
       propertyPath: _minFrameCount
       value: 2
       objectReference: {fileID: 0}

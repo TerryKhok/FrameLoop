@@ -15,6 +15,7 @@ using UnityEngine.InputSystem;
 public class GamepadUIManager : MonoBehaviour
 {
     private EventSystem _eventSystem;
+    private PlayerInput _playerInput;
 
     private List<bool> _enableList = new List<bool>();
     private GameObject _selectObject = null;
@@ -22,17 +23,20 @@ public class GamepadUIManager : MonoBehaviour
     private void Start()
     {
         _eventSystem = GetComponent<EventSystem>();
+        _playerInput = GetComponent<PlayerInput>();
     }
 
     private void LateUpdate()
     {
+        Debug.Log(_eventSystem.currentSelectedGameObject);
+        Debug.Log(_playerInput.currentControlScheme);
         Select();
         _selectObject = null;
     }
 
     private void Select()
     {
-        if (Gamepad.current != null)
+        if (_playerInput.currentControlScheme == "Gamepad")
         {
             if (_eventSystem.currentSelectedGameObject == null)
             {
