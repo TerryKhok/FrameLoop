@@ -8,6 +8,8 @@ public class PauseMenu : SingletonMonoBehaviour<PauseMenu>
 
     [SerializeField] private GameObject pauseMenuUI;
 
+    [SerializeField] private GamepadUISelect gamepadUISelect = null;
+
     private PlayerInput playerInput;
 
     private void Start()
@@ -42,6 +44,8 @@ public class PauseMenu : SingletonMonoBehaviour<PauseMenu>
         playerInput.SwitchCurrentActionMap("Player");
 
         if(pauseMenuUI == null) { return; }
+
+        gamepadUISelect.SetEnable(false);
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         IsPaused = false;
@@ -58,6 +62,7 @@ public class PauseMenu : SingletonMonoBehaviour<PauseMenu>
 
         playerInput.SwitchCurrentActionMap("UI");
 
+        gamepadUISelect.SetEnable(true);
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         IsPaused = true;
@@ -74,5 +79,10 @@ public class PauseMenu : SingletonMonoBehaviour<PauseMenu>
 
     public void SetPause(bool isPaused){
         IsPaused = isPaused;
+    }
+
+    public void SetEnable(bool enable)
+    {
+        pauseMenuUI.SetActive(enable);
     }
 }

@@ -5,6 +5,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
+/*  ProjectName :FrameLoop
+ *  ClassName   :KeyBind
+ *  Creator     :Fujishita.Arashi
+ *  
+ *  Summary     :キーバインドの設定
+ *               
+ *  Created     :2024/06/13
+ */
 public class KeyBind : MonoBehaviour
 {
     private KeyBindManager _manager = null;

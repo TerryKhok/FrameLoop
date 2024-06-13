@@ -33,13 +33,13 @@ public class Testply : MonoBehaviour
 
         }
 
-        if(gamepad != null)
-        {
-            if (gamepad.buttonNorth.wasPressedThisFrame)
-            {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-            }
+        //if(gamepad != null)
+        //{
+        //    if (gamepad.buttonNorth.wasPressedThisFrame)
+        //    {
+        //        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        //    }
             
-        }
+        //}
     }
 }

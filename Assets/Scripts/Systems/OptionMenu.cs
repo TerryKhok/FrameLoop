@@ -7,8 +7,18 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
+/*  ProjectName :FrameLoop
+ *  ClassName   :OptionMenu
+ *  Creator     :Fujishita.Arashi
+ *  
+ *  Summary     :ÉIÉvÉVÉáÉìÇÃUIä«óùÇ∆âπó ê›íË
+ *               
+ *  Created     :2024/06/13
+ */
 public class OptionMenu : MonoBehaviour
 {
+    [SerializeField]
+    private GamepadUISelect _gamepadUISelect;
     [SerializeField]
     private GameObject OptionUI;
     [SerializeField]
@@ -68,6 +78,8 @@ public class OptionMenu : MonoBehaviour
     public void Open()
     {
         OptionUI.SetActive(true);
+        
+        _gamepadUISelect.SetEnable(true);
 
         if (Gamepad.current != null)
         {
@@ -83,6 +95,8 @@ public class OptionMenu : MonoBehaviour
     public void Close()
     {
         OptionUI.SetActive(false);
+
+        _gamepadUISelect.SetEnable(false);
 
         if (Gamepad.current != null)
         {

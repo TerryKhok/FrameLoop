@@ -40,6 +40,8 @@ public class Goal : SingletonMonoBehaviour<Goal>
     private PlayerInfo _playerInfo = null;
     private PlayerInput _playerInput;
 
+    private GamepadUISelect _gamepadUISelect;
+
     //ç≈í·âÒêîÅ{âΩâÒÇ‹Ç≈ÇêØ2Ç¬Ç…Ç∑ÇÈÇ©
     private const int STAR_GAP = 1;
 
@@ -53,6 +55,8 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
         _playerInfo = PlayerInfo.Instance;
         _playerInput = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerInput>();
+
+        _gamepadUISelect = GetComponent<GamepadUISelect>();
 
         var animatorArray = GetComponentsInChildren<Animator>();
         foreach (var animator in animatorArray)
@@ -98,6 +102,11 @@ public class Goal : SingletonMonoBehaviour<Goal>
             _clear = true;
             _clearCanvas.enabled = true;
             _playerInput.SwitchCurrentActionMap("UI");
+
+            if(_gamepadUISelect != null)
+            {
+                _gamepadUISelect.SetEnable(true);
+            }
 
 
             EventSystem.current.SetSelectedGameObject(_selectButton);

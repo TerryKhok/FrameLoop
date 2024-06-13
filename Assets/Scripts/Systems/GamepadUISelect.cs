@@ -4,26 +4,40 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
+/*  ProjectName :FrameLoop
+ *  ClassName   :GamepadUISelect
+ *  Creator     :Fujishita.Arashi
+ *  
+ *  Summary     :Ç«ÇÃUIÇÇÕÇ∂ÇﬂÇ…ëIëÇ∑ÇÈÇ©Çä«óù
+ *               
+ *  Created     :2024/06/13
+ */
 public class GamepadUISelect : MonoBehaviour
 {
     [SerializeField]
     private GameObject _firstSelect;
-    private EventSystem _eventSystem;
+    private GamepadUIManager _gamepadUIManager;
+    [SerializeField]
+    private bool _enableOnAwake = false;
+
+    private bool _enable = false;
 
     private void Start()
     {
-        _eventSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<EventSystem>();
+        _gamepadUIManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GamepadUIManager>();
+        _enable |= _enableOnAwake;
     }
 
     private void Update()
     {
-        if (Gamepad.current != null)
+        if (_enable)
         {
-            _eventSystem.SetSelectedGameObject(_firstSelect);
+            _gamepadUIManager.SetSelectObject(_firstSelect);
         }
-        else
-        {
-            _eventSystem.SetSelectedGameObject(null);
-        }
+    }
+
+    public void SetEnable(bool enable)
+    {
+        _enable = enable;
     }
 }
