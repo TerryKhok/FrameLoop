@@ -116,7 +116,6 @@ public class Goal : SingletonMonoBehaviour<Goal>
                 _gamepadUISelect.SetEnable(true);
             }
 
-
             EventSystem.current.SetSelectedGameObject(_selectButton);
 
             _clearScreenAnimator.SetTrigger("Scale");

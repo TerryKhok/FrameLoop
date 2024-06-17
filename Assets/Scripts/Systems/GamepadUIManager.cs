@@ -28,8 +28,6 @@ public class GamepadUIManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        Debug.Log(_eventSystem.currentSelectedGameObject);
-        Debug.Log(_playerInput.currentControlScheme);
         Select();
         _selectObject = null;
     }
@@ -45,14 +43,12 @@ public class GamepadUIManager : MonoBehaviour
             }
             else if(_selectObject == null)
             {
-                Debug.Log("null");
                 _eventSystem.SetSelectedGameObject(null);
             }
 
         }
         else
         {
-            Debug.Log("gamepadNull");
             _eventSystem.SetSelectedGameObject(null);
         }
     }

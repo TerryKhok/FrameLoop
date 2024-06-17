@@ -362,6 +362,36 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 8137915687717313400, guid: 41f706168a811b24c8f4104853e420cf,
+        type: 3}
+      propertyPath: _event.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8137915687717313400, guid: 41f706168a811b24c8f4104853e420cf,
+        type: 3}
+      propertyPath: _event.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2833634222319188644}
+    - target: {fileID: 8137915687717313400, guid: 41f706168a811b24c8f4104853e420cf,
+        type: 3}
+      propertyPath: _event.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetEnable
+      objectReference: {fileID: 0}
+    - target: {fileID: 8137915687717313400, guid: 41f706168a811b24c8f4104853e420cf,
+        type: 3}
+      propertyPath: _event.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GamepadUISelect, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8137915687717313400, guid: 41f706168a811b24c8f4104853e420cf,
+        type: 3}
+      propertyPath: _event.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8137915687717313400, guid: 41f706168a811b24c8f4104853e420cf,
+        type: 3}
+      propertyPath: _event.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
