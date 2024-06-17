@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 /*  ProjectName :FrameLoop
  *  ClassName   :PlayerInfo
@@ -32,6 +33,8 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     [HideInInspector]
     public float g_wall = 0;
     [HideInInspector]
+    public bool g_walkCancel = false;
+    [HideInInspector]
     public Transform g_box = null;
     [HideInInspector]
     public int g_boxDirection = 0;
@@ -44,6 +47,10 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     
     private bool _prevGround = false;
     private bool _currentGround = false;
+
+    private float _yStopCount = 0;
+    private Vector3 _prevPosition = Vector3.zero;
+    private Vector3 _currentPosition = Vector3.zero;
 
     private const float Ground_Dist = 0.8f;
     private string _layermaskValue;
@@ -148,6 +155,34 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
         }
 
         g_isGround = _currentGround || _prevGround;
+
+        if(g_isGround)
+        {
+            g_walkCancel = false;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        _prevPosition = _currentPosition;
+        _currentPosition = g_transform.position;
+
+        if (_prevPosition.y == _currentPosition.y)
+        {
+            _yStopCount += Time.fixedDeltaTime;
+
+            if (_yStopCount >= 0.05f && !g_isGround)
+            {
+                g_walkCancel = true;
+                Vector3 pos = _currentPosition;
+                pos += g_transform.right * -0.2f * Time.fixedDeltaTime;
+                g_transform.position = pos;
+            }
+        }
+        else
+        {
+            _yStopCount = 0;
+        }
     }
 
     private float checkGround(Transform t)

@@ -113,11 +113,41 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
+        if(_playerInfo.g_walkCancel)
+        {
+            return;
+        }
+
         var velocity = _targetVelocity;
 
         if(_playerInfo.g_takeUpFg || _playerInfo.g_isCrouch) 
         {
             velocity = _crouchVelocity;
+        }
+
+        //進行方向が壁ならreturnする
+        Vector3 pos = _transform.position;
+        pos += _transform.right * 0.5f;
+        pos -= _transform.up * 0.25f;
+        Ray ray = new Ray(pos, _transform.right);
+        RaycastHit2D hit;
+        LayerMask mask;
+
+        //フレームが有効かどうかでLayerMaskとLayerを変更
+        if (FrameLoop.Instance.g_isActive)
+        {
+            mask = _playerInfo.g_insideMask;
+        }
+        else
+        {
+            mask = _playerInfo.g_outsideMask;
+        }
+
+        hit = Physics2D.Raycast(ray.origin, ray.direction, 0.05f, mask);
+
+        if (hit.collider != null)
+        {
+            return;
         }
 
         //移動

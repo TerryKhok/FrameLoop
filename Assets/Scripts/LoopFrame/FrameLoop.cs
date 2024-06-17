@@ -1069,6 +1069,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
             foreach(var t in _insideCopyDic[col])
             {
+                if(t == null) { continue; }
+
                 var copyRenderer = t.GetComponent<SpriteRenderer>();
                 copyRenderer.sprite = sprite;
             }

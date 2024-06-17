@@ -44,6 +44,8 @@ public class PlayerTakeUp : MonoBehaviour
     //” ‚ª‚ ‚é‚©‚Ì”»’è‚Æ’Í‚İ
     public void TakeUpStarted(InputAction.CallbackContext context)
     {
+        if(_transform == null) { return; }
+
         //Ø‚è‘Ö‚¦‘€ì‚Ìˆ—
         if(_toggle && _playerInfo.g_takeUpFg)
         {

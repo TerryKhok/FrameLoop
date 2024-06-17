@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 using UnityEngine.SceneManagement;
+using static UnityEngine.Rendering.DebugUI;
 
 public class InputManager : MonoBehaviour
 {
@@ -166,6 +167,13 @@ public class InputManager : MonoBehaviour
             _Goal.started -= enterStage.EnterStarted;
             _Goal.canceled -= enterStage.EnterCanceled;
         }
+
+        if (Gamepad.current != null)
+        {
+            Gamepad.current.SetMotorSpeeds(0, 0);
+        }
+
+        StopAllCoroutines();
     }
 
     public void SetVibration(float lowFrequency, float highFrequency, float howLong)
