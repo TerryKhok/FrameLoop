@@ -1,5 +1,8 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Windows;
 
 public class EnterStage : MonoBehaviour
 {
@@ -9,6 +12,7 @@ public class EnterStage : MonoBehaviour
     [SerializeField]
     private bool _isOpened = false;
 
+    private bool _inputW = false;
     private FrameLoop _frameLoop;
     private PlayerInfo _playerInfo;
     private Animator _animator;
@@ -34,13 +38,24 @@ public class EnterStage : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (!_isOpened) { return; }
+        if (collision != _playerInfo.g_goalHitBox) { return; }
 
-        if (collision.transform == _playerInfo.g_transform)
+        if (_inputW && _playerInfo.g_isGround)
         {
             SceneManager.LoadScene(_sceneName);
         }
+    }
+
+    public void EnterStarted(InputAction.CallbackContext context)
+    {
+        _inputW = true;
+    }
+
+    public void EnterCanceled(InputAction.CallbackContext context)
+    {
+        _inputW = false;
     }
 }

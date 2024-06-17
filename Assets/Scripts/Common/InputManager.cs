@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,6 +9,9 @@ using UnityEngine.SceneManagement;
 
 public class InputManager : MonoBehaviour
 {
+    [SerializeField]
+    private List<EnterStage> _enterStages = new List<EnterStage>();
+
     private GameObject _player = null;
     private GameObject _frame = null;
 
@@ -109,6 +113,12 @@ public class InputManager : MonoBehaviour
             _Goal.started += Goal.Instance.GoalStarted;
             _Goal.canceled += Goal.Instance.GoalCanceled;
         }
+
+        foreach(var enterStage in _enterStages)
+        {
+            _Goal.started += enterStage.EnterStarted;
+            _Goal.canceled += enterStage.EnterCanceled;
+        }
     }
 
     private void OnDisable()
@@ -149,6 +159,12 @@ public class InputManager : MonoBehaviour
         {
             _Pause.started -= PauseMenu.Instance.OnPause;
             _Resume.started -= PauseMenu.Instance.OnResume;
+        }
+
+        foreach (var enterStage in _enterStages)
+        {
+            _Goal.started -= enterStage.EnterStarted;
+            _Goal.canceled -= enterStage.EnterCanceled;
         }
     }
 

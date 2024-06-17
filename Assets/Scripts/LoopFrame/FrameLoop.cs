@@ -968,7 +968,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         }
 
         //ゴールのレイヤーをプレイヤーが触れられるレイヤーに変更
-        _goal.SetOutsideLayer();
+        if (_goal != null)
+        {
+            _goal.SetOutsideLayer();
+        }
 
         //ボタンのレイヤーをプレイヤーが触れられるレイヤーに変更
         foreach (var button in _buttonList)
