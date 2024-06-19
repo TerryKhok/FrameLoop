@@ -60,6 +60,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
     private List<Fan> _fanList = new List<Fan>();                   //Fanクラスを取得したリスト
     private List<Button> _buttonList = new List<Button>();          //Buttonクラスを取得したリスト
+    private List<Canon> _canonList = new List<Canon>();             //Canonクラスを取得したリスト
     private List<TileReplace> _replaceTileList = new List<TileReplace>();// タイルの置き直し用コンポーネントのリスト
 
     private (float min, float max) 
@@ -131,6 +132,13 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         foreach (var fanObj in fanObjs)
         {
             _fanList.Add(fanObj.GetComponent<Fan>());
+        }
+
+        //Canonスクリプトをすべて取得
+        var canonObjs = GameObject.FindGameObjectsWithTag("Canon");
+        foreach (var canonObj in canonObjs)
+        {
+            _canonList.Add(canonObj.GetComponent<Canon>());
         }
 
         //Buttonスクリプトを取得
@@ -499,6 +507,17 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         foreach (var button in _buttonList)
         {
             button.ButtonLayerCheck();
+        }
+        
+        //キャノンのレイヤーをプレイヤーが触れられるレイヤーに変更
+        foreach (var canon in _canonList)
+        {
+            if(canon == null)
+            {
+                continue;
+            }
+
+            canon.CanonLayerCheck();
         }
     }
 
@@ -1283,10 +1302,17 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             }
 
             //内側のオブジェクトのリストに無くて、フレームが無効な時
-            if (!_insiders.Contains(other) && !g_isActive)
+            if (!_insiders.Contains(other))
             {
                 //内側のオブジェクトのリストに追加
                 _insiders.Add(other);
+
+                if(g_isActive)
+                {
+                    other.gameObject.layer++;
+                    SpriteRenderer renderer = other.GetComponentInChildren<SpriteRenderer>();
+                    renderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+                }
             }
         }
     }

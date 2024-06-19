@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 /*  ProjectName :FrameLoop
@@ -12,6 +13,17 @@ public class ParentDestroy : MonoBehaviour
 {
     private void OnDestroy()
     {
-        Destroy(transform.parent.gameObject);
+        Destroy(GetParent(transform).gameObject);
+    }
+
+    private Transform GetParent(Transform t)
+    {
+        Grid grid;
+        if(t.parent != null && !t.parent.TryGetComponent<Grid>(out grid))
+        {
+            t = GetParent(t.parent);
+        }
+
+        return t;
     }
 }

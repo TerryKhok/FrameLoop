@@ -17,12 +17,8 @@ public class Testply : MonoBehaviour
     {
         Gamepad gamepad = Gamepad.current;
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-
-        }
-        else if (Input.GetKeyDown(KeyCode.L))
+        
+        if (Input.GetKeyDown(KeyCode.L))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 

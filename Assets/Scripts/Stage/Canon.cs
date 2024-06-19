@@ -35,8 +35,13 @@ public class Canon : MonoBehaviour
     private Quaternion _rotation = Quaternion.identity;
     private bool _enable = false;
 
+    private GameObject _colUpObj, _colLowObj;
+
     private void Start()
     {
+        _colUpObj = transform.GetChild(0).GetChild(0).gameObject;
+        _colLowObj = transform.GetChild(0).GetChild(1).gameObject;
+
         _enable = _enabledOnAwake;
 
         //発射位置は子オブジェクトの位置を参照する
@@ -88,5 +93,36 @@ public class Canon : MonoBehaviour
     public void SwitchEnable()
     {
         _enable = !_enable;
+    }
+
+    //フレームに重なっているかでレイヤーを変更する
+    public void CanonLayerCheck()
+    {
+        Vector3 offset = new Vector3(0, 0.25f, 0);
+        GameObject obj = _colUpObj;
+
+        for (int i = 0; i < 2; i++)
+        {
+            //スクリーン座標に変換
+            var pos = Camera.main.WorldToScreenPoint(transform.position + (Vector3)offset);
+
+            //座標に位置にレイを飛ばす
+            Ray ray = Camera.main.ScreenPointToRay(pos);
+            LayerMask mask = 1 << LayerMask.NameToLayer("Frame");
+
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 1.0f, mask);
+
+            if (hit.collider != null)
+            {
+                obj.layer = LayerMask.NameToLayer("Inside");
+            }
+            else
+            {
+                obj.layer = LayerMask.NameToLayer("Outside");
+            }
+
+            obj = _colLowObj;
+            offset.y -= 0.5f;
+        }
     }
 }
