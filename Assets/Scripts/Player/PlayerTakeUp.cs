@@ -73,11 +73,11 @@ public class PlayerTakeUp : MonoBehaviour
         hit = Physics2D.BoxCast(ray.origin, size, 0, ray.direction, 1f,mask);
         if (hit.collider != null)
         {
+            Debug.Log(hit.transform.name);
             if (hit.transform.CompareTag("Box"))
             {
                 //IBox‚ğŒp³‚µ‚½Component‚ğæ“¾
                 _box = hit.transform.GetComponent<IBox>();
-
                 //” ‚ğ’Í‚Ş
                 _box.Hold(_transform);
                 _playerInfo.g_boxDirection = (int)ray.direction.x;

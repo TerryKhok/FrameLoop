@@ -895,10 +895,12 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 var box = col.GetComponent<Box>();
                 var offset = box.GetOffset();
 
-                if(offset != Vector2.zero)
+
+                if (offset != Vector2.zero)
                 {
                     box.Hold(null);
                 }
+
                 box.SetOffset(Vector2.zero);
             }
             col.gameObject.layer--;
@@ -1000,17 +1002,23 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             g_isActive = !g_isActive;
             if (g_isActive)
             {
-                _inputManager.SetVibration(0.2f, 0.2f, 0.1f);
-                _inputManager.SetVibration(0.07f, 0.0f, 0f);
+                if (_inputManager != null)
+                {
+                    _inputManager.SetVibration(0.2f, 0.2f, 0.1f);
+                    _inputManager.SetVibration(0.07f, 0.0f, 0f);
+                }
 
                 if (g_isActive) { AudioManager.instance.Play("Frame"); }
             }
             else
             {
-                _inputManager.SetVibration(0f, 0f, 0f);
-                _inputManager.SetVibration(0.2f, 0.2f, 0.1f);
+                if (_inputManager != null)
+                {
+                    _inputManager.SetVibration(0f, 0f, 0f);
+                    _inputManager.SetVibration(0.2f, 0.2f, 0.1f);
+                }
 
-                if (!g_isActive) 
+                if (!g_isActive)
                 {
                     AudioManager.instance.Stop("Frame");
                     AudioManager.instance.Play("FrameTP");
@@ -1021,7 +1029,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
         //操作がホールドならフレームを有効にする
         g_isActive = true;
-        _inputManager.SetVibration(0.2f, 0f, 0f);
+        if (_inputManager != null)
+        {
+            _inputManager.SetVibration(0.2f, 0f, 0f);
+        }
     }
 
     //キーが離された時に一度実行されるメソッド
