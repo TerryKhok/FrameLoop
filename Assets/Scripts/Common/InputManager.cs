@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -25,7 +26,8 @@ public class InputManager : MonoBehaviour
 
     private EventSystem _eventSystem = null;
 
-    private InputAction _Move, _Jump, _FrameEnable, _Crouch, _TakeUp, _Pause, _Resume, _Goal;
+    [HideInInspector]
+    public InputAction _Move, _Jump, _FrameEnable, _Crouch, _TakeUp, _Pause, _Resume, _Goal, _Retry;
 
     private (float low, float high) _prevFrequency = (0, 0);
 
@@ -58,6 +60,7 @@ public class InputManager : MonoBehaviour
         _Pause = _playerInput.actions["Pause"];
         _Resume = _playerInput.actions["Resume"];
         _Goal = _playerInput.actions["Goal"];
+        _Retry = _playerInput.actions["Retry"];
 
         if(SceneManager.GetActiveScene().name == "MainMenu")
         {
@@ -167,6 +170,7 @@ public class InputManager : MonoBehaviour
             _Goal.started -= enterStage.EnterStarted;
             _Goal.canceled -= enterStage.EnterCanceled;
         }
+
 
         if (Gamepad.current != null)
         {

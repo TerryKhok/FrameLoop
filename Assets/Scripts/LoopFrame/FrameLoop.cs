@@ -805,6 +805,21 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         else if (j <= 1 && i != 0 && i != _size.x + 1) { pos.y += _size.y; }
         else if (j >= _size.y && i != 0 && i != _size.x + 1) { pos.y -= _size.y; }
 
+        //生成先が当たり判定の中かどうかを取得
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(pos);
+        Ray ray = Camera.main.ScreenPointToRay(screenPos);
+        RaycastHit2D hit;
+        LayerMask mask = 1 << LayerMask.NameToLayer("OPlatform");
+        mask |= 1 << LayerMask.NameToLayer("Outside");
+        mask |= 1 << LayerMask.NameToLayer("OBox");
+
+        hit = Physics2D.Raycast(ray.origin, ray.direction, 1.0f, mask);
+
+        if(hit.collider != null)
+        {
+            return;
+        }
+
         //当たり判定を箱の子オブジェクトとして生成
         var instance = Instantiate(_colliderPrefab, pos, Quaternion.identity, parent);
         var col = instance.GetComponent<Collider2D>();

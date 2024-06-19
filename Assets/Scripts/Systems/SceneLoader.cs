@@ -1,9 +1,17 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader : MonoBehaviour
+public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 {
     [SerializeField] PauseMenu _pauseMenu;
+    private InputManager _inputManager;
+
+    private void Start()
+    {
+        _inputManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<InputManager>();
+        _inputManager._Retry.performed += Retry;
+    }
 
     //[SerializeField]
     //AudioManager _audioManager = null;
@@ -32,6 +40,16 @@ public class SceneLoader : MonoBehaviour
     public void OpenSettings()
     {
 
+    }
+
+    private void OnDestroy()
+    {
+        _inputManager._Retry.performed -= Retry;
+    }
+
+    public void Retry(InputAction.CallbackContext context)
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void ExitGame()
