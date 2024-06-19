@@ -1187,13 +1187,13 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
         //コンポーネントをコピー
         SpriteRenderer setRenderer = t.GetComponentInChildren<SpriteRenderer>();
-        //Rigidbody2D setRigidbody = t.GetComponent<Rigidbody2D>();
+        Rigidbody2D setRigidbody = t.GetComponent<Rigidbody2D>();
 
         //コピーしたコンポーネントをアタッチ
         obj.AddComponent(setRenderer);
-        //var rb = obj.AddComponent(setRigidbody);
-        //rb.isKinematic = true;
-        //rb.useAutoMass = false;
+        var rb = obj.AddComponent(setRigidbody);
+        rb.isKinematic = true;
+        rb.useAutoMass = false;
 
         if (t.CompareTag("Box"))
         {

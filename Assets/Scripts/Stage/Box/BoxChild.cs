@@ -20,13 +20,10 @@ public class BoxChild : MonoBehaviour,IBox
     //親にアタッチされたBoxにアクセスしてtを渡す
     public void Hold(Transform t)
     {
-        Debug.Log("hoge");
-
         Vector2 vec = FrameLoop.Instance.GetSize();
         vec.y = 0;
 
         _box.SetOffset(-t.right * vec);
-        Debug.Log(-t.right * vec);
 
         _box.Hold(t);
     }

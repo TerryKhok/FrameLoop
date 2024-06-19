@@ -71,9 +71,9 @@ public class PlayerTakeUp : MonoBehaviour
 
         //プレイヤーの進行方向に箱があるか判定
         hit = Physics2D.BoxCast(ray.origin, size, 0, ray.direction, 1f,mask);
+
         if (hit.collider != null)
         {
-            Debug.Log(hit.transform.name);
             if (hit.transform.CompareTag("Box"))
             {
                 //IBoxを継承したComponentを取得
