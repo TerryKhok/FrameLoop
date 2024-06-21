@@ -81,6 +81,18 @@ EditorBuildSettings:
     path: Assets/Scenes/SK/lvl 24.unity
     guid: 1a963eb3c08d5c34392e5b26404c5a7f
   - enabled: 1
+    path: Assets/Scenes/SK/lvl 25 test.unity
+    guid: 7d7cc0a25eccf0c49803d796ed9fad41
+  - enabled: 1
+    path: Assets/Scenes/SK/lvl 26 test.unity
+    guid: 0507e8b9d5bf3784ab6b4795cdf52a62
+  - enabled: 1
+    path: Assets/Scenes/SK/lvl 27 test.unity
+    guid: e4ef95573f6b86f40a2ca097dfe59cb3
+  - enabled: 1
+    path: Assets/Scenes/SK/lvl 28 test.unity
+    guid: fc451b9a62c8a7740aa40c31228bab15
+  - enabled: 1
     path: Assets/Scenes/StageSelect/World1.unity
     guid: 617b7629bd33fca47a5c70c1351cf5d5
   m_configObjects:
