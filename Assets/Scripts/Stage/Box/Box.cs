@@ -193,41 +193,7 @@ public class Box : MonoBehaviour,IBox
         _playerInfo.g_boxDirection = 0;
         SetOffset(Vector2.zero);
 
-        Vector2 pos = _transform.position;
-        var gap = new Vector2(pos.x % 0.5f, pos.y % 0.5f);
-
-        if(gap.x > 0.25f)
-        {
-            gap.x = gap.x - 0.5f;
-        }
-        else if(gap.x < -0.25f)
-        {
-            gap.x = gap.x + 0.5f;
-        }
-
-        if (gap.y > 0.25f)
-        {
-            gap.y = gap.y - 0.5f;
-        }
-        else if (gap.y < -0.25f)
-        {
-            gap.y = gap.y + 0.5f;
-        }
-
-        var absGap = new Vector2(Mathf.Abs(gap.x), Mathf.Abs(gap.y));
-
-        if (0.1f < absGap.x && absGap.x < 0.4f)
-        {
-            gap.x = 0;
-        }
-
-        if (0.1f < absGap.y && absGap.y < 0.4f)
-        {
-            gap.y = 0;
-        }
-
-        pos -= gap;
-        _transform.position = pos;
+        AdjustPosition();
     }
 
     //ƒvƒŒƒCƒ„[‚ª” ‚ğ‚Á‚Ä‚¢‚é‚Æ‚«‚Ìˆ—
@@ -362,6 +328,47 @@ public class Box : MonoBehaviour,IBox
             AudioManager.instance.Play("Box Pull");
             soundFlag = true;
         }
+    }
+
+    public void AdjustPosition()
+    {
+        //À•W‚ª’†“r”¼’[‚È‚ÉC³‚·‚éˆ—---------------------------------------------------
+        Vector2 pos = _transform.position;
+        var gap = new Vector2(pos.x % 0.5f, pos.y % 0.5f);
+
+        if (gap.x > 0.25f)
+        {
+            gap.x = gap.x - 0.5f;
+        }
+        else if (gap.x < -0.25f)
+        {
+            gap.x = gap.x + 0.5f;
+        }
+
+        if (gap.y > 0.25f)
+        {
+            gap.y = gap.y - 0.5f;
+        }
+        else if (gap.y < -0.25f)
+        {
+            gap.y = gap.y + 0.5f;
+        }
+
+        var absGap = new Vector2(Mathf.Abs(gap.x), Mathf.Abs(gap.y));
+
+        if (0.1f < absGap.x && absGap.x < 0.4f)
+        {
+            gap.x = 0;
+        }
+
+        if (0.1f < absGap.y && absGap.y < 0.4f)
+        {
+            gap.y = 0;
+        }
+
+        pos -= gap;
+        _transform.position = pos;
+        //-----------------------------------------------------------
     }
 
     public void SetOffset(Vector2 vec)

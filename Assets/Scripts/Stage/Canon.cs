@@ -34,6 +34,7 @@ public class Canon : MonoBehaviour
     private Vector3 _position = Vector3.zero;
     private Quaternion _rotation = Quaternion.identity;
     private bool _enable = false;
+    private bool _frameInside = false;
 
     private GameObject _colUpObj, _colLowObj;
 
@@ -79,6 +80,13 @@ public class Canon : MonoBehaviour
         _bullet = _instance.GetComponent<Bullet>();
         _bullet.SetValues(_direction, _velocity, _range, _breakTag);
 
+        //生成位置がフレーム内で、フレームが有効な場合の処理
+        if(FrameLoop.Instance.g_isActive && _frameInside)
+        {
+            //FrameのInsiderにBulletを追加
+            FrameLoop.Instance.AddInsiders(_instance.GetComponent<Collider2D>());
+        }
+
         //経過時間をリセット
         _elapsedTime = 0f;
     }
@@ -115,10 +123,20 @@ public class Canon : MonoBehaviour
             if (hit.collider != null)
             {
                 obj.layer = LayerMask.NameToLayer("Inside");
+                //発射位置がフレームの内側かを判定
+                if(i == 0)
+                {
+                    _frameInside = true;
+                }
             }
             else
             {
                 obj.layer = LayerMask.NameToLayer("Outside");
+                //発射位置がフレームの内側かを判定
+                if (i == 0)
+                {
+                    _frameInside = false;
+                }
             }
 
             obj = _colLowObj;

@@ -929,13 +929,17 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 var box = col.GetComponent<Box>();
                 var offset = box.GetOffset();
 
-
+                //箱だけ、プレイヤーだけがループしてる場合箱から手を離す
                 if (offset != Vector2.zero)
                 {
                     box.Hold(null);
                 }
 
+                //箱のOffsetをリセットする
                 box.SetOffset(Vector2.zero);
+
+                //箱のポジションが中途半端なら調整する
+                box.AdjustPosition();
             }
             col.gameObject.layer--;
         }
@@ -1302,17 +1306,11 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             }
 
             //内側のオブジェクトのリストに無くて、フレームが無効な時
-            if (!_insiders.Contains(other))
+            if (!_insiders.Contains(other) && !g_isActive)
             {
                 //内側のオブジェクトのリストに追加
                 _insiders.Add(other);
 
-                if(g_isActive)
-                {
-                    other.gameObject.layer++;
-                    SpriteRenderer renderer = other.GetComponentInChildren<SpriteRenderer>();
-                    renderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
-                }
             }
         }
     }
@@ -1582,6 +1580,22 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     public void OnEnter(Collider2D other, Transform transform)
     {
         //フレームの周りの当たり判定に入った瞬間に呼ぶメソッド
+    }
+
+    public void AddInsiders(Collider2D other)
+    {
+        //insiderにotherが無ければ追加する
+        if(!_insiders.Contains(other))
+        {
+            _insiders.Add(other);
+
+            if (g_isActive)
+            {
+                other.gameObject.layer++;
+                SpriteRenderer renderer = other.GetComponentInChildren<SpriteRenderer>();
+                renderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+            }
+        }
     }
 
     //プレイヤーがしゃがんでるかを代入
