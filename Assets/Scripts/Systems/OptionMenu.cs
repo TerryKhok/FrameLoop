@@ -15,6 +15,7 @@ using UnityEngine.InputSystem.Utilities;
  *               
  *  Created     :2024/06/13
  */
+
 public class OptionMenu : MonoBehaviour
 {
     [SerializeField]
@@ -33,10 +34,13 @@ public class OptionMenu : MonoBehaviour
     private TextMeshProUGUI _seText;
     [SerializeField]
     private TextMeshProUGUI _bgmText;
+
+#if false
     [SerializeField]
     private GameObject _keyboardRebind;
     [SerializeField]
     private GameObject _gamepadRebind;
+#endif
 
     private EventSystem _eventSystem;
 
@@ -88,8 +92,8 @@ public class OptionMenu : MonoBehaviour
 
         bool gamepadConectting = Gamepad.current != null;
 
-        _gamepadRebind.SetActive(gamepadConectting);
-        _keyboardRebind.SetActive(!gamepadConectting);
+        //_gamepadRebind.SetActive(gamepadConectting);
+        //_keyboardRebind.SetActive(!gamepadConectting);
     }
 
     public void Close()
@@ -103,7 +107,7 @@ public class OptionMenu : MonoBehaviour
             _eventSystem.SetSelectedGameObject(_returnSelect);
         }
 
-        _gamepadRebind.SetActive(false);
-        _keyboardRebind.SetActive(false);
+        //_gamepadRebind.SetActive(false);
+        //_keyboardRebind.SetActive(false);
     }
 }

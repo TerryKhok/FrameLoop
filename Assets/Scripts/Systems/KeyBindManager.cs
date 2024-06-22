@@ -7,6 +7,7 @@ using System.Linq;
 
 public class KeyBindManager : MonoBehaviour
 {
+#if false
     private PlayerInput _playerInput;
     private GameObject _mask;
     private InputAction _action;
@@ -114,4 +115,5 @@ public class KeyBindManager : MonoBehaviour
     {
         return _playerInput;
     }
+#endif
 }

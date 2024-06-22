@@ -20,6 +20,14 @@ public class PauseMenu : SingletonMonoBehaviour<PauseMenu>
         playerInput = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerInput>();
     }
 
+    private void Update()
+    {
+        if(playerInput == null)
+        {
+            Debug.Log("hoge");
+        }
+    }
+
     //public void OnPause(InputAction.CallbackContext context)
     //{
     //    if (IsPaused)

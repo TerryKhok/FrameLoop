@@ -15,6 +15,7 @@ using UnityEngine.InputSystem;
  */
 public class KeyBind : MonoBehaviour
 {
+#if false
     private KeyBindManager _manager = null;
 
     [SerializeField]
@@ -67,4 +68,5 @@ public class KeyBind : MonoBehaviour
     {
         _manager.RemoveBindingOverrides(_actionName);
     }
+#endif
 }
