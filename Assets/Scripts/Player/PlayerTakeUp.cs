@@ -37,7 +37,6 @@ public class PlayerTakeUp : MonoBehaviour
 
     private void Update()
     {
-        //takeUp();
         _playerAnimation.SetHoldAnimation(_playerInfo.g_takeUpFg);
     }
 
@@ -55,7 +54,9 @@ public class PlayerTakeUp : MonoBehaviour
         }
 
         //プレイヤーの進行方向へのRay
-        Ray ray = new Ray(_transform.position, _transform.right);
+        Vector3 origin = _transform.position;
+        origin.y -= 0.25f;
+        Ray ray = new Ray(origin, _transform.right);
         RaycastHit2D hit;
         Vector3 size = new Vector3(0.5f, 0.5f, 0.5f);
 
@@ -70,7 +71,7 @@ public class PlayerTakeUp : MonoBehaviour
         }
 
         //プレイヤーの進行方向に箱があるか判定
-        hit = Physics2D.BoxCast(ray.origin, size, 0, ray.direction, 1f,mask);
+        hit = Physics2D.Raycast(ray.origin, ray.direction, 1f, mask);
 
         if (hit.collider != null)
         {
@@ -92,43 +93,5 @@ public class PlayerTakeUp : MonoBehaviour
         if (_toggle) { return; }
 
         _box.Hold(null);
-    }
-
-    //箱を掴んでいる間の処理
-    private void takeUp()
-    {
-        //箱を掴んでなかったらreturn
-        if (!_playerInfo.g_takeUpFg) { return; }
-
-        _playerInfo.g_takeUpFg = true;
-
-        //進行方向へのRay
-        Ray ray = new Ray(_transform.position - new Vector3(-0.5f,0,0), _transform.right);
-        RaycastHit2D hit;
-
-        Vector3 size = new Vector3(0.42f, 0.5f, 0.5f);
-        float length = 1 + _boxCollider.size.x/2;
-
-
-        //フレームが有効かどうかでLayerMaskを変更
-        LayerMask mask = 1 << LayerMask.NameToLayer("OPlatform");
-        if (_frameLoop.g_isActive)
-        {
-            mask = 1 << LayerMask.NameToLayer("IPlatform");
-        }
-
-        //壁があるかを判定
-        hit = Physics2D.BoxCast(ray.origin, size, 0, ray.direction, length, mask);
-
-        if(hit.collider != null)
-        {
-            //壁があったら壁の情報を更新
-            _playerInfo.g_wall = _transform.right.normalized.x;
-        }
-        else
-        {
-            //壁が無かったら壁の情報をリセット
-            _playerInfo.g_wall = 0;
-        }
     }
 }

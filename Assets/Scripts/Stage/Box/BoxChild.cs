@@ -23,7 +23,15 @@ public class BoxChild : MonoBehaviour,IBox
         Vector2 vec = FrameLoop.Instance.GetSize();
         vec.y = 0;
 
-        _box.SetOffset(-t.right * vec);
+        if(t == null)
+        {
+            _box.SetOffset(Vector2.zero);
+        }
+        else
+        {
+            _box.SetOffset(-t.right * vec);
+        }
+        
 
         _box.Hold(t);
     }

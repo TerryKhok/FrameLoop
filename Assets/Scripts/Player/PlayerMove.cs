@@ -129,9 +129,9 @@ public class PlayerMove : MonoBehaviour
         {
             //êiçsï˚å¸Ç™ï«Ç»ÇÁreturnÇ∑ÇÈ
             Vector3 pos = _transform.position;
-            pos += _transform.right * 0.5f;
+            pos += (Vector3)_currentInput * 0.5f;
             pos -= _transform.up * 0.25f;
-            Ray ray = new Ray(pos, _transform.right);
+            Ray ray = new Ray(pos, _currentInput);
             RaycastHit2D hit;
             LayerMask mask;
 
@@ -139,19 +139,27 @@ public class PlayerMove : MonoBehaviour
             if (FrameLoop.Instance.g_isActive)
             {
                 mask = _playerInfo.g_insideMask;
-                mask &= ~(1 << LayerMask.NameToLayer("IBox"));
             }
             else
             {
                 mask = _playerInfo.g_outsideMask;
-                mask &= ~(1 << LayerMask.NameToLayer("OBox"));
             }
 
             hit = Physics2D.Raycast(ray.origin, ray.direction, 0.05f, mask);
 
             if (hit.collider != null)
             {
-                return;
+                if(_playerInfo.g_box == null)
+                {
+                    return;
+                }
+
+                //âüÇµÇƒÇ¢ÇÈî†à»äOÇ™à⁄ìÆï˚å¸Ç…Ç†Ç¡ÇΩÇÁreturnÇ∑ÇÈ
+                Box box = _playerInfo.g_box.GetComponent<Box>();
+                if(!box.ContainsCopyList(hit.transform))
+                {
+                    return;
+                }
             }
         }
 

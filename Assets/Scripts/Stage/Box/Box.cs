@@ -217,8 +217,78 @@ public class Box : MonoBehaviour,IBox
         }
 
         var pos = _rb.position;
+        var direction = new Vector2(_playerInfo.g_currentInputX, 0);
 
-        var direction = new Vector2(_playerInfo.g_currentInputX,0);
+        //入力がないときはg_wallを更新しない
+        if (direction.x == 0)
+        {
+            return;
+        }
+
+        Ray ray = new Ray(pos, direction);
+        RaycastHit2D[] hits;
+        Vector2 size = new Vector2((_width+0.1f) / 2, 0.5f);
+
+
+        //自分と同じレイヤーのBoxが進行方向にあるかチェック
+        LayerMask mask = 1 << gameObject.layer;
+
+        if (LayerMask.LayerToName(gameObject.layer)[0] == 'I')
+        {
+            mask |= 1 << LayerMask.NameToLayer("IPlatform");
+        }
+        else
+        {
+            mask |= 1 << LayerMask.NameToLayer("OPlatform");
+        }
+
+        bool hitWall = false;
+        bool hitBox = true;
+        int count = 0;
+        Vector3 origin = pos;
+        List<Transform> hittenBoxList = new List<Transform>() { _transform };
+        while (hitBox)
+        {
+            ++count;
+            hits = Physics2D.BoxCastAll(origin, size, 0, ray.direction, 0.3f, mask);
+
+            hitBox = false;
+
+            if (hits.Length > 0)
+            {
+                foreach (var hit in hits)
+                {
+                    //自分を除外して、座標を移動させる
+                    if (hittenBoxList.Contains(hit.transform)) { continue; }
+
+                    if (hit.transform.CompareTag("Box"))
+                    {
+                        var rb = hit.transform.GetComponent<Rigidbody2D>();
+                        pos.x += _width * ray.direction.normalized.x;
+                        rb.position = pos;
+                        hittenBoxList.Add(hit.transform);
+                        origin = hit.transform.position;
+                        hitBox = true;
+
+                        continue;
+                    }
+
+                    hitWall = true;
+                    _playerInfo.g_wall = ray.direction.normalized.x;
+                }
+            }
+        }
+
+        if (!hitWall)
+        {
+            _playerInfo.g_wall = 0;
+        }
+
+        if(hitWall)
+        {
+            return;
+        }
+
         pos.x = _playerTransform.position.x;
 
         float offset = 0.95f;
@@ -237,51 +307,6 @@ public class Box : MonoBehaviour,IBox
         //x座標をプレイヤーの座標から一定距離ずらした位置にする
         _rb.position = pos;
 
-        Ray ray = new Ray(pos, direction);
-        RaycastHit2D[] hits;
-        Vector2 size = new Vector2(_width / 2, 0.5f);
-
-
-        //自分と同じレイヤーのBoxが進行方向にあるかチェック
-        LayerMask mask = 1 << gameObject.layer;
-
-        if (LayerMask.LayerToName(gameObject.layer)[0] == 'I')
-        {
-            mask |= 1 << LayerMask.NameToLayer("IPlatform");
-        }
-        else
-        {
-            mask |= 1 << LayerMask.NameToLayer("OPlatform");
-        }
-
-        hits = Physics2D.BoxCastAll(ray.origin, size, 0, ray.direction, 0.25f, mask);
-
-        bool hitWall = false;
-        if(hits.Length > 0)
-        {
-            foreach(var hit in hits)
-            {
-                //自分を除外して、座標を移動させる
-                if(hit.transform == _transform) { continue; }
-
-                if (hit.transform.CompareTag("Box"))
-                {
-                    var rb = hit.transform.GetComponent<Rigidbody2D>();
-                    pos.x += _width * ray.direction.normalized.x;
-                    rb.position = pos;
-
-                    continue;
-                }
-
-                hitWall = true;
-                _playerInfo.g_wall = ray.direction.normalized.x;
-            }
-        }
-
-        if (!hitWall)
-        {
-            _playerInfo.g_wall = 0;
-        }
     }
 
     //箱を移動させる基準のtransformを受け取る
@@ -416,5 +441,10 @@ public class Box : MonoBehaviour,IBox
     public void ClearCopyList()
     {
         _copyList.Clear();
+    }
+
+    public bool ContainsCopyList(Transform t)
+    {
+        return _copyList.Contains(t) || t == _transform;
     }
 }
