@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -6,11 +8,13 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 {
     [SerializeField] PauseMenu _pauseMenu;
     private InputManager _inputManager;
+    private CircleWipeController _circleWipeController;
 
     private void Start()
     {
         _inputManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<InputManager>();
         _inputManager._Retry.performed += Retry;
+        _circleWipeController = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<CircleWipeController>();
     }
 
     //[SerializeField]
@@ -27,9 +31,51 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
         //    DontDestroyOnLoad(_audioManager);
         //}
         Time.timeScale = 1f;
-        SceneManager.LoadScene(sceneName);
+        StartCoroutine(LoadSceneAsync(sceneName));
         //Debug.Log("Scene loaded");
         if (_pauseMenu != null) _pauseMenu.SetPause(false);
+    }
+
+    public void LoadScene(int index)
+    {
+        Time.timeScale = 1f;
+        StartCoroutine(LoadSceneAsync(index));
+        //Debug.Log("Scene loaded");
+        if (_pauseMenu != null) _pauseMenu.SetPause(false);
+    }
+
+    private IEnumerator LoadSceneAsync(string sceneName)
+    {
+        float duration = 0;
+
+        if (_circleWipeController != null)
+        {
+            duration = _circleWipeController.GetDuration();
+            _circleWipeController.BeginTransition(true);
+        }
+
+        var async = SceneManager.LoadSceneAsync(sceneName);
+
+        async.allowSceneActivation = false;
+        yield return new WaitForSeconds(duration);
+        async.allowSceneActivation = true;
+    }
+
+    private IEnumerator LoadSceneAsync(int index)
+    {
+        float duration = 0;
+
+        if (_circleWipeController != null)
+        {
+            duration = _circleWipeController.GetDuration();
+            _circleWipeController.BeginTransition(true);
+        }
+
+        var async = SceneManager.LoadSceneAsync(index);
+
+        async.allowSceneActivation = false;
+        yield return new WaitForSeconds(duration);
+        async.allowSceneActivation = true;
     }
 
     public void ContinueGame()

@@ -9154,6 +9154,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Menu & Scene Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 266446467192332486, guid: 8b9caf9c46fdee7478875b33b046f315,
+        type: 3}
+      propertyPath: m_TagString
+      value: SceneManager
+      objectReference: {fileID: 0}
     - target: {fileID: 1447092149563627921, guid: 8b9caf9c46fdee7478875b33b046f315,
         type: 3}
       propertyPath: m_AnchorMax.x

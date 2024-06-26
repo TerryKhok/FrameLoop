@@ -120,6 +120,9 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
             _clearScreenAnimator.SetTrigger("Scale");
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 
@@ -205,16 +208,16 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
     public void Next()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneLoader.Instance.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void Retry()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneLoader.Instance.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void Title()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneLoader.Instance.LoadScene("MainMenu");
     }
 }

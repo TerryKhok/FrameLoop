@@ -17,6 +17,12 @@ public class PauseMenu : SingletonMonoBehaviour<PauseMenu>
         IsPaused = false;
         Time.timeScale = 1f;
 
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
         playerInput = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerInput>();
     }
 
@@ -57,6 +63,9 @@ public class PauseMenu : SingletonMonoBehaviour<PauseMenu>
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         IsPaused = false;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void OnPause(InputAction.CallbackContext context)
@@ -74,6 +83,9 @@ public class PauseMenu : SingletonMonoBehaviour<PauseMenu>
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         IsPaused = true;
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void Retry()
@@ -82,7 +94,7 @@ public class PauseMenu : SingletonMonoBehaviour<PauseMenu>
         Time.timeScale = 1f;
         IsPaused = false;
         Resume();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneLoader.Instance.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void SetPause(bool isPaused){

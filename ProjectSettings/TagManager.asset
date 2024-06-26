@@ -20,6 +20,7 @@ TagManager:
   - BreakableParent
   - Mask
   - Canon
+  - SceneManager
   layers:
   - Default
   - TransparentFX

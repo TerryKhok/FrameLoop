@@ -44,6 +44,8 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     public bool g_isCrouch = false;
     [HideInInspector]
     public int g_currentInputX = 0;
+
+    private static string _currentSceneName, _prevSceneName;
     
     private bool _prevGround = false;
     private bool _currentGround = false;
@@ -97,6 +99,9 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
                 }
             }
         }
+
+        _prevSceneName = _currentSceneName;
+        _currentSceneName = SceneManager.GetActiveScene().name;
     }
 
     private void Update()
@@ -298,5 +303,10 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     public List<Transform> GetCopyList()
     {
         return _copyList;
+    }
+
+    public string GetPrevSceneName()
+    {
+        return _prevSceneName;
     }
 }

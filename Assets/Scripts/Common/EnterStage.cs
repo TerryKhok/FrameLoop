@@ -22,6 +22,13 @@ public class EnterStage : MonoBehaviour
         _frameLoop = FrameLoop.Instance;
         _playerInfo = PlayerInfo.Instance;
         _animator = GetComponent<Animator>();
+
+        if(_playerInfo.GetPrevSceneName() == _sceneName)
+        {
+            Vector3 pos = transform.position;
+            pos.y -= 1.0f;
+            _playerInfo.g_transform.position = pos;
+        }
     }
 
     private void Update()

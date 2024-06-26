@@ -7,13 +7,9 @@ public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
     private Transform framePos;
 
     private FrameLoop frameLoop; //script
-    [SerializeField]
-    private GameObject player;
 
     [SerializeField]
     private AudioManager _audioManager = null;
-
-    ParticleSystem.Particle[] particles;
 
     private float elapsedTime;
     [SerializeField]
@@ -54,10 +50,6 @@ public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
 
     bool burstFlag = true;
 
-    bool frameActivated = false;
-
-    float frameColorVal = 1f;
-
     private FrameParticleSwitch[] topParticleSwitchArray, bottomParticleSwitchArray, leftParticleSwitchArray, rightParticleSwitchArray;
 
     private Dictionary<TileReplace, List<(int switchNum, int num)>> _breakableDic = new Dictionary<TileReplace, List<(int switchNum, int num)>>();
@@ -65,7 +57,7 @@ public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
     private void Start()
     {
         frameLoop = FrameLoop.Instance;
-        transform.position = player.transform.position;
+        transform.position = PlayerInfo.Instance.g_transform.position;
         burstFlag = true;
         activeFrameObject.SetActive(false);
 
@@ -94,8 +86,6 @@ public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
         if(!frameLoop.g_isActive)
         {
             activeFrameObject.SetActive(false);
-            frameActivated = true;
-            frameColorVal = 1f;
             matColInactive = new Color(1f, 1f, 1f, frameTransparency);
             mat.color = matColInactive;
             if (!burstFlag)
@@ -103,23 +93,6 @@ public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
                 burst1.Play(); burst2.Play(); burst3.Play(); burst4.Play();
                 burstFlag = true;
             }
-        }
-        else
-        {
-            //while (!frameActivated)
-            //{
-            //    if (frameColorVal > 0.3f)
-            //    {
-            //        frameColorVal -= 0.1f;
-            //        matColActive = new Color(0f, 0f, 0.3f, 1f);
-            //        mat.color = matColActive;
-            //    }
-            //    else
-            //    {
-            //        frameColorVal = 0.3f;
-            //        frameActivated = true;
-            //    }
-            //}
         }
 
         //フレームが起動したときに一度実行
@@ -171,11 +144,6 @@ public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
         {
             particleFramePos.position = framePos.position;
         }
-
-        //partTrans(ref ps1);
-        //partTrans(ref ps2);
-        //partTrans(ref ps3);
-        //partTrans(ref ps4);
     }
 
     public void SendDestroyMsg(TileReplace tileReplace)
@@ -206,28 +174,4 @@ public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
             }
         }
     }
-
-#if false
-    private void startLifeTimeSet(ref ParticleSystem ps, float lifetime)
-    {
-        ParticleSystem.MainModule main = ps.main;
-        main.startLifetime = lifetime;
-    }
-
-    private void rateOverTimeSet(ref ParticleSystem ps, float rate)
-    {
-        ParticleSystem.EmissionModule main = ps.emission;
-        main.rateOverTime = rate;
-    }
-
-    private void partTrans(ref ParticleSystem ps)
-    {
-        int particlesAmount = ps.GetParticles(particles);
-        for (int i = 0; i < particlesAmount; ++i)
-        {
-            particles[i].position = framePos.position;
-        }
-        ps.SetParticles(particles, particlesAmount);
-    }
-#endif
 }

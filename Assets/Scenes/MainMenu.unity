@@ -783,6 +783,7 @@ PrefabInstance:
     - {fileID: 6848328123438242010, guid: f08acd6c3cfe4764c98e2d8de00d2326, type: 3}
     - {fileID: 8029073994689867715, guid: f08acd6c3cfe4764c98e2d8de00d2326, type: 3}
     - {fileID: 267698770365937718, guid: f08acd6c3cfe4764c98e2d8de00d2326, type: 3}
+    - {fileID: 730296763325109044, guid: f08acd6c3cfe4764c98e2d8de00d2326, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4038076566861067344, guid: f08acd6c3cfe4764c98e2d8de00d2326,
         type: 3}
@@ -852,7 +853,7 @@ PrefabInstance:
     - target: {fileID: 2805918484503538415, guid: 8b9caf9c46fdee7478875b33b046f315,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0000038628796
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2874986102220334254, guid: 8b9caf9c46fdee7478875b33b046f315,
         type: 3}

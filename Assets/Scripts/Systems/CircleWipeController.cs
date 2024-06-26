@@ -10,43 +10,70 @@ public class CircleWipeController : MonoBehaviour
     [SerializeField]
     private Image _circleWipeImage;
     private float _time = 0f;
-    private bool _isTransitioning = false;
+    private bool _isTransitioning = false, _isSceneTransition = false;
 
     private void Start()
     {
         _circleWipeMaterial.SetFloat("_cutoff", 0);
-
-        Vector2 playerPos =  PlayerInfo.Instance.g_transform.position;
-        Vector2 playerViewPortPos = Camera.main.WorldToViewportPoint(playerPos);
-
-        _circleWipeMaterial.SetVector("_center", playerViewPortPos);
 
         BeginTransition();
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.T))
-        {
-            BeginTransition();
-        }
-
         if (_isTransitioning)
         {
-            _time += Time.deltaTime;
-            float cutoff = Mathf.Clamp01(_time / _duration);
-            _circleWipeMaterial.SetFloat("_cutoff", cutoff);
-
-            if(_time > _duration)
+            _circleWipeImage.enabled = true;
+            if (_isSceneTransition)
             {
-                _circleWipeImage.enabled = false;
+                _time -= Time.deltaTime;
+                float cutoff = Mathf.Clamp01(_time / _duration);
+                _circleWipeMaterial.SetFloat("_cutoff", cutoff);
+
+                if (_time < 0)
+                {
+                    _circleWipeMaterial.SetFloat("_cutoff", 0);
+                    _isTransitioning = false;
+                }
+            }
+            else
+            {
+                _time += Time.deltaTime;
+                float cutoff = Mathf.Clamp01(_time / _duration);
+                _circleWipeMaterial.SetFloat("_cutoff", cutoff);
+
+                if (_time > _duration)
+                {
+                    _circleWipeImage.enabled = false;
+                    _isTransitioning = false;
+                }
             }
         }
     }
 
-    public void BeginTransition()
+    public void BeginTransition(bool sceneTransition = false)
     {
-        _time = 0f;
-        _isTransitioning = true;
+        _isSceneTransition = sceneTransition;
+
+        Vector2 playerPos = PlayerInfo.Instance.g_transform.position;
+        Vector2 playerViewPortPos = Camera.main.WorldToViewportPoint(playerPos);
+
+        _circleWipeMaterial.SetVector("_center", playerViewPortPos);
+
+        if (sceneTransition)
+        {
+            _time = _duration;
+            _isTransitioning = true;
+        }
+        else
+        {
+            _time = 0f;
+            _isTransitioning = true;
+        }
+    }
+
+    public float GetDuration()
+    {
+        return _duration;
     }
 }
