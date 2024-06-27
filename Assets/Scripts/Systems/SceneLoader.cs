@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -9,6 +10,8 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     [SerializeField] PauseMenu _pauseMenu;
     private InputManager _inputManager;
     private CircleWipeController _circleWipeController;
+
+    private WaitForEndOfFrame _waitForEndOfFrame = new WaitForEndOfFrame();
 
     private void Start()
     {
@@ -30,7 +33,6 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
         //    _audioManager.Play("Main BGM");
         //    DontDestroyOnLoad(_audioManager);
         //}
-        Time.timeScale = 1f;
         StartCoroutine(LoadSceneAsync(sceneName));
         //Debug.Log("Scene loaded");
         if (_pauseMenu != null) _pauseMenu.SetPause(false);
@@ -38,7 +40,6 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 
     public void LoadScene(int index)
     {
-        Time.timeScale = 1f;
         StartCoroutine(LoadSceneAsync(index));
         //Debug.Log("Scene loaded");
         if (_pauseMenu != null) _pauseMenu.SetPause(false);
@@ -46,7 +47,10 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 
     private IEnumerator LoadSceneAsync(string sceneName)
     {
-        float duration = 0;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        float duration = 0, elapsedTime = 0;
 
         if (_circleWipeController != null)
         {
@@ -57,13 +61,29 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
         var async = SceneManager.LoadSceneAsync(sceneName);
 
         async.allowSceneActivation = false;
-        yield return new WaitForSeconds(duration);
+
+        while (elapsedTime <= duration)
+        {
+            elapsedTime += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
         async.allowSceneActivation = true;
+
+        while (!async.isDone)
+        {
+            yield return null;
+        }
+
+        Time.timeScale = 1.0f;
     }
 
     private IEnumerator LoadSceneAsync(int index)
     {
-        float duration = 0;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        float duration = 0, elapsedTime = 0;
 
         if (_circleWipeController != null)
         {
@@ -74,8 +94,21 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
         var async = SceneManager.LoadSceneAsync(index);
 
         async.allowSceneActivation = false;
-        yield return new WaitForSeconds(duration);
+        
+        while(elapsedTime <= duration)
+        {
+            elapsedTime += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
         async.allowSceneActivation = true;
+
+        while(!async.isDone)
+        {
+            yield return null;
+        }
+
+        Time.timeScale = 1.0f;
     }
 
     public void ContinueGame()

@@ -17,6 +17,8 @@ public class EnterStage : MonoBehaviour
     private PlayerInfo _playerInfo;
     private Animator _animator;
 
+    private bool _isEnter = false;
+
     private void Start()
     {
         _frameLoop = FrameLoop.Instance;
@@ -47,12 +49,13 @@ public class EnterStage : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (!_isOpened) { return; }
+        if (!_isOpened || _isEnter) { return; }
         if (collision != _playerInfo.g_goalHitBox) { return; }
 
         if (_inputW && _playerInfo.g_isGround)
         {
-            SceneManager.LoadScene(_sceneName);
+            SceneLoader.Instance.LoadScene(_sceneName);
+            _isEnter = true;
         }
     }
 

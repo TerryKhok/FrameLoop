@@ -161,34 +161,34 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
 
         g_isGround = _currentGround || _prevGround;
 
-        if(g_isGround)
-        {
-            g_walkCancel = false;
-        }
+        //if(g_isGround)
+        //{
+        //    g_walkCancel = false;
+        //}
     }
 
-    private void FixedUpdate()
-    {
-        _prevPosition = _currentPosition;
-        _currentPosition = g_transform.position;
+    //private void FixedUpdate()
+    //{
+    //    _prevPosition = _currentPosition;
+    //    _currentPosition = g_transform.position;
 
-        if (_prevPosition.y == _currentPosition.y)
-        {
-            _yStopCount += Time.fixedDeltaTime;
+    //    if (_prevPosition.y == _currentPosition.y)
+    //    {
+    //        _yStopCount += Time.fixedDeltaTime;
 
-            if (_yStopCount >= 0.05f && !g_isGround)
-            {
-                g_walkCancel = true;
-                Vector3 pos = _currentPosition;
-                pos += g_transform.right * -0.2f * Time.fixedDeltaTime;
-                g_transform.position = pos;
-            }
-        }
-        else
-        {
-            _yStopCount = 0;
-        }
-    }
+    //        if (_yStopCount >= 0.05f && !g_isGround)
+    //        {
+    //            g_walkCancel = true;
+    //            Vector3 pos = _currentPosition;
+    //            pos += g_transform.right * -0.2f * Time.fixedDeltaTime;
+    //            g_transform.position = pos;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        _yStopCount = 0;
+    //    }
+    //}
 
     private float checkGround(Transform t)
     {

@@ -113,10 +113,10 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        if(_playerInfo.g_walkCancel)
-        {
-            return;
-        }
+        //if(_playerInfo.g_walkCancel)
+        //{
+        //    return;
+        //}
 
         var velocity = _targetVelocity;
 

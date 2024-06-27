@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -31,6 +32,7 @@ public class PlayerJump : MonoBehaviour
 
     private PlayerInfo _playerInfo = null;
     private PlayerAnimation _playerAnimation = null;
+    private WaitForSeconds _wait = new WaitForSeconds(0.04f);
 
     private void Start()
     {
@@ -82,9 +84,7 @@ public class PlayerJump : MonoBehaviour
     //ジャンプキーを押したときの処理
     public void JumpStarted(InputAction.CallbackContext context)
     {
-        _elapsedTime = 0;
         _pressedJump = true;
-        _isJumping = true;
     }
     
     //ジャンプキーを離したときの処理
@@ -96,6 +96,25 @@ public class PlayerJump : MonoBehaviour
         }
     }
 
+    private IEnumerator JumpDelay()
+    {
+        yield return _wait;
+
+        _elapsedTime = 0;
+
+        var currentVelocity = _rb.velocity;
+        currentVelocity.y = 0;
+
+        //重力を無効にして上に力を加える
+        _rb.gravityScale = 0;
+        _rb.velocity = currentVelocity;
+        _rb.AddForce(Vector3.up * _jumpVelocity * _rb.mass, ForceMode2D.Impulse);
+
+        _isJumping = true;
+
+        if (_isJumping) { AudioManager.instance.Play("Jump"); }
+    }
+
     //ジャンプ処理
     private void jump()
     {
@@ -104,20 +123,11 @@ public class PlayerJump : MonoBehaviour
             //Jumpアニメーションを再生
             _playerAnimation.PlayJumpAnimation();
 
-            var currentVelocity = _rb.velocity;
-            currentVelocity.y = 0;
-
-            //重力を無効にして上に力を加える
-            _rb.gravityScale = 0;
-            _rb.velocity = currentVelocity;
-            _rb.AddForce(Vector3.up * _jumpVelocity * _rb.mass, ForceMode2D.Impulse);
-
             _playerInfo.g_takeUpFg = false;
-
-            if (_isJumping) { AudioManager.instance.Play("Jump"); }
-
             AudioManager.instance.Stop("Walk");
-        }
+
+            StartCoroutine(JumpDelay());
+        }            
         _pressedJump = false;
     }
 
@@ -126,6 +136,8 @@ public class PlayerJump : MonoBehaviour
     {
         //経過時間が最低時間より短かったらreturn
         if(_elapsedTime <= _minJumpTime) { return; }
+
+        StopAllCoroutines();
 
         //重力を元に戻す
         _rb.gravityScale = _gravityScale;
