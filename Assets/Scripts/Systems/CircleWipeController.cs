@@ -9,12 +9,17 @@ public class CircleWipeController : MonoBehaviour
     private float _duration = 1.0f;
     [SerializeField]
     private Image _circleWipeImage;
+
+    private Transform _playerTransform = null;
+    private Camera _camera = null;
     private float _time = 0f;
     private bool _isTransitioning = false, _isSceneTransition = false;
 
     private void Start()
     {
         _circleWipeMaterial.SetFloat("_cutoff", 0);
+        _playerTransform = PlayerInfo.Instance.g_transform;
+        _camera = Camera.main;
 
         BeginTransition();
     }
@@ -24,6 +29,13 @@ public class CircleWipeController : MonoBehaviour
         if (_isTransitioning)
         {
             _circleWipeImage.enabled = true;
+            Vector2 playerViewportPos = Vector2.zero;
+            if(_playerTransform != null )
+            {
+                playerViewportPos = _camera.WorldToViewportPoint(_playerTransform.position);
+            }
+            _circleWipeMaterial.SetVector("_center", playerViewportPos);
+
             if (_isSceneTransition)
             {
                 _time -= Time.unscaledDeltaTime;
@@ -58,11 +70,6 @@ public class CircleWipeController : MonoBehaviour
     public void BeginTransition(bool sceneTransition = false)
     {
         _isSceneTransition = sceneTransition;
-
-        Vector2 playerPos = PlayerInfo.Instance.g_transform.position;
-        Vector2 playerViewPortPos = Camera.main.WorldToViewportPoint(playerPos);
-
-        _circleWipeMaterial.SetVector("_center", playerViewPortPos);
 
         if (sceneTransition)
         {

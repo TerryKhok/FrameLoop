@@ -15,6 +15,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 
     private void Start()
     {
+        Time.timeScale = 1.0f;
         _inputManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<InputManager>();
         _inputManager._Retry.performed += Retry;
         _circleWipeController = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<CircleWipeController>();

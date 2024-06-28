@@ -17,6 +17,12 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private GamepadUISelect _gamepadUISelect;
 
+    private void Start()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     public void SetEnable(bool enable)
     {
         if (_mainMenu != null)
