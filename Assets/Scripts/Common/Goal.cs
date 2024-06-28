@@ -123,6 +123,9 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
+
+            //Reset frame sound
+            AudioManager.instance.Stop("Frame");
         }
     }
 
