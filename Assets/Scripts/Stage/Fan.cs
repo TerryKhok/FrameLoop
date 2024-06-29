@@ -55,8 +55,10 @@ public class Fan : MonoBehaviour,IParentOnTrigger
 
     private Animator _animator;
 
+    private PlayerInfo _playerInfo;
     private Camera _camera = null;
 
+    private bool _playerBoxFlag = false;
     private bool windSoundFlag = false;
 
 
@@ -73,6 +75,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     private void Start()
     {
         _camera = Camera.main;
+        _playerInfo = PlayerInfo.Instance;
         _isEnable = _enableOnAwake;
         _transform = transform;
 
@@ -153,12 +156,37 @@ public class Fan : MonoBehaviour,IParentOnTrigger
             return; 
         }
 
+        _playerBoxFlag = false;
+
         //発射方向をVector2に変換
         Vector2 forceDirection = new Vector2(_actualDirection.x, _actualDirection.y);
 
         //風に触れているrigidbodyを全て確認
         foreach (var rb in _rbDic.Values)
         {
+            //Playerか、押してる箱ならフラグを立てる
+            if(rb.transform == _playerInfo.g_transform || 
+               rb.transform == _playerInfo.g_box)
+            {
+                //既にフラグが立っていたらreturn
+                if(_playerBoxFlag)
+                {
+                    return;
+                }
+
+                //Playerか箱かに関わらずPlayerのrigidbodyを指定
+                var playerRb = _playerInfo.g_rb;
+
+                //発射方向に一定速度で移動させる
+                var currentPlayerPos = playerRb.position;
+                currentPlayerPos += forceDirection * _force * Time.fixedDeltaTime;
+                playerRb.position = currentPlayerPos;
+
+                _playerBoxFlag = true;
+                _playerInfo.g_box.GetComponent<Box>().SetMovable(true);
+                return;
+            }
+
             //発射方向に一定速度で移動させる
             var currentPos = rb.position;
             currentPos += forceDirection * _force * Time.fixedDeltaTime;
@@ -201,6 +229,8 @@ public class Fan : MonoBehaviour,IParentOnTrigger
             {
                 var rb = other.GetComponent<Rigidbody2D>();
                 rb.constraints |= RigidbodyConstraints2D.FreezePositionX;
+
+                other.GetComponent<Box>().SetMovable(false);
             }
         }
     }

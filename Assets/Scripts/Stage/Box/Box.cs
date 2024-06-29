@@ -32,6 +32,7 @@ public class Box : MonoBehaviour,IBox
 
     private List<Transform> _copyList = new List<Transform>();
 
+    private bool _movable = false;
     private bool soundFlag = false;
 
     private void Start()
@@ -220,7 +221,7 @@ public class Box : MonoBehaviour,IBox
         var direction = new Vector2(_playerInfo.g_currentInputX, 0);
 
         //“ü—Í‚ª‚È‚¢‚Æ‚«‚Íg_wall‚ğXV‚µ‚È‚¢
-        if (direction.x == 0)
+        if (direction.x == 0 && !_movable)
         {
             return;
         }
@@ -380,16 +381,17 @@ public class Box : MonoBehaviour,IBox
         }
 
         var absGap = new Vector2(Mathf.Abs(gap.x), Mathf.Abs(gap.y));
+        Debug.Log(absGap);
 
-        if (0.1f < absGap.x && absGap.x < 0.4f)
-        {
-            gap.x = 0;
-        }
+        //if (0.1f < absGap.x && absGap.x < 0.4f)
+        //{
+        //    gap.x = 0;
+        //}
 
-        if (0.1f < absGap.y && absGap.y < 0.4f)
-        {
-            gap.y = 0;
-        }
+        //if (0.1f < absGap.y && absGap.y < 0.4f)
+        //{
+        //    gap.y = 0;
+        //}
 
         pos -= gap;
         _transform.position = pos;
@@ -446,5 +448,10 @@ public class Box : MonoBehaviour,IBox
     public bool ContainsCopyList(Transform t)
     {
         return _copyList.Contains(t) || t == _transform;
+    }
+
+    public void SetMovable(bool movable)
+    {
+
     }
 }
