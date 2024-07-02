@@ -217,7 +217,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -317,9 +317,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '2-3
-
-'
+  m_text: "\uFF12\uFF0D\uFF13"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b8eb1cb594abd8844978ff4a93c28d16, type: 2}
   m_sharedMaterial: {fileID: 5295861146833502084, guid: b8eb1cb594abd8844978ff4a93c28d16,
@@ -355,7 +353,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -456,7 +454,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -90, y: -120.05282}
+  m_AnchoredPosition: {x: -90.00001, y: -120.05282}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &259981803
@@ -479,7 +477,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 2-1
+  m_text: "\uFF12\uFF0D\uFF11"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b8eb1cb594abd8844978ff4a93c28d16, type: 2}
   m_sharedMaterial: {fileID: 5295861146833502084, guid: b8eb1cb594abd8844978ff4a93c28d16,
@@ -515,7 +513,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -598,7 +596,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 690, y: 407}
+  m_AnchoredPosition: {x: 690.00006, y: 420.1849}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &370090351
@@ -621,7 +619,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 2-6
+  m_text: "\uFF12\uFF0D\uFF16"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b8eb1cb594abd8844978ff4a93c28d16, type: 2}
   m_sharedMaterial: {fileID: 5295861146833502084, guid: b8eb1cb594abd8844978ff4a93c28d16,
@@ -657,7 +655,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -803,7 +801,7 @@ PrefabInstance:
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: _sceneName
-      value: lvl 6
+      value: lvl 12
       objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -886,7 +884,7 @@ PrefabInstance:
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: _sceneName
-      value: lvl 4
+      value: lvl 10
       objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -1155,7 +1153,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 2-4
+  m_text: "\uFF12\uFF0D\uFF14"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b8eb1cb594abd8844978ff4a93c28d16, type: 2}
   m_sharedMaterial: {fileID: 5295861146833502084, guid: b8eb1cb594abd8844978ff4a93c28d16,
@@ -1191,7 +1189,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1254,7 +1252,7 @@ PrefabInstance:
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: _sceneName
-      value: lvl 5
+      value: lvl 11
       objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -1466,7 +1464,7 @@ PrefabInstance:
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: _sceneName
-      value: lvl 2
+      value: lvl 8
       objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -1549,7 +1547,7 @@ PrefabInstance:
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: _sceneName
-      value: lvl 3
+      value: lvl 9
       objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -8178,7 +8176,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 2-5
+  m_text: "\uFF12\uFF0D\uFF15"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b8eb1cb594abd8844978ff4a93c28d16, type: 2}
   m_sharedMaterial: {fileID: 5295861146833502084, guid: b8eb1cb594abd8844978ff4a93c28d16,
@@ -8214,7 +8212,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -9705,7 +9703,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 2-2
+  m_text: "\uFF12\uFF0D\uFF12"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b8eb1cb594abd8844978ff4a93c28d16, type: 2}
   m_sharedMaterial: {fileID: 5295861146833502084, guid: b8eb1cb594abd8844978ff4a93c28d16,
@@ -9741,7 +9739,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -10539,7 +10537,7 @@ PrefabInstance:
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: _sceneName
-      value: lvl 1
+      value: lvl 7
       objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}

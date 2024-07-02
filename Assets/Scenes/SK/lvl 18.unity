@@ -2060,10 +2060,40 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1647212045724716664, guid: 09d88473e246a814986de2b3b88c1d07,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3416762852290737119, guid: 09d88473e246a814986de2b3b88c1d07,
         type: 3}
       propertyPath: m_Name
       value: Goal_Large
+      objectReference: {fileID: 0}
+    - target: {fileID: 3699827699364241123, guid: 09d88473e246a814986de2b3b88c1d07,
+        type: 3}
+      propertyPath: m_text
+      value: "\u30BF\u30A4\u30C8\u30EB\u3078"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8053224940126665715, guid: 09d88473e246a814986de2b3b88c1d07,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8053224940126665715, guid: 09d88473e246a814986de2b3b88c1d07,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8053224940126665715, guid: 09d88473e246a814986de2b3b88c1d07,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8053224940126665715, guid: 09d88473e246a814986de2b3b88c1d07,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8906548133063933084, guid: 09d88473e246a814986de2b3b88c1d07,
         type: 3}
@@ -2071,7 +2101,8 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7744550331400726094, guid: 09d88473e246a814986de2b3b88c1d07, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09d88473e246a814986de2b3b88c1d07, type: 3}
@@ -3218,6 +3249,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2593963649562628321, guid: 8b9caf9c46fdee7478875b33b046f315,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: World3
       objectReference: {fileID: 0}
     - target: {fileID: 2936824402561030593, guid: 8b9caf9c46fdee7478875b33b046f315,
         type: 3}

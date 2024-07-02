@@ -452,6 +452,6 @@ public class Box : MonoBehaviour,IBox
 
     public void SetMovable(bool movable)
     {
-
+        _movable = movable;
     }
 }

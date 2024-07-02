@@ -714,6 +714,11 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2593963649562628321, guid: 8b9caf9c46fdee7478875b33b046f315,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: World3
+      objectReference: {fileID: 0}
     - target: {fileID: 2936824402561030593, guid: 8b9caf9c46fdee7478875b33b046f315,
         type: 3}
       propertyPath: m_AnchoredPosition.y

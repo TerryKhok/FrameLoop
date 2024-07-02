@@ -211,7 +211,16 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
     public void Next()
     {
-        SceneLoader.Instance.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        Scene currentScene = SceneManager.GetActiveScene();
+        //ÅŒã‚ÌScene‚È‚çƒ^ƒCƒgƒ‹‚ÉˆÚ“®‚·‚é
+        if (currentScene.name == "lvl 18")
+        {
+            SceneLoader.Instance.LoadScene("MainMenu");
+        }
+        else
+        {
+            SceneLoader.Instance.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 
     public void Retry()
