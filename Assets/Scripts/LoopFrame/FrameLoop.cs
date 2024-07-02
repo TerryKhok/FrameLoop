@@ -62,6 +62,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     private List<Button> _buttonList = new List<Button>();          //Buttonクラスを取得したリスト
     private List<Canon> _canonList = new List<Canon>();             //Canonクラスを取得したリスト
     private List<TileReplace> _replaceTileList = new List<TileReplace>();// タイルの置き直し用コンポーネントのリスト
+    private List<EnterStage> _enterStageList = new List<EnterStage>();//EnterStageを取得したリスト
 
     private (float min, float max) 
         _loopRangeX = (0, 0), _loopRangeY = (0, 0);                 //フレームの端の座標
@@ -146,6 +147,12 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         foreach (var buttonObj in buttonObjs)
         {
             _buttonList.Add(buttonObj.GetComponent<Button>());
+        }
+
+        var enterStages = GameObject.FindGameObjectsWithTag("EnterStage");
+        foreach (var enterStageObj in enterStages)
+        {
+            _enterStageList.Add(enterStageObj.GetComponent<EnterStage>());
         }
 
         //ScnenのTileReplaceスクリプトをすべて取得
@@ -519,8 +526,14 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
             canon.CanonLayerCheck();
         }
-    }
 
+        //入口のレイヤーをプレイヤーが触れられるレイヤーに変更
+        foreach(var enterStage in _enterStageList)
+        {
+            enterStage.LayerCheck();
+        }
+
+    }
     //Tileをセットする
     private void setColliderTile(Vector2 origin,int i, int j, bool breakble = false, TileReplace tileReplace = null)
     {
@@ -1028,6 +1041,12 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 continue;
             }
             _replaceTileList[i].UnReplace();
+        }
+
+        //入口のレイヤーをリセット
+        foreach (var enterStage in _enterStageList)
+        {
+            enterStage.SetOutsideLayer();
         }
     }
 

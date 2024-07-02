@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2707678721231399284}
   m_Layer: 0
   m_Name: StageEnter
-  m_TagString: Untagged
+  m_TagString: EnterStage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33,7 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5863706431377398753
 MonoBehaviour:
@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sceneName: 
+  _isOpened: 0
 --- !u!212 &2365160937799456690
 SpriteRenderer:
   m_ObjectHideFlags: 0

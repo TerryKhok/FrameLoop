@@ -1,8 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
-using UnityEngine.Windows;
 
 public class EnterStage : MonoBehaviour
 {
@@ -16,6 +14,7 @@ public class EnterStage : MonoBehaviour
     private FrameLoop _frameLoop;
     private PlayerInfo _playerInfo;
     private Animator _animator;
+    private Vector2 _offset = Vector2.zero;
 
     private bool _isEnter = false;
 
@@ -31,11 +30,16 @@ public class EnterStage : MonoBehaviour
             pos.y -= 1.0f;
             _playerInfo.g_transform.position = pos;
         }
+
+        _offset = GetComponent<BoxCollider2D>().offset;
     }
 
     private void Update()
     {
-        _animator.SetBool("isOpened", _isOpened);
+        if (_animator != null)
+        {
+            _animator.SetBool("isOpened", _isOpened);
+        }
 
         if (_frameLoop.g_isActive)
         {
@@ -67,5 +71,33 @@ public class EnterStage : MonoBehaviour
     public void EnterCanceled(InputAction.CallbackContext context)
     {
         _inputW = false;
+    }
+
+    //フレームに重なっているかでレイヤーを変更する
+    public void LayerCheck()
+    {
+        //スクリーン座標に変換
+        var pos = Camera.main.WorldToScreenPoint(transform.position + (Vector3)_offset);
+
+        //座標に位置にレイを飛ばす
+        Ray ray = Camera.main.ScreenPointToRay(pos);
+        LayerMask mask = 1 << LayerMask.NameToLayer("Frame");
+
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 10, mask);
+
+        if (hit.collider != null)
+        {
+            gameObject.layer = LayerMask.NameToLayer("Inside");
+        }
+        else
+        {
+            gameObject.layer = LayerMask.NameToLayer("Outside");
+        }
+    }
+
+    //レイヤーを戻す
+    public void SetOutsideLayer()
+    {
+        gameObject.layer = LayerMask.NameToLayer("Outside");
     }
 }
