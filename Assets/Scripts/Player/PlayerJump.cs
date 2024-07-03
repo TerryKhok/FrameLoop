@@ -123,7 +123,6 @@ public class PlayerJump : MonoBehaviour
             //Jumpアニメーションを再生
             _playerAnimation.PlayJumpAnimation();
 
-            _playerInfo.g_takeUpFg = false;
             AudioManager.instance.Stop("Walk");
 
             StartCoroutine(JumpDelay());

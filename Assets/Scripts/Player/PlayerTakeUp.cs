@@ -55,7 +55,7 @@ public class PlayerTakeUp : MonoBehaviour
 
         //プレイヤーの進行方向へのRay
         Vector3 origin = _transform.position;
-        origin.y -= 0.25f;
+        origin.y -= 0.5f;
         Ray ray = new Ray(origin, _transform.right);
         RaycastHit2D hit;
         Vector3 size = new Vector3(0.5f, 0.5f, 0.5f);

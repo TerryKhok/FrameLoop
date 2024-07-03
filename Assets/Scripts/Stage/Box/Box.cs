@@ -385,15 +385,15 @@ public class Box : MonoBehaviour,IBox
 
         var absGap = new Vector2(Mathf.Abs(gap.x), Mathf.Abs(gap.y));
 
-        //if (0.1f < absGap.x && absGap.x < 0.4f)
-        //{
-        //    gap.x = 0;
-        //}
+        if (-0.15f > absGap.x || absGap.x > 0.15f)
+        {
+            gap.x = 0;
+        }
 
-        //if (0.1f < absGap.y && absGap.y < 0.4f)
-        //{
-        //    gap.y = 0;
-        //}
+        if (-0.15f > absGap.y || absGap.y > 0.15f)
+        {
+            gap.y = 0;
+        }
 
         pos -= gap;
         _transform.position = pos;
