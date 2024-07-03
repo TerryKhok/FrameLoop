@@ -181,7 +181,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uFF11\uFF0D\uFF13"
+  m_text: "\uFF13\uFF0D\uFF13"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b8eb1cb594abd8844978ff4a93c28d16, type: 2}
   m_sharedMaterial: {fileID: 5295861146833502084, guid: b8eb1cb594abd8844978ff4a93c28d16,
@@ -353,7 +353,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uFF11\uFF0D\uFF11"
+  m_text: "\uFF13\uFF0D\uFF11"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b8eb1cb594abd8844978ff4a93c28d16, type: 2}
   m_sharedMaterial: {fileID: 5295861146833502084, guid: b8eb1cb594abd8844978ff4a93c28d16,
@@ -544,7 +544,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uFF11\uFF0D\uFF16"
+  m_text: "\uFF13\uFF0D\uFF16"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b8eb1cb594abd8844978ff4a93c28d16, type: 2}
   m_sharedMaterial: {fileID: 5295861146833502084, guid: b8eb1cb594abd8844978ff4a93c28d16,
@@ -1078,7 +1078,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uFF11\uFF0D\uFF14"
+  m_text: "\uFF13\uFF0D\uFF14"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b8eb1cb594abd8844978ff4a93c28d16, type: 2}
   m_sharedMaterial: {fileID: 5295861146833502084, guid: b8eb1cb594abd8844978ff4a93c28d16,
@@ -9590,7 +9590,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uFF11\uFF0D\uFF15"
+  m_text: "\uFF13\uFF0D\uFF15"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b8eb1cb594abd8844978ff4a93c28d16, type: 2}
   m_sharedMaterial: {fileID: 5295861146833502084, guid: b8eb1cb594abd8844978ff4a93c28d16,
@@ -11253,7 +11253,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uFF11\uFF0D\uFF12"
+  m_text: "\uFF13\uFF0D\uFF12"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b8eb1cb594abd8844978ff4a93c28d16, type: 2}
   m_sharedMaterial: {fileID: 5295861146833502084, guid: b8eb1cb594abd8844978ff4a93c28d16,

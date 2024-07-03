@@ -1180,7 +1180,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                         //座標を左下からループして子オブジェクトとして生成
                         //上下左右に八個のコピーが生成される
                         Vector3 setPos = pos;
-                        setPos += new Vector3(_size.x * i, _size.y * j);
+                        Vector2 childOffset = new Vector2(_size.x * i, _size.y * j);
+                        setPos += (Vector3)childOffset;
                         var instanceObj = Instantiate(obj, setPos, col.transform.rotation, col.transform);
                         tList.Add(instanceObj.transform);
 
@@ -1192,6 +1193,9 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                         if (isBox)
                         {
                             box.AddCopyList(instanceObj.transform);
+                            childOffset -= new Vector2(_size.x, _size.y);
+                            instanceObj.GetComponent<BoxChild>().SetChildOffset(childOffset);
+
                         }
                     }
                 }

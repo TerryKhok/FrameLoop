@@ -290,7 +290,10 @@ public class Box : MonoBehaviour,IBox
             return;
         }
 
-        pos.x = _playerTransform.position.x;
+        pos = _playerTransform.position;
+
+        //箱とプレイヤーの座標のズレを合わせる
+        pos.y -= 0.5f; 
 
         float offset = 0.95f;
         int relativeDirection = _playerInfo.g_currentInputX * _playerInfo.g_boxDirection;
@@ -381,7 +384,6 @@ public class Box : MonoBehaviour,IBox
         }
 
         var absGap = new Vector2(Mathf.Abs(gap.x), Mathf.Abs(gap.y));
-        Debug.Log(absGap);
 
         //if (0.1f < absGap.x && absGap.x < 0.4f)
         //{

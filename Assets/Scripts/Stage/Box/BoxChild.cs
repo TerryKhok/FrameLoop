@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 /*  ProjectName :FrameLoop
@@ -11,6 +12,7 @@ using UnityEngine;
 public class BoxChild : MonoBehaviour,IBox
 {
     private Box _box = null;
+    private Vector2 _childOffset = Vector2.zero;
 
     private void OnEnable()
     {
@@ -20,20 +22,22 @@ public class BoxChild : MonoBehaviour,IBox
     //親にアタッチされたBoxにアクセスしてtを渡す
     public void Hold(Transform t)
     {
-        Vector2 vec = FrameLoop.Instance.GetSize();
-        vec.y = 0;
-
         if(t == null)
         {
             _box.SetOffset(Vector2.zero);
         }
         else
         {
-            _box.SetOffset(-t.right * vec);
+            _box.SetOffset(-_childOffset);
         }
-        
+
+        Debug.Log(-_childOffset);
 
         _box.Hold(t);
     }
 
+    public void SetChildOffset(Vector2 offset)
+    {
+        _childOffset = offset;
+    }
 }
