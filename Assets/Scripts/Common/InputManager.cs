@@ -24,8 +24,6 @@ public class InputManager : MonoBehaviour
     private PlayerTakeUp _playerTakeUp = null;
     private FrameLoop _frameLoop = null;
 
-    private EventSystem _eventSystem = null;
-
     [HideInInspector]
     public InputAction _Move, _Jump, _FrameEnable, _Crouch, _TakeUp, _Pause, _Resume, _Goal, _Retry;
 
@@ -35,7 +33,6 @@ public class InputManager : MonoBehaviour
     {
         _player = GameObject.FindGameObjectWithTag("Player");
         _frame = GameObject.FindGameObjectWithTag("Frame");
-        _eventSystem = GetComponent<EventSystem>();
 
         _playerInput = GetComponent<PlayerInput>();
 

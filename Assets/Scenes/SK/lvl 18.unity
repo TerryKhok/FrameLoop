@@ -2060,11 +2060,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1647212045724716664, guid: 09d88473e246a814986de2b3b88c1d07,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3416762852290737119, guid: 09d88473e246a814986de2b3b88c1d07,
         type: 3}
       propertyPath: m_Name
@@ -2074,31 +2069,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: "\u30BF\u30A4\u30C8\u30EB\u3078"
-      objectReference: {fileID: 0}
-    - target: {fileID: 8053224940126665715, guid: 09d88473e246a814986de2b3b88c1d07,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8053224940126665715, guid: 09d88473e246a814986de2b3b88c1d07,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8053224940126665715, guid: 09d88473e246a814986de2b3b88c1d07,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8053224940126665715, guid: 09d88473e246a814986de2b3b88c1d07,
-        type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8906548133063933084, guid: 09d88473e246a814986de2b3b88c1d07,
-        type: 3}
-      propertyPath: _minFrameCount
-      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -9886,14 +9856,14 @@ Tilemap:
   - m_RefCount: 67
     m_Data:
       e00: -1
-      e01: -0
-      e02: 0
+      e01: -0.00000008742278
+      e02: -0
       e03: 0
-      e10: -0
+      e10: 0.00000008742278
       e11: -1
       e12: 0
       e13: 0
-      e20: -0
+      e20: 0
       e21: -0
       e22: 1
       e23: 0

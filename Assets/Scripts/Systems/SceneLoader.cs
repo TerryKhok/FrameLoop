@@ -10,8 +10,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     [SerializeField] PauseMenu _pauseMenu;
     private InputManager _inputManager;
     private CircleWipeController _circleWipeController;
-
-    private WaitForEndOfFrame _waitForEndOfFrame = new WaitForEndOfFrame();
+    private float _progress = 0;
 
     private void Start()
     {
@@ -19,6 +18,13 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
         _inputManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<InputManager>();
         _inputManager._Retry.performed += Retry;
         _circleWipeController = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<CircleWipeController>();
+    }
+
+    private void Update()
+    {
+        _progress = _inputManager._Retry.GetTimeoutCompletionPercentage();
+        _circleWipeController.SetProgress(_progress);
+
     }
 
     //[SerializeField]

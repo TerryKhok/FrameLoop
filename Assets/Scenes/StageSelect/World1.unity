@@ -12269,6 +12269,16 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7906918812496466894, guid: 8b9caf9c46fdee7478875b33b046f315,
+        type: 3}
+      propertyPath: _autoCulling
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8283454396379900014, guid: 8b9caf9c46fdee7478875b33b046f315,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8765788065109612853, guid: 8b9caf9c46fdee7478875b33b046f315,
         type: 3}
       propertyPath: m_RootOrder

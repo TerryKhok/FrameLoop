@@ -83,6 +83,32 @@ public class CircleWipeController : MonoBehaviour
         }
     }
 
+    public void SetProgress(float progress)
+    {
+        if (_isTransitioning) { return; }
+
+        Vector2 playerViewportPos = Vector2.zero;
+        if (_playerTransform != null)
+        {
+            playerViewportPos = _camera.WorldToViewportPoint(_playerTransform.position);
+        }
+        _circleWipeMaterial.SetVector("_center", playerViewportPos);
+
+        if (progress > 0)
+        {
+            _time = _duration - progress * (1 / _duration);
+            _circleWipeImage.enabled = true;
+        }
+        else
+        {
+            _time += _duration * 2 * Time.deltaTime;
+        }
+
+        float cutoff = Mathf.Clamp01(_time / _duration);
+
+        _circleWipeMaterial.SetFloat("_cutoff", cutoff);
+    }
+
     public float GetDuration()
     {
         return _duration;

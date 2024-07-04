@@ -830,6 +830,11 @@ PrefabInstance:
       propertyPath: _audioManager
       value: 
       objectReference: {fileID: 572339133}
+    - target: {fileID: 1347338774752961832, guid: 8b9caf9c46fdee7478875b33b046f315,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1447092149563627921, guid: 8b9caf9c46fdee7478875b33b046f315,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -928,6 +933,11 @@ PrefabInstance:
     - target: {fileID: 4946529158292105636, guid: 8b9caf9c46fdee7478875b33b046f315,
         type: 3}
       propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5220963076968552411, guid: 8b9caf9c46fdee7478875b33b046f315,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5427340313711245694, guid: 8b9caf9c46fdee7478875b33b046f315,
