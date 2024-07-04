@@ -300,7 +300,12 @@ public class Box : MonoBehaviour,IBox
 
         if (relativeDirection < 0)
         {
-            offset = 0.8f;
+            offset = 0.85f;
+        }
+        
+        if(_playerInfo.g_walkCancel)
+        {
+            offset = 1.0f;
         }
 
         pos += (Vector2)_playerTransform.right * offset;
@@ -365,6 +370,7 @@ public class Box : MonoBehaviour,IBox
         Vector2 pos = _transform.position;
         var gap = new Vector2(pos.x % 0.5f, pos.y % 0.5f);
 
+        //次のグリッドのほうが近いときは次のグリッドからの差に変換する
         if (gap.x > 0.25f)
         {
             gap.x = gap.x - 0.5f;
@@ -384,13 +390,15 @@ public class Box : MonoBehaviour,IBox
         }
 
         var absGap = new Vector2(Mathf.Abs(gap.x), Mathf.Abs(gap.y));
-
-        if (-0.15f > absGap.x || absGap.x > 0.15f)
+        Debug.Log(absGap);
+        //一番近くのグリッドからの距離の絶対値で比較する(値の範囲は0.0~0.25)
+        //ズレが大きいなら座標の補正をしない
+        if (absGap.x > 0.15f)
         {
             gap.x = 0;
         }
 
-        if (-0.15f > absGap.y || absGap.y > 0.15f)
+        if (absGap.y > 0.15f)
         {
             gap.y = 0;
         }

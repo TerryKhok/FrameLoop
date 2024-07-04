@@ -162,11 +162,6 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
         g_isGround = _currentGround || _prevGround;
 
         g_takeUpFg &= g_isGround;
-
-        //if(g_isGround)
-        //{
-        //    g_walkCancel = false;
-        //}
     }
 
     private void FixedUpdate()

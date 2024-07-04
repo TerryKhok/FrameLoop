@@ -3123,7 +3123,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u3064\u3065\u304D\u304B\u3089"
+  m_text: "\u306F\u3058\u3081\u304B\u3089"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 35665052977dcbf458a7d0b835a1785f, type: 2}
   m_sharedMaterial: {fileID: 5295861146833502084, guid: 35665052977dcbf458a7d0b835a1785f,
@@ -3870,7 +3870,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: ef5e4a6a790212a43bc4e5783c6e6f21, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 2849f64bf722b824682f45a47cdb12be, type: 2}
 --- !u!4 &1468316635
 Transform:
   m_ObjectHideFlags: 0

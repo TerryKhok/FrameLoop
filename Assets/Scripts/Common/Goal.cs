@@ -121,8 +121,14 @@ public class Goal : SingletonMonoBehaviour<Goal>
             _clearScreenAnimator.SetTrigger("Scale");
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            Debug.Log(_playerInput.currentControlScheme);
+
+            //カーソルを表示する
+            if(_playerInput.currentControlScheme == "Keyboard&Mouse")
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
 
             //Reset frame sound
             AudioManager.instance.Stop("Frame");

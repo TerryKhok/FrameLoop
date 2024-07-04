@@ -125,6 +125,8 @@ public class PlayerMove : MonoBehaviour
             velocity = _crouchVelocity;
         }
 
+        _playerInfo.g_walkCancel = true;
+
         if (FrameLoop.Instance != null)
         {
             //is•ûŒü‚ª•Ç‚È‚çreturn‚·‚é
@@ -162,6 +164,7 @@ public class PlayerMove : MonoBehaviour
                 }
             }
         }
+        _playerInfo.g_walkCancel = false;
 
         //ˆÚ“®
         var currentPos = _rb.position;
