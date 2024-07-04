@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 39076990}
   - component: {fileID: 39076989}
   m_Layer: 5
-  m_Name: StageSelect
+  m_Name: WorldSelect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -265,7 +265,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u30B9\u30C6\u30FC\u30B8\u30BB\u30EC\u30AF\u30C8"
+  m_text: "\u30EF\u30FC\u30EB\u30C9\u30BB\u30EC\u30AF\u30C8"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b8eb1cb594abd8844978ff4a93c28d16, type: 2}
   m_sharedMaterial: {fileID: 5295861146833502084, guid: b8eb1cb594abd8844978ff4a93c28d16,
