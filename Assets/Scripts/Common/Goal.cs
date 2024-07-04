@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -20,6 +21,9 @@ public class Goal : SingletonMonoBehaviour<Goal>
     private GameObject _selectButton;
     [SerializeField]
     private GameObject _clearCanvas;
+
+    [SerializeField]
+    private TextMeshProUGUI _minText, _usedText;
 
     private int _buttonCount = 0;
     private int _count = 0;
@@ -108,6 +112,9 @@ public class Goal : SingletonMonoBehaviour<Goal>
             {
                 _starAnimators[i].SetBool("Bright", _starBrightArray[i]);
             }
+
+            _minText.text = _minFrameCount.ToString();
+            _usedText.text = _frameCount.ToString();
 
             _playerInput.SwitchCurrentActionMap("UI");
 
