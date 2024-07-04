@@ -26,6 +26,11 @@ public class TutorialPC : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(_animator == null || PlayerInfo.Instance == null)
+        {
+            return;
+        }
+
         if (collision == PlayerInfo.Instance.g_goalHitBox)
         {
             _animator.SetBool("IsOpen", true);
@@ -34,6 +39,11 @@ public class TutorialPC : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (_animator == null || PlayerInfo.Instance == null)
+        {
+            return;
+        }
+
         if (collision == PlayerInfo.Instance.g_goalHitBox)
         {
             _animator.SetBool("IsOpen", false);

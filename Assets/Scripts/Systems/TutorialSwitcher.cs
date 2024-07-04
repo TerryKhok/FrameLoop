@@ -15,6 +15,15 @@ public class TutorialSwitcher : MonoBehaviour
     {
         _renderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
         _playerInput = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerInput>();
+    
+        if(Gamepad.current != null )
+        {
+            _renderer.sprite = _gamePadSprite;
+        }
+        else
+        {
+            _renderer.sprite = _keyboardSprite;
+        }
     }
 
     private void Update()

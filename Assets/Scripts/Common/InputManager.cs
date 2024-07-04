@@ -70,6 +70,11 @@ public class InputManager : MonoBehaviour
         {
             _playerInput.SwitchCurrentActionMap("Player");
         }
+
+        if(Gamepad.current != null)
+        {
+            _playerInput.SwitchCurrentControlScheme("Gamepad");
+        }
     }
 
     private void OnEnable()

@@ -28,10 +28,7 @@ public class PauseMenu : SingletonMonoBehaviour<PauseMenu>
 
     private void Update()
     {
-        if(playerInput == null)
-        {
-            Debug.Log("hoge");
-        }
+        
     }
 
     //public void OnPause(InputAction.CallbackContext context)

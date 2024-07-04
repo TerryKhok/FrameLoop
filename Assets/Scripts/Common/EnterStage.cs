@@ -40,15 +40,6 @@ public class EnterStage : MonoBehaviour
         {
             _animator.SetBool("isOpened", _isOpened);
         }
-
-        if (_frameLoop.g_isActive)
-        {
-            gameObject.layer = LayerMask.NameToLayer("Inside");
-        }
-        else
-        {
-            gameObject.layer = LayerMask.NameToLayer("Outside");
-        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -84,6 +75,7 @@ public class EnterStage : MonoBehaviour
         LayerMask mask = 1 << LayerMask.NameToLayer("Frame");
 
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 10, mask);
+        
 
         if (hit.collider != null)
         {

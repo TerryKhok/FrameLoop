@@ -121,8 +121,6 @@ public class Goal : SingletonMonoBehaviour<Goal>
             _clearScreenAnimator.SetTrigger("Scale");
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
-            Debug.Log(_playerInput.currentControlScheme);
-
             //カーソルを表示する
             if(_playerInput.currentControlScheme == "Keyboard&Mouse")
             {

@@ -878,6 +878,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WorldSelect
       objectReference: {fileID: 0}
+    - target: {fileID: 3832050256654013298, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: _isOpened
@@ -10243,6 +10248,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9191941030155358523, guid: 8b9caf9c46fdee7478875b33b046f315,
+        type: 3}
+      propertyPath: m_text
+      value: "\u30EF\u30FC\u30EB\u30C9\uFF12"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
