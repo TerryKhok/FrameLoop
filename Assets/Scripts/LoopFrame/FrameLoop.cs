@@ -456,10 +456,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                                 }
                                 continue;
                             }
-                            else if(item.transform.CompareTag("Breakable"))
+                            else if(item.transform.GetComponentInParent<TileReplace>() != null)
                             {
-                                breakable = true;
                                 tileReplace = item.transform.GetComponentInParent<TileReplace>();
+                                breakable = true;
                             }
 
                             //” ˆÈŠO‚É“–‚½‚Á‚½‚çinstantFg‚ðTrue‚É

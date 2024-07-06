@@ -26,7 +26,9 @@ public class ChildOnTrigger : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D other)
     {
-        if(_parentOnTrigger == null) { return; }
+        Debug.Log(transform.name);
+
+        if (_parentOnTrigger == null) { return; }
         _parentOnTrigger.OnEnter(other,_transform);
     }
 

@@ -18,7 +18,6 @@ public class TileReplace : MonoBehaviour
     private Tilemap tilemap_in;
     private Tilemap tilemap_in_invisible;
     private List<Vector3Int> allTilePositions;
-    private Camera camera;
     private TileBase tile = null;
 
     void Start()
@@ -29,8 +28,6 @@ public class TileReplace : MonoBehaviour
         tilemap_out_invisible = tilemaps[1];
         tilemap_in = tilemaps[2];
         tilemap_in_invisible = tilemaps[3];
-
-        camera = Camera.main;
 
         //タイルが置いてあるポジションを保存
         allTilePositions = GetAllTilePositions(tilemap_out);
@@ -92,7 +89,6 @@ public class TileReplace : MonoBehaviour
                         if(tile == null)
                         {
                             tile = tilemap.GetTile(pos);
-                            Debug.Log(tile);
                         }
                     }
                 }

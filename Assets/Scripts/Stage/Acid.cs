@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Acid : MonoBehaviour
+public class Acid : MonoBehaviour, IParentOnTrigger
 {
     private enum Type
     {
@@ -13,11 +12,19 @@ public class Acid : MonoBehaviour
     [SerializeField,Tag,Tooltip("”j‰ó‰Â”\‚ÈTag")]
     private List<string> _tagList = new List<string>() { "Player"};
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void OnEnter(Collider2D other, Transform transform)
     {
-        if (_tagList.Contains(collision.tag))
+        if (_tagList.Contains(other.tag))
         {
-            Destroy(collision.gameObject);
+            Destroy(other.gameObject);
         }
+    }
+    public void OnStay(Collider2D other, Transform transform)
+    {
+
+    }
+    public void OnExit(Collider2D other, Transform transform)
+    {
+
     }
 }
