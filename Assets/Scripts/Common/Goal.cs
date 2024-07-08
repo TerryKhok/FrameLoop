@@ -35,7 +35,7 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
     private bool _isOpened = false;
     private bool _inputW = false;
-    private bool _clear = false;
+    public bool g_clear = false;
 
     private int _frameCount = 0;
 
@@ -100,12 +100,12 @@ public class Goal : SingletonMonoBehaviour<Goal>
         if (collision != _playerInfo.g_goalHitBox) { return; }
 
         //クリア済みならreturn
-        if (_clear) { return; }
+        if (g_clear) { return; }
 
         //ボタンの数が足りていて、接地していて、入力があればゴール
         if(_isOpened && _inputW && PlayerInfo.Instance.g_isGround)
         {
-            _clear = true;
+            g_clear = true;
             _clearCanvas.SetActive(true);
 
             for(int i=0; i < _starAnimators.Count; i++)

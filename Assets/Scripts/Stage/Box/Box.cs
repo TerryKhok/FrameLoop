@@ -390,7 +390,7 @@ public class Box : MonoBehaviour,IBox
         }
 
         var absGap = new Vector2(Mathf.Abs(gap.x), Mathf.Abs(gap.y));
-        Debug.Log(absGap);
+
         //一番近くのグリッドからの距離の絶対値で比較する(値の範囲は0.0~0.25)
         //ズレが大きいなら座標の補正をしない
         if (absGap.x > 0.15f)

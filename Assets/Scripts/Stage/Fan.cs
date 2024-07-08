@@ -151,7 +151,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         //—LŒø‚ÅŒ©‚¦‚éó‘Ô‚È‚çrenderer‚ğ—LŒø‚É‚·‚é
         _tilemapRenderer.enabled = _isEnable && !_invisible;
 
-        if (!_isEnable) 
+        if (!_isEnable || Goal.Instance.g_clear) 
         {
             return; 
         }
@@ -183,7 +183,10 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                 playerRb.position = currentPlayerPos;
 
                 _playerBoxFlag = true;
-                _playerInfo.g_box.GetComponent<Box>().SetMovable(true);
+                if (_playerInfo.g_takeUpFg)
+                {
+                    _playerInfo.g_box.GetComponent<Box>().SetMovable(true);
+                }
                 return;
             }
 
