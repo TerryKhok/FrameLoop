@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
@@ -7,9 +9,6 @@ public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
     private Transform framePos;
 
     private FrameLoop frameLoop; //script
-
-    [SerializeField]
-    private AudioManager _audioManager = null;
 
     private float elapsedTime;
     [SerializeField]
@@ -48,6 +47,12 @@ public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
     [SerializeField]
     private ParticleSystem burst4; //right
 
+    //new frame objects
+    [SerializeField]
+    private GameObject frameNewStatic;
+    [SerializeField]
+    private GameObject frameNewBurst;
+
     bool burstFlag = true;
 
     private FrameParticleSwitch[] topParticleSwitchArray, bottomParticleSwitchArray, leftParticleSwitchArray, rightParticleSwitchArray;
@@ -60,6 +65,8 @@ public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
         transform.position = PlayerInfo.Instance.g_transform.position;
         burstFlag = true;
         activeFrameObject.SetActive(false);
+
+        frameNewBurst.SetActive(false);
 
         //----------------------------------------------------------------------------------------------
         //当たり判定の有無で切り替えるパーティクルからコンポーネントを取得して配列に格納する
@@ -85,6 +92,25 @@ public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
     {
         if(!frameLoop.g_isActive)
         {
+            if (frameNewStatic.GetComponent<SpriteRenderer>().color.r < 0.95f ||
+                frameNewStatic.GetComponent<SpriteRenderer>().color.g < 0.95f ||
+                frameNewStatic.GetComponent<SpriteRenderer>().color.b < 0.95f)
+            {
+                Color lerpedColor;
+                lerpedColor.r = Mathf.Lerp(frameNewStatic.GetComponent<SpriteRenderer>().color.r, 1.0f, 0.05f);
+                lerpedColor.g = Mathf.Lerp(frameNewStatic.GetComponent<SpriteRenderer>().color.g, 1.0f, 0.05f);
+                lerpedColor.b = Mathf.Lerp(frameNewStatic.GetComponent<SpriteRenderer>().color.b, 1.0f, 0.05f);
+                lerpedColor.a = Mathf.Lerp(frameNewStatic.GetComponent<SpriteRenderer>().color.a, frameTransparency, 0.05f);
+                frameNewStatic.GetComponent<SpriteRenderer>().color = lerpedColor;
+            }
+            else
+            {
+                matColInactive = new Color(1f, 1f, 1f, frameTransparency);
+                frameNewStatic.GetComponent<SpriteRenderer>().color = matColInactive;
+            }
+
+            frameNewBurst.SetActive(false);
+
             activeFrameObject.SetActive(false);
             matColInactive = new Color(1f, 1f, 1f, frameTransparency);
             mat.color = matColInactive;
@@ -98,10 +124,14 @@ public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
         //フレームが起動したときに一度実行
         if (frameLoop.g_activeTrigger)
         {
+            frameNewBurst.SetActive(true);
+
             activeFrameObject.SetActive(true);
-            matColActive = new Color(0f, 0f, 0.3f, 1f);
+            matColActive = new Color(0.4948379f, 0.6311985f, 0.7547169f, 1f);
             mat.color = matColActive;
             burstFlag = false;
+
+            frameNewStatic.GetComponent<SpriteRenderer>().color = matColActive;
 
             //上下左右の当たり判定を取得するために4回ループ
             for (int i = 0; i < 4; i++)

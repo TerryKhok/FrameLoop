@@ -1065,7 +1065,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                     _inputManager.SetVibration(0.07f, 0.0f, 0f);
                 }
 
-                if (g_isActive) { AudioManager.instance.Play("Frame"); }
+                if (g_isActive && g_usable) { AudioManager.instance.Play("Frame"); }
             }
             else
             {
