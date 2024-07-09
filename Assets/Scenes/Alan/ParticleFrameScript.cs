@@ -92,21 +92,22 @@ public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
     {
         if(!frameLoop.g_isActive)
         {
-            if (frameNewStatic.GetComponent<SpriteRenderer>().color.r < 0.95f ||
-                frameNewStatic.GetComponent<SpriteRenderer>().color.g < 0.95f ||
-                frameNewStatic.GetComponent<SpriteRenderer>().color.b < 0.95f)
+            SpriteRenderer renderer = frameNewStatic.GetComponent<SpriteRenderer>();
+            if (renderer.color.r < 0.95f ||
+                renderer.color.g < 0.95f ||
+                renderer.color.b < 0.95f)
             {
                 Color lerpedColor;
-                lerpedColor.r = Mathf.Lerp(frameNewStatic.GetComponent<SpriteRenderer>().color.r, 1.0f, 0.05f);
-                lerpedColor.g = Mathf.Lerp(frameNewStatic.GetComponent<SpriteRenderer>().color.g, 1.0f, 0.05f);
-                lerpedColor.b = Mathf.Lerp(frameNewStatic.GetComponent<SpriteRenderer>().color.b, 1.0f, 0.05f);
-                lerpedColor.a = Mathf.Lerp(frameNewStatic.GetComponent<SpriteRenderer>().color.a, frameTransparency, 0.05f);
-                frameNewStatic.GetComponent<SpriteRenderer>().color = lerpedColor;
+                lerpedColor.r = Mathf.Lerp(renderer.color.r, 1.0f, 0.05f);
+                lerpedColor.g = Mathf.Lerp(renderer.color.g, 1.0f, 0.05f);
+                lerpedColor.b = Mathf.Lerp(renderer.color.b, 1.0f, 0.05f);
+                lerpedColor.a = Mathf.Lerp(renderer.color.a, frameTransparency, 0.05f);
+                renderer.color = lerpedColor;
             }
             else
             {
                 matColInactive = new Color(1f, 1f, 1f, frameTransparency);
-                frameNewStatic.GetComponent<SpriteRenderer>().color = matColInactive;
+                renderer.color = matColInactive;
             }
 
             frameNewBurst.SetActive(false);

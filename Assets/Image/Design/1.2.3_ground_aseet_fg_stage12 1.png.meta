@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0bb8f11477b4282428761b872b1761a8
+guid: 84908339c86fe3446946c4a045185ab2
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -131,7 +131,7 @@ TextureImporter:
         width: 877
         height: 661
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -139,6 +139,48 @@ TextureImporter:
       bones: []
       spriteID: f7ac59bcf59425d428e5d72c16803e47
       internalID: 1241751367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1.2.3_ground_aseet_fg_stage12 1_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 701
+        width: 682
+        height: 379
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c6b140b588694346bc7b0c3c26abd9e
+      internalID: 1013110179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1.2.3_ground_aseet_fg_stage12 1_1
+      rect:
+        serializedVersion: 2
+        x: 817
+        y: 882
+        width: 727
+        height: 198
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e47d40b3774981f4c8046304925d7258
+      internalID: 895609380
       vertices: []
       indices: 
       edges: []
@@ -154,6 +196,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      1.2.3_ground_aseet_fg_stage12 1_0: 1013110179
+      1.2.3_ground_aseet_fg_stage12 1_1: 895609380
       1.2.3_ground_aseet_fg_stage12_0: 1241751367
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
