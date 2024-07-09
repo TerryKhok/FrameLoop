@@ -1,0 +1,642 @@
+fileFormatVersion: 2
+guid: b370890b3412be6429500983b22766b6
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: gimmick_color2_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 288
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18e298641a9eb0b4fa1728b12c320d68
+      internalID: 175575733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gimmick_color2_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 288
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8f0e02ea754dce418e6ab1fb05aa6ce
+      internalID: 1940348264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gimmick_color2_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 288
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a62ca8c3c18eecf41b828951c912e120
+      internalID: 393651191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gimmick_color2_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 288
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f691408286291524ea3899de8e1f19ee
+      internalID: -1546582779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gimmick_color2_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 288
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 753f9729e60de3c479dca043d01f5c8e
+      internalID: -1449440045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gimmick_color2_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 288
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7bc41d6ce8bfdde42bff7e2d2143a9b2
+      internalID: -1777493627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gimmick_color2_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 256
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ccde2eea3dc3707459707de276988522
+      internalID: -956313799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gimmick_color2_11
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 256
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4d2f5786e4c8b746a0bb969d2417a3f
+      internalID: 279458294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gimmick_color2_12
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 256
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f671b18234fc146439c23100782d51b5
+      internalID: -2005712688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gimmick_color2_13
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 256
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 592305e5b664dd04a9a5c03e7d8ad82d
+      internalID: 791709279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gimmick_color2_14
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 256
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eac74db4f7cea5e41a091fef7ff79812
+      internalID: 448785875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gimmick_color2_15
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 256
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 627b260a9a795864a9ac4359eb73010f
+      internalID: -1179286093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gimmick_color2_26
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 192
+        width: 160
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c7c308f755d8e244aebe642d0e05960
+      internalID: -774005441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gimmick_color2_41
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 160
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d88974e8f4fdef44a95810bb76fe6f43
+      internalID: -2102585405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gimmick_color2_56
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 96
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7f24f73f5e8a0b43b80b6fc44ca4e93
+      internalID: -2030991562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gimmick_color2_59
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 96
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5af7c9df298f604bb14359c9c562135
+      internalID: -1854961146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gimmick_color2_92
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 160
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 055c656ac617d95409189259c5ee0ce7
+      internalID: 2041798768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gimmick_color2_97
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c998d214f64979f478dcd86eeeae9955
+      internalID: -1070196018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gimmick_color2_100
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce4c602b1ef48af44860f0c6de520855
+      internalID: 1885753396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      gimmick_color2_0: 175575733
+      gimmick_color2_1: 1940348264
+      gimmick_color2_10: -956313799
+      gimmick_color2_100: 1885753396
+      gimmick_color2_101: 1512560470
+      gimmick_color2_102: -1468205222
+      gimmick_color2_11: 279458294
+      gimmick_color2_12: -2005712688
+      gimmick_color2_13: 791709279
+      gimmick_color2_14: 448785875
+      gimmick_color2_15: -1179286093
+      gimmick_color2_16: -776538869
+      gimmick_color2_17: -12521166
+      gimmick_color2_18: 767429452
+      gimmick_color2_19: -1035503102
+      gimmick_color2_2: 393651191
+      gimmick_color2_20: 1126315273
+      gimmick_color2_21: 1186420710
+      gimmick_color2_22: -865440701
+      gimmick_color2_23: 1489027485
+      gimmick_color2_24: 1759486414
+      gimmick_color2_25: -1736336553
+      gimmick_color2_26: -774005441
+      gimmick_color2_27: 863340296
+      gimmick_color2_28: -1007164619
+      gimmick_color2_29: -2047745101
+      gimmick_color2_3: -1546582779
+      gimmick_color2_30: 267731993
+      gimmick_color2_31: 2092544755
+      gimmick_color2_32: 951646322
+      gimmick_color2_33: 1781132643
+      gimmick_color2_34: 1762063585
+      gimmick_color2_35: 1746199216
+      gimmick_color2_36: 905274571
+      gimmick_color2_37: -225512716
+      gimmick_color2_38: -231705787
+      gimmick_color2_39: -988189701
+      gimmick_color2_4: -1449440045
+      gimmick_color2_40: -792957614
+      gimmick_color2_41: -2102585405
+      gimmick_color2_42: 2049199015
+      gimmick_color2_43: 1212193388
+      gimmick_color2_44: -1575717371
+      gimmick_color2_45: -964735700
+      gimmick_color2_46: -1039878177
+      gimmick_color2_47: 204285506
+      gimmick_color2_48: 1037464435
+      gimmick_color2_49: -1386988724
+      gimmick_color2_5: -1832754186
+      gimmick_color2_50: -901798374
+      gimmick_color2_51: -41720159
+      gimmick_color2_52: 1264470160
+      gimmick_color2_53: -143951653
+      gimmick_color2_54: 377910811
+      gimmick_color2_55: -1500816868
+      gimmick_color2_56: -2030991562
+      gimmick_color2_57: -623931320
+      gimmick_color2_58: 196620112
+      gimmick_color2_59: -1854961146
+      gimmick_color2_6: -1777493627
+      gimmick_color2_60: 574479395
+      gimmick_color2_61: -1971523781
+      gimmick_color2_62: -1696667562
+      gimmick_color2_63: 342111664
+      gimmick_color2_64: -2107184412
+      gimmick_color2_65: 1172173430
+      gimmick_color2_66: 1552646245
+      gimmick_color2_67: 623422000
+      gimmick_color2_68: 1186816884
+      gimmick_color2_69: -428068965
+      gimmick_color2_7: 145096903
+      gimmick_color2_70: 1025722124
+      gimmick_color2_71: 98039802
+      gimmick_color2_72: -2004505086
+      gimmick_color2_73: -1615393781
+      gimmick_color2_74: -1338231604
+      gimmick_color2_75: -1027295949
+      gimmick_color2_76: 731925045
+      gimmick_color2_77: 1096511889
+      gimmick_color2_78: 1606308002
+      gimmick_color2_79: -414830560
+      gimmick_color2_8: 1962749832
+      gimmick_color2_80: -1432328673
+      gimmick_color2_81: 211141004
+      gimmick_color2_82: 2053374907
+      gimmick_color2_83: -2097887033
+      gimmick_color2_84: 1584511988
+      gimmick_color2_85: 2070729249
+      gimmick_color2_86: -1660119794
+      gimmick_color2_87: -1875987352
+      gimmick_color2_88: -1982794348
+      gimmick_color2_89: -1420912170
+      gimmick_color2_9: -826031547
+      gimmick_color2_90: -1606095507
+      gimmick_color2_91: 428630145
+      gimmick_color2_92: 2041798768
+      gimmick_color2_93: 2115758258
+      gimmick_color2_94: -1426847941
+      gimmick_color2_95: 934432340
+      gimmick_color2_96: 1171187454
+      gimmick_color2_97: -1070196018
+      gimmick_color2_98: 147103432
+      gimmick_color2_99: 1820671104
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
