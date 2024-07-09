@@ -6728,6 +6728,37 @@ PrefabInstance:
       propertyPath: m_Name
       value: Goal_Large
       objectReference: {fileID: 0}
+    - target: {fileID: 7945784713251109720, guid: 467cdeb8fac9465478ec6ddbe6a65469,
+        type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7945784713251109720, guid: 467cdeb8fac9465478ec6ddbe6a65469,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: efb4e979156e8b44f910f50adbaa1d06,
+        type: 3}
+    - target: {fileID: 8182942424977052244, guid: 467cdeb8fac9465478ec6ddbe6a65469,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8182942424977052244, guid: 467cdeb8fac9465478ec6ddbe6a65469,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8182942424977052244, guid: 467cdeb8fac9465478ec6ddbe6a65469,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8182942424977052244, guid: 467cdeb8fac9465478ec6ddbe6a65469,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -226,7 +226,7 @@ public class Goal : SingletonMonoBehaviour<Goal>
         //ÅŒã‚ÌScene‚È‚çƒ^ƒCƒgƒ‹‚ÉˆÚ“®‚·‚é
         if (currentScene.name == "lvl 18")
         {
-            SceneLoader.Instance.LoadScene("MainMenu");
+            SceneLoader.Instance.LoadScene("AppreciateScene");
         }
         else
         {
