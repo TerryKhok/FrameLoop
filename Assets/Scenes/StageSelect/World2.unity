@@ -562,6 +562,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: WorldSelect
       objectReference: {fileID: 0}
+    - target: {fileID: 3086421359010819889, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 31f5f3193a239594e8acf14cde25585e,
+        type: 3}
     - target: {fileID: 3832050256654013298, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: m_Enabled
@@ -650,6 +656,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: lvl 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3086421359010819889, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4db94731a347193469e268e7a5efa4b0,
+        type: 3}
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: _isOpened
@@ -733,6 +745,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: lvl 4
       objectReference: {fileID: 0}
+    - target: {fileID: 3086421359010819889, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: bde1a90b2c5154a4ab7253946f9ec2fb,
+        type: 3}
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: _isOpened
@@ -1748,6 +1766,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: lvl 5
       objectReference: {fileID: 0}
+    - target: {fileID: 3086421359010819889, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d1e869ae7ef608c48a52fbc896195352,
+        type: 3}
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: _isOpened
@@ -2128,6 +2152,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: lvl 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3086421359010819889, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9eace6a7a9e58bf48bc9d06388b5b717,
+        type: 3}
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: _isOpened
@@ -12483,6 +12513,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: lvl 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3086421359010819889, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 31f5f3193a239594e8acf14cde25585e,
+        type: 3}
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: _isOpened
