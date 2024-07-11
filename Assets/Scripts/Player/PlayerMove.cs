@@ -31,6 +31,8 @@ public class PlayerMove : MonoBehaviour
         _playerAnimation = PlayerAnimation.Instance;
 
         _playerAnimation.SetCrouchSpeed(_crouchVelocity / _targetVelocity);
+
+        AudioManager.instance.Stop("Walk");
     }
 
     private void Update()

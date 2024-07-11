@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Net.Http.Headers;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,19 +13,34 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     private CircleWipeController _circleWipeController;
     private float _progress = 0;
 
+    private bool retryAnimStart = false;
+
     private void Start()
     {
         Time.timeScale = 1.0f;
         _inputManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<InputManager>();
         _inputManager._Retry.performed += Retry;
         _circleWipeController = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<CircleWipeController>();
+        retryAnimStart = false;
     }
 
     private void Update()
     {
         _progress = _inputManager._Retry.GetTimeoutCompletionPercentage();
         _circleWipeController.SetProgress(_progress);
-
+        if(_progress > 0)
+        {
+            if(!retryAnimStart)
+            {
+                AudioManager.instance.Play("StageResetSlow");
+                retryAnimStart = true;
+            }
+        }
+        else
+        {
+            AudioManager.instance.Stop("StageResetSlow");
+            retryAnimStart = false;
+        }
     }
 
     //[SerializeField]

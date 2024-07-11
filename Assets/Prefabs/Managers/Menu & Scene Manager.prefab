@@ -183,6 +183,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 6805393536967235160}
   gamepadUISelect: {fileID: 3327044510172297211}
+  paused: {fileID: 24500006, guid: 689486575468f584d8f6869e7300206c, type: 2}
+  unpaused: {fileID: 5691732812409439595, guid: 689486575468f584d8f6869e7300206c,
+    type: 2}
 --- !u!114 &6273323236132386930
 MonoBehaviour:
   m_ObjectHideFlags: 0

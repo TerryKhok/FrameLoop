@@ -60,17 +60,20 @@ public class OptionMenu : MonoBehaviour
 
         _eventSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<EventSystem>();
 
-        if (!_isInit)
-        {
-            SetMasterVolume(5);
-            SetSEVolume(5);
-            SetBGMVolume(5);
-            _isInit = true;
-        }
+        //if (!_isInit)
+        //{
+        //    //SetMasterVolume(5);
+        //    //SetSEVolume(5);
+        //    //SetBGMVolume(5);
 
-        GetMasterVolume();
-        GetSEVolume();
-        GetBGMVolume();
+        //    //paused.TransitionTo(0.1f);
+
+        //    _isInit = true;
+        //}
+
+        //GetMasterVolume();
+        //GetSEVolume();
+        //GetBGMVolume();
 
     }
 

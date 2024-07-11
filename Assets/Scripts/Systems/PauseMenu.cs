@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
@@ -12,8 +13,13 @@ public class PauseMenu : SingletonMonoBehaviour<PauseMenu>
 
     private PlayerInput playerInput;
 
+    [SerializeField]
+    private AudioMixerSnapshot paused, unpaused;
+
     private void Start()
     {
+        unpaused.TransitionTo(0f);
+
         IsPaused = false;
         Time.timeScale = 1f;
 
@@ -28,7 +34,14 @@ public class PauseMenu : SingletonMonoBehaviour<PauseMenu>
 
     private void Update()
     {
-        
+        if(IsPaused)
+        {
+            paused.TransitionTo(0f);
+        }
+        else
+        {
+            unpaused.TransitionTo(0f);
+        }
     }
 
     //public void OnPause(InputAction.CallbackContext context)

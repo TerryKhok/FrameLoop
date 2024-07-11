@@ -16,6 +16,7 @@ public class Acid : MonoBehaviour, IParentOnTrigger
     {
         if (_tagList.Contains(other.tag))
         {
+            AudioManager.instance.Play("PlayerDie");
             Destroy(other.gameObject);
         }
     }

@@ -53,25 +53,25 @@ MonoBehaviour:
   sounds:
   - audioType: 1
     name: Main BGM
-    clip: {fileID: 8300000, guid: baaa819ac3037f14194e22c9dc1ae87a, type: 3}
-    volume: 0.44
+    clip: {fileID: 8300000, guid: 69789dfbd1bd3d94fa7a4a5c4d3f3ee6, type: 3}
+    volume: 0.41
     pitch: 1
     loop: 1
     spatialBlend: 1
     src: {fileID: 0}
   - audioType: 0
     name: Jump
-    clip: {fileID: 8300000, guid: c88efbdefd5354d44ae5ffbf80ceeaad, type: 3}
-    volume: 0.21
+    clip: {fileID: 8300000, guid: c32d3519050c9de40bb3325a3a3e9bc3, type: 3}
+    volume: 0.33
     pitch: 1.51
     loop: 0
     spatialBlend: 1
     src: {fileID: 0}
   - audioType: 0
     name: Frame
-    clip: {fileID: 8300000, guid: c5131a5bf2c0a6248b4881b9bb63d7ca, type: 3}
-    volume: 0.25
-    pitch: 1.14
+    clip: {fileID: 8300000, guid: 5bbe9d6a8ce171542af1f85da299019a, type: 3}
+    volume: 0.2
+    pitch: 1
     loop: 1
     spatialBlend: 1
     src: {fileID: 0}
@@ -93,9 +93,9 @@ MonoBehaviour:
     src: {fileID: 0}
   - audioType: 0
     name: Walk
-    clip: {fileID: 8300000, guid: 04c4ef2addb837641bc211638c60058f, type: 3}
-    volume: 0.59
-    pitch: 1
+    clip: {fileID: 8300000, guid: 92871f919da804748bea03d661f1aebc, type: 3}
+    volume: 0.117
+    pitch: 0.86
     loop: 1
     spatialBlend: 1
     src: {fileID: 0}
@@ -111,6 +111,62 @@ MonoBehaviour:
     name: Button
     clip: {fileID: 8300000, guid: f3df5a5aa93737e499d700e0d79cf50f, type: 3}
     volume: 0.43
+    pitch: 1
+    loop: 0
+    spatialBlend: 1
+    src: {fileID: 0}
+  - audioType: 1
+    name: TitleTheme
+    clip: {fileID: 8300000, guid: 39037e193e32fb947a07c09c18b59609, type: 3}
+    volume: 0.51
+    pitch: 1
+    loop: 1
+    spatialBlend: 1
+    src: {fileID: 0}
+  - audioType: 0
+    name: StageResetSlow
+    clip: {fileID: 8300000, guid: 4395b6a292bfdb644b202ac4368412ae, type: 3}
+    volume: 0.4
+    pitch: 1
+    loop: 0
+    spatialBlend: 1
+    src: {fileID: 0}
+  - audioType: 0
+    name: StageResetFast
+    clip: {fileID: 8300000, guid: 1512c6ea43c1b5542a0a759474fa6ce5, type: 3}
+    volume: 0.51
+    pitch: 1
+    loop: 0
+    spatialBlend: 1
+    src: {fileID: 0}
+  - audioType: 0
+    name: PlayerDie
+    clip: {fileID: 8300000, guid: 29b7c6a1df72683459db28dbb523f580, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    spatialBlend: 1
+    src: {fileID: 0}
+  - audioType: 0
+    name: DoorOpen
+    clip: {fileID: 8300000, guid: 08a1730c522844b4da59f345124cc366, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    spatialBlend: 1
+    src: {fileID: 0}
+  - audioType: 0
+    name: DoorClose
+    clip: {fileID: 8300000, guid: f6e4daf89a75e3f4e8df873441ad05b4, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    spatialBlend: 1
+    src: {fileID: 0}
+  - audioType: 0
+    name: PlayerWin
+    clip: {fileID: 8300000, guid: d5e5fdd5c89ff7b4ab46466cce15de46, type: 3}
+    volume: 0.25
     pitch: 1
     loop: 0
     spatialBlend: 1

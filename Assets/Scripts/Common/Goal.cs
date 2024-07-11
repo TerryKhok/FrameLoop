@@ -54,6 +54,8 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
     private void Start()
     {
+        AudioManager.instance.Stop("PlayerWin");
+
         _animator = GetComponent<Animator>();
 
         _boxCollider = GetComponent<BoxCollider2D>();
@@ -108,7 +110,9 @@ public class Goal : SingletonMonoBehaviour<Goal>
             g_clear = true;
             _clearCanvas.SetActive(true);
 
-            for(int i=0; i < _starAnimators.Count; i++)
+            AudioManager.instance.Play("PlayerWin");
+
+            for (int i=0; i < _starAnimators.Count; i++)
             {
                 _starAnimators[i].SetBool("Bright", _starBrightArray[i]);
             }

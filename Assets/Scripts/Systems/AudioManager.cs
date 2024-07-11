@@ -1,7 +1,9 @@
 using UnityEngine.Audio;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.SubsystemsImplementation;
+using UnityEngine.Rendering.Universal;
 
 public class AudioManager : MonoBehaviour
 {
@@ -45,9 +47,45 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    private bool menuThemeFlag = false;
+    private bool gameThemeFlag = false;
+
     private void Start()
     {
-        Play("Main BGM");
+        menuThemeFlag = false;
+        gameThemeFlag = false;
+}
+    private void Update()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+        string sceneName = currentScene.name;
+        
+        if(!menuThemeFlag) 
+        {
+            if (sceneName == "MainMenu" || sceneName == "World1" || sceneName == "World2" ||
+                sceneName == "World3" || sceneName == "WorldSelect" || sceneName == "AppreciateScene")
+            {
+                Play("TitleTheme");
+                Stop("Main BGM");
+
+                menuThemeFlag = true;
+                gameThemeFlag = false;
+            }
+        }
+        if(!gameThemeFlag)
+        {
+            if(sceneName == "lvl 1" || sceneName == "lvl 2" || sceneName == "lvl 3" || sceneName == "lvl 4" || sceneName == "lvl 5" ||
+                sceneName == "lvl 6" || sceneName == "lvl 7" || sceneName == "lvl 8" || sceneName == "lvl 9" || sceneName == "lvl 10" ||
+                sceneName == "lvl 11" || sceneName == "lvl 12" || sceneName == "lvl 13" || sceneName == "lvl 14" || sceneName == "lvl 15" ||
+                sceneName == "lvl 16" || sceneName == "lvl 17" || sceneName == "lvl 18")
+            {
+                Stop("TitleTheme");
+                Play("Main BGM");
+
+                menuThemeFlag = false;
+                gameThemeFlag = true;
+            }
+        }
     }
 
     public void Play(string name)
