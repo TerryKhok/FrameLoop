@@ -48,7 +48,7 @@ public class Goal : SingletonMonoBehaviour<Goal>
     private PlayerInput _playerInput;
 
     private GamepadUISelect _gamepadUISelect;
-
+    private bool _buttonSelected = false;
     //Å’á‰ñ”{‰½‰ñ‚Ü‚Å‚ğ¯2‚Â‚É‚·‚é‚©
     private const int STAR_GAP = 1;
 
@@ -228,6 +228,8 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
     public void Next()
     {
+        if (_buttonSelected) { return; }
+
         Scene currentScene = SceneManager.GetActiveScene();
         //ÅŒã‚ÌScene‚È‚çƒ^ƒCƒgƒ‹‚ÉˆÚ“®‚·‚é
         if (currentScene.name == "lvl 18")
@@ -238,15 +240,22 @@ public class Goal : SingletonMonoBehaviour<Goal>
         {
             SceneLoader.Instance.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
+
+        _buttonSelected = true;
     }
 
     public void Retry()
     {
+        if (_buttonSelected) { return; }
         SceneLoader.Instance.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        _buttonSelected = true;
     }
 
     public void Title()
     {
+        if (_buttonSelected) { return; }
         SceneLoader.Instance.LoadScene("MainMenu");
+        _buttonSelected = true;
     }
 }
