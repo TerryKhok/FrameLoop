@@ -143,6 +143,12 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
     public void GoalStarted(InputAction.CallbackContext context)
     {
+        Vector2 value = context.ReadValue<Vector2>();
+        if(value.y < 0.7f)
+        {
+            return;
+        }
+
         _inputW = true;
     }
 

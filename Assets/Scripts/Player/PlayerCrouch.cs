@@ -33,8 +33,14 @@ public class PlayerCrouch : MonoBehaviour
 
     public void CrouchStarted(InputAction.CallbackContext context)
     {
-        _isCrouching = true;
+        Vector2 value = context.ReadValue<Vector2>();
 
+        if (value.y > -0.7f)
+        {
+            return;
+        }
+
+        _isCrouching = true;
     }
 
     public void CrouchCanceled(InputAction.CallbackContext context)
