@@ -25,10 +25,10 @@ public class BindUICulling : MonoBehaviour
             //カリングフラグが立っていないときはカリングの判定を行う
             if (!cullingFlag)
             {
-                if ((sceneIndex < _indexMove && 1 < i) ||
-                    (sceneIndex < _indexFrame && 3 < i) ||
-                    (sceneIndex < _indexCrouch && 4 < i) ||
-                    (sceneIndex < _indexHold && 5 < i))
+                if ((sceneIndex < _indexMove && 2 < i) ||
+                    (sceneIndex < _indexFrame && 4 < i) ||
+                    (sceneIndex < _indexCrouch && 5 < i) ||
+                    (sceneIndex < _indexHold && 6 < i))
                 {
                     cullingFlag = true;
                 }
