@@ -16,13 +16,13 @@ EditorBuildSettings:
     guid: 2d9a38d0f1b118440a351780157a875d
   - enabled: 1
     path: Assets/Scenes/SK/lvl 3.unity
-    guid: e72d261fc2c3412458460b598fd3f3c7
+    guid: 325915aef7819ed40829a2d80f90f9be
   - enabled: 1
     path: Assets/Scenes/SK/lvl 4.unity
-    guid: 57f3d94e34fa5ae4db95b6e38878298a
+    guid: e72d261fc2c3412458460b598fd3f3c7
   - enabled: 1
     path: Assets/Scenes/SK/lvl 5.unity
-    guid: 325915aef7819ed40829a2d80f90f9be
+    guid: 57f3d94e34fa5ae4db95b6e38878298a
   - enabled: 1
     path: Assets/Scenes/SK/lvl 6.unity
     guid: 8ebb3e0a69429d34b9bfdf38d4b89500
