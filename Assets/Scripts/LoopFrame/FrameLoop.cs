@@ -1080,6 +1080,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
                 if (!g_isActive)
                 {
+
                     AudioManager.instance.Stop("Frame");
                     AudioManager.instance.Play("FrameTP");
                 }
@@ -1657,5 +1658,21 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     public Dictionary<TileReplace, List<(int, int)>> GetBreakableDic()
     {
         return _breakableDic;
+    }
+
+    private void OnDestroy()
+    {
+        GameObject gameManager = GameObject.FindGameObjectWithTag("GameManager");
+
+        if(gameManager != null)
+        {
+            InputManager input = gameManager.GetComponent<InputManager>();
+
+            if (input != null)
+            {
+                input._FrameEnable.started -= FrameStarted;
+                input._FrameEnable.canceled -= FrameCanceled;
+            }
+        }
     }
 }
