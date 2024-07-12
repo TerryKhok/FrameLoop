@@ -132,6 +132,11 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         SetTiles();
     }
 
+    private void OnDestroy()
+    {
+        AudioManager.instance.Stop("Wind");
+    }
+
     private void Update()
     {
         _animator.SetBool("isEnable", _isEnable);
