@@ -43,6 +43,8 @@ public class OptionMenu : MonoBehaviour
     private Slider _bgmSlider;
 
     private const int MASTER_BASE = 0, SE_BASE = -1, BGM_BASE = -12;
+    private const int PAUSED_MASTER_BASE = -6, PAUSED_SE_BASE = -7, PAUSED_BGM_BASE = -18;
+    private int masterBase = 0, seBase = 0, bgmBase = 0;
     private static bool _isInit = false;
 
 #if false
@@ -59,7 +61,6 @@ public class OptionMenu : MonoBehaviour
         OptionUI.SetActive(false);
 
         _eventSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<EventSystem>();
-
         //if (!_isInit)
         //{
         //    SetMasterVolume(5);
@@ -69,11 +70,32 @@ public class OptionMenu : MonoBehaviour
         //    _isInit = true;
         //}
 
+        //masterBase = MASTER_BASE;
+        //seBase = SE_BASE;
+        //bgmBase = BGM_BASE;
+
         //GetMasterVolume();
         //GetSEVolume();
         //GetBGMVolume();
 
     }
+#if false
+    private void Update()
+    {
+        if (PauseMenu.IsPaused)
+        {
+            masterBase = PAUSED_MASTER_BASE;
+            seBase = PAUSED_SE_BASE;
+            bgmBase = PAUSED_BGM_BASE;
+        }
+        else
+        {
+            masterBase = MASTER_BASE;
+            seBase = SE_BASE;
+            bgmBase = BGM_BASE;
+        }
+    }
+#endif
 
     public void SetMasterVolume(float rawValue)
     {
