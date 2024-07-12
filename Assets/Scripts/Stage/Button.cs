@@ -59,7 +59,10 @@ public class Button : MonoBehaviour
             if (!pressedSoundFlag)
             {
                 AudioManager.instance.Play("Button");
-                AudioManager.instance.Play("DoorOpen");
+                if(_toGoal)
+                {
+                    AudioManager.instance.Play("DoorOpen");
+                }
                 pressedSoundFlag = true;
             }
 
@@ -92,7 +95,10 @@ public class Button : MonoBehaviour
 
             if (pressedSoundFlag)
             {
-                AudioManager.instance.Play("DoorClose");
+                if (_toGoal)
+                {
+                    AudioManager.instance.Play("DoorClose");
+                }
                 pressedSoundFlag = false;
             }
 

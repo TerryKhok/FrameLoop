@@ -74,6 +74,8 @@ public class Fan : MonoBehaviour,IParentOnTrigger
 
     private void Start()
     {
+        AudioManager.instance.Stop("Wind");
+
         _camera = Camera.main;
         _playerInfo = PlayerInfo.Instance;
         _isEnable = _enableOnAwake;

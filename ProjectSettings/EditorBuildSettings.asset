@@ -9,18 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: b89b7b114d81324498023880be89e740
   - enabled: 1
-    path: Assets/Scenes/StageSelect/WorldSelect.unity
-    guid: b32bf3f6d0cf40043a1d56d3534f6515
-  - enabled: 1
-    path: Assets/Scenes/StageSelect/World1.unity
-    guid: 617b7629bd33fca47a5c70c1351cf5d5
-  - enabled: 1
-    path: Assets/Scenes/StageSelect/World2.unity
-    guid: e47d16c740a44d0499e35f1966e977ba
-  - enabled: 1
-    path: Assets/Scenes/StageSelect/World3.unity
-    guid: b0a1bd230bb1a7945886eac764a9e085
-  - enabled: 1
     path: Assets/Scenes/SK/lvl 1.unity
     guid: 6f3d9dd1598d94144a375e92b22a6ee6
   - enabled: 1
@@ -74,6 +62,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SK/lvl 18.unity
     guid: 215a2835357be3a48899b61685830af4
+  - enabled: 1
+    path: Assets/Scenes/StageSelect/World1.unity
+    guid: 617b7629bd33fca47a5c70c1351cf5d5
+  - enabled: 1
+    path: Assets/Scenes/StageSelect/World2.unity
+    guid: e47d16c740a44d0499e35f1966e977ba
+  - enabled: 1
+    path: Assets/Scenes/StageSelect/World3.unity
+    guid: b0a1bd230bb1a7945886eac764a9e085
+  - enabled: 1
+    path: Assets/Scenes/StageSelect/WorldSelect.unity
+    guid: b32bf3f6d0cf40043a1d56d3534f6515
   - enabled: 1
     path: Assets/Scenes/AppreciateScene.unity
     guid: 83db4f00cd9fd1c41ba5a7a341675d82

@@ -92,6 +92,9 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
     private void Start()
     {
+        AudioManager.instance.Stop("Frame");
+        AudioManager.instance.Stop("Wind"); //簡単にバグ治すため（毎シーンにフレームあるから）
+
         _transform = transform;
 
         //SpriteMaskを取得して無効にしておく
