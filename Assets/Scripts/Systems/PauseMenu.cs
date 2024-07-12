@@ -66,6 +66,15 @@ public class PauseMenu : SingletonMonoBehaviour<PauseMenu>
     {
         //FindObjectOfType<AudioManager>().Play("ButtonPressed");
 
+        if (Goal.instance != null)
+        {
+            // クリア済みなら実行しない
+            if (Goal.instance.g_clear)
+            {
+                return;
+            }
+        }
+
         playerInput.SwitchCurrentActionMap("Player");
 
         if(pauseMenuUI == null) { return; }
@@ -88,6 +97,15 @@ public class PauseMenu : SingletonMonoBehaviour<PauseMenu>
     private void Pause()
     {
         //FindObjectOfType<AudioManager>().Play("ButtonPressed");
+
+        if(Goal.instance != null)
+        {
+            // クリア済みならポーズを実行しない
+            if(Goal.instance.g_clear)
+            {
+                return;
+            }
+        }
 
         playerInput.SwitchCurrentActionMap("UI");
 
