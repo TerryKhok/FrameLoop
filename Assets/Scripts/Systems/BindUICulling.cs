@@ -10,7 +10,7 @@ public class BindUICulling : MonoBehaviour
 
     private const int _indexMove = 1;
     private const int _indexFrame = 2;
-    private const int _indexCrouch = 4;
+    private const int _indexCrouch = 5;
     private const int _indexHold = 8;
 
     private void Start()
