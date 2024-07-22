@@ -13,27 +13,27 @@ using UnityEngine.Tilemaps;
  */
 public class TileReplace : MonoBehaviour
 {
-    private Tilemap tilemap_out;
-    private Tilemap tilemap_out_invisible;
-    private Tilemap tilemap_in;
-    private Tilemap tilemap_in_invisible;
-    private List<Vector3Int> allTilePositions;
-    private TileBase tile = null;
+    protected Tilemap tilemap_out;
+    protected Tilemap tilemap_out_invisible;
+    protected Tilemap tilemap_in;
+    protected Tilemap tilemap_in_invisible;
+    protected List<Vector3Int> allTilePositions;
+    protected TileBase tile = null;
 
     void Start()
     {
         //タイルマップを取得しておく
         var tilemaps = GetComponentsInChildren<Tilemap>();
-        tilemap_out = tilemaps[0];
-        tilemap_out_invisible = tilemaps[1];
-        tilemap_in = tilemaps[2];
-        tilemap_in_invisible = tilemaps[3];
+        tilemap_out = tilemaps[0] != null ? tilemaps[0] : null;
+        tilemap_out_invisible = tilemaps[1] != null ? tilemaps[1] : null;
+        tilemap_in = tilemaps[2] != null ? tilemaps[2] : null;
+        tilemap_in_invisible = tilemaps[3] != null ? tilemaps[3] : null;
 
         //タイルが置いてあるポジションを保存
         allTilePositions = GetAllTilePositions(tilemap_out);
     }
 
-    public void Replace(Vector3Int setPos, Vector3Int beforePos = new Vector3Int(), bool setInside = false)
+    public virtual bool Replace(Vector3Int setPos, Vector3Int beforePos = new Vector3Int(), bool setInside = false)
     {
         if(setInside)
         {
@@ -50,9 +50,11 @@ public class TileReplace : MonoBehaviour
             //ループ後のポジションに追加
             tilemap_out_invisible.SetTile(setPos, tile);
         }
+
+        return false;
     }
 
-    public void UnReplace()
+    public virtual void UnReplace()
     {
         //タイルマップをすべてクリア
         tilemap_in.ClearAllTiles();
@@ -67,7 +69,7 @@ public class TileReplace : MonoBehaviour
         }
     }
 
-    List<Vector3Int> GetAllTilePositions(Tilemap tilemap)
+    protected List<Vector3Int> GetAllTilePositions(Tilemap tilemap)
     {
         List<Vector3Int> tilePositions = new List<Vector3Int>();
 

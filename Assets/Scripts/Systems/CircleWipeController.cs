@@ -15,6 +15,8 @@ public class CircleWipeController : MonoBehaviour
     private float _time = 0f;
     private bool _isTransitioning = false, _isSceneTransition = false;
 
+    public float g_cutoff = 0.0f;
+
     private void Start()
     {
         _circleWipeMaterial.SetFloat("_cutoff", 0);
@@ -39,8 +41,8 @@ public class CircleWipeController : MonoBehaviour
             if (_isSceneTransition)
             {
                 _time -= Time.unscaledDeltaTime;
-                float cutoff = Mathf.Clamp01(_time / _duration);
-                _circleWipeMaterial.SetFloat("_cutoff", cutoff);
+                g_cutoff = Mathf.Clamp01(_time / _duration);
+                _circleWipeMaterial.SetFloat("_cutoff", g_cutoff);
 
                 if (_time < 0)
                 {
@@ -51,12 +53,12 @@ public class CircleWipeController : MonoBehaviour
             else
             {
                 _time += Time.unscaledDeltaTime;
-                float cutoff = Mathf.Clamp01(_time / _duration);
-                if(cutoff < 0)
+                g_cutoff = Mathf.Clamp01(_time / _duration);
+                if(g_cutoff < 0)
                 {
-                    cutoff = 0;
+                    g_cutoff = 0;
                 }
-                _circleWipeMaterial.SetFloat("_cutoff", cutoff);
+                _circleWipeMaterial.SetFloat("_cutoff", g_cutoff);
 
                 if (_time > _duration)
                 {
@@ -107,6 +109,12 @@ public class CircleWipeController : MonoBehaviour
         float cutoff = Mathf.Clamp01(_time / _duration);
 
         _circleWipeMaterial.SetFloat("_cutoff", cutoff);
+
+        if (_time > _duration)
+        {
+            _circleWipeImage.enabled = false;
+            _isTransitioning = false;
+        }
     }
 
     public float GetDuration()

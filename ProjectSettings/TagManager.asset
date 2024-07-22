@@ -22,6 +22,7 @@ TagManager:
   - Canon
   - SceneManager
   - EnterStage
+  - Grid
   layers:
   - Default
   - TransparentFX
@@ -39,8 +40,8 @@ TagManager:
   - Outside
   - Inside
   - Design
-  - 
-  - 
+  - OFrameCol
+  - IFrameCol
   - 
   - 
   - 

@@ -29,6 +29,8 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     [HideInInspector]
     public bool g_isGround = true;
     [HideInInspector]
+    public bool g_currentGround = false;
+    [HideInInspector]
     public bool g_takeUpFg = false;
     [HideInInspector]
     public float g_wall = 0;
@@ -48,7 +50,6 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     private static string _currentSceneName, _prevSceneName;
     
     private bool _prevGround = false;
-    private bool _currentGround = false;
 
     private float _yStopCount = 0;
     private Vector3 _prevPosition = Vector3.zero;
@@ -146,20 +147,20 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
 
         g_groundDistance = actualDistance;
 
-        _prevGround = _currentGround;
+        _prevGround = g_currentGround;
 
         if (g_groundDistance < Ground_Dist)
         {
-            _currentGround = true;
+            g_currentGround = true;
 
-            _currentGround &= g_rb.velocity.y <= 0.1f;
+            g_currentGround &= g_rb.velocity.y <= 0.1f;
         }
         else
         {
-            _currentGround = false;
+            g_currentGround = false;
         }
 
-        g_isGround = _currentGround || _prevGround;
+        g_isGround = g_currentGround || _prevGround;
 
         g_takeUpFg &= g_isGround;
     }

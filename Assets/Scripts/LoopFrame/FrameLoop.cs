@@ -78,6 +78,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     private Goal _goal = null;
     private GameObject _colliderPrefab = null;
     private Transform _topT = null, _bottomT = null, _rightT = null, _leftT = null;
+    private CircleWipeController _circleWipeController = null;
 
     private bool[] _topHitArray = new bool[8],
                    _bottomHitArray = new bool[8],
@@ -92,6 +93,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
     private void Start()
     {
+        g_isActive = false;
+
         AudioManager.instance.Stop("Frame");
         AudioManager.instance.Stop("Wind"); //簡単にバグ治すため（毎シーンにフレームあるから）
 
@@ -159,11 +162,13 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         }
 
         //ScnenのTileReplaceスクリプトをすべて取得
-        var tileReplaceObjs = GameObject.FindGameObjectsWithTag("BreakableParent");
+        var tileReplaceObjs = GameObject.FindObjectsOfType<TileReplace>();
         foreach(var tileReplaceObj in tileReplaceObjs)
         {
             _replaceTileList.Add(tileReplaceObj.GetComponent<TileReplace>());
         }
+
+        _circleWipeController = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<CircleWipeController>();
 
         //子オブジェクトを取得して上下左右を割り当てる
         var children = transform.GetComponentsInChildren<Transform>().ToList();
@@ -262,7 +267,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         }
 
         //着地したら使用可能に戻す
-        g_usable |= PlayerInfo.instance.g_isGround;
+        g_usable |= PlayerInfo.instance.g_currentGround;
 
         //フレームの座標を調節
         adjustPos();
@@ -434,7 +439,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
                 hit = Physics2D.RaycastAll(ray.origin, ray.direction, 15, layerMask);
 
-                bool breakable = false;
+                bool replace = false;
                 TileReplace tileReplace = null;
 
                 //Rayが当たらなかったら次のループへ
@@ -449,20 +454,20 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                     {
                         if (!_insideColliderList.Contains(item.collider))
                         {
-                            if (item.transform.CompareTag("Box"))
-                            {
+                            //if (item.transform.CompareTag("Box"))
+                            //{
 
-                                //フレームの端に箱があったら箱を複製する
-                                if (i == 0 || i < _size.x + 1 || j == 0 || j < _size.y + 1)
-                                {
-                                    ColliderInstantiate(item.transform.position, i, j, item.transform);
-                                }
-                                continue;
-                            }
-                            else if(item.transform.GetComponentInParent<TileReplace>() != null)
+                            //    //フレームの端に箱があったら箱を複製する
+                            //    if (i == 0 || i < _size.x + 1 || j == 0 || j < _size.y + 1)
+                            //    {
+                            //        ColliderInstantiate(item.transform.position, i, j, item.transform);
+                            //    }
+                            //    continue;
+                            //}
+                            if(item.transform.GetComponentInParent<TileReplace>() != null)
                             {
                                 tileReplace = item.transform.GetComponentInParent<TileReplace>();
-                                breakable = true;
+                                replace = true;
                             }
 
                             //箱以外に当たったらinstantFgをTrueに
@@ -490,8 +495,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                             _ableToLoop[3] = false;
                         }
 
-                        setColliderTile(origin, i, j, breakable, tileReplace);
-                        breakable = false;
+                        setColliderTile(origin, i, j, replace, tileReplace);
+                        replace = false;
                         tileReplace = null;
                     }
                 }
@@ -538,9 +543,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
     }
     //Tileをセットする
-    private void setColliderTile(Vector2 origin,int i, int j, bool breakble = false, TileReplace tileReplace = null)
+    private void setColliderTile(Vector2 origin,int i, int j, bool replace = false, TileReplace tileReplace = null)
     {
         Vector3 pos = origin;
+        bool isStage = false;
 
         //座標がフレームの内側ならその場にTileをセット
         if (1 <= i && i <= _size.x)
@@ -549,11 +555,13 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             {
                 Vector3Int intPos = new Vector3Int((int)(pos.x - 0.5f), (int)(pos.y - 0.5f));
 
-                if(breakble)
+                if(replace)
                 {
-                    tileReplace.Replace(intPos,intPos,true);
+                    isStage = tileReplace.Replace(intPos,intPos,true);
                 }
-                else
+                
+                // 普通のタイルか、ステージなら当たり判定を生成する
+                if(!replace || isStage)
                 {
                     for(int k=0; k < 3; k++)
                     {
@@ -577,7 +585,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 if (j == _size.y)
                 {
                     _topHitArray[i - 1] = true;
-                    if(breakble)
+                    if(replace)
                     {
                         if(_breakableDic.ContainsKey(tileReplace))
                         {
@@ -592,7 +600,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 else if (j == 1)
                 {
                     _bottomHitArray[i - 1] = true;
-                    if (breakble)
+                    if (replace)
                     {
                         if (_breakableDic.ContainsKey(tileReplace))
                         {
@@ -608,7 +616,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 if (i == _size.x)
                 {
                     _rightHitArray[j - 1] = true;
-                    if (breakble)
+                    if (replace)
                     {
                         if (_breakableDic.ContainsKey(tileReplace))
                         {
@@ -623,7 +631,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 else if (i == 1)
                 {
                     _leftHitArray[j - 1] = true;
-                    if (breakble)
+                    if (replace)
                     {
                         if (_breakableDic.ContainsKey(tileReplace))
                         {
@@ -651,12 +659,14 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         {
             Vector3Int intPos = new Vector3Int((int)(pos.x-0.5f), (int)(pos.y-0.5f));
 
-            if (breakble)
+            if (replace)
             {
                 Vector3Int beforePos = new Vector3Int((int)(origin.x - 0.5f), (int)(origin.y - 0.5f));
-                tileReplace.Replace(intPos, beforePos, true);
+                isStage = tileReplace.Replace(intPos, beforePos, true);
             }
-            else
+
+            // 普通のタイルか、ステージなら当たり判定を生成する
+            if (!replace || isStage)
             {
                 _insideTile.SetTile(intPos, _tile);
 
@@ -668,7 +678,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             if (j == 1)
             {
                 _topHitArray[i-1] = true;
-                if (breakble)
+                if (replace)
                 {
                     if (_breakableDic.ContainsKey(tileReplace))
                     {
@@ -683,7 +693,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             else if(j == _size.y)
             {
                 _bottomHitArray[i-1] = true;
-                if (breakble)
+                if (replace)
                 {
                     if (_breakableDic.ContainsKey(tileReplace))
                     {
@@ -699,7 +709,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             if (i == 1)
             {
                 _rightHitArray[j-1] = true;
-                if (breakble)
+                if (replace)
                 {
                     if (_breakableDic.ContainsKey(tileReplace))
                     {
@@ -714,7 +724,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             else if (i == _size.x)
             {
                 _leftHitArray[j-1] = true;
-                if (breakble)
+                if (replace)
                 {
                     if (_breakableDic.ContainsKey(tileReplace))
                     {
@@ -732,11 +742,13 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         {
             //生成する座標がフレームの内側なら外側用の当たり判定を生成
             Vector3Int intPos = new Vector3Int((int)(pos.x - 0.5f), (int)(pos.y - 0.5f));
-            if (breakble)
+            if (replace)
             {
-                tileReplace.Replace(intPos);
+                isStage = tileReplace.Replace(intPos);
             }
-            else
+
+            // 普通のタイルか、ステージなら当たり判定を生成する
+            if (!replace || isStage)
             {
                 _outsideTile.SetTile(intPos, _tile);
 
@@ -756,12 +768,14 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 //上下の端の座標なら内側用の当たり判定を生成
                 if(j == 1 || j == _size.y)
                 {
-                    if (breakble)
+                    if (replace)
                     {
                         Vector3Int beforePos = new Vector3Int((int)(origin.x - 0.5f), (int)(origin.y - 0.5f));
-                        tileReplace.Replace(intPos, beforePos, true);
+                        isStage = tileReplace.Replace(intPos, beforePos, true);
                     }
-                    else
+
+                    // 普通のタイルか、ステージなら当たり判定を生成する
+                    if (!replace || isStage)
                     {
                         _insideTile.SetTile(intPos, _tile);
 
@@ -770,7 +784,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                     if(j == 1)
                     {
                         _topHitArray[i-1] = true;
-                        if (breakble)
+                        if (replace)
                         {
                             if (_breakableDic.ContainsKey(tileReplace))
                             {
@@ -785,7 +799,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                     else if(j == _size.y)
                     {
                         _bottomHitArray[i-1] = true;
-                        if (breakble)
+                        if (replace)
                         {
                             if (_breakableDic.ContainsKey(tileReplace))
                             {
@@ -801,11 +815,13 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 else
                 {
                     //外側なら外側用の当たり判定を生成
-                    if (breakble)
+                    if (replace)
                     {
-                        tileReplace.Replace(intPos);
+                        isStage = tileReplace.Replace(intPos);
                     }
-                    else
+
+                    // 普通のタイルか、ステージなら当たり判定を生成する
+                    if (!replace || isStage)
                     {
                         _outsideTile.SetTile(intPos, _tile);
                     }
@@ -814,53 +830,53 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         }
     }
 
-    //ブロックの当たり判定を生成
-    private void ColliderInstantiate(Vector3 pos,int i, int j, Transform parent)
-    {
-        //当たったオブジェクトががコピーオブジェクトなら生成をやめる
-        foreach(var tList in _insideCopyDic.Values)
-        {
-            if (tList.Contains(parent))
-            {
-                return;
-            }
-        }
+    ////ブロックの当たり判定を生成
+    //private void ColliderInstantiate(Vector3 pos,int i, int j, Transform parent)
+    //{
+    //    //当たったオブジェクトががコピーオブジェクトなら生成をやめる
+    //    foreach(var tList in _insideCopyDic.Values)
+    //    {
+    //        if (tList.Contains(parent))
+    //        {
+    //            return;
+    //        }
+    //    }
 
-        foreach(var item in _outsideColliderList)
-        {
-            if(item.transform.parent == parent)
-            {
-                return;
-            }
-        }
+    //    foreach(var item in _outsideColliderList)
+    //    {
+    //        if(item.transform.parent == parent)
+    //        {
+    //            return;
+    //        }
+    //    }
 
-        //座標をループさせる
-        if (i <= 1 && j != 0 && j != _size.y + 1) { pos.x += _size.x; }
-        else if (i >= _size.x && j != 0 && j != _size.y + 1) { pos.x -= _size.x; }
-        else if (j <= 1 && i != 0 && i != _size.x + 1) { pos.y += _size.y; }
-        else if (j >= _size.y && i != 0 && i != _size.x + 1) { pos.y -= _size.y; }
+    //    //座標をループさせる
+    //    if (i <= 1 && j != 0 && j != _size.y + 1) { pos.x += _size.x; }
+    //    else if (i >= _size.x && j != 0 && j != _size.y + 1) { pos.x -= _size.x; }
+    //    else if (j <= 1 && i != 0 && i != _size.x + 1) { pos.y += _size.y; }
+    //    else if (j >= _size.y && i != 0 && i != _size.x + 1) { pos.y -= _size.y; }
 
-        //生成先が当たり判定の中かどうかを取得
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(pos);
-        Ray ray = Camera.main.ScreenPointToRay(screenPos);
-        RaycastHit2D hit;
-        LayerMask mask = 1 << LayerMask.NameToLayer("OPlatform");
-        mask |= 1 << LayerMask.NameToLayer("Outside");
-        mask |= 1 << LayerMask.NameToLayer("OBox");
+    //    //生成先が当たり判定の中かどうかを取得
+    //    Vector3 screenPos = Camera.main.WorldToScreenPoint(pos);
+    //    Ray ray = Camera.main.ScreenPointToRay(screenPos);
+    //    RaycastHit2D hit;
+    //    LayerMask mask = 1 << LayerMask.NameToLayer("OPlatform");
+    //    mask |= 1 << LayerMask.NameToLayer("Outside");
+    //    mask |= 1 << LayerMask.NameToLayer("OBox");
 
-        hit = Physics2D.Raycast(ray.origin, ray.direction, 1.0f, mask);
+    //    hit = Physics2D.Raycast(ray.origin, ray.direction, 1.0f, mask);
 
-        if(hit.collider != null)
-        {
-            return;
-        }
+    //    if(hit.collider != null)
+    //    {
+    //        return;
+    //    }
 
-        //当たり判定を箱の子オブジェクトとして生成
-        var instance = Instantiate(_colliderPrefab, pos, Quaternion.identity, parent);
-        var col = instance.GetComponent<Collider2D>();
-        instance.layer = 11;
-        _outsideColliderList.Add(col);
-    }
+    //    //当たり判定を箱の子オブジェクトとして生成
+    //    var instance = Instantiate(_colliderPrefab, pos, Quaternion.identity, parent);
+    //    var col = instance.GetComponent<Collider2D>();
+    //    instance.layer = 11;
+    //    _outsideColliderList.Add(col);
+    //}
 
     //フレームが無効になったときに一度実行するメソッド
     private void onInactive()
@@ -1056,6 +1072,9 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     //キーが押された時に一度実行されるメソッド
     public void FrameStarted(InputAction.CallbackContext context)
     {
+
+        if(_circleWipeController.g_cutoff <= 0.5f) { return; }
+
         //操作が切り替えなら押されるたびに状態を切り替え
         if (_toggle)
         {
@@ -1541,6 +1560,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             if (!_outsiders.ContainsKey(other))
             {
                 _outsiders.Add(other, vec);
+
             }
             else
             {
