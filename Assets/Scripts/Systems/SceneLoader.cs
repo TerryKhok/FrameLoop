@@ -14,6 +14,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     private float _progress = 0;
 
     private bool retryAnimStart = false;
+    private static Coroutine _coroutine;
 
     private void Start()
     {
@@ -22,6 +23,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
         _inputManager._Retry.performed += Retry;
         _circleWipeController = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<CircleWipeController>();
         retryAnimStart = false;
+        _coroutine = null;
     }
 
     private void Update()
@@ -48,6 +50,11 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 
     public void LoadScene(string sceneName)
     {
+        if(_coroutine != null) 
+        {
+            return;
+        }
+
         // FindObjectOfType<AudioManager>().Play("ButtonPressed");
         // FindObjectOfType<AudioManager>().Stop("BGM2");
         // FindObjectOfType<AudioManager>().Play("BGM1");
@@ -56,14 +63,19 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
         //    _audioManager.Play("Main BGM");
         //    DontDestroyOnLoad(_audioManager);
         //}
-        StartCoroutine(LoadSceneAsync(sceneName));
+        _coroutine = StartCoroutine(LoadSceneAsync(sceneName));
         //Debug.Log("Scene loaded");
         if (_pauseMenu != null) _pauseMenu.SetPause(false);
     }
 
     public void LoadScene(int index)
     {
-        StartCoroutine(LoadSceneAsync(index));
+        if (_coroutine != null)
+        {
+            return;
+        }
+
+        _coroutine = StartCoroutine(LoadSceneAsync(index));
         //Debug.Log("Scene loaded");
         if (_pauseMenu != null) _pauseMenu.SetPause(false);
     }
