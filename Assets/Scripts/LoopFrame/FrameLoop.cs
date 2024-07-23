@@ -16,23 +16,23 @@ using static PlayerTitleMotion;
  *               
  *  Created     :2024/05/30
  */
-public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
+public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
 {
-    [SerializeField,Tooltip("当たり判定を生成するために設置するTile")]
+    [SerializeField, Tooltip("当たり判定を生成するために設置するTile")]
     private Tile _tile = null;
-    [SerializeField,Tooltip("内側の当たり判定用のTilemap")]
+    [SerializeField, Tooltip("内側の当たり判定用のTilemap")]
     private Tilemap _insideTile = null;
     [SerializeField, Tooltip("外側の当たり判定用のTilemap")]
     private Tilemap _outsideTile = null;
-    [SerializeField,Tooltip("Frameに適用するMaterial(Scriptから色が変更されるので専用のものにする)")]
+    [SerializeField, Tooltip("Frameに適用するMaterial(Scriptから色が変更されるので専用のものにする)")]
     private Material _material = null;
-    [SerializeField,Tooltip("FrameのSize")]
+    [SerializeField, Tooltip("FrameのSize")]
     private Vector2Int _size = Vector2Int.one;
-    [SerializeField,Tooltip("プレイヤーの座標からY方向にどれだけずらすか")]
+    [SerializeField, Tooltip("プレイヤーの座標からY方向にどれだけずらすか")]
     private float _yOffset = 1f;
     [SerializeField, Tooltip("しゃがみ中にプレイヤーの座標からY方向にどれだけずらすか")]
     private float _yOffset_Crouching = -2f;
-    [SerializeField,Tooltip("切り替え")]
+    [SerializeField, Tooltip("切り替え")]
     private bool _toggle = false;
 
     //[SerializeField]    //SE
@@ -47,9 +47,9 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         _exitInsiders = new Dictionary<Collider2D, Vector2>(),      //フレームの中に入ろうとしているオブジェクトと入ってくる方向のリスト
         _prevExitInsiders = new Dictionary<Collider2D, Vector2>();  //前フレームの上のリスト
 
-    private List<Collider2D> 
+    private List<Collider2D>
         _insideColliderList = new List<Collider2D>(),               //内側に生成したコライダーのリスト
-        _outsideColliderList = new List<Collider2D> ();             //外側に生成したコライダーのリスト
+        _outsideColliderList = new List<Collider2D>();             //外側に生成したコライダーのリスト
 
     private Dictionary<Collider2D, Transform>
         _outsideCopyDic = new Dictionary<Collider2D, Transform>();  //フレームの外側のオブジェクトのコピーのリスト
@@ -64,7 +64,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     private List<TileReplace> _replaceTileList = new List<TileReplace>();// タイルの置き直し用コンポーネントのリスト
     private List<EnterStage> _enterStageList = new List<EnterStage>();//EnterStageを取得したリスト
 
-    private (float min, float max) 
+    private (float min, float max)
         _loopRangeX = (0, 0), _loopRangeY = (0, 0);                 //フレームの端の座標
 
     private BoxCollider2D _boxCollider = null;
@@ -163,7 +163,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
         //ScnenのTileReplaceスクリプトをすべて取得
         var tileReplaceObjs = GameObject.FindObjectsOfType<TileReplace>();
-        foreach(var tileReplaceObj in tileReplaceObjs)
+        foreach (var tileReplaceObj in tileReplaceObjs)
         {
             _replaceTileList.Add(tileReplaceObj.GetComponent<TileReplace>());
         }
@@ -210,7 +210,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
     private void Update()
     {
-        if(_playerTrans == null)
+        if (_playerTrans == null)
         {
             return;
         }
@@ -220,9 +220,9 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
         //nullチェックをしてnullならリストから削除
         List<Collider2D> workList = new List<Collider2D>(_insiders);
-        foreach(var col in workList)
+        foreach (var col in workList)
         {
-            if(col == null) 
+            if (col == null)
             {
                 _insiders.Remove(col);
                 if (_exitInsiders.ContainsKey(col))
@@ -235,7 +235,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             //ループするオブジェクトの落下速度を制限
             var rb = col.GetComponent<Rigidbody2D>();
             var velocity = rb.velocity;
-            if(velocity.y < -15f)
+            if (velocity.y < -15f)
             {
                 velocity.y = -15f;
                 rb.velocity = velocity;
@@ -281,14 +281,14 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         }
 
         //フレームが無効になったとき行う処理
-        if(_prevActive && !g_isActive)
+        if (_prevActive && !g_isActive)
         {
             onInactive();
         }
     }
 
     private void LateUpdate()
-    {   
+    {
         //前フレームの状態を保存
         _prevActive = g_isActive;
     }
@@ -319,7 +319,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     private void LateFixedUpdate()
     {
         _prevExitInsiders = new Dictionary<Collider2D, Vector2>(_exitInsiders);
-        foreach(var col in _prevExitInsiders.Keys)
+        foreach (var col in _prevExitInsiders.Keys)
         {
             _exitInsiders[col] = Vector2.zero;
         }
@@ -329,7 +329,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     private void onActive()
     {
         //角でループできるかをリセット
-        for(int i=0; i < _ableToLoop.Length;i++)
+        for (int i = 0; i < _ableToLoop.Length; i++)
         {
             _ableToLoop[i] = true;
         }
@@ -374,7 +374,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         }
 
         //外側のリストに分類されたオブジェクトを内側のリストから削除
-        foreach(var col in removeList)
+        foreach (var col in removeList)
         {
             _insiders.Remove(col);
             if (_exitInsiders.ContainsKey(col))
@@ -387,7 +387,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         //当たり判定の配列を全て初期化
         //--------------------------------------------------------
 
-        for(int i=0; i < _topHitArray.Length; i++)
+        for (int i = 0; i < _topHitArray.Length; i++)
         {
             _topHitArray[i] = false;
         }
@@ -407,9 +407,9 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         //---------------------------------------------------------
 
         //フレームの範囲+-1マス分の範囲をループ
-        for (int i=0; i <= _size.x+1; i++)
+        for (int i = 0; i <= _size.x + 1; i++)
         {
-            for(int j=0; j <= _size.y+1; j++)
+            for (int j = 0; j <= _size.y + 1; j++)
             {
 
                 //座標が角なら次のループへ
@@ -450,7 +450,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 else
                 {
                     bool instantFg = false;
-                    foreach(var item in hit)
+                    foreach (var item in hit)
                     {
                         if (!_insideColliderList.Contains(item.collider))
                         {
@@ -464,7 +464,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                             //    }
                             //    continue;
                             //}
-                            if(item.transform.GetComponentInParent<TileReplace>() != null)
+                            if (item.transform.GetComponentInParent<TileReplace>() != null)
                             {
                                 tileReplace = item.transform.GetComponentInParent<TileReplace>();
                                 replace = true;
@@ -478,19 +478,19 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                     //箱以外に当たっていたらTileをセットする
                     if (instantFg)
                     {
-                        if( j == _size.y && (i == 0 || i == _size.x+1))
+                        if (j == _size.y && (i == 0 || i == _size.x + 1))
                         {
                             _ableToLoop[0] = false;
                         }
-                        if (j == 1 && (i == 0 || i == _size.x+1))
+                        if (j == 1 && (i == 0 || i == _size.x + 1))
                         {
                             _ableToLoop[1] = false;
                         }
-                        if (i == 1 && (j == 0 || j == _size.y+1))
+                        if (i == 1 && (j == 0 || j == _size.y + 1))
                         {
                             _ableToLoop[2] = false;
                         }
-                        if (i == _size.x && (j == 0 || j == _size.y+1))
+                        if (i == _size.x && (j == 0 || j == _size.y + 1))
                         {
                             _ableToLoop[3] = false;
                         }
@@ -506,7 +506,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         copyInsiders();
 
         //風をループさせる
-        foreach(var fan in _fanList)
+        foreach (var fan in _fanList)
         {
             fan.FanLoopStarted();
         }
@@ -523,11 +523,11 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         {
             button.ButtonLayerCheck();
         }
-        
+
         //キャノンのレイヤーをプレイヤーが触れられるレイヤーに変更
         foreach (var canon in _canonList)
         {
-            if(canon == null)
+            if (canon == null)
             {
                 continue;
             }
@@ -536,14 +536,14 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         }
 
         //入口のレイヤーをプレイヤーが触れられるレイヤーに変更
-        foreach(var enterStage in _enterStageList)
+        foreach (var enterStage in _enterStageList)
         {
             enterStage.LayerCheck();
         }
 
     }
     //Tileをセットする
-    private void setColliderTile(Vector2 origin,int i, int j, bool replace = false, TileReplace tileReplace = null)
+    private void setColliderTile(Vector2 origin, int i, int j, bool replace = false, TileReplace tileReplace = null)
     {
         Vector3 pos = origin;
         bool isStage = false;
@@ -555,21 +555,21 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             {
                 Vector3Int intPos = new Vector3Int((int)(pos.x - 0.5f), (int)(pos.y - 0.5f));
 
-                if(replace)
+                if (replace)
                 {
-                    isStage = tileReplace.Replace(intPos,intPos,true);
+                    isStage = tileReplace.Replace(intPos, intPos, true);
                 }
-                
+
                 // 普通のタイルか、ステージなら当たり判定を生成する
-                if(!replace || isStage)
+                if (!replace || isStage)
                 {
-                    for(int k=0; k < 3; k++)
+                    for (int k = 0; k < 3; k++)
                     {
-                        for(int l=0; l < 3; l++)
+                        for (int l = 0; l < 3; l++)
                         {
                             Vector3Int setPos = intPos;
-                            setPos.x -= _size.x*(-1+k);
-                            setPos.y -= _size.y*(-1+l);
+                            setPos.x -= _size.x * (-1 + k);
+                            setPos.y -= _size.y * (-1 + l);
 
                             _insideTile.SetTile(setPos, _tile);
 
@@ -585,9 +585,9 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 if (j == _size.y)
                 {
                     _topHitArray[i - 1] = true;
-                    if(replace)
+                    if (replace)
                     {
-                        if(_breakableDic.ContainsKey(tileReplace))
+                        if (_breakableDic.ContainsKey(tileReplace))
                         {
                             _breakableDic[tileReplace].Add((0, i - 1));
                         }
@@ -648,16 +648,16 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         }
 
         //座標がフレームの端か外側なら座標をループさせる
-        if (i <= 1 && j != 0 && j != _size.y+1) { pos.x += _size.x; }
+        if (i <= 1 && j != 0 && j != _size.y + 1) { pos.x += _size.x; }
         else if (i >= _size.x && j != 0 && j != _size.y + 1) { pos.x -= _size.x; }
         else if (j <= 1 && i != 0 && i != _size.x + 1) { pos.y += _size.y; }
         else if (j >= _size.y && i != 0 && i != _size.x + 1) { pos.y -= _size.y; }
 
         //生成する座標がフレームの外側なら内側用の当たり判定を生成
-        if (pos.x < _loopRangeX.min || _loopRangeX.max < pos.x||
+        if (pos.x < _loopRangeX.min || _loopRangeX.max < pos.x ||
             pos.y < _loopRangeY.min || _loopRangeY.max < pos.y)
         {
-            Vector3Int intPos = new Vector3Int((int)(pos.x-0.5f), (int)(pos.y-0.5f));
+            Vector3Int intPos = new Vector3Int((int)(pos.x - 0.5f), (int)(pos.y - 0.5f));
 
             if (replace)
             {
@@ -677,7 +677,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             //----------------------------------------------
             if (j == 1)
             {
-                _topHitArray[i-1] = true;
+                _topHitArray[i - 1] = true;
                 if (replace)
                 {
                     if (_breakableDic.ContainsKey(tileReplace))
@@ -690,9 +690,9 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                     }
                 }
             }
-            else if(j == _size.y)
+            else if (j == _size.y)
             {
-                _bottomHitArray[i-1] = true;
+                _bottomHitArray[i - 1] = true;
                 if (replace)
                 {
                     if (_breakableDic.ContainsKey(tileReplace))
@@ -708,7 +708,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
             if (i == 1)
             {
-                _rightHitArray[j-1] = true;
+                _rightHitArray[j - 1] = true;
                 if (replace)
                 {
                     if (_breakableDic.ContainsKey(tileReplace))
@@ -723,7 +723,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             }
             else if (i == _size.x)
             {
-                _leftHitArray[j-1] = true;
+                _leftHitArray[j - 1] = true;
                 if (replace)
                 {
                     if (_breakableDic.ContainsKey(tileReplace))
@@ -766,7 +766,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                 Vector3Int intPos = new Vector3Int((int)(pos.x - 0.5f), (int)(pos.y - 0.5f));
 
                 //上下の端の座標なら内側用の当たり判定を生成
-                if(j == 1 || j == _size.y)
+                if (j == 1 || j == _size.y)
                 {
                     if (replace)
                     {
@@ -781,9 +781,9 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
                     }
 
-                    if(j == 1)
+                    if (j == 1)
                     {
-                        _topHitArray[i-1] = true;
+                        _topHitArray[i - 1] = true;
                         if (replace)
                         {
                             if (_breakableDic.ContainsKey(tileReplace))
@@ -796,9 +796,9 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
                             }
                         }
                     }
-                    else if(j == _size.y)
+                    else if (j == _size.y)
                     {
-                        _bottomHitArray[i-1] = true;
+                        _bottomHitArray[i - 1] = true;
                         if (replace)
                         {
                             if (_breakableDic.ContainsKey(tileReplace))
@@ -830,53 +830,55 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         }
     }
 
-    ////ブロックの当たり判定を生成
-    //private void ColliderInstantiate(Vector3 pos,int i, int j, Transform parent)
-    //{
-    //    //当たったオブジェクトががコピーオブジェクトなら生成をやめる
-    //    foreach(var tList in _insideCopyDic.Values)
-    //    {
-    //        if (tList.Contains(parent))
-    //        {
-    //            return;
-    //        }
-    //    }
+#if false
+    //ブロックの当たり判定を生成
+    private void ColliderInstantiate(Vector3 pos,int i, int j, Transform parent)
+    {
+        //当たったオブジェクトががコピーオブジェクトなら生成をやめる
+        foreach(var tList in _insideCopyDic.Values)
+        {
+            if (tList.Contains(parent))
+            {
+                return;
+            }
+        }
 
-    //    foreach(var item in _outsideColliderList)
-    //    {
-    //        if(item.transform.parent == parent)
-    //        {
-    //            return;
-    //        }
-    //    }
+        foreach(var item in _outsideColliderList)
+        {
+            if(item.transform.parent == parent)
+            {
+                return;
+            }
+        }
 
-    //    //座標をループさせる
-    //    if (i <= 1 && j != 0 && j != _size.y + 1) { pos.x += _size.x; }
-    //    else if (i >= _size.x && j != 0 && j != _size.y + 1) { pos.x -= _size.x; }
-    //    else if (j <= 1 && i != 0 && i != _size.x + 1) { pos.y += _size.y; }
-    //    else if (j >= _size.y && i != 0 && i != _size.x + 1) { pos.y -= _size.y; }
+        //座標をループさせる
+        if (i <= 1 && j != 0 && j != _size.y + 1) { pos.x += _size.x; }
+        else if (i >= _size.x && j != 0 && j != _size.y + 1) { pos.x -= _size.x; }
+        else if (j <= 1 && i != 0 && i != _size.x + 1) { pos.y += _size.y; }
+        else if (j >= _size.y && i != 0 && i != _size.x + 1) { pos.y -= _size.y; }
 
-    //    //生成先が当たり判定の中かどうかを取得
-    //    Vector3 screenPos = Camera.main.WorldToScreenPoint(pos);
-    //    Ray ray = Camera.main.ScreenPointToRay(screenPos);
-    //    RaycastHit2D hit;
-    //    LayerMask mask = 1 << LayerMask.NameToLayer("OPlatform");
-    //    mask |= 1 << LayerMask.NameToLayer("Outside");
-    //    mask |= 1 << LayerMask.NameToLayer("OBox");
+        //生成先が当たり判定の中かどうかを取得
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(pos);
+        Ray ray = Camera.main.ScreenPointToRay(screenPos);
+        RaycastHit2D hit;
+        LayerMask mask = 1 << LayerMask.NameToLayer("OPlatform");
+        mask |= 1 << LayerMask.NameToLayer("Outside");
+        mask |= 1 << LayerMask.NameToLayer("OBox");
 
-    //    hit = Physics2D.Raycast(ray.origin, ray.direction, 1.0f, mask);
+        hit = Physics2D.Raycast(ray.origin, ray.direction, 1.0f, mask);
 
-    //    if(hit.collider != null)
-    //    {
-    //        return;
-    //    }
+        if(hit.collider != null)
+        {
+            return;
+        }
 
-    //    //当たり判定を箱の子オブジェクトとして生成
-    //    var instance = Instantiate(_colliderPrefab, pos, Quaternion.identity, parent);
-    //    var col = instance.GetComponent<Collider2D>();
-    //    instance.layer = 11;
-    //    _outsideColliderList.Add(col);
-    //}
+        //当たり判定を箱の子オブジェクトとして生成
+        var instance = Instantiate(_colliderPrefab, pos, Quaternion.identity, parent);
+        var col = instance.GetComponent<Collider2D>();
+        instance.layer = 11;
+        _outsideColliderList.Add(col);
+    }
+#endif
 
     //フレームが無効になったときに一度実行するメソッド
     private void onInactive()
@@ -887,7 +889,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         _spriteMask.enabled = false;
 
         //内側のオブジェクトをすべてチェック
-        foreach(var col in _insiders)
+        foreach (var col in _insiders)
         {
             //SpriteMaskの外側で表示されるように変更
             SpriteRenderer renderer = col.GetComponentInChildren<SpriteRenderer>();
@@ -898,6 +900,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             {
                 var currentPos = col.transform.position;
                 var setPos = currentPos;
+                Vector2 vec = Vector2.zero;
+                Vector2 screenPos = Vector2.zero;
+                Ray ray;
+                RaycastHit2D hit;
 
                 if (col.CompareTag("Player"))
                 {
@@ -906,24 +912,55 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
                 if (setPos.x < _loopRangeX.min)
                 {
-                    setPos.x += _size.x;
+                    vec.x += _size.x;
                 }
-                else if(setPos.x > _loopRangeX.max)
+                else if (setPos.x > _loopRangeX.max)
                 {
-                    setPos.x -= _size.x;
+                    vec.x -= _size.x;
                 }
 
                 if (setPos.y < _loopRangeY.min)
                 {
-                    setPos.y += _size.y;
+                    vec.y += _size.y;
                 }
                 else if (setPos.y > _loopRangeY.max)
                 {
-                    setPos.y -= _size.y;
+                    vec.y -= _size.y;
                 }
 
-                //位置マスの高さの座標にループしないようにする
-                if(col.CompareTag("Player"))
+                setPos += (Vector3)vec;
+
+                if (_playerInfo.g_takeUpFg)
+                {
+                    if (col.CompareTag("Box"))
+                    {
+                        Box box = col.GetComponent<Box>();
+                        var offset = box.GetOffset();
+
+                        // 各値を0,1になおす
+                        vec.x = vec.x != 0 ? Mathf.Sign(vec.x) : 0;
+                        vec.y = vec.y != 0 ? Mathf.Sign(vec.y) : 0;
+                        offset -= vec;
+                        box.SetOffset(offset);
+                    }
+                    else if (col.CompareTag("Player"))
+                    {
+                        if (_playerInfo.g_box != null)
+                        {
+                            Box box = _playerInfo.g_box.GetComponent<Box>();
+                            var offset = box.GetOffset();
+
+                            // 各値を0,1になおす
+                            vec.x = vec.x != 0 ? Mathf.Sign(vec.x) : 0;
+                            vec.y = vec.y != 0 ? Mathf.Sign(vec.y) : 0;
+                            offset += vec;
+                            box.SetOffset(offset);
+                        }
+                    }
+                }
+
+                //1マスの高さの座標にループしないようにする
+                if (col.CompareTag("Player"))
                 {
                     //ループ予定の座標を取得
                     setPos.y += 0.1f;
@@ -931,23 +968,22 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
                     //頭の位置に当たり判定があるかを調べる--------------------------------------------------------------
                     checkPos.y += 0.5f;
-                    Vector2 screenPos = Camera.main.WorldToScreenPoint(checkPos);
-                    Ray ray = Camera.main.ScreenPointToRay(screenPos);
-                    RaycastHit2D hit;
+                    screenPos = Camera.main.WorldToScreenPoint(checkPos);
+                    ray = Camera.main.ScreenPointToRay(screenPos);
+
 
                     hit = Physics2D.Raycast(ray.origin, ray.direction, 5.0f, 1 << LayerMask.NameToLayer("OPlatform"));
 
                     //--------------------------------------------------------------------------------------------------
-                    
+
                     //当たり判定があればループ前の座標のままにする
-                    if(hit.collider != null)
+                    if (hit.collider != null)
                     {
                         setPos = currentPos;
                     }
                 }
 
                 col.transform.position = setPos;
-
             }
 
             //Player以外のレイヤーをO~~~レイヤーに変更
@@ -984,7 +1020,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         _outsideTile.ClearAllTiles();
 
         //生成したコライダーをDestroy
-        for(int i=0;i < _insideColliderList.Count; i++)
+        for (int i = 0; i < _insideColliderList.Count; i++)
         {
             if (_insideColliderList[i] == null) { continue; }
             Destroy(_insideColliderList[i].gameObject);
@@ -996,10 +1032,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         }
 
         //コピーしたオブジェクトをDestroy
-        Dictionary<Collider2D, List<Transform>> workDic = new Dictionary<Collider2D, List<Transform>>(_insideCopyDic); 
-        foreach(var col in workDic.Keys)
+        Dictionary<Collider2D, List<Transform>> workDic = new Dictionary<Collider2D, List<Transform>>(_insideCopyDic);
+        foreach (var col in workDic.Keys)
         {
-            foreach(Transform t in _insideCopyDic[col])
+            foreach (Transform t in _insideCopyDic[col])
             {
                 if (t == null)
                 {
@@ -1073,7 +1109,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     public void FrameStarted(InputAction.CallbackContext context)
     {
 
-        if(_circleWipeController.g_cutoff <= 0.5f) { return; }
+        if (_circleWipeController.g_cutoff <= 0.5f) { return; }
 
         //操作が切り替えなら押されるたびに状態を切り替え
         if (_toggle)
@@ -1130,7 +1166,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     private void adjustPos()
     {
         //フレームが有効なら座標を固定する
-        if(g_isActive) { return; }
+        if (g_isActive) { return; }
 
         //しゃがんでいるかでy座標を決定する
         var setPos = _playerTrans.position;
@@ -1151,16 +1187,16 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
     private void insiderSpriteLink()
     {
-        foreach(var col in _insiders)
+        foreach (var col in _insiders)
         {
             if (!_insideCopyDic.ContainsKey(col)) { continue; }
 
             var renderer = col.GetComponentInChildren<SpriteRenderer>();
             var sprite = renderer.sprite;
 
-            foreach(var t in _insideCopyDic[col])
+            foreach (var t in _insideCopyDic[col])
             {
-                if(t == null) { continue; }
+                if (t == null) { continue; }
 
                 var copyRenderer = t.GetComponent<SpriteRenderer>();
                 copyRenderer.sprite = sprite;
@@ -1236,7 +1272,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     private void instantiateCopy()
     {
         //内側に入るオブジェクトを全て確認
-        foreach(var col in _enterOutsiders)
+        foreach (var col in _enterOutsiders)
         {
             //コピーが無ければ複製する
             if (!_outsideCopyDic.ContainsKey(col))
@@ -1249,7 +1285,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
 
                 //入ってくるのと反対方向に座標をずらす
                 var pos = col.transform.position;
-                pos -= Vector3.Scale(vec, new Vector3(_size.x,_size.y));
+                pos -= Vector3.Scale(vec, new Vector3(_size.x, _size.y));
 
                 //子オブジェクトとして生成する
                 var instanceObj = Instantiate(obj, pos, col.transform.rotation, col.transform);
@@ -1329,7 +1365,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         }
 
         //生成したブロックならreturn
-        if(_insideColliderList.Contains(other) || _outsideColliderList.Contains(other))
+        if (_insideColliderList.Contains(other) || _outsideColliderList.Contains(other))
         {
             return;
         }
@@ -1346,7 +1382,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         else
         {
             //何かの子オブジェクトならreturn
-            if(other.transform.parent != null)
+            if (other.transform.parent != null)
             {
                 return;
             }
@@ -1376,14 +1412,14 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             Transform t = other.transform;
             var pos = t.position;
 
-            if(vec.x < 0)
+            if (vec.x < 0)
             {
-                if(pos.x >= _loopRangeX.min)
+                if (pos.x >= _loopRangeX.min)
                 {
                     vec.x = 0;
                 }
             }
-            else if(vec.x > 0)
+            else if (vec.x > 0)
             {
                 if (pos.x <= _loopRangeX.max)
                 {
@@ -1455,7 +1491,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     }
 
     //フレームの周りの当たり判定に入ったときのメソッド
-    public void OnStay(Collider2D other,Transform transform)
+    public void OnStay(Collider2D other, Transform transform)
     {
         if (other.CompareTag("GoalHitBox")) { return; }
 
@@ -1473,7 +1509,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
         }
 
         //生成したコライダーならreturn
-        if(_insideColliderList.Contains(other) || _outsideColliderList.Contains(other))
+        if (_insideColliderList.Contains(other) || _outsideColliderList.Contains(other))
         {
             return;
         }
@@ -1510,7 +1546,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
             bool ignoreCol = false;
 
             //角の場合にループ可能なら当たり判定を消す
-            if(vec.x != 0 )//横から
+            if (vec.x != 0)//横から
             {
                 //上の端
                 if (_loopRangeY.max - 1 < otherPos.y && otherPos.y < _loopRangeY.max)
@@ -1632,7 +1668,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     public void AddInsiders(Collider2D other)
     {
         //insiderにotherが無ければ追加する
-        if(!_insiders.Contains(other))
+        if (!_insiders.Contains(other))
         {
             _insiders.Add(other);
 
@@ -1660,7 +1696,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     //当たり判定の配列を返す
     public bool[] GetHitArray(int select)
     {
-        switch(select)
+        switch (select)
         {
             case 0:
                 return _topHitArray;
@@ -1684,7 +1720,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>,IParentOnTrigger
     {
         GameObject gameManager = GameObject.FindGameObjectWithTag("GameManager");
 
-        if(gameManager != null)
+        if (gameManager != null)
         {
             InputManager input = gameManager.GetComponent<InputManager>();
 

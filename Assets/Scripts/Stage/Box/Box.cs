@@ -44,7 +44,7 @@ public class Box : MonoBehaviour,IBox
         _playerInfo = PlayerInfo.Instance;
 
         //y²ˆÈŠO‚Ì“®‚«‚ğ§ŒÀ
-        _rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
+        //_rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
     }
 
     private void Update()

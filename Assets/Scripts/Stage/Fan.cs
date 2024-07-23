@@ -217,10 +217,10 @@ public class Fan : MonoBehaviour,IParentOnTrigger
             {
                 _rbDic.Add(other, rb);
 
-                if (other.CompareTag("Box"))
-                {
-                    rb.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
-                }
+                //if (other.CompareTag("Box"))
+                //{
+                //    rb.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
+                //}
             }
         }
     }
@@ -235,13 +235,13 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         {
             _rbDic.Remove(other);
 
-            if (other.CompareTag("Box"))
-            {
-                var rb = other.GetComponent<Rigidbody2D>();
-                rb.constraints |= RigidbodyConstraints2D.FreezePositionX;
+            //if (other.CompareTag("Box"))
+            //{
+            //    var rb = other.GetComponent<Rigidbody2D>();
+            //    rb.constraints |= RigidbodyConstraints2D.FreezePositionX;
 
-                other.GetComponent<Box>().SetMovable(false);
-            }
+            //    other.GetComponent<Box>().SetMovable(false);
+            //}
         }
     }
     public void OnEnter(Collider2D other, Transform transform)
