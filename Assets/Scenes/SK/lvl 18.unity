@@ -2165,6 +2165,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2435753580646589520, guid: 467cdeb8fac9465478ec6ddbe6a65469,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2435753580646589520, guid: 467cdeb8fac9465478ec6ddbe6a65469,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1369992603}
+    - target: {fileID: 2435753580646589520, guid: 467cdeb8fac9465478ec6ddbe6a65469,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LoadScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 2435753580646589520, guid: 467cdeb8fac9465478ec6ddbe6a65469,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SceneLoader, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2435753580646589520, guid: 467cdeb8fac9465478ec6ddbe6a65469,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: MainMenu
+      objectReference: {fileID: 0}
     - target: {fileID: 3248509428385347396, guid: 467cdeb8fac9465478ec6ddbe6a65469,
         type: 3}
       propertyPath: m_text
@@ -4237,6 +4262,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b9caf9c46fdee7478875b33b046f315, type: 3}
+--- !u!114 &1369992603 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 766205701772214174, guid: 8b9caf9c46fdee7478875b33b046f315,
+    type: 3}
+  m_PrefabInstance: {fileID: 1369992602}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d18b67e95134d9f44ab972c2879dcafb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1404857711
 GameObject:
   m_ObjectHideFlags: 0
