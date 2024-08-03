@@ -583,6 +583,11 @@ PrefabInstance:
       propertyPath: _sceneName
       value: WorldSelect
       objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: _stageIndex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: m_RootOrder
@@ -672,6 +677,11 @@ PrefabInstance:
       propertyPath: _sceneName
       value: lvl 10
       objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: _stageIndex
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: m_RootOrder
@@ -760,6 +770,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _sceneName
       value: lvl 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: _stageIndex
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -1772,6 +1787,11 @@ PrefabInstance:
       propertyPath: _sceneName
       value: lvl 12
       objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: _stageIndex
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: m_RootOrder
@@ -2157,6 +2177,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _sceneName
       value: lvl 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: _stageIndex
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -12574,6 +12599,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _sceneName
       value: lvl 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: _stageIndex
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}

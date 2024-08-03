@@ -819,6 +819,11 @@ PrefabInstance:
       propertyPath: _sceneName
       value: lvl 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: _stageIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: m_RootOrder
@@ -907,6 +912,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _sceneName
       value: lvl 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: _stageIndex
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -1009,6 +1019,11 @@ PrefabInstance:
       propertyPath: _sceneName
       value: lvl 6
       objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: _stageIndex
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: m_RootOrder
@@ -1096,7 +1111,12 @@ PrefabInstance:
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: _sceneName
-      value: lvl 4
+      value: lvl 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: _stageIndex
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -1831,7 +1851,12 @@ PrefabInstance:
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: _sceneName
-      value: lvl 5
+      value: lvl 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: _stageIndex
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -2794,7 +2819,12 @@ PrefabInstance:
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: _sceneName
-      value: lvl 3
+      value: lvl 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: _stageIndex
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -14089,6 +14119,11 @@ PrefabInstance:
       propertyPath: _sceneName
       value: WorldSelect
       objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: _stageIndex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: m_RootOrder
@@ -14547,6 +14582,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _sceneName
       value: lvl 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: _stageIndex
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}

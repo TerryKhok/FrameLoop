@@ -51,6 +51,8 @@ public class Goal : SingletonMonoBehaviour<Goal>
     private bool _buttonSelected = false;
     //最低回数＋何回までを星2つにするか
     private const int STAR_GAP = 1;
+    private int _starCount = 3;
+    private int _stageIndex = -1;
 
     private void Start()
     {
@@ -65,6 +67,8 @@ public class Goal : SingletonMonoBehaviour<Goal>
         _playerInput = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerInput>();
 
         _gamepadUISelect = GetComponent<GamepadUISelect>();
+
+        _stageIndex = SceneManager.GetActiveScene().buildIndex - 1;
 
         var animatorArray = GetComponentsInChildren<Animator>();
         foreach (var animator in animatorArray)
@@ -107,43 +111,50 @@ public class Goal : SingletonMonoBehaviour<Goal>
         //ボタンの数が足りていて、接地していて、入力があればゴール
         if(_isOpened && _inputW && PlayerInfo.Instance.g_isGround)
         {
-            g_clear = true;
-            _clearCanvas.SetActive(true);
-
-            AudioManager.instance.Play("PlayerWin");
-
-            for (int i=0; i < _starAnimators.Count; i++)
-            {
-                _starAnimators[i].SetBool("Bright", _starBrightArray[i]);
-            }
-
-            _minText.text = _minFrameCount.ToString();
-            _usedText.text = _frameCount.ToString();
-
-            _playerInput.SwitchCurrentActionMap("UI");
-
-            if(_gamepadUISelect != null)
-            {
-                _gamepadUISelect.SetEnable(true);
-            }
-
-            EventSystem.current.SetSelectedGameObject(_selectButton);
-
-            _clearScreenAnimator.SetTrigger("Scale");
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-
-            //カーソルを表示する
-            if(_playerInput.currentControlScheme == "Keyboard&Mouse")
-            {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-            }
-
-            //Reset frame sound
-            AudioManager.instance.Stop("Frame");
+            OnGoal();
         }
     }
 
+    private void OnGoal()
+    {
+        g_clear = true;
+        _clearCanvas.SetActive(true);
+
+        AudioManager.instance.Play("PlayerWin");
+
+        for (int i = 0; i < _starAnimators.Count; i++)
+        {
+            _starAnimators[i].SetBool("Bright", _starBrightArray[i]);
+        }
+
+        _minText.text = _minFrameCount.ToString();
+        _usedText.text = _frameCount.ToString();
+
+        _playerInput.SwitchCurrentActionMap("UI");
+
+        if (_gamepadUISelect != null)
+        {
+            _gamepadUISelect.SetEnable(true);
+        }
+
+        EventSystem.current.SetSelectedGameObject(_selectButton);
+
+        _clearScreenAnimator.SetTrigger("Scale");
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
+        //カーソルを表示する
+        if (_playerInput.currentControlScheme == "Keyboard&Mouse")
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+
+        //Reset frame sound
+        AudioManager.instance.Stop("Frame");
+
+        SaveManager.g_saveData.g_clearFlag[_stageIndex] = true;
+        SaveManager.g_saveData.g_starCount[_stageIndex] = _starCount;
+    }
 
     public void GoalStarted(InputAction.CallbackContext context)
     {
@@ -215,18 +226,21 @@ public class Goal : SingletonMonoBehaviour<Goal>
             {
                 _starBrightArray[i] = true;
             }
+            _starCount = 3;
         }
         else if(_frameCount <= _minFrameCount + STAR_GAP)
         {
             _starBrightArray[0] = true;
             _starBrightArray[1] = true;
             _starBrightArray[2] = false;
+            _starCount = 2;
         }                       
         else                    
         {                       
             _starBrightArray[0] = true;
             _starBrightArray[1] = false;
             _starBrightArray[2] = false;
+            _starCount = 1;
         }
     }
 

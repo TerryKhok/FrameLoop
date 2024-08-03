@@ -838,6 +838,11 @@ PrefabInstance:
       propertyPath: _sceneName
       value: World2
       objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: _stageIndex
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: m_RootOrder
@@ -1272,6 +1277,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _sceneName
       value: World4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: _stageIndex
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -2045,6 +2055,11 @@ PrefabInstance:
       propertyPath: _sceneName
       value: World5
       objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: _stageIndex
+      value: 24
+      objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: m_RootOrder
@@ -2489,6 +2504,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _sceneName
       value: World3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: _stageIndex
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -14206,6 +14226,11 @@ PrefabInstance:
       propertyPath: _sceneName
       value: MainMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: _stageIndex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: m_RootOrder
@@ -14933,6 +14958,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _sceneName
       value: World1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: _stageIndex
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7980722070033282730, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}

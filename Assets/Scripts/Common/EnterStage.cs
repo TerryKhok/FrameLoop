@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class EnterStage : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class EnterStage : MonoBehaviour
 
     [SerializeField]
     private bool _isOpened = false;
+    [SerializeField]
+    private int _stageIndex = -1;
 
     private bool _inputW = false;
     private FrameLoop _frameLoop;
@@ -17,6 +20,8 @@ public class EnterStage : MonoBehaviour
     private Vector2 _offset = Vector2.zero;
 
     private bool _isEnter = false;
+
+    private TutorialPC _tutorial = null;
 
     private void Start()
     {
@@ -32,6 +37,21 @@ public class EnterStage : MonoBehaviour
         }
 
         _offset = GetComponent<BoxCollider2D>().offset;
+        _tutorial = GetComponent<TutorialPC>();
+
+        if(_stageIndex == 0)
+        {
+            _isOpened = true;
+        }
+        else if(SaveManager.g_saveData.g_clearFlag[_stageIndex - 1])
+        {
+            _isOpened = true;
+        }
+        else
+        {
+            _isOpened = false;
+        }
+        _tutorial.enabled = _isOpened;
     }
 
     private void Update()
@@ -44,7 +64,10 @@ public class EnterStage : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (!_isOpened || _isEnter) { return; }
+        //-------------------------------------------------------------------
+        //　デバッグ用にしゃがんでれば入れるようにする
+        //-------------------------------------------------------------------
+        if ((!_playerInfo.g_isCrouch && !_isOpened) || _isEnter) { return; }
         if (collision != _playerInfo.g_goalHitBox) { return; }
 
         if (_inputW && _playerInfo.g_isGround)
