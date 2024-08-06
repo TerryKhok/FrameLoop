@@ -167,13 +167,20 @@ public class Fan : MonoBehaviour,IParentOnTrigger
 
         //発射方向をVector2に変換
         Vector2 forceDirection = new Vector2(_actualDirection.x, _actualDirection.y);
+        List<Collider2D> temp = new List<Collider2D>();
 
         //風に触れているrigidbodyを全て確認
-        foreach (var rb in _rbDic.Values)
+        foreach (var item in _rbDic)
         {
+            if(item.Value == null)
+            {
+                temp.Add(item.Key);
+                continue;
+            }
+
             //Playerか、押してる箱ならフラグを立てる
-            if(rb.transform == _playerInfo.g_transform || 
-               rb.transform == _playerInfo.g_box)
+            if(item.Value.transform == _playerInfo.g_transform || 
+               item.Value.transform == _playerInfo.g_box)
             {
                 //既にフラグが立っていたらreturn
                 if(_playerBoxFlag)
@@ -198,9 +205,57 @@ public class Fan : MonoBehaviour,IParentOnTrigger
             }
 
             //発射方向に一定速度で移動させる
-            var currentPos = rb.position;
+            var currentPos = item.Value.position;
+
+            Ray ray = new Ray(currentPos, forceDirection);
+            string layerName = LayerMask.LayerToName(item.Value.gameObject.layer);
+            LayerMask mask = 0;
+            if(layerName[0] == 'O')
+            {
+                mask |= 1 << LayerMask.NameToLayer("OPlatform");
+                mask |= 1 << LayerMask.NameToLayer("OPlayer");
+                mask |= 1 << LayerMask.NameToLayer("OBox");
+            }
+            else
+            {
+                mask |= 1 << LayerMask.NameToLayer("IPlatform");
+                mask |= 1 << LayerMask.NameToLayer("IPlayer");
+                mask |= 1 << LayerMask.NameToLayer("IBox");
+            }
+
+            RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 0.6f, mask);
+            bool hitFlag = false;
+
+            if(hits.Length > 0)
+            {
+                foreach(var hit in hits)
+                {
+                    // 自分以外のオブジェクトが前にあったら移動しない
+                    if(hit.transform != item.Value.transform)
+                    {
+                        hitFlag = true;
+                        continue;
+                    }
+                }
+            }
+
+            if (hitFlag)
+            {
+                if(item.Value.CompareTag("Box"))
+                {
+                    var box = item.Value.GetComponent<Box>();
+                    box.AdjustPosition();
+                }
+                continue;
+            }
+
             currentPos += forceDirection * _force * Time.fixedDeltaTime;
-            rb.position = currentPos;
+            item.Value.position = currentPos;
+        }
+
+        foreach(var col in temp)
+        {
+            _rbDic.Remove(col);
         }
     }
 
@@ -208,6 +263,12 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     public void OnStay(Collider2D other, Transform transform)
     {
         if (!_tagList.Contains(other.tag)) { return; }
+
+        // 箱のコピーなら親で判断する
+        if(other.GetComponent<BoxChild>() != null)
+        {
+            other = other.GetComponentInParent<Collider2D>();
+        }
 
         if(!_rbDic.ContainsKey(other))
         {
@@ -229,6 +290,12 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     public void OnExit(Collider2D other, Transform transform)
     {
         if (!_tagList.Contains(other.tag)) { return; }
+
+        // 箱のコピーなら親で判断する
+        if (other.GetComponent<BoxChild>() != null)
+        {
+            other = other.GetComponentInParent<Collider2D>();
+        }
 
         //dictionaryに存在していたら削除する
         if (_rbDic.ContainsKey(other))

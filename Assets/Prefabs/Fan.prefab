@@ -325,6 +325,7 @@ MonoBehaviour:
   - Player
   _blockTagList:
   - Platform
+  - Breakable
   _enableOnAwake: 1
   _leftMaterial: {fileID: -876546973899608171, guid: 790575b8c6c525542885e8a88bffa474,
     type: 3}

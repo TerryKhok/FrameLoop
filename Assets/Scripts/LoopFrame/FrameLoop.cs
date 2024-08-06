@@ -1272,13 +1272,13 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
     private void instantiateCopy()
     {
         //内側に入るオブジェクトを全て確認
-        foreach (var col in _enterOutsiders)
+        foreach (var col in _outsiders.Keys)
         {
             //コピーが無ければ複製する
             if (!_outsideCopyDic.ContainsKey(col))
             {
                 //内側に入るオブジェクトのコピーを取得
-                GameObject obj = copy(col.transform);
+                GameObject obj = copy(col.transform, false);
 
                 //どこから入ってきているかを取得
                 var vec = _outsiders[col];
@@ -1297,20 +1297,35 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                 Destroy(obj);
             }
         }
+
+        // Outsidersから消えたObjectのcopyを削除する
+        Dictionary<Collider2D, Transform> temp = new Dictionary<Collider2D, Transform>(_outsideCopyDic);
+        foreach(var col in temp.Keys)
+        {
+            if(!_outsiders.ContainsKey(col))
+            {
+                Destroy(_outsideCopyDic[col].gameObject);
+                _outsideCopyDic.Remove(col);
+            }
+        }
     }
 
     //オブジェクトをコピー
-    private GameObject copy(Transform t)
+    private GameObject copy(Transform t, bool render = true)
     {
         GameObject obj = new GameObject(t.name + "_copy");
         obj.layer = t.gameObject.layer;
 
         //コンポーネントをコピー
-        SpriteRenderer setRenderer = t.GetComponentInChildren<SpriteRenderer>();
+        if (render)
+        {
+            SpriteRenderer setRenderer = t.GetComponentInChildren<SpriteRenderer>();
+            obj.AddComponent(setRenderer);
+        }
+
         Rigidbody2D setRigidbody = t.GetComponent<Rigidbody2D>();
 
         //コピーしたコンポーネントをアタッチ
-        obj.AddComponent(setRenderer);
         var rb = obj.AddComponent(setRigidbody);
         rb.isKinematic = true;
         rb.useAutoMass = false;
