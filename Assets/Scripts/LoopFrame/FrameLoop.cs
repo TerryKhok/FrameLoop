@@ -328,6 +328,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
     //フレームが有効になった時に一度実行するメソッド
     private void onActive()
     {
+        PlayerAnimation.Instance.PlayFrameAnimation();
+
         //角でループできるかをリセット
         for (int i = 0; i < _ableToLoop.Length; i++)
         {

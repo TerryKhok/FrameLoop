@@ -39,6 +39,11 @@ public class PlayerAnimation : SingletonMonoBehaviour<PlayerAnimation>
         _animator.SetBool("Hold", isHolding);
     }
 
+    public void PlayFrameAnimation()
+    {
+        _animator.SetTrigger("Frame");
+    }
+
     public void SetMoveX(int moveX)
     {
         int direction = _playerInfo.g_boxDirection * moveX;

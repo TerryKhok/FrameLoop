@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7ce770d5b70c3124c8e64d089b1c6958
+guid: 80a0b13224751ed4a983c60dd2e41a4e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -124,7 +124,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -136,85 +136,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: osi_0
+      name: waku_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 96
-        height: 190
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 196
+      alignment: 9
+      pivot: {x: 0.5, y: 0.48979592}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 61eb49d0f2286b84495aa38bb2553864
-      internalID: 212172798
+      spriteID: 0db5c27cb00558e4dbed817d47eb5055
+      internalID: -1732326642
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: osi_1
+      name: waku_1
       rect:
         serializedVersion: 2
         x: 96
         y: 0
         width: 96
-        height: 190
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 196
+      alignment: 9
+      pivot: {x: 0.5, y: 0.48979592}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fa5fed98de692834f97749d92af1caa4
-      internalID: 1633890487
+      spriteID: b788d8da0917491488dc9ea8143bc18b
+      internalID: -1081296722
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: osi_2
+      name: waku_2
       rect:
         serializedVersion: 2
         x: 192
         y: 0
         width: 96
-        height: 190
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 196
+      alignment: 9
+      pivot: {x: 0.5, y: 0.48979592}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c727325f2150dcc46bb51912ec8fdaae
-      internalID: -1766848386
+      spriteID: 25ccb5281a0d9a24b94ec1f83cac8c00
+      internalID: -858328121
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: osi_3
+      name: waku_3
       rect:
         serializedVersion: 2
         x: 288
         y: 0
         width: 96
-        height: 190
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 196
+      alignment: 9
+      pivot: {x: 0.5, y: 0.48979592}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 84dd52b268c123b408e8e315dc4c6323
-      internalID: 1194272787
+      spriteID: 487598aa605c74846aa07b2cde579de7
+      internalID: 1895676753
       vertices: []
       indices: 
       edges: []
@@ -230,10 +230,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      osi_0: 212172798
-      osi_1: 1633890487
-      osi_2: -1766848386
-      osi_3: 1194272787
+      waku_0: -1732326642
+      waku_1: -1081296722
+      waku_2: -858328121
+      waku_3: 1895676753
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7ce770d5b70c3124c8e64d089b1c6958
+guid: 356360451ff67ad48b097384a284af7a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -124,7 +124,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -136,7 +136,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: osi_0
+      name: jamp_0
       rect:
         serializedVersion: 2
         x: 0
@@ -150,14 +150,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 61eb49d0f2286b84495aa38bb2553864
-      internalID: 212172798
+      spriteID: 9e1114a5d7030b948942370b4534532d
+      internalID: -1097870332
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: osi_1
+      name: jamp_1
       rect:
         serializedVersion: 2
         x: 96
@@ -171,14 +171,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fa5fed98de692834f97749d92af1caa4
-      internalID: 1633890487
+      spriteID: a19ce1846c0715d4db59589a731e1ecd
+      internalID: 2128590418
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: osi_2
+      name: jamp_2
       rect:
         serializedVersion: 2
         x: 192
@@ -192,14 +192,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c727325f2150dcc46bb51912ec8fdaae
-      internalID: -1766848386
+      spriteID: e9d6d724c9d96464e8082c83a6e5cc6f
+      internalID: -543940154
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: osi_3
+      name: jamp_3
       rect:
         serializedVersion: 2
         x: 288
@@ -213,8 +213,92 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 84dd52b268c123b408e8e315dc4c6323
-      internalID: 1194272787
+      spriteID: 52802198b06ece54884ad637631ec16b
+      internalID: 946383060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jamp_4
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 96
+        height: 190
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38ecc5895acc47349a49f159d04e4306
+      internalID: -340518630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jamp_5
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 96
+        height: 190
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20f3cd0634ab4b34fb3f5feeef7e5c54
+      internalID: 1982961292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jamp_6
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 96
+        height: 190
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 290a511275aaeca4badc2066f141f1c4
+      internalID: 426502293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jamp_7
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 0
+        width: 96
+        height: 190
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a251051c0e9e569448457029111e78c4
+      internalID: -1406540329
       vertices: []
       indices: 
       edges: []
@@ -230,10 +314,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      osi_0: 212172798
-      osi_1: 1633890487
-      osi_2: -1766848386
-      osi_3: 1194272787
+      jamp_0: -1097870332
+      jamp_1: 2128590418
+      jamp_2: -543940154
+      jamp_3: 946383060
+      jamp_4: -340518630
+      jamp_5: 1982961292
+      jamp_6: 426502293
+      jamp_7: -1406540329
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
