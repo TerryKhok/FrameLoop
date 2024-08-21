@@ -364,8 +364,11 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
             }
 
             //内側のオブジェクトをSpriteMaskの中でのみ表示されるよう変更
-            SpriteRenderer renderer = col.GetComponentInChildren<SpriteRenderer>();
-            renderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+            SpriteRenderer[] renderers = col.GetComponentsInChildren<SpriteRenderer>();
+            foreach(var renderer in renderers)
+            {
+                renderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+            }
 
             //Player以外の内側のオブジェクトはレイヤーをI~~~レイヤーに変更
             if (col.CompareTag("Player"))
@@ -894,9 +897,11 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
         foreach (var col in _insiders)
         {
             //SpriteMaskの外側で表示されるように変更
-            SpriteRenderer renderer = col.GetComponentInChildren<SpriteRenderer>();
-            renderer.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
-
+            SpriteRenderer[] renderers = col.GetComponentsInChildren<SpriteRenderer>();
+            foreach (var renderer in renderers)
+            {
+                renderer.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
+            }
             //外に出ようとしているオブジェクトの位置を確定
             if (_exitInsiders.ContainsKey(col))
             {
@@ -1193,15 +1198,24 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
         {
             if (!_insideCopyDic.ContainsKey(col)) { continue; }
 
-            var renderer = col.GetComponentInChildren<SpriteRenderer>();
-            var sprite = renderer.sprite;
+            SpriteRenderer[] renderers = col.transform.GetChild(0).GetComponentsInChildren<SpriteRenderer>();
 
             foreach (var t in _insideCopyDic[col])
             {
                 if (t == null) { continue; }
 
-                var copyRenderer = t.GetComponent<SpriteRenderer>();
-                copyRenderer.sprite = sprite;
+                SpriteRenderer[] copyRenderers = t.GetComponentsInChildren<SpriteRenderer>();
+
+                for (int i = 0; i < renderers.Length; ++i)
+                {
+                    //if(i >= renderers.Length || i >= copyRenderers.Length)
+                    //{
+                    //    break;
+                    //}
+
+                    copyRenderers[i].sprite = renderers[i].sprite;
+                    copyRenderers[i].transform.localPosition = renderers[i].transform.localPosition;
+                }
             }
         }
     }
@@ -1321,8 +1335,22 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
         //コンポーネントをコピー
         if (render)
         {
-            SpriteRenderer setRenderer = t.GetComponentInChildren<SpriteRenderer>();
-            obj.AddComponent(setRenderer);
+            // レンダラーをすべて取得
+            SpriteRenderer[] setRenderers = t.GetComponentsInChildren<SpriteRenderer>();
+
+            // レンダラーを追加
+            foreach(var renderer in setRenderers)
+            {
+                if(renderer.transform.name == "Head")
+                {
+                    continue;
+                }
+
+                GameObject rendererObj = Instantiate(renderer.gameObject, obj.transform, false);
+
+                Destroy(rendererObj.GetComponent<Animator>());
+            }
+
         }
 
         Rigidbody2D setRigidbody = t.GetComponent<Rigidbody2D>();
@@ -1692,8 +1720,11 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
             if (g_isActive)
             {
                 other.gameObject.layer++;
-                SpriteRenderer renderer = other.GetComponentInChildren<SpriteRenderer>();
-                renderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+                SpriteRenderer[] renderers = other.GetComponentsInChildren<SpriteRenderer>();
+                foreach (var renderer in renderers)
+                {
+                    renderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+                }
             }
         }
     }

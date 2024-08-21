@@ -10,38 +10,42 @@ using UnityEngine;
  */
 public class PlayerAnimation : SingletonMonoBehaviour<PlayerAnimation>
 {
-    private Animator _animator = null;
     private PlayerInfo _playerInfo = null;
+
+    [SerializeField]
+    private Animator _headAnim = null;
+    [SerializeField]
+    private Animator _bodyAnim = null;
 
     private void Start()
     {
-        _animator = GetComponent<Animator>();
         _playerInfo = PlayerInfo.Instance;
     }
 
     public void PlayJumpAnimation()
     {
-        _animator.SetTrigger("Jump");
+        _bodyAnim.SetTrigger("Jump");
     }
 
     public void SetWalkAnimation(bool isWalking)
     {
-        _animator.SetBool("Walk", isWalking);
+        _bodyAnim.SetBool("Walk", isWalking);
+        _headAnim.SetBool("Walk", isWalking);
     }
 
     public void SetCrouchAnimation(bool isCrouching)
     {
-        _animator.SetBool("Crouch", isCrouching);
+        _bodyAnim.SetBool("Crouch", isCrouching);
     }
 
     public void SetHoldAnimation(bool isHolding)
     {
-        _animator.SetBool("Hold", isHolding);
+        _bodyAnim.SetBool("Hold", isHolding);
     }
 
     public void PlayFrameAnimation()
     {
-        _animator.SetTrigger("Frame");
+        _headAnim.SetTrigger("Frame");
     }
 
     public void SetMoveX(int moveX)
@@ -50,18 +54,18 @@ public class PlayerAnimation : SingletonMonoBehaviour<PlayerAnimation>
 
         if (direction == 0) { return; }
 
-        _animator.SetInteger("MoveX", direction);
+        _bodyAnim.SetInteger("MoveX", direction);
     }
 
     public void SetCrouchSpeed(float speed)
     {
-        _animator.SetFloat("CrouchSpeed", speed);
+        _bodyAnim.SetFloat("CrouchSpeed", speed);
     }
 
     private void LateUpdate()
     {
-        _animator.SetBool("IsGround", _playerInfo.g_isGround);
+        _bodyAnim.SetBool("IsGround", _playerInfo.g_isGround);
 
-        _animator.SetFloat("GroundDistance", _playerInfo.g_groundDistance);
+        _bodyAnim.SetFloat("GroundDistance", _playerInfo.g_groundDistance);
     }
 }

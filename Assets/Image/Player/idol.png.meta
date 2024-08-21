@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 518edb1a195607747864f3308b7394b0
+guid: 781c9d9363268484185ed0f404c0b15d
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -124,7 +124,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -136,85 +136,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: spritesheet_6_0
+      name: idol_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 96
-        height: 190
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 122
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 74adabe85e6959241a1c596ca10b7ad2
-      internalID: -2117587967
+      spriteID: d8927215813d0cc49a8f9f37736c7ead
+      internalID: 890679539
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spritesheet_6_1
+      name: idol_1
       rect:
         serializedVersion: 2
         x: 96
         y: 0
         width: 96
-        height: 190
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 122
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 16925db6e705969439138a36b4ef051c
-      internalID: 1946555615
+      spriteID: 289306c0f9ef68245b58b00dfb6f4a61
+      internalID: -987337893
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spritesheet_6_2
+      name: idol_2
       rect:
         serializedVersion: 2
         x: 192
         y: 0
         width: 96
-        height: 190
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 122
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 01fff1d068c1eef4898e4b4e129d11a0
-      internalID: -322014673
+      spriteID: 036064e343b661843bd06e17ac4eec31
+      internalID: 613841233
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spritesheet_6_3
+      name: idol_3
       rect:
         serializedVersion: 2
         x: 288
         y: 0
         width: 96
-        height: 190
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 122
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9e69240c8e2339642ad34d2bc9260443
-      internalID: 961114723
+      spriteID: 084cd500ff6aa974fa9bd81681750f02
+      internalID: -1141156684
       vertices: []
       indices: 
       edges: []
@@ -230,10 +230,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      spritesheet_6_0: -2117587967
-      spritesheet_6_1: 1946555615
-      spritesheet_6_2: -322014673
-      spritesheet_6_3: 961114723
+      idol_0: 890679539
+      idol_1: -987337893
+      idol_2: 613841233
+      idol_3: -1141156684
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
