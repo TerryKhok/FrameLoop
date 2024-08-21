@@ -1196,6 +1196,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
     {
         foreach (var col in _insiders)
         {
+            if (!col.CompareTag("Player")) { continue; }
             if (!_insideCopyDic.ContainsKey(col)) { continue; }
 
             SpriteRenderer[] renderers = col.transform.GetChild(0).GetComponentsInChildren<SpriteRenderer>();
@@ -1208,11 +1209,6 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
 
                 for (int i = 0; i < renderers.Length; ++i)
                 {
-                    //if(i >= renderers.Length || i >= copyRenderers.Length)
-                    //{
-                    //    break;
-                    //}
-
                     copyRenderers[i].sprite = renderers[i].sprite;
                     copyRenderers[i].transform.localPosition = renderers[i].transform.localPosition;
                 }
@@ -1338,17 +1334,27 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
             // レンダラーをすべて取得
             SpriteRenderer[] setRenderers = t.GetComponentsInChildren<SpriteRenderer>();
 
-            // レンダラーを追加
-            foreach(var renderer in setRenderers)
+            if (setRenderers.Length == 1)
             {
-                if(renderer.transform.name == "Head")
+                if (setRenderers[0].transform == t)
                 {
-                    continue;
+                    obj.AddComponent(setRenderers[0]);
                 }
+            }
+            else
+            {
+                // レンダラーを追加
+                foreach (var renderer in setRenderers)
+                {
+                    if (renderer.transform.name == "Head")
+                    {
+                        continue;
+                    }
 
-                GameObject rendererObj = Instantiate(renderer.gameObject, obj.transform, false);
+                    GameObject rendererObj = Instantiate(renderer.gameObject, obj.transform, false);
 
-                Destroy(rendererObj.GetComponent<Animator>());
+                    Destroy(rendererObj.GetComponent<Animator>());
+                }
             }
 
         }
