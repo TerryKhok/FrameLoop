@@ -18,7 +18,7 @@ public class StageTileReplace : TileReplace
         instance.AddComponent<TilemapRenderer>();
 
         //タイルが置いてあるポジションを保存
-        allTilePositions = GetAllTilePositions(tilemap_out);
+        allTileInfos = GetAllTilePositions(tilemap_out);
     }
 
     public override bool Replace(Vector3Int setPos, Vector3Int beforePos = new Vector3Int(), bool setInside = false)
@@ -29,7 +29,7 @@ public class StageTileReplace : TileReplace
         tilemap_out.SetTile(beforePos, null);
 
         //当たり判定のないTilemapに置きなおす
-        tilemap_out_invisible.SetTile(beforePos, tile);
+        tilemap_out_invisible.SetTile(beforePos, allTileInfos[beforePos]);
 
         return true;
     }
@@ -41,9 +41,9 @@ public class StageTileReplace : TileReplace
         tilemap_out_invisible.ClearAllTiles();
 
         //タイルマップの再設置
-        foreach (var position in allTilePositions)
+        foreach (var tileInfo in allTileInfos)
         {
-            tilemap_out.SetTile(position, tile);
+            tilemap_out.SetTile(tileInfo.Key,tileInfo.Value);
         }
     }
 }

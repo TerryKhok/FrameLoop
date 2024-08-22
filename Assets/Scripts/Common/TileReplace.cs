@@ -17,8 +17,7 @@ public class TileReplace : MonoBehaviour
     protected Tilemap tilemap_out_invisible;
     protected Tilemap tilemap_in;
     protected Tilemap tilemap_in_invisible;
-    protected List<Vector3Int> allTilePositions;
-    protected TileBase tile = null;
+    protected Dictionary<Vector3Int,TileBase> allTileInfos;
 
     void Start()
     {
@@ -30,7 +29,7 @@ public class TileReplace : MonoBehaviour
         tilemap_in_invisible = tilemaps[3] != null ? tilemaps[3] : null;
 
         //タイルが置いてあるポジションを保存
-        allTilePositions = GetAllTilePositions(tilemap_out);
+        allTileInfos = GetAllTilePositions(tilemap_out);
     }
 
     public virtual bool Replace(Vector3Int setPos, Vector3Int beforePos = new Vector3Int(), bool setInside = false)
@@ -41,14 +40,14 @@ public class TileReplace : MonoBehaviour
             tilemap_out.SetTile(beforePos, null);
 
             //insideに置きなおす
-            tilemap_in.SetTile(beforePos, tile);
+            tilemap_in.SetTile(beforePos, allTileInfos[beforePos]);
             //ループ後のポジションに追加
-            tilemap_in_invisible.SetTile(setPos, tile);
+            tilemap_in_invisible.SetTile(setPos, allTileInfos[beforePos]);
         }
         else
         {
             //ループ後のポジションに追加
-            tilemap_out_invisible.SetTile(setPos, tile);
+            tilemap_out_invisible.SetTile(setPos, allTileInfos[beforePos]);
         }
 
         return false;
@@ -63,15 +62,15 @@ public class TileReplace : MonoBehaviour
         tilemap_out_invisible.ClearAllTiles();
 
         //タイルマップの再設置
-        foreach(var position in allTilePositions)
+        foreach(var tileInfo in allTileInfos)
         {
-            tilemap_out.SetTile(position, tile);
+            tilemap_out.SetTile(tileInfo.Key, tileInfo.Value);
         }
     }
 
-    protected List<Vector3Int> GetAllTilePositions(Tilemap tilemap)
+    protected Dictionary<Vector3Int,TileBase> GetAllTilePositions(Tilemap tilemap)
     {
-        List<Vector3Int> tilePositions = new List<Vector3Int>();
+        Dictionary<Vector3Int,TileBase> tilePositions = new Dictionary<Vector3Int, TileBase>();
 
         // Tilemapのバウンディングボックスの範囲を取得
         BoundsInt bounds = tilemap.cellBounds;
@@ -86,12 +85,7 @@ public class TileReplace : MonoBehaviour
                     Vector3Int pos = new Vector3Int(x, y, z);
                     if (tilemap.HasTile(pos))
                     {
-                        tilePositions.Add(pos);
-
-                        if(tile == null)
-                        {
-                            tile = tilemap.GetTile(pos);
-                        }
+                        tilePositions.Add(pos, tilemap.GetTile(pos));
                     }
                 }
             }
