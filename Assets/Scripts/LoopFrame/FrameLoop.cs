@@ -83,7 +83,11 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
     private bool[] _topHitArray = new bool[8],
                    _bottomHitArray = new bool[8],
                    _rightHitArray = new bool[6],
-                   _leftHitArray = new bool[6];
+                   _leftHitArray = new bool[6],
+                   _topHitArray_outside = new bool[8],
+                   _bottomHitArray_outside = new bool[8],
+                   _rightHitArray_outside = new bool[6],
+                   _leftHitArray_outside = new bool[6];
 
     private Dictionary<TileReplace, List<(int switchNum, int num)>> _breakableDic = new Dictionary<TileReplace, List<(int switchNum, int num)>>();
 
@@ -365,7 +369,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
 
             //内側のオブジェクトをSpriteMaskの中でのみ表示されるよう変更
             SpriteRenderer[] renderers = col.GetComponentsInChildren<SpriteRenderer>();
-            foreach(var renderer in renderers)
+            foreach (var renderer in renderers)
             {
                 renderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
             }
@@ -395,18 +399,16 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
         for (int i = 0; i < _topHitArray.Length; i++)
         {
             _topHitArray[i] = false;
-        }
-        for (int i = 0; i < _bottomHitArray.Length; i++)
-        {
             _bottomHitArray[i] = false;
+            _topHitArray_outside[i] = false;
+            _bottomHitArray_outside[i] = false;
         }
         for (int i = 0; i < _leftHitArray.Length; i++)
         {
             _leftHitArray[i] = false;
-        }
-        for (int i = 0; i < _rightHitArray.Length; i++)
-        {
             _rightHitArray[i] = false;
+            _leftHitArray_outside[i] = false;
+            _rightHitArray_outside[i] = false;
         }
 
         //---------------------------------------------------------
@@ -459,16 +461,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                     {
                         if (!_insideColliderList.Contains(item.collider))
                         {
-                            //if (item.transform.CompareTag("Box"))
-                            //{
-
-                            //    //フレームの端に箱があったら箱を複製する
-                            //    if (i == 0 || i < _size.x + 1 || j == 0 || j < _size.y + 1)
-                            //    {
-                            //        ColliderInstantiate(item.transform.position, i, j, item.transform);
-                            //    }
-                            //    continue;
-                            //}
+                            if (item.transform.CompareTag("Box"))
+                            {
+                                continue;
+                            }
                             if (item.transform.GetComponentInParent<TileReplace>() != null)
                             {
                                 tileReplace = item.transform.GetComponentInParent<TileReplace>();
@@ -758,6 +754,43 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                 _outsideTile.SetTile(intPos, _tile);
 
             }
+
+            //----------------------------------------------
+            //当たり判定がある部分をループを考慮してtrueに上書き
+            //----------------------------------------------
+            if (j == 0 || j == _size.y + 1)
+            {
+                _topHitArray_outside[i - 1] = true;
+                _bottomHitArray_outside[i - 1] = true;
+                if (replace)
+                {
+                    if (_breakableDic.ContainsKey(tileReplace))
+                    {
+                        _breakableDic[tileReplace].Add((4, i - 1));
+                    }
+                    else
+                    {
+                        _breakableDic.Add(tileReplace, new List<(int switchNum, int num)>() { (4, i - 1) });
+                    }
+                }
+            }
+
+            if (i == 0 || i == _size.x + 1)
+            {
+                _rightHitArray_outside[j - 1] = true;
+                _leftHitArray_outside[j - 1] = true;
+                if (replace)
+                {
+                    if (_breakableDic.ContainsKey(tileReplace))
+                    {
+                        _breakableDic[tileReplace].Add((5, j - 1));
+                    }
+                    else
+                    {
+                        _breakableDic.Add(tileReplace, new List<(int switchNum, int num)>() { (5, j - 1) });
+                    }
+                }
+            }
         }
 
         //フレームの左右の端で、上下の端か外側なら上下にループさせて当たり判定を生成
@@ -829,6 +862,23 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                     if (!replace || isStage)
                     {
                         _outsideTile.SetTile(intPos, _tile);
+                    }
+
+                    if (j == 0 || j == _size.y + 1)
+                    {
+                        _topHitArray_outside[i - 1] = true;
+                        _bottomHitArray_outside[i - 1] = true;
+                        if (replace)
+                        {
+                            if (_breakableDic.ContainsKey(tileReplace))
+                            {
+                                _breakableDic[tileReplace].Add((4, i - 1));
+                            }
+                            else
+                            {
+                                _breakableDic.Add(tileReplace, new List<(int switchNum, int num)>() { (4, i - 1) });
+                            }
+                        }
                     }
                 }
             }
@@ -1314,9 +1364,9 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
 
         // Outsidersから消えたObjectのcopyを削除する
         Dictionary<Collider2D, Transform> temp = new Dictionary<Collider2D, Transform>(_outsideCopyDic);
-        foreach(var col in temp.Keys)
+        foreach (var col in temp.Keys)
         {
-            if(!_outsiders.ContainsKey(col))
+            if (!_outsiders.ContainsKey(col))
             {
                 Destroy(_outsideCopyDic[col].gameObject);
                 _outsideCopyDic.Remove(col);
@@ -1762,6 +1812,14 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                 return _leftHitArray;
             case 3:
                 return _rightHitArray;
+            case 4:
+                return _topHitArray_outside;
+            case 5:
+                return _leftHitArray_outside;
+            //case 6:
+            //    return _leftHitArray_outside;
+            //case 7:
+            //    return _rightHitArray_outside;
             default:
                 return null;
         }

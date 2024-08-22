@@ -28,13 +28,13 @@ public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
     private Color matColActive;
 
     [SerializeField]
-    private ParticleSystem ps1; //top
+    private GameObject ps1; //top
     [SerializeField]
-    private ParticleSystem ps2; //bottom
+    private GameObject ps2; //bottom
     [SerializeField]
-    private ParticleSystem ps3; //left
+    private GameObject ps3; //left
     [SerializeField]
-    private ParticleSystem ps4; //right
+    private GameObject ps4; //right
 
     [SerializeField]
     private GameObject frameClick;
@@ -55,7 +55,14 @@ public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
 
     bool burstFlag = true;
 
-    private FrameParticleSwitch[] topParticleSwitchArray, bottomParticleSwitchArray, leftParticleSwitchArray, rightParticleSwitchArray;
+    private FrameParticleSwitch[] topParticleSwitchArray,
+                                  bottomParticleSwitchArray,
+                                  leftParticleSwitchArray,
+                                  rightParticleSwitchArray,
+                                  topParticleSwitchArray_outside,
+                                  bottomParticleSwitchArray_outside,
+                                  leftParticleSwitchArray_outside,
+                                  rightParticleSwitchArray_outside;
 
     private Dictionary<TileReplace, List<(int switchNum, int num)>> _breakableDic = new Dictionary<TileReplace, List<(int switchNum, int num)>>();
 
@@ -83,6 +90,18 @@ public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
         particleParent = activeFrameObject.transform.GetChild(3);
         rightParticleSwitchArray = particleParent.GetComponentsInChildren<FrameParticleSwitch>();
 
+        particleParent = activeFrameObject.transform.GetChild(4);
+        topParticleSwitchArray_outside = particleParent.GetComponentsInChildren<FrameParticleSwitch>();
+
+        particleParent = activeFrameObject.transform.GetChild(5);
+        bottomParticleSwitchArray_outside = particleParent.GetComponentsInChildren<FrameParticleSwitch>();
+
+        particleParent = activeFrameObject.transform.GetChild(6);
+        leftParticleSwitchArray_outside = particleParent.GetComponentsInChildren<FrameParticleSwitch>();
+
+        particleParent = activeFrameObject.transform.GetChild(7);
+        rightParticleSwitchArray_outside = particleParent.GetComponentsInChildren<FrameParticleSwitch>();
+
         //-----------------------------------------------------------------------------------------------
 
         //_audioManager.Play("Main BGM");
@@ -92,6 +111,11 @@ public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
     {
         if(!frameLoop.g_isActive)
         {
+            ps1.SetActive(true);
+            ps2.SetActive(true);
+            ps3.SetActive(true);
+            ps4.SetActive(true);
+
             SpriteRenderer renderer = frameNewStatic.GetComponent<SpriteRenderer>();
             if (renderer.color.r < 0.95f ||
                 renderer.color.g < 0.95f ||
@@ -125,6 +149,11 @@ public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
         //フレームが起動したときに一度実行
         if (frameLoop.g_activeTrigger)
         {
+            ps1.SetActive(false);
+            ps2.SetActive(false);
+            ps3.SetActive(false);
+            ps4.SetActive(false);
+
             frameNewBurst.SetActive(true);
 
             activeFrameObject.SetActive(true);
@@ -135,7 +164,7 @@ public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
             frameNewStatic.GetComponent<SpriteRenderer>().color = matColActive;
 
             //上下左右の当たり判定を取得するために4回ループ
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 6; i++)
             {
                 //当たり判定の配列（bool）を取得
                 bool[] workArray = frameLoop.GetHitArray(i);
@@ -156,6 +185,14 @@ public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
                             break;
                         case 3:
                             rightParticleSwitchArray[j].SetParticle(workArray[j]);
+                            break;
+                        case 4:
+                            topParticleSwitchArray_outside[j].SetParticle(workArray[j]);
+                            bottomParticleSwitchArray_outside[j].SetParticle(workArray[j]);
+                            break;
+                        case 5:
+                            leftParticleSwitchArray_outside[j].SetParticle(workArray[j]);
+                            rightParticleSwitchArray_outside[j].SetParticle(workArray[j]);
                             break;
                     }
                 }
@@ -201,6 +238,18 @@ public class ParticleFrameScript : SingletonMonoBehaviour<ParticleFrameScript>
                     break;
                 case 3:
                     rightParticleSwitchArray[numbers.num].SetParticle(false);
+                    break;
+                case 4:
+                    topParticleSwitchArray_outside[numbers.num].SetParticle(false);
+                    break;
+                case 5:
+                    bottomParticleSwitchArray_outside[numbers.num].SetParticle(false);
+                    break;
+                case 6:
+                    leftParticleSwitchArray_outside[numbers.num].SetParticle(false);
+                    break;
+                case 7:
+                    rightParticleSwitchArray_outside[numbers.num].SetParticle(false);
                     break;
             }
         }
