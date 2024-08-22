@@ -16,6 +16,8 @@ public class MainMenu : MonoBehaviour
     private GameObject _mainMenu;
     [SerializeField]
     private GamepadUISelect _gamepadUISelect;
+    [SerializeField]
+    private GameObject _selectUIObject;
 
     private void Start()
     {
@@ -30,5 +32,17 @@ public class MainMenu : MonoBehaviour
             _mainMenu.SetActive(enable);
             _gamepadUISelect.SetEnable(enable);
         }
+    }
+
+    public void StartFromBegining()
+    {
+        _selectUIObject.SetActive(true);
+    }
+
+    public void ModeSelect(bool isChallenge)
+    {
+        Goal.IsChallenge = isChallenge;
+        SceneLoader.Instance.LoadScene("lvl 1");
+        _selectUIObject.SetActive(false);
     }
 }

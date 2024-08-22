@@ -888,6 +888,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
     //フレームが無効になったときに一度実行するメソッド
     private void onInactive()
     {
+        PlayerAnimation.Instance.PlayFrameAnimation();
+
         _material.color = new Color32(255, 255, 0, 100);
 
         //SpriteMaskを無効にする

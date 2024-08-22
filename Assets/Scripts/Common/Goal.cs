@@ -20,7 +20,9 @@ public class Goal : SingletonMonoBehaviour<Goal>
     [SerializeField, Tooltip("最初に選択するボタン")]
     private GameObject _selectButton;
     [SerializeField]
-    private GameObject _clearCanvas;
+    private GameObject _clearCanvas_challenge;
+    [SerializeField]
+    private GameObject _clearCanvas_casual;
 
     [SerializeField]
     private TextMeshProUGUI _minText, _usedText;
@@ -42,17 +44,30 @@ public class Goal : SingletonMonoBehaviour<Goal>
     private List<Animator> _starAnimators = new List<Animator>();
     private bool[] _starBrightArray = new bool[4] { true, true, true, true };
 
-    private Animator _clearScreenAnimator = null;
+    [SerializeField]
+    private Animator _clearScreenAnimator_challenge = null;
+    [SerializeField]
+    private Animator _clearScreenAnimator_casual = null;
 
     private PlayerInfo _playerInfo = null;
     private PlayerInput _playerInput;
 
-    private GamepadUISelect _gamepadUISelect;
+    [SerializeField]
+    private GamepadUISelect _gamepadUISelect_casual;
+    [SerializeField]
+    private GamepadUISelect _gamepadUISelect_challenge;
     private bool _buttonSelected = false;
     //最低回数＋何回までを星2つにするか
     private const int STAR_GAP = 1;
     private int _starCount = 3;
     private int _stageIndex = -1;
+
+    private static bool s_isChallenge = false;
+
+    public static bool IsChallenge
+    {
+        set => s_isChallenge = value;
+    }
 
     private void Start()
     {
@@ -66,8 +81,6 @@ public class Goal : SingletonMonoBehaviour<Goal>
         _playerInfo = PlayerInfo.Instance;
         _playerInput = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerInput>();
 
-        _gamepadUISelect = GetComponent<GamepadUISelect>();
-
         _stageIndex = SceneManager.GetActiveScene().buildIndex - 1;
 
         var animatorArray = GetComponentsInChildren<Animator>();
@@ -78,12 +91,9 @@ public class Goal : SingletonMonoBehaviour<Goal>
                 _starAnimators.Add(animator);
                 animator.SetBool("Bright", true);
             }
-            else if (animator.CompareTag("ClearScreen"))
-            {
-                _clearScreenAnimator = animator;
-            }
         }
-        _clearCanvas.SetActive(false);
+        _clearCanvas_challenge.SetActive(false);
+        _clearCanvas_casual.SetActive(false);
 
         var objs = GameObject.FindGameObjectsWithTag("Button");
         foreach( var obj in objs)
@@ -117,8 +127,21 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
     private void OnGoal()
     {
+        //Debug.Log(s_isChallenge);
+
         g_clear = true;
-        _clearCanvas.SetActive(true);
+        if (_gamepadUISelect_challenge != null && s_isChallenge)
+        {
+            _clearCanvas_challenge.SetActive(true);
+            _gamepadUISelect_challenge.SetEnable(true);
+            _clearScreenAnimator_challenge.SetTrigger("Scale");
+        }
+        else if (_gamepadUISelect_casual != null)
+        {
+            _clearCanvas_casual.SetActive(true);
+            _gamepadUISelect_casual.SetEnable(true);
+            _clearScreenAnimator_casual.SetTrigger("Scale");
+        }
 
         AudioManager.instance.Play("PlayerWin");
 
@@ -132,14 +155,8 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
         _playerInput.SwitchCurrentActionMap("UI");
 
-        if (_gamepadUISelect != null)
-        {
-            _gamepadUISelect.SetEnable(true);
-        }
-
         EventSystem.current.SetSelectedGameObject(_selectButton);
 
-        _clearScreenAnimator.SetTrigger("Scale");
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
         //カーソルを表示する
