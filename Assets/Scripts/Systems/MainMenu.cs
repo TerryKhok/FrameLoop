@@ -15,9 +15,11 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private GameObject _mainMenu;
     [SerializeField]
-    private GamepadUISelect _gamepadUISelect;
+    private GamepadUISelect _gamepadUISelect_main;
     [SerializeField]
     private GameObject _selectUIObject;
+    [SerializeField]
+    private GameObject _firstSelectObj;
 
     private void Start()
     {
@@ -30,13 +32,17 @@ public class MainMenu : MonoBehaviour
         if (_mainMenu != null)
         {
             _mainMenu.SetActive(enable);
-            _gamepadUISelect.SetEnable(enable);
+            _gamepadUISelect_main.SetEnable(enable);
         }
     }
 
     public void StartFromBegining()
     {
         _selectUIObject.SetActive(true);
+
+        _gamepadUISelect_main.SetSelectEmpty();
+
+        _gamepadUISelect_main.FirstSelect = _firstSelectObj;
     }
 
     public void ModeSelect(bool isChallenge)

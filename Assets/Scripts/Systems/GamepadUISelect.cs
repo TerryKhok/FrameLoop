@@ -22,6 +22,14 @@ public class GamepadUISelect : MonoBehaviour
 
     private bool _enable = false;
 
+    public bool Enable => _enable;
+
+    public GameObject FirstSelect
+    {
+        set => _firstSelect = value;
+        get => _firstSelect;
+    }
+
     private void Start()
     {
         _gamepadUIManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GamepadUIManager>();
@@ -39,5 +47,10 @@ public class GamepadUISelect : MonoBehaviour
     public void SetEnable(bool enable)
     {
         _enable = enable;
+    }
+
+    public void SetSelectEmpty()
+    {
+        _gamepadUIManager.SetSelectObject(null);
     }
 }

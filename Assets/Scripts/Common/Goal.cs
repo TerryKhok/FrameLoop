@@ -17,8 +17,6 @@ public class Goal : SingletonMonoBehaviour<Goal>
 {
     [SerializeField, Tooltip("ゴールに必要なフレームの使用回数")]
     private int _minFrameCount = 1;
-    [SerializeField, Tooltip("最初に選択するボタン")]
-    private GameObject _selectButton;
     [SerializeField]
     private GameObject _clearCanvas_challenge;
     [SerializeField]
@@ -53,9 +51,9 @@ public class Goal : SingletonMonoBehaviour<Goal>
     private PlayerInput _playerInput;
 
     [SerializeField]
-    private GamepadUISelect _gamepadUISelect_casual;
-    [SerializeField]
     private GamepadUISelect _gamepadUISelect_challenge;
+    [SerializeField]
+    private GamepadUISelect _gamepadUISelect_casual;
     private bool _buttonSelected = false;
     //最低回数＋何回までを星2つにするか
     private const int STAR_GAP = 1;
@@ -133,12 +131,14 @@ public class Goal : SingletonMonoBehaviour<Goal>
         if (_gamepadUISelect_challenge != null && s_isChallenge)
         {
             _clearCanvas_challenge.SetActive(true);
+
             _gamepadUISelect_challenge.SetEnable(true);
             _clearScreenAnimator_challenge.SetTrigger("Scale");
         }
         else if (_gamepadUISelect_casual != null)
         {
             _clearCanvas_casual.SetActive(true);
+
             _gamepadUISelect_casual.SetEnable(true);
             _clearScreenAnimator_casual.SetTrigger("Scale");
         }
@@ -154,8 +154,6 @@ public class Goal : SingletonMonoBehaviour<Goal>
         _usedText.text = _frameCount.ToString();
 
         _playerInput.SwitchCurrentActionMap("UI");
-
-        EventSystem.current.SetSelectedGameObject(_selectButton);
 
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 

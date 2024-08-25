@@ -17,7 +17,6 @@ public class GamepadUIManager : MonoBehaviour
     private EventSystem _eventSystem;
     private PlayerInput _playerInput;
 
-    private List<bool> _enableList = new List<bool>();
     private GameObject _selectObject = null;
 
     private void Start()
@@ -55,6 +54,11 @@ public class GamepadUIManager : MonoBehaviour
 
     public void SetSelectObject(GameObject selectObject)
     {
+        if(selectObject == null)
+        {
+            _eventSystem.SetSelectedGameObject(null);
+            return;
+        }
         _selectObject = selectObject;
     }
 }

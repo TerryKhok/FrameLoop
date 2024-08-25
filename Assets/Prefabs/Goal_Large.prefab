@@ -58,8 +58,8 @@ MonoBehaviour:
   g_clear: 0
   _clearScreenAnimator_challenge: {fileID: 2668730169283958152}
   _clearScreenAnimator_casual: {fileID: 2149168959396456334}
-  _gamepadUISelect_casual: {fileID: 1912917915658928932}
-  _gamepadUISelect_challenge: {fileID: 2474260215885869346}
+  _gamepadUISelect_casual: {fileID: 2474260215885869346}
+  _gamepadUISelect_challenge: {fileID: 1912917915658928932}
 --- !u!212 &6234668189130511313
 SpriteRenderer:
   m_ObjectHideFlags: 0

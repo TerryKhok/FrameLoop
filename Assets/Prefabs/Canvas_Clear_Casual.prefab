@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 100}
-  m_SizeDelta: {x: 800, y: 300}
+  m_SizeDelta: {x: 1000, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8285049054958367931
 CanvasRenderer:
@@ -94,8 +94,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
-  m_fontSizeBase: 100
+  m_fontSize: 124
+  m_fontSizeBase: 124
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -279,8 +279,49 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7401188250865551609, guid: 41f706168a811b24c8f4104853e420cf,
+        type: 3}
+      propertyPath: m_Name
+      value: Retry_casual
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682618181137191842, guid: 41f706168a811b24c8f4104853e420cf,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682618181137191842, guid: 41f706168a811b24c8f4104853e420cf,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682618181137191842, guid: 41f706168a811b24c8f4104853e420cf,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682618181137191842, guid: 41f706168a811b24c8f4104853e420cf,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7899927579432734696, guid: 41f706168a811b24c8f4104853e420cf,
+        type: 3}
+      propertyPath: m_Name
+      value: ClearScreen_casual
+      objectReference: {fileID: 0}
+    - target: {fileID: 8993682610695525526, guid: 41f706168a811b24c8f4104853e420cf,
+        type: 3}
+      propertyPath: m_Name
+      value: Next_casual
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5045756625984506558, guid: 41f706168a811b24c8f4104853e420cf, type: 3}
+    - {fileID: 4452626135949357975, guid: 41f706168a811b24c8f4104853e420cf, type: 3}
+    - {fileID: 4927819652864518605, guid: 41f706168a811b24c8f4104853e420cf, type: 3}
+    - {fileID: 1364530748937071533, guid: 41f706168a811b24c8f4104853e420cf, type: 3}
+    - {fileID: 5307018311370124890, guid: 41f706168a811b24c8f4104853e420cf, type: 3}
+    - {fileID: 7937245369555291679, guid: 41f706168a811b24c8f4104853e420cf, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7682618181137191842, guid: 41f706168a811b24c8f4104853e420cf,
         type: 3}
