@@ -50,7 +50,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _minFrameCount: 1
-  _selectButton: {fileID: 8760366922977934535}
   _clearCanvas_challenge: {fileID: 7565703937128753081}
   _clearCanvas_casual: {fileID: 5774913925447652799}
   _minText: {fileID: 4775186897036746649}
@@ -58,8 +57,8 @@ MonoBehaviour:
   g_clear: 0
   _clearScreenAnimator_challenge: {fileID: 2668730169283958152}
   _clearScreenAnimator_casual: {fileID: 2149168959396456334}
-  _gamepadUISelect_casual: {fileID: 2474260215885869346}
   _gamepadUISelect_challenge: {fileID: 1912917915658928932}
+  _gamepadUISelect_casual: {fileID: 2474260215885869346}
 --- !u!212 &6234668189130511313
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -440,12 +439,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 386440826046326865}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8760366922977934535 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8993682610695525526, guid: 41f706168a811b24c8f4104853e420cf,
-    type: 3}
-  m_PrefabInstance: {fileID: 386440826046326865}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5866208031592593034
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -498,6 +491,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Canvas_Clear_Casual
+      objectReference: {fileID: 0}
+    - target: {fileID: 6615179320141563612, guid: 46e704d3eeb22d7458bbc545d936c2b2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8661541815004983966, guid: 46e704d3eeb22d7458bbc545d936c2b2,
         type: 3}

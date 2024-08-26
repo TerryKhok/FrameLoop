@@ -135,13 +135,6 @@ public class Goal : SingletonMonoBehaviour<Goal>
             _gamepadUISelect_challenge.SetEnable(true);
             _clearScreenAnimator_challenge.SetTrigger("Scale");
         }
-        else if (_gamepadUISelect_casual != null)
-        {
-            _clearCanvas_casual.SetActive(true);
-
-            _gamepadUISelect_casual.SetEnable(true);
-            _clearScreenAnimator_casual.SetTrigger("Scale");
-        }
 
         AudioManager.instance.Play("PlayerWin");
 
@@ -169,6 +162,11 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
         SaveManager.g_saveData.g_clearFlag[_stageIndex] = true;
         SaveManager.g_saveData.g_starCount[_stageIndex] = _starCount;
+
+        if(!s_isChallenge)
+        {
+            Next();
+        }
     }
 
     public void GoalStarted(InputAction.CallbackContext context)
