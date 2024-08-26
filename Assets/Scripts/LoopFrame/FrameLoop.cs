@@ -1229,6 +1229,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
 
         //‚µ‚á‚ª‚ñ‚Å‚¢‚é‚©‚ÅyÀ•W‚ğŒˆ’è‚·‚é
         var setPos = _playerTrans.position;
+        setPos += _playerTrans.right * 0.1f;
         if (_isCrouching)
         {
             setPos.y += _yOffset_Crouching;

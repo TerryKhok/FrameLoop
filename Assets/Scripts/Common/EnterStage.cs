@@ -51,7 +51,12 @@ public class EnterStage : MonoBehaviour
         {
             _isOpened = false;
         }
-        _tutorial.enabled = _isOpened;
+
+        if(_tutorial != null)
+        {
+            _tutorial.enabled = _isOpened;
+        }
+
     }
 
     private void Update()

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3557984153511225033}
   m_Layer: 0
   m_Name: Head
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -172,6 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4130f6aea47e70a479af666bf648f045, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_TextMeshProUGUI: {fileID: 0}
   _targetVelocity: 10
   _crouchVelocity: 5
   _isMoving: 0
@@ -284,7 +285,7 @@ GameObject:
   - component: {fileID: 3189873267083319648}
   m_Layer: 0
   m_Name: PlayerSprite
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -318,7 +319,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _headAnim: {fileID: 7578736137525130459}
-  _headAdjust: {fileID: 0}
   _bodyAnim: {fileID: 5812065576917568765}
 --- !u!1 &6534059973874680743
 GameObject:
@@ -410,7 +410,7 @@ GameObject:
   - component: {fileID: 2153043018952869334}
   m_Layer: 0
   m_Name: Body
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

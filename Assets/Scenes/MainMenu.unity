@@ -5424,7 +5424,7 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1963886443}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1831517393
+--- !u!114 &1831517397
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5650,6 +5650,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4190485480700468127, guid: 94fbc3e51eae746409ad4afd3d51fb89,
         type: 3}
+      propertyPath: _testText
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4190485480700468127, guid: 94fbc3e51eae746409ad4afd3d51fb89,
+        type: 3}
       propertyPath: _crouchVelocity
       value: 4
       objectReference: {fileID: 0}
@@ -5657,6 +5662,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _targetVelocity
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4190485480700468127, guid: 94fbc3e51eae746409ad4afd3d51fb89,
+        type: 3}
+      propertyPath: m_TextMeshProUGUI
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8192189738185510530, guid: 94fbc3e51eae746409ad4afd3d51fb89,
         type: 3}
@@ -5693,7 +5703,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1308987274351111380, guid: 94fbc3e51eae746409ad4afd3d51fb89,
         type: 3}
       insertIndex: 1
-      addedObject: {fileID: 1831517393}
+      addedObject: {fileID: 1831517397}
   m_SourcePrefab: {fileID: 100100000, guid: 94fbc3e51eae746409ad4afd3d51fb89, type: 3}
 --- !u!1 &1986518935
 GameObject:

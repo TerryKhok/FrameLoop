@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -50,7 +51,7 @@ public class PlayerTitleMotion : MonoBehaviour
     {
         _playerMove.SetMove(_moveX);
 
-        _elapsedTime += Time.deltaTime;
+        _elapsedTime += Time.fixedDeltaTime;
 
         if(_elapsedTime < _currentWaitTime) { return; }
 

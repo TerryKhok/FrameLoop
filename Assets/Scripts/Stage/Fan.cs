@@ -244,7 +244,11 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                 if(item.Value.CompareTag("Box"))
                 {
                     var box = item.Value.GetComponent<Box>();
-                    box.AdjustPosition();
+                    if (box != null)
+                    {
+                        box.AdjustPosition();
+                    }
+
                 }
                 continue;
             }

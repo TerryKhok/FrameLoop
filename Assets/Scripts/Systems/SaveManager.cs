@@ -34,10 +34,10 @@ public class SaveManager : MonoBehaviour
         //    ResetData();
         //}
 
-        //if((Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)) && Input.GetKey(KeyCode.C))
-        //{
-        //    CompleteData();
-        //}
+        if ((Input.GetKey(KeyCode.LeftShift)) && Input.GetKey(KeyCode.C))
+        {
+            CompleteData();
+        }
     }
 
     //public void ResetData()
@@ -53,18 +53,18 @@ public class SaveManager : MonoBehaviour
     //    Debug.Log("reset");
     //}
 
-    //public void CompleteData()
-    //{
-    //    SaveData data = new SaveData();
-    //    for (int i = 0; i < 30; ++i)
-    //    {
-    //        data.g_clearFlag[i] = true;
-    //        data.g_starCount[i] = 3;
-    //    }
-    //    g_saveData = data;
+    public void CompleteData()
+    {
+        SaveData data = new SaveData();
+        for (int i = 0; i < 17; ++i)
+        {
+            data.g_clearFlag[i] = true;
+            data.g_starCount[i] = 3;
+        }
+        g_saveData = data;
 
-    //    Debug.Log("complete");
-    //}
+        Debug.Log("complete");
+    }
 
     public void SaveData()
     {
