@@ -1,11 +1,12 @@
 using TMPro;
+using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 //プレイヤーの移動を行うクラス
 public class PlayerMove : MonoBehaviour
 {
-    [SerializeField,Tooltip("プレイヤーの速度上限(m/s)")]
+    [SerializeField, Tooltip("プレイヤーの速度上限(m/s)")]
     private float _targetVelocity = 5.0f;
 
     [SerializeField, Tooltip("しゃがみ中の移動速度")]
@@ -22,6 +23,11 @@ public class PlayerMove : MonoBehaviour
 
     private bool _se = false;
 
+    private GameObject walkRightDust = null;
+    private GameObject walkLeftDust = null;
+    private float animationTime = 0.4f;
+    private int walkDir; //0 = right, 1 = left
+
     private void Start()
     {
         //PlayerInfoクラスから変数を受け取る
@@ -34,6 +40,9 @@ public class PlayerMove : MonoBehaviour
         _playerAnimation.SetCrouchSpeed(_crouchVelocity / _targetVelocity);
 
         AudioManager.instance.Stop("Walk");
+
+        walkRightDust = GameObject.Find("VFX_WalkRight");
+        walkLeftDust = GameObject.Find("VFX_WalkLeft");
     }
 
     private void Update()
@@ -45,14 +54,34 @@ public class PlayerMove : MonoBehaviour
         _playerAnimation.SetWalkAnimation(_isMoving && _playerInfo.g_isGround);
 
         _playerInfo.g_currentInputX = (int)_currentInput.x;
+    }
 
-        if(_isMoving && _playerInfo.g_isGround)
+    private void FixedUpdate()
+    {
+        move();
+        rotate();
+
+        if (_isMoving && _playerInfo.g_isGround)
         {
             if (!_se)
             {
                 //足跡の音
                 AudioManager.instance.Play("Walk");
                 _se = true;
+
+                //vfxアニメーションも
+                if (walkDir == 0)
+                {
+                    Vector2 playerPos = new Vector2(transform.position.x, transform.position.y - 0.3f);
+                    GameObject g = Instantiate(walkRightDust, playerPos, Quaternion.identity);
+                    Destroy(g, animationTime);
+                }
+                else
+                {
+                    Vector2 playerPos = new Vector2(transform.position.x, transform.position.y - 0.3f);
+                    GameObject g = Instantiate(walkLeftDust, playerPos, Quaternion.identity);
+                    Destroy(g, animationTime);
+                }
             }
         }
         else
@@ -64,12 +93,6 @@ public class PlayerMove : MonoBehaviour
                 _se = false;
             }
         }
-    }
-
-    private void FixedUpdate()
-    {
-        move();
-        rotate();
     }
 
     //InputSystemのコールバックを受け取るメソッド
@@ -96,10 +119,10 @@ public class PlayerMove : MonoBehaviour
     private void rotate()
     {
         //入力が無ければリターン
-        if(_currentInput == Vector2.zero) { return; }
+        if (_currentInput == Vector2.zero) { return; }
         if (_playerInfo.g_takeUpFg) { return; }
 
-        if(_currentInput.x < 0)
+        if (_currentInput.x < 0)
         {
             _transform.eulerAngles = new Vector3(0, 180, 0);
         }
@@ -111,7 +134,7 @@ public class PlayerMove : MonoBehaviour
 
     private void move()
     {
-        if(_currentInput.x == _playerInfo.g_wall)
+        if (_currentInput.x == _playerInfo.g_wall)
         {
             return;
         }
@@ -123,7 +146,7 @@ public class PlayerMove : MonoBehaviour
 
         var velocity = _targetVelocity;
 
-        if(_playerInfo.g_takeUpFg || _playerInfo.g_isCrouch) 
+        if (_playerInfo.g_takeUpFg || _playerInfo.g_isCrouch)
         {
             velocity = _crouchVelocity;
         }
@@ -154,14 +177,14 @@ public class PlayerMove : MonoBehaviour
 
             if (hit.collider != null)
             {
-                if(_playerInfo.g_box == null)
+                if (_playerInfo.g_box == null)
                 {
                     return;
                 }
 
                 //押している箱以外が移動方向にあったらreturnする
                 Box box = _playerInfo.g_box.GetComponent<Box>();
-                if(!box.ContainsCopyList(hit.transform))
+                if (!box.ContainsCopyList(hit.transform))
                 {
                     return;
                 }
@@ -172,6 +195,14 @@ public class PlayerMove : MonoBehaviour
         //移動
         var currentPos = _rb.position;
         currentPos += _currentInput * velocity * Time.fixedDeltaTime;
+        if (currentPos.x - _rb.position.x > 0.0f) //if right
+        {
+            walkDir = 0;
+        }
+        else //if left
+        {
+            walkDir = 1;
+        }
         _rb.position = currentPos;
     }
 

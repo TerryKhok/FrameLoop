@@ -1,6 +1,8 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 /*  ProjectName :FrameLoop
  *  ClassName   :PlayerJump
@@ -34,6 +36,12 @@ public class PlayerJump : MonoBehaviour
     private PlayerAnimation _playerAnimation = null;
     private WaitForSeconds _wait = new WaitForSeconds(0.04f);
 
+    private GameObject jumpDust = null; //vfx
+    private GameObject landDust = null;
+    private float animationTime = 0.4f; //ジャンプとランドは一緒
+    private bool hasLanded = true;
+    private bool playLandedAnim = false;
+
     private void Start()
     {
         _playerInfo = PlayerInfo.Instance;
@@ -48,6 +56,9 @@ public class PlayerJump : MonoBehaviour
         _minJumpTime = (_jumpHeightMin - jumpUnitHeight) / _jumpVelocity;
         //同じく最高高度までの時間を計算する
         _maxJumpTime = (_jumpHeightMax - jumpUnitHeight) / _jumpVelocity;
+
+        jumpDust = GameObject.Find("VFX_Jump");
+        landDust = GameObject.Find("VFX_Land");
     }
 
     public bool GetJumpBool()
@@ -78,6 +89,14 @@ public class PlayerJump : MonoBehaviour
         if(_elapsedTime >= _maxJumpTime)
         {
             _releasedJump = true;
+        }
+
+        if(!hasLanded)
+        {
+            Vector2 playerPos = new Vector2(transform.position.x, transform.position.y);
+            GameObject g = Instantiate(landDust, playerPos, Quaternion.identity);
+            Destroy(g, animationTime);
+            hasLanded = true;
         }
     }
 
@@ -112,7 +131,10 @@ public class PlayerJump : MonoBehaviour
 
         _isJumping = true;
 
-        if (_isJumping) { AudioManager.instance.Play("Jump"); }
+        if (_isJumping) 
+        {
+            AudioManager.instance.Play("Jump");
+        }
     }
 
     //ジャンプ処理
@@ -126,6 +148,10 @@ public class PlayerJump : MonoBehaviour
             AudioManager.instance.Stop("Walk");
 
             StartCoroutine(JumpDelay());
+
+            Vector2 playerPos = new Vector2(transform.position.x - 0.27f, transform.position.y - 0.3f);
+            GameObject g = Instantiate(jumpDust, playerPos, Quaternion.identity);
+            Destroy(g, animationTime);
         }            
         _pressedJump = false;
     }
@@ -144,5 +170,7 @@ public class PlayerJump : MonoBehaviour
         _elapsedTime = 0;
         _isJumping = false;
         _releasedJump = false;
+
+        //hasLanded = false;
     }
 }
