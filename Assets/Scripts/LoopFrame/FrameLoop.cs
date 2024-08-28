@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
@@ -34,6 +33,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
     private float _yOffset_Crouching = -2f;
     [SerializeField, Tooltip("êÿÇËë÷Ç¶")]
     private bool _toggle = false;
+    [SerializeField]
+    private GameObject _particlePrefab = null;
 
     //[SerializeField]    //SE
     //private AudioManager _audioManager = null;
@@ -1632,6 +1633,12 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
             if (!_exitInsiders.ContainsKey(other))
             {
                 _exitInsiders.Add(other, vec);
+
+                Vector3 direction = vec * -1;
+                Quaternion quaternion = Quaternion.LookRotation(direction);
+
+                var particle = Instantiate(_particlePrefab, other.transform.position, quaternion);
+                Destroy(particle, 0.3f);
             }
             else
             {
@@ -1639,6 +1646,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                 setVec += vec;
                 _exitInsiders[other] = setVec;
             }
+
         }
         else
         {
