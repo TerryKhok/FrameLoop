@@ -150,7 +150,7 @@ public class PlayerJump : MonoBehaviour
             StartCoroutine(JumpDelay());
 
             Vector2 playerPos = new Vector2(transform.position.x - 0.27f, transform.position.y - 0.3f);
-            GameObject g = Instantiate(jumpDust, playerPos, Quaternion.identity);
+            GameObject g = Instantiate(jumpDust, new Vector2(playerPos.x+.2f,playerPos.y-.5f), Quaternion.identity);
             Destroy(g, animationTime);
         }            
         _pressedJump = false;
