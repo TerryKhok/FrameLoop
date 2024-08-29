@@ -48,7 +48,7 @@ public class MainMenu : MonoBehaviour
     public void ModeSelect(bool isChallenge)
     {
         Goal.IsChallenge = isChallenge;
-        SceneLoader.Instance.LoadScene("lvl 1");
+        SceneLoader.Instance.LoadScene("Opening");
         _selectUIObject.SetActive(false);
     }
 }

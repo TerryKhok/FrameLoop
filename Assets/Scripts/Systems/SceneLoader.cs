@@ -9,6 +9,8 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 {
     [SerializeField] PauseMenu _pauseMenu;
+    [SerializeField]
+    private bool _playable = true;
     private InputManager _inputManager;
     private CircleWipeController _circleWipeController;
     private float _progress = 0;
@@ -20,7 +22,16 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     {
         Time.timeScale = 1.0f;
         _inputManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<InputManager>();
-        _inputManager._Retry.performed += Retry;
+        
+        
+        if(_playable)
+        {
+            _inputManager._Retry.performed += Retry;
+        }
+        else
+        {
+            _inputManager._Retry.performed += Skip;
+        }
         _circleWipeController = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<CircleWipeController>();
         retryAnimStart = false;
         _coroutine = null;
@@ -158,12 +169,24 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 
     private void OnDestroy()
     {
-        _inputManager._Retry.performed -= Retry;
+        if (_playable)
+        {
+            _inputManager._Retry.performed -= Retry;
+        }
+        else
+        {
+            _inputManager._Retry.performed -= Skip;
+        }
     }
 
     public void Retry(InputAction.CallbackContext context)
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void Skip(InputAction.CallbackContext context)
+    {
+        SceneManager.LoadScene("lvl 1");
     }
 
     public void ExitGame()

@@ -63,3 +63,6 @@ TagManager:
   - name: Particles
     uniqueID: 798712241
     locked: 0
+  - name: PillarBox
+    uniqueID: 400033771
+    locked: 0

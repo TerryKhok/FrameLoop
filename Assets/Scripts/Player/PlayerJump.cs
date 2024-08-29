@@ -173,4 +173,9 @@ public class PlayerJump : MonoBehaviour
 
         //hasLanded = false;
     }
+
+    public void SetJump()
+    {
+        _pressedJump = true;
+    }
 }

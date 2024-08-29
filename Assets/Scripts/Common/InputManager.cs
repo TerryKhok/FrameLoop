@@ -14,6 +14,9 @@ public class InputManager : MonoBehaviour
     [SerializeField]
     private List<EnterStage> _enterStages = new List<EnterStage>();
 
+    [SerializeField]
+    private bool _playable = true;
+
     private GameObject _player = null;
     private GameObject _frame = null;
 
@@ -78,6 +81,8 @@ public class InputManager : MonoBehaviour
     {
         if(_playerInput == null) { return; }
 
+        if (!_playable) { return; }
+
         if (_playerMove != null)
         {
             _Move.performed += _playerMove.MovePerformed;
@@ -130,6 +135,8 @@ public class InputManager : MonoBehaviour
     private void OnDisable()
     {
         if (_playerInput == null) { return; }
+
+        if (!_playable) { return; }
 
         if (_playerMove != null)
         {

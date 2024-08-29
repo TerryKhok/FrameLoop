@@ -279,6 +279,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
 
         g_activeTrigger = !_prevActive && g_isActive;
 
+
         //フレームが有効になったとき行う処理
         if (g_activeTrigger)
         {
@@ -1482,6 +1483,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
             if (!_enterOutsiders.Contains(other))
             {
                 _enterOutsiders.Add(other);
+
+                PlayParticles(_outsiders[other], other.transform.position, true);
             }
         }
         else
@@ -1634,11 +1637,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
             {
                 _exitInsiders.Add(other, vec);
 
-                Vector3 direction = vec * -1;
-                Quaternion quaternion = Quaternion.LookRotation(direction);
-
-                var particle = Instantiate(_particlePrefab, other.transform.position, quaternion);
-                Destroy(particle, 0.3f);
+                PlayParticles(vec, other.transform.position);
             }
             else
             {
@@ -1648,7 +1647,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
             }
 
         }
-        else
+        else if(!_insiders.Contains(other))
         {
             //Playerならreturn
             if (other.CompareTag("Player")) { return; }
@@ -1796,6 +1795,29 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
         }
     }
 
+    private void PlayParticles(Vector2 vec, Vector3 pos, bool outside = false)
+    {
+        int flip = 1;
+        Vector2 coefficient = new Vector2(0.9f,0.8f);
+        if (outside)
+        {
+            flip = -1;
+            coefficient = new Vector2(1.1f, 1.1f);
+        }
+
+        Vector2 direction = vec * -1;
+        Quaternion quaternion = Quaternion.LookRotation(direction * flip);
+
+        var particle = Instantiate(_particlePrefab, pos, quaternion);
+        Destroy(particle, 0.5f);
+
+        quaternion = Quaternion.LookRotation(vec * flip);
+        pos += (Vector3)(direction * _size * coefficient);
+
+        particle = Instantiate(_particlePrefab, pos, quaternion);
+        Destroy(particle, 0.5f);
+    }
+
     //プレイヤーがしゃがんでるかを代入
     public void SetCrouching(bool isCrouching)
     {
@@ -1854,4 +1876,51 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
             }
         }
     }
+
+    public void SwitchFrame()
+    {
+        Debug.Log("frame");
+
+        if (_circleWipeController.g_cutoff <= 0.5f) { return; }
+
+        //操作が切り替えなら押されるたびに状態を切り替え
+        if (_toggle)
+        {
+            g_isActive = !g_isActive;
+            if (g_isActive)
+            {
+                if (_inputManager != null)
+                {
+                    _inputManager.SetVibration(0.2f, 0.2f, 0.1f);
+                    _inputManager.SetVibration(0.07f, 0.0f, 0f);
+                }
+
+                if (g_isActive && g_usable) { AudioManager.instance.Play("Frame"); }
+            }
+            else
+            {
+                if (_inputManager != null)
+                {
+                    _inputManager.SetVibration(0f, 0f, 0f);
+                    _inputManager.SetVibration(0.2f, 0.2f, 0.1f);
+                }
+
+                if (!g_isActive)
+                {
+
+                    AudioManager.instance.Stop("Frame");
+                    AudioManager.instance.Play("FrameTP");
+                }
+            }
+            return;
+        }
+
+        //操作がホールドならフレームを有効にする
+        g_isActive = true;
+        if (_inputManager != null)
+        {
+            _inputManager.SetVibration(0.2f, 0f, 0f);
+        }
+    }
+
 }
