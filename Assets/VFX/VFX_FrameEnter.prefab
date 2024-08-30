@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1536290056072683562}
   - component: {fileID: 3652316292052348969}
   m_Layer: 0
-  m_Name: VFX_EnterFrame
+  m_Name: VFX_FrameEnter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!198 &1536290056072683562
 ParticleSystem:
