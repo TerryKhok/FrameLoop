@@ -15,6 +15,7 @@ public class Parallax : MonoBehaviour
     {
         _cameraTransform = Camera.main.transform;
         _transform = transform;
+        _currentCamPos = _cameraTransform.position;
     }
 
     private void Update()
