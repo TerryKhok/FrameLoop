@@ -58,7 +58,9 @@ MonoBehaviour:
   _yOffset: 1
   _yOffset_Crouching: -2
   _toggle: 1
-  _particlePrefab: {fileID: 5305413237271106631, guid: f09bbffbb7c2b0b45b17a3eadeacb5d4,
+  _enterParticle: {fileID: 5305413237271106631, guid: f09bbffbb7c2b0b45b17a3eadeacb5d4,
+    type: 3}
+  _exitParticle: {fileID: 5305413237271106631, guid: d267d647b35a6d040a83baeff1f67ba4,
     type: 3}
 --- !u!61 &7926284231534802099
 BoxCollider2D:

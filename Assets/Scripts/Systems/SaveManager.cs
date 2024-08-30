@@ -56,7 +56,7 @@ public class SaveManager : MonoBehaviour
     public void CompleteData()
     {
         SaveData data = new SaveData();
-        for (int i = 0; i < 17; ++i)
+        for (int i = 0; i < 20; ++i)
         {
             data.g_clearFlag[i] = true;
             data.g_starCount[i] = 3;

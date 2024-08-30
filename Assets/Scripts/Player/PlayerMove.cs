@@ -24,6 +24,7 @@ public class PlayerMove : MonoBehaviour
 
     private GameObject walkRightDust = null;
     private GameObject walkLeftDust = null;
+    private SpriteRenderer _rightDustRenderer, _leftDustRenderer;
     private float animationTime = 0.4f;
     private int walkDir; //0 = right, 1 = left
 
@@ -41,7 +42,9 @@ public class PlayerMove : MonoBehaviour
         AudioManager.instance.Stop("Walk");
 
         walkRightDust = GameObject.Find("VFX_WalkRight");
+        _rightDustRenderer = walkRightDust.GetComponent<SpriteRenderer>();
         walkLeftDust = GameObject.Find("VFX_WalkLeft");
+        _leftDustRenderer = walkLeftDust.GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -71,15 +74,55 @@ public class PlayerMove : MonoBehaviour
                 //vfxアニメーションも
                 if (walkDir == 0)
                 {
+                    if (FrameLoop.Instance != null)
+                    {
+                        if (FrameLoop.Instance.g_isActive)
+                        {
+                            _rightDustRenderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+                        }
+                        else
+                        {
+                            _rightDustRenderer.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
+                        }
+                    }
+
                     Vector2 playerPos = new Vector2(transform.position.x, transform.position.y - 0.3f);
                     GameObject g = Instantiate(walkRightDust, playerPos, Quaternion.identity);
                     Destroy(g, animationTime);
+
+                    var copyList = _playerInfo.GetCopyList();
+                    foreach (var copy in copyList)
+                    {
+                        playerPos = new Vector2(copy.position.x, copy.position.y - 0.3f);
+                        g = Instantiate(walkRightDust, playerPos,Quaternion.identity);
+                        Destroy(g, animationTime);
+                    }
                 }
                 else
                 {
+                    if (FrameLoop.Instance != null)
+                    {
+                        if (FrameLoop.Instance.g_isActive)
+                        {
+                            _leftDustRenderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+                        }
+                        else
+                        {
+                            _leftDustRenderer.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
+                        }
+                    }
+
                     Vector2 playerPos = new Vector2(transform.position.x, transform.position.y - 0.3f);
                     GameObject g = Instantiate(walkLeftDust, playerPos, Quaternion.identity);
                     Destroy(g, animationTime);
+
+                    var copyList = _playerInfo.GetCopyList();
+                    foreach (var copy in copyList)
+                    {
+                        playerPos = new Vector2(copy.position.x, copy.position.y - 0.3f);
+                        g = Instantiate(walkLeftDust, playerPos, Quaternion.identity);
+                        Destroy(g, animationTime);
+                    }
                 }
             }
         }

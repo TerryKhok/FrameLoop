@@ -42,6 +42,8 @@ public class PlayerJump : MonoBehaviour
     private bool hasLanded = true;
     private bool playLandedAnim = false;
 
+    private SpriteRenderer _jumpDustRenderer, _landDustRenderer;
+
     private void Start()
     {
         _playerInfo = PlayerInfo.Instance;
@@ -59,6 +61,9 @@ public class PlayerJump : MonoBehaviour
 
         jumpDust = GameObject.Find("VFX_Jump");
         landDust = GameObject.Find("VFX_Land");
+
+        _jumpDustRenderer = jumpDust.GetComponent<SpriteRenderer>();
+        _landDustRenderer = landDust.GetComponent<SpriteRenderer>();
     }
 
     public bool GetJumpBool()
@@ -91,11 +96,28 @@ public class PlayerJump : MonoBehaviour
             _releasedJump = true;
         }
 
-        if(!hasLanded)
+        if(!hasLanded && _playerInfo.g_isGround)
         {
-            Vector2 playerPos = new Vector2(transform.position.x, transform.position.y);
-            GameObject g = Instantiate(landDust, playerPos, Quaternion.identity);
+            if (FrameLoop.Instance.g_isActive)
+            {
+                _landDustRenderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+            }
+            else
+            {
+                _landDustRenderer.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
+            }
+
+            Vector2 playerPos = new Vector2(transform.position.x - 0.27f, transform.position.y - 0.3f);
+            GameObject g = Instantiate(landDust, new Vector2(playerPos.x + .2f, playerPos.y - .5f), Quaternion.identity);
             Destroy(g, animationTime);
+
+            var copyList = _playerInfo.GetCopyList();
+            foreach (var copy in copyList)
+            {
+                playerPos = new Vector2(copy.position.x - 0.27f, copy.position.y - 0.3f);
+                g = Instantiate(landDust, new Vector2(playerPos.x + .2f, playerPos.y - .5f), Quaternion.identity);
+                Destroy(g, animationTime);
+            }
             hasLanded = true;
         }
     }
@@ -149,9 +171,29 @@ public class PlayerJump : MonoBehaviour
 
             StartCoroutine(JumpDelay());
 
+            if (FrameLoop.Instance != null)
+            {
+                if (FrameLoop.Instance.g_isActive)
+                {
+                    _jumpDustRenderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+                }
+                else
+                {
+                    _jumpDustRenderer.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
+                }
+            }
+
             Vector2 playerPos = new Vector2(transform.position.x - 0.27f, transform.position.y - 0.3f);
-            GameObject g = Instantiate(jumpDust, new Vector2(playerPos.x+.2f,playerPos.y-.5f), Quaternion.identity);
+            GameObject g = Instantiate(jumpDust, new Vector2(playerPos.x + .2f, playerPos.y - .5f), Quaternion.identity);
             Destroy(g, animationTime);
+
+            var copyList = _playerInfo.GetCopyList();
+            foreach ( var copy in copyList )
+            {
+                playerPos = new Vector2(copy.position.x - 0.27f, copy.position.y - 0.3f);
+                g = Instantiate(jumpDust, new Vector2(playerPos.x + .2f, playerPos.y - .5f), Quaternion.identity);
+                Destroy(g, animationTime);
+            }
         }            
         _pressedJump = false;
     }
@@ -171,7 +213,7 @@ public class PlayerJump : MonoBehaviour
         _isJumping = false;
         _releasedJump = false;
 
-        //hasLanded = false;
+        hasLanded = false;
     }
 
     public void SetJump()

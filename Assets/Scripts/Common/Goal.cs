@@ -263,7 +263,7 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
         Scene currentScene = SceneManager.GetActiveScene();
         //ÅŒã‚ÌScene‚È‚çƒ^ƒCƒgƒ‹‚ÉˆÚ“®‚·‚é
-        if (currentScene.name == "lvl 18")
+        if (currentScene.name == "lvl 21")
         {
             SceneLoader.Instance.LoadScene("AppreciateScene");
         }

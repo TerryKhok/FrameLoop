@@ -33,8 +33,11 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
     private float _yOffset_Crouching = -2f;
     [SerializeField, Tooltip("切り替え")]
     private bool _toggle = false;
+
     [SerializeField]
-    private GameObject _particlePrefab = null;
+    private GameObject _enterParticle = null;
+    [SerializeField]
+    private GameObject _exitParticle = null;
 
     //[SerializeField]    //SE
     //private AudioManager _audioManager = null;
@@ -80,6 +83,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
     private GameObject _colliderPrefab = null;
     private Transform _topT = null, _bottomT = null, _rightT = null, _leftT = null;
     private CircleWipeController _circleWipeController = null;
+    private ParticleSystemRenderer _enterParticleRenderer;
+    private ParticleSystemRenderer _exitParticleRenderer;
 
     private bool[] _topHitArray = new bool[8],
                    _bottomHitArray = new bool[8],
@@ -175,6 +180,9 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
 
         _circleWipeController = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<CircleWipeController>();
 
+        _enterParticleRenderer = _enterParticle.GetComponent<ParticleSystemRenderer>();
+        _exitParticleRenderer = _exitParticle.GetComponent<ParticleSystemRenderer>();
+
         //子オブジェクトを取得して上下左右を割り当てる
         var children = transform.GetComponentsInChildren<Transform>().ToList();
         children.Remove(transform);
@@ -199,16 +207,16 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
         BoxCollider2D childCol = null;
         childCol = _topT.GetComponent<BoxCollider2D>();
         childCol.size = new Vector2(1f, 5f);
-        childCol.offset = new Vector2(0, 2.5f);
+        childCol.offset = new Vector2(0, 2.6f);
         childCol = _bottomT.GetComponent<BoxCollider2D>();
         childCol.size = new Vector2(1f, 5f);
-        childCol.offset = new Vector2(0, -2.5f);
+        childCol.offset = new Vector2(0, -2.6f);
         childCol = _rightT.GetComponent<BoxCollider2D>();
         childCol.size = new Vector2(5f, 1f + 2 / (float)_size.y);
-        childCol.offset = new Vector2(2.5f, 0);
+        childCol.offset = new Vector2(2.6f, 0);
         childCol = _leftT.GetComponent<BoxCollider2D>();
         childCol.size = new Vector2(5f, 1f + 2 / (float)_size.y);
-        childCol.offset = new Vector2(-2.5f, 0);
+        childCol.offset = new Vector2(-2.6f, 0);
 
         _insiders.Add(_playerInfo.g_collider);
     }
@@ -1665,6 +1673,11 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                     if (_ableToLoop[0])
                     {
                         Physics2D.IgnoreCollision(other.GetComponent<Collider2D>(), _outsideTileCol);
+                        if (_outsideCopyDic.ContainsKey(other))
+                        {
+                            Physics2D.IgnoreCollision(_outsideCopyDic[other].GetComponent<Collider2D>(), _outsideTileCol);
+                        }
+
                         ignoreCol = true;
                     }
 
@@ -1675,6 +1688,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                     if (_ableToLoop[1])
                     {
                         Physics2D.IgnoreCollision(other.GetComponent<Collider2D>(), _outsideTileCol);
+                        if (_outsideCopyDic.ContainsKey(other))
+                        {
+                            Physics2D.IgnoreCollision(_outsideCopyDic[other].GetComponent<Collider2D>(), _outsideTileCol);
+                        }
                         ignoreCol = true;
                     }
                 }
@@ -1687,6 +1704,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                     if (_ableToLoop[2])
                     {
                         Physics2D.IgnoreCollision(other.GetComponent<Collider2D>(), _outsideTileCol);
+                        if (_outsideCopyDic.ContainsKey(other))
+                        {
+                            Physics2D.IgnoreCollision(_outsideCopyDic[other].GetComponent<Collider2D>(), _outsideTileCol);
+                        }
                         ignoreCol = true;
                     }
 
@@ -1697,6 +1718,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                     if (_ableToLoop[3])
                     {
                         Physics2D.IgnoreCollision(other.GetComponent<Collider2D>(), _outsideTileCol);
+                        if (_outsideCopyDic.ContainsKey(other))
+                        {
+                            Physics2D.IgnoreCollision(_outsideCopyDic[other].GetComponent<Collider2D>(), _outsideTileCol);
+                        }
                         ignoreCol = true;
                     }
                 }
@@ -1715,6 +1740,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                 if (!ignoreCol)//ループ可能じゃないなら当たり判定を復活
                 {
                     Physics2D.IgnoreCollision(other.GetComponent<Collider2D>(), _outsideTileCol, false);
+                    if (_outsideCopyDic.ContainsKey(other))
+                    {
+                        Physics2D.IgnoreCollision(_outsideCopyDic[other].GetComponent<Collider2D>(), _outsideTileCol, false);
+                    }
                 }
             }
         }
@@ -1802,19 +1831,26 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
         if (outside)
         {
             flip = -1;
-            coefficient = new Vector2(1.1f, 1.1f);
+            coefficient = new Vector2(1.1f,1.1f);
+            _enterParticleRenderer.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
+            _exitParticleRenderer.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
+        }
+        else
+        {
+            _enterParticleRenderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+            _exitParticleRenderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
         }
 
         Vector2 direction = vec * -1;
         Quaternion quaternion = Quaternion.LookRotation(direction * flip);
 
-        var particle = Instantiate(_particlePrefab, pos, quaternion);
+        var particle = Instantiate(_enterParticle, pos + (Vector3)(direction*coefficient*flip), quaternion);
         Destroy(particle, 0.5f);
 
         quaternion = Quaternion.LookRotation(vec * flip);
         pos += (Vector3)(direction * _size * coefficient);
 
-        particle = Instantiate(_particlePrefab, pos, quaternion);
+        particle = Instantiate(_exitParticle, pos, quaternion);
         Destroy(particle, 0.5f);
     }
 

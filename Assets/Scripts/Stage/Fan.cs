@@ -233,7 +233,22 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                     // 自分以外のオブジェクトが前にあったら移動しない
                     if(hit.transform != item.Value.transform)
                     {
-                        hitFlag = true;
+                        // IgnoreCollisionされてなければ
+                        CompositeCollider2D collider = null;
+                        if (hit.transform.TryGetComponent(out collider))
+                        {
+                            if (!Physics2D.GetIgnoreCollision(collider, item.Key))
+                            {
+                                hitFlag = true;
+                            }
+                        }
+                        else
+                        {
+                            hitFlag = true;
+                        }
+
+                        
+
                         continue;
                     }
                 }

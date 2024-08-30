@@ -134,45 +134,25 @@ public class InputManager : MonoBehaviour
 
     private void OnDisable()
     {
-        if (_playerInput == null) { return; }
-
         if (!_playable) { return; }
 
-        if (_playerMove != null)
-        {
-            _Move.performed -= _playerMove.MovePerformed;
-            _Move.canceled -= _playerMove.MoveCanceled;
-        }
+        _Move.performed -= _playerMove.MovePerformed;
+        _Move.canceled -= _playerMove.MoveCanceled;
 
-        if (_playerJump != null)
-        {
-            _Jump.started -= _playerJump.JumpStarted;
-            _Jump.canceled -= _playerJump.JumpCanceled;
-        }
+        _Jump.started -= _playerJump.JumpStarted;
+        _Jump.canceled -= _playerJump.JumpCanceled;
 
-        if (_playerCrouch != null)
-        {
-            _Crouch.started -= _playerCrouch.CrouchStarted;
-            _Crouch.canceled -= _playerCrouch.CrouchCanceled;
-        }
+        _Crouch.started -= _playerCrouch.CrouchStarted;
+        _Crouch.canceled -= _playerCrouch.CrouchCanceled;
 
-        if (_playerTakeUp != null)
-        {
-            _TakeUp.started -= _playerTakeUp.TakeUpStarted;
-            _TakeUp.canceled -= _playerTakeUp.TakeUpCanceled;
-        }
+        _TakeUp.started -= _playerTakeUp.TakeUpStarted;
+        _TakeUp.canceled -= _playerTakeUp.TakeUpCanceled;
 
-        if (_frameLoop != null)
-        {
-            _FrameEnable.started -= _frameLoop.FrameStarted;
-            _FrameEnable.canceled -= _frameLoop.FrameCanceled;
-        }
+        _FrameEnable.started -= _frameLoop.FrameStarted;
+        _FrameEnable.canceled -= _frameLoop.FrameCanceled;
 
-        if (PauseMenu.Instance != null)
-        {
-            _Pause.started -= PauseMenu.Instance.OnPause;
-            _Resume.started -= PauseMenu.Instance.OnResume;
-        }
+        _Pause.started -= PauseMenu.Instance.OnPause;
+        _Resume.started -= PauseMenu.Instance.OnResume;
 
         foreach (var enterStage in _enterStages)
         {
