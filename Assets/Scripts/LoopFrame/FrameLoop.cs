@@ -1239,7 +1239,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
 
         //しゃがんでいるかでy座標を決定する
         var setPos = _playerTrans.position;
-        setPos += _playerTrans.right * 0.1f;
+        setPos.x += _playerInfo.g_currentInputX * 0.1f;
         if (_isCrouching)
         {
             setPos.y += _yOffset_Crouching;
@@ -1252,6 +1252,12 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
         //座標を四捨五入して整数座標を求める
         setPos.x = (float)Math.Round(setPos.x, MidpointRounding.AwayFromZero);
         setPos.y = (float)Math.Round(setPos.y, MidpointRounding.AwayFromZero);
+
+        if (_playerInfo.g_currentInputX == 0)
+        {
+            setPos.x = _transform.position.x;
+        }
+
         _transform.position = setPos;
     }
 
