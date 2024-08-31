@@ -37,13 +37,13 @@ public class SteamSpawner : MonoBehaviour
         switch(_stageType)
         {
             case StageType.World1:
-                renderer.color = new Color(0.4f, 0.4f, 0.5f, 1.0f);
+                renderer.color = new Color(0.4f, 0.4f, 0.5f, 0.4f);
                 break;
             case StageType.World2:
-                renderer.color = new Color(0.6f, 0.6f, 0.8f, 1.0f);
+                renderer.color = new Color(0.6f, 0.6f, 0.8f, 0.6f);
                 break;
             case StageType.World3:
-                renderer.color = new Color(0.4f, 0.3f, 0.3f, 1.0f);
+                renderer.color = new Color(0.4f, 0.3f, 0.3f, 0.6f);
                 break;
         }
 

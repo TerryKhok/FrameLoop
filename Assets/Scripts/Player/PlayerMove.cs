@@ -181,10 +181,11 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        //if(_playerInfo.g_walkCancel)
-        //{
-        //    return;
-        //}
+        if (_playerInfo.g_walkCancel)
+        {
+            _playerInfo.g_walkCancel = false;
+            return;
+        }
 
         var velocity = _targetVelocity;
 

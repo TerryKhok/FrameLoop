@@ -1371,6 +1371,18 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                 //コピー用のオブジェクトを削除する
                 Destroy(obj);
             }
+            // すでにある場合座標を進入方向と合わせる
+            else
+            {
+                //どこから入ってきているかを取得
+                var vec = _outsiders[col];
+
+                // ずらす方向に合わせるように反転
+                vec *= -1;
+                var pos = Vector3.Scale(vec, new Vector3(_size.x, _size.y));
+
+                _outsideCopyDic[col].localPosition = pos;
+            }
         }
 
         // Outsidersから消えたObjectのcopyを削除する

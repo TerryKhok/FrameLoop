@@ -32,7 +32,7 @@ public class ChildOnTrigger : MonoBehaviour
 
     public void OnTriggerStay2D(Collider2D other)
     {
-        if(_parentOnTrigger == null) { return; }
+        if (_parentOnTrigger == null) { return; }
         _parentOnTrigger.OnStay(other, _transform);
     }
 

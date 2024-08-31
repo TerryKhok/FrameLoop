@@ -202,6 +202,8 @@ public class Box : MonoBehaviour,IBox
     {
         if(_playerTransform == null) { return; }
 
+        if (_playerInfo.g_walkCancel) { return; }
+
         //プレイヤーが移動中してない時は音を止める
         if (_playerMove._isMoving == false)
         {
@@ -220,7 +222,7 @@ public class Box : MonoBehaviour,IBox
         var pos = _rb.position;
         var direction = new Vector2(_playerInfo.g_currentInputX, 0);
 
-        //入力がないときはg_wallを更新しない
+        //入力がないときは動かさない
         if (direction.x == 0 && !_movable)
         {
             return;

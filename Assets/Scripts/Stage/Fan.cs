@@ -58,7 +58,6 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     private PlayerInfo _playerInfo;
     private Camera _camera = null;
 
-    private bool _playerBoxFlag = false;
     private bool windSoundFlag = false;
 
 
@@ -163,7 +162,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
             return; 
         }
 
-        _playerBoxFlag = false;
+        bool playerFlag = false;
 
         //発射方向をVector2に変換
         Vector2 forceDirection = new Vector2(_actualDirection.x, _actualDirection.y);
@@ -172,43 +171,61 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         //風に触れているrigidbodyを全て確認
         foreach (var item in _rbDic)
         {
-            if(item.Value == null)
+            Collider2D col = item.Key;
+            Rigidbody2D rb = item.Value;
+
+            if(rb == null)
             {
-                temp.Add(item.Key);
+                temp.Add(col);
                 continue;
             }
 
-            //Playerか、押してる箱ならフラグを立てる
-            if(item.Value.transform == _playerInfo.g_transform || 
-               item.Value.transform == _playerInfo.g_box)
+            // 掴まれている箱は動かさず、Playerを動かす
+            if (rb.transform == _playerInfo.g_box)
             {
-                //既にフラグが立っていたらreturn
-                if(_playerBoxFlag)
-                {
-                    return;
-                }
-
-                //Playerか箱かに関わらずPlayerのrigidbodyを指定
-                var playerRb = _playerInfo.g_rb;
-
-                //発射方向に一定速度で移動させる
-                var currentPlayerPos = playerRb.position;
-                currentPlayerPos += forceDirection * _force * Time.fixedDeltaTime;
-                playerRb.position = currentPlayerPos;
-
-                _playerBoxFlag = true;
-                if (_playerInfo.g_takeUpFg)
-                {
-                    _playerInfo.g_box.GetComponent<Box>().SetMovable(true);
-                }
-                return;
+                _playerInfo.g_box.GetComponent<Box>().SetMovable(true);
+                col = _playerInfo.g_collider;
+                rb = _playerInfo.g_rb;
+                //Debug.Log("box");
             }
-
             //発射方向に一定速度で移動させる
-            var currentPos = item.Value.position;
+            var currentPos = rb.position;
 
             Ray ray = new Ray(currentPos, forceDirection);
-            string layerName = LayerMask.LayerToName(item.Value.gameObject.layer);
+            Vector2 size = (col as BoxCollider2D).size;
+
+            // Playerのみの例外処理
+            if(col.CompareTag("Player"))
+            {
+                //Debug.Log("Player");
+
+                // プレイヤーが二回動かないようにフラグで管理
+                if(playerFlag)
+                {
+                    //Debug.Log("Player,twice");
+                    continue;
+                }
+
+                playerFlag = true;
+
+                // 箱を掴んでいて、箱が風の進行方向にある場合
+                if(_playerInfo.g_takeUpFg && col.transform.right == (Vector3)forceDirection)
+                {
+                    size = _playerInfo.g_box.GetComponent<BoxCollider2D>().size;
+                    ray.origin = _playerInfo.g_box.position;
+                }
+                
+                // 風に逆行する方向に歩いている時
+                if(_playerInfo.g_currentInputX * -1 == forceDirection.x)
+                {
+                    // 歩きをキャンセル
+                    _playerInfo.g_walkCancel = true;
+                    //Debug.Log("walkCancel");
+                    continue;
+                }
+            }
+            size *= 0.9f;
+            string layerName = LayerMask.LayerToName(rb.gameObject.layer);
             LayerMask mask = 0;
             if(layerName[0] == 'O')
             {
@@ -223,7 +240,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                 mask |= 1 << LayerMask.NameToLayer("IBox");
             }
 
-            RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 0.6f, mask);
+            RaycastHit2D[] hits = Physics2D.BoxCastAll(ray.origin, size, 0, ray.direction, 0.2f, mask);
             bool hitFlag = false;
 
             if(hits.Length > 0)
@@ -231,45 +248,37 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                 foreach(var hit in hits)
                 {
                     // 自分以外のオブジェクトが前にあったら移動しない
-                    if(hit.transform != item.Value.transform)
+                    if(hit.transform != rb.transform)
                     {
                         // IgnoreCollisionされてなければ
-                        CompositeCollider2D collider = null;
-                        if (hit.transform.TryGetComponent(out collider))
-                        {
-                            if (!Physics2D.GetIgnoreCollision(collider, item.Key))
-                            {
-                                hitFlag = true;
-                            }
-                        }
-                        else
+                        if (!Physics2D.GetIgnoreCollision(hit.collider, col))
                         {
                             hitFlag = true;
                         }
-
-                        
-
                         continue;
                     }
+                    
                 }
             }
 
             if (hitFlag)
             {
-                if(item.Value.CompareTag("Box"))
+                if(rb.CompareTag("Box"))
                 {
-                    var box = item.Value.GetComponent<Box>();
+                    var box = rb.GetComponent<Box>();
                     if (box != null)
                     {
                         box.AdjustPosition();
                     }
 
                 }
+                //Debug.Log("collision");
                 continue;
             }
 
             currentPos += forceDirection * _force * Time.fixedDeltaTime;
-            item.Value.position = currentPos;
+            rb.position = currentPos;
+            //Debug.Log($"Move:{rb.transform.name}");
         }
 
         foreach(var col in temp)
@@ -279,7 +288,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     }
 
     //Tilemapに触れているcolliderを受け取る
-    public void OnStay(Collider2D other, Transform transform)
+    public void OnEnter(Collider2D other, Transform transform)
     {
         if (!_tagList.Contains(other.tag)) { return; }
 
@@ -296,7 +305,6 @@ public class Fan : MonoBehaviour,IParentOnTrigger
             if(rb != null)
             {
                 _rbDic.Add(other, rb);
-
                 //if (other.CompareTag("Box"))
                 //{
                 //    rb.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
@@ -330,7 +338,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
             //}
         }
     }
-    public void OnEnter(Collider2D other, Transform transform)
+    public void OnStay(Collider2D other, Transform transform)
     {
         //IParentOnTriggerの必要メソッド
     }
@@ -350,11 +358,6 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     //フレームがあるときの風の生成
     private IEnumerator windLoop()
     {
-        if (!_isEnable) 
-        {
-            yield break; 
-        }
-
         //フレームの終了を待つ
         //待たないとフレームで生成したColliderにRayが当たらない
         yield return new WaitForEndOfFrame();
@@ -365,6 +368,11 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         //Tilemapを全てクリア
         _tilemapOutside.ClearAllTiles();
         _tilemapInside.ClearAllTiles();
+
+        if (!_isEnable)
+        {
+            yield break;
+        }
 
         //Fanがフレームの内側にあるか
         bool inside = false, enterFlag = false;
