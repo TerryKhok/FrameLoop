@@ -42,6 +42,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SK/lvl 11.unity
     guid: 93f9cbe3eb014e5408ed7a1a144e7a33
   - enabled: 1
+    path: Assets/Scenes/SK/lvl 12 test.unity
+    guid: 618a6050e61198449aab2529a9ad0943
+  - enabled: 1
     path: Assets/Scenes/SK/lvl 12.unity
     guid: 36d3e22771732fb4a884f1f6478cb83a
   - enabled: 1
