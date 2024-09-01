@@ -202,7 +202,11 @@ public class Box : MonoBehaviour,IBox
     {
         if(_playerTransform == null) { return; }
 
-        if (_playerInfo.g_walkCancel) { return; }
+        if (_playerInfo.g_walkCancel) 
+        {
+            Debug.Log("stop");
+            return;
+        }
 
         //ƒvƒŒƒCƒ„[‚ªˆÚ“®’†‚µ‚Ä‚È‚¢‚Í‰¹‚ğ~‚ß‚é
         if (_playerMove._isMoving == false)
