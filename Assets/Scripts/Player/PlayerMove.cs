@@ -30,6 +30,7 @@ public class PlayerMove : MonoBehaviour
     private int walkDir; //0 = right, 1 = left
     [SerializeField]
     private ParticleSystem walkDustParticles;
+    private ParticleSystemRenderer walkParticlesRnderer;
 
     private void Start()
     {
@@ -48,6 +49,8 @@ public class PlayerMove : MonoBehaviour
         _rightDustRenderer = walkRightDust.GetComponent<SpriteRenderer>();
         walkLeftDust = GameObject.Find("VFX_WalkLeft");
         _leftDustRenderer = walkLeftDust.GetComponent<SpriteRenderer>();
+
+        walkParticlesRnderer = walkDustParticles.GetComponent<ParticleSystemRenderer>();
     }
 
     private void Update()
@@ -59,6 +62,15 @@ public class PlayerMove : MonoBehaviour
         _playerAnimation.SetWalkAnimation(_isMoving && _playerInfo.g_isGround);
 
         _playerInfo.g_currentInputX = (int)_currentInput.x;
+
+        if(FrameLoop.Instance.g_isActive)
+        {
+            walkParticlesRnderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+        }
+        else
+        {
+            walkParticlesRnderer.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
+        }
 
         if(_playerInfo.g_isGround && _isMoving)
         {

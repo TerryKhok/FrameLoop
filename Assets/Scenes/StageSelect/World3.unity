@@ -1048,7 +1048,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 470be09b1f193d84d801480cdd910841,
+      objectReference: {fileID: 21300000, guid: 296b893ffc5f6474e97d1b5fe659365b,
         type: 3}
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -1058,7 +1058,7 @@ PrefabInstance:
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: _sceneName
-      value: lvl 15
+      value: lvl 16
       objectReference: {fileID: 0}
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -1153,7 +1153,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: abc88b732fbdbdb41b7cac597941b6ce,
+      objectReference: {fileID: 21300000, guid: 09f960e9af05e7c4f83b48b6bf2f38fe,
         type: 3}
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -1258,7 +1258,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: b12189154c0e38a459c8ba3a6aedb082,
+      objectReference: {fileID: 21300000, guid: 90b66bf9be49686459bcae541f060491,
         type: 3}
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -1268,7 +1268,7 @@ PrefabInstance:
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: _sceneName
-      value: lvl 18
+      value: lvl 19
       objectReference: {fileID: 0}
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -1648,7 +1648,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 7d1151d6654db0646929ceb93c8da79e,
+      objectReference: {fileID: 21300000, guid: 65e98da78f32e5b428d631601e9552fb,
         type: 3}
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -2006,7 +2006,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: a2d04e9223b974b40a26ecc9268bac56,
+      objectReference: {fileID: 21300000, guid: b12189154c0e38a459c8ba3a6aedb082,
         type: 3}
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -2016,7 +2016,7 @@ PrefabInstance:
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: _sceneName
-      value: lvl 16
+      value: lvl 17
       objectReference: {fileID: 0}
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -13407,7 +13407,7 @@ PrefabInstance:
     - target: {fileID: 7913549326104525736, guid: 330e5f57b1fb5c244a39c0097047eed1,
         type: 3}
       propertyPath: _enterStages.Array.size
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7913549326104525736, guid: 330e5f57b1fb5c244a39c0097047eed1,
         type: 3}
@@ -13433,15 +13433,20 @@ PrefabInstance:
         type: 3}
       propertyPath: _enterStages.Array.data[4]
       value: 
-      objectReference: {fileID: 1915067236}
+      objectReference: {fileID: 2143996053}
     - target: {fileID: 7913549326104525736, guid: 330e5f57b1fb5c244a39c0097047eed1,
         type: 3}
       propertyPath: _enterStages.Array.data[5]
       value: 
-      objectReference: {fileID: 1076488128}
+      objectReference: {fileID: 1915067236}
     - target: {fileID: 7913549326104525736, guid: 330e5f57b1fb5c244a39c0097047eed1,
         type: 3}
       propertyPath: _enterStages.Array.data[6]
+      value: 
+      objectReference: {fileID: 1076488128}
+    - target: {fileID: 7913549326104525736, guid: 330e5f57b1fb5c244a39c0097047eed1,
+        type: 3}
+      propertyPath: _enterStages.Array.data[7]
       value: 
       objectReference: {fileID: 928101578}
     m_RemovedComponents: []
@@ -13562,7 +13567,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: b12189154c0e38a459c8ba3a6aedb082,
+      objectReference: {fileID: 21300000, guid: cfb0e0d042e77284db8112e4c14d8c44,
         type: 3}
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -13572,7 +13577,7 @@ PrefabInstance:
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: _sceneName
-      value: lvl 17
+      value: lvl 18
       objectReference: {fileID: 0}
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -13639,6 +13644,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 507ffdbcdf01fa34aa319df9dc077b13, type: 3}
+--- !u!114 &2143996053 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+    type: 3}
+  m_PrefabInstance: {fileID: 2143996052}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e873ced66d37ee4bb7f1d64976a58ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &498800056182159949
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13750,7 +13767,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: b5d8063186ede334a8e3790051e683de,
+      objectReference: {fileID: 21300000, guid: f6675906548c73142894e76812672b8d,
         type: 3}
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
@@ -13760,7 +13777,7 @@ PrefabInstance:
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
       propertyPath: _sceneName
-      value: lvl 14
+      value: lvl 15
       objectReference: {fileID: 0}
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}

@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class Testply : MonoBehaviour
 {
+#if false
     // Start is called before the first frame update
     void Start()
     {
@@ -38,4 +39,5 @@ public class Testply : MonoBehaviour
             
         //}
     }
+#endif
 }

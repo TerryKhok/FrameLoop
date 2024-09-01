@@ -1694,7 +1694,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
             if (vec.x != 0)//横から
             {
                 //上の端
-                if (_loopRangeY.max - 1 < otherPos.y && otherPos.y < _loopRangeY.max)
+                if (_loopRangeY.max - 1.5f <= otherPos.y && otherPos.y <= _loopRangeY.max - 0.5f)
                 {
                     if (_ableToLoop[0])
                     {
@@ -1709,7 +1709,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
 
                 }
                 //下の端
-                else if (_loopRangeY.min < otherPos.y && otherPos.y < _loopRangeY.min + 1)
+                else if (_loopRangeY.min + 0.5f <= otherPos.y && otherPos.y <= _loopRangeY.min + 1.5f)
                 {
                     if (_ableToLoop[1])
                     {
@@ -1722,10 +1722,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                     }
                 }
             }
-            else if (vec.x != 0)//上下から
+            else if (vec.y != 0)//上下から
             {
                 //左の端
-                if (_loopRangeX.min < otherPos.x && otherPos.x < _loopRangeY.min + 1)
+                if (_loopRangeX.min + 0.5f <= otherPos.x && otherPos.x <= _loopRangeX.min + 1.5f)
                 {
                     if (_ableToLoop[2])
                     {
@@ -1739,7 +1739,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
 
                 }
                 //右の端
-                else if (_loopRangeX.max - 1 < otherPos.x && otherPos.x < _loopRangeX.max)
+                else if (_loopRangeX.max - 1.5f <= otherPos.x && otherPos.x <= _loopRangeX.max - 0.5f)
                 {
                     if (_ableToLoop[3])
                     {

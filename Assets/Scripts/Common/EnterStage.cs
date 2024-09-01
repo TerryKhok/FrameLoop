@@ -72,7 +72,7 @@ public class EnterStage : MonoBehaviour
         //-------------------------------------------------------------------
         //　デバッグ用にしゃがんでれば入れるようにする
         //-------------------------------------------------------------------
-        if ((!_playerInfo.g_isCrouch && !_isOpened) || _isEnter) { return; }
+        if ((/*!_playerInfo.g_isCrouch &&*/ !_isOpened) || _isEnter) { return; }
         if (collision != _playerInfo.g_goalHitBox) { return; }
 
         if (_inputW && _playerInfo.g_isGround)

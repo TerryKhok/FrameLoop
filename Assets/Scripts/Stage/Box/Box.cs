@@ -49,6 +49,8 @@ public class Box : MonoBehaviour,IBox
 
     private void Update()
     {
+        _rb.WakeUp();
+
         if (!_playerInfo.g_takeUpFg)
         {
             holdCancel();
@@ -363,11 +365,11 @@ public class Box : MonoBehaviour,IBox
         _playerMove = PlayerInfo.Instance.g_transform.GetComponent<PlayerMove>();
 
         //î†ÇâüÇ∑âπÇçƒê∂
-        if(!soundFlag)
-        {
-            AudioManager.instance.Play("Box Pull");
-            soundFlag = true;
-        }
+        //if (!soundFlag)
+        //{
+        //    AudioManager.instance.Play("Box Pull");
+        //    soundFlag = true;
+        //}
     }
 
     public void AdjustPosition()
