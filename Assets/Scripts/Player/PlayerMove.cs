@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,6 +28,8 @@ public class PlayerMove : MonoBehaviour
     private SpriteRenderer _rightDustRenderer, _leftDustRenderer;
     private float animationTime = 0.4f;
     private int walkDir; //0 = right, 1 = left
+    [SerializeField]
+    private ParticleSystem walkDustParticles;
 
     private void Start()
     {
@@ -56,6 +59,11 @@ public class PlayerMove : MonoBehaviour
         _playerAnimation.SetWalkAnimation(_isMoving && _playerInfo.g_isGround);
 
         _playerInfo.g_currentInputX = (int)_currentInput.x;
+
+        if(_playerInfo.g_isGround && _isMoving)
+        {
+            walkDustParticles.Play();
+        }
     }
 
     private void FixedUpdate()
