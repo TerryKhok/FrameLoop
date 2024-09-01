@@ -1087,7 +1087,7 @@ PrefabInstance:
     - target: {fileID: 3081389432159422133, guid: 75135249b2a38f2418611ce85b1548cd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3081389432159422133, guid: 75135249b2a38f2418611ce85b1548cd,
         type: 3}
@@ -2877,7 +2877,7 @@ PrefabInstance:
     - target: {fileID: 9191941030155358523, guid: 8b9caf9c46fdee7478875b33b046f315,
         type: 3}
       propertyPath: m_text
-      value: "3 \uFF0D \uFF16"
+      value: "3 \uFF0D 5"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
