@@ -39,6 +39,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
     [SerializeField]
     private GameObject _exitParticle = null;
 
+    private Vector3 _prevPlayerPos = Vector3.zero, _currentPlayerPos = Vector3.zero;
+
     //[SerializeField]    //SE
     //private AudioManager _audioManager = null;
 
@@ -124,6 +126,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
 
         //PlayerのTransformを取得
         _playerTrans = _playerInfo.g_transform;
+        _prevPlayerPos = _playerTrans.position;
+        _currentPlayerPos = _playerTrans.position;
 
         //Tilemapのコライダーを取得する
         _insideTileCol = _insideTile.GetComponent<CompositeCollider2D>();
@@ -1237,8 +1241,11 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
         //フレームが有効なら座標を固定する
         if (g_isActive) { return; }
 
+        _prevPlayerPos = _currentPlayerPos;
+        _currentPlayerPos = _playerTrans.position;
+
         //しゃがんでいるかでy座標を決定する
-        var setPos = _playerTrans.position;
+        var setPos = _currentPlayerPos;
         setPos.x += _playerInfo.g_currentInputX * 0.1f;
         if (_isCrouching)
         {
@@ -1253,7 +1260,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
         setPos.x = (float)Math.Round(setPos.x, MidpointRounding.AwayFromZero);
         setPos.y = (float)Math.Round(setPos.y, MidpointRounding.AwayFromZero);
 
-        if (_playerInfo.g_currentInputX == 0)
+        if (_prevPlayerPos == _currentPlayerPos)
         {
             setPos.x = _transform.position.x;
         }
@@ -1385,9 +1392,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
 
                 // ずらす方向に合わせるように反転
                 vec *= -1;
-                var pos = Vector3.Scale(vec, new Vector3(_size.x, _size.y));
+                var pos = col.transform.position;
+                pos += Vector3.Scale(vec,(Vector2)_size);
 
-                _outsideCopyDic[col].localPosition = pos;
+                _outsideCopyDic[col].position = pos;
             }
         }
 

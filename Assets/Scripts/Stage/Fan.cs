@@ -278,17 +278,17 @@ public class Fan : MonoBehaviour,IParentOnTrigger
 
             currentPos += forceDirection * _force * Time.fixedDeltaTime;
             rb.position = currentPos;
-            //Debug.Log($"Move:{rb.transform.name}");
         }
 
         foreach(var col in temp)
         {
             _rbDic.Remove(col);
+            //Debug.Log("remove");
         }
     }
 
     //Tilemapに触れているcolliderを受け取る
-    public void OnEnter(Collider2D other, Transform transform)
+    public void OnStay(Collider2D other, Transform transform)
     {
         if (!_tagList.Contains(other.tag)) { return; }
 
@@ -328,7 +328,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         if (_rbDic.ContainsKey(other))
         {
             _rbDic.Remove(other);
-
+            //Debug.Log("remove");
             //if (other.CompareTag("Box"))
             //{
             //    var rb = other.GetComponent<Rigidbody2D>();
@@ -338,7 +338,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
             //}
         }
     }
-    public void OnStay(Collider2D other, Transform transform)
+    public void OnEnter(Collider2D other, Transform transform)
     {
         //IParentOnTriggerの必要メソッド
     }
@@ -576,6 +576,11 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     //有効かどうかを引数で変更する
     public void SetEnable(bool enable)
     {
+        if(_isEnable == enable)
+        {
+            return;
+        }
+
         _isEnable = enable;
 
         if (FrameLoop.Instance.g_isActive)
