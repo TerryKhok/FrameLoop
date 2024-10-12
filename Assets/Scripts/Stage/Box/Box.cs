@@ -10,6 +10,8 @@ using UnityEngine;
  *               破壊可能な床の破壊、プレイヤーに掴まれている時の移動
  *               
  *  Created     :2024/04/27
+ *  
+ *  2024/10/12　足場を壊すギミックをスクリプトを参照するように変更
  */
 public class Box : MonoBehaviour,IBox
 {
@@ -19,8 +21,14 @@ public class Box : MonoBehaviour,IBox
     private float _width = 1f;
     [SerializeField,Tooltip("破壊するのに必要な高さ")]
     private float _breakHeight = 5f;
+    [SerializeField, Tooltip("破壊時に止まるフレーム数(50fps)")]
+    private int _hitStop = 3;
     [SerializeField,Tag,Tooltip("破壊可能なTag")]
     private List<string> _tagList = new List<string>() { "Breakable"};
+
+    private Vector2 _prevVelocity = Vector2.zero;
+    private int _stopCount = 0;
+    private bool _isWaiting = false;
 
     private Rigidbody2D _rb = null;
     private BoxCollider2D _collider2D = null;
@@ -89,6 +97,24 @@ public class Box : MonoBehaviour,IBox
     //破壊可能な床を壊す
     private void platformBreak()
     {
+        if (_isWaiting)
+        {
+            _stopCount++;
+            // ヒットストップの時間内ならreturnする
+            if (_stopCount < _hitStop)
+            {
+                _rb.velocity = Vector3.zero;
+                return;
+            }
+            // ヒットストップの時間を越えたら待機を解除する
+            else
+            {
+                _rb.velocity = _prevVelocity;
+                _rb.gravityScale = 1;
+                _isWaiting = false;
+            }
+        }
+
         //最高点の座標を更新
         if (_height < _transform.position.y)
         {
@@ -130,7 +156,13 @@ public class Box : MonoBehaviour,IBox
                     //最高点のリセットは行わない
                     if (_height - _transform.position.y >= _breakHeight)
                     {
-                        Destroy(hit.transform.gameObject);
+                        var breakablePlatform = hit.transform.GetComponent<BreakablePlatform>();
+                        breakablePlatform.Break();
+
+                        _prevVelocity = _rb.velocity;
+                        _rb.gravityScale = 0;
+                        _stopCount = 0;
+                        _isWaiting = true;
                     }
 
                     return;

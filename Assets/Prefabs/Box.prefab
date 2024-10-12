@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _width: 1
   _breakHeight: 5
+  _hitStop: 5
   _tagList:
   - Breakable
 --- !u!212 &790627881603885105
