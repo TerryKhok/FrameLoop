@@ -35,6 +35,8 @@ public class PlayerAnimation : SingletonMonoBehaviour<PlayerAnimation>
 
     public void SetCrouchAnimation(bool isCrouching)
     {
+        if (PauseMenu.IsPaused) {  return; }
+
         _bodyAnim.SetBool("Crouch", isCrouching);
     }
 

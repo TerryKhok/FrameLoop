@@ -1245,7 +1245,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
     private void adjustPos()
     {
         //フレームが有効なら座標を固定する
-        if (g_isActive) { return; }
+        if (g_isActive || PauseMenu.IsPaused) { return; }
 
         _prevPlayerPos = _currentPlayerPos;
         _currentPlayerPos = _playerTrans.position;
