@@ -180,6 +180,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
         foreach (var tileReplaceObj in tileReplaceObjs)
         {
             _replaceTileList.Add(tileReplaceObj.GetComponent<TileReplace>());
+            Debug.Log(tileReplaceObj.transform.name);
         }
 
         _circleWipeController = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<CircleWipeController>();
@@ -569,14 +570,15 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
             if (1 <= j && j <= _size.y)
             {
                 Vector3Int intPos = new Vector3Int((int)(pos.x - 0.5f), (int)(pos.y - 0.5f));
+                Vector3Int beforePos = new Vector3Int((int)(origin.x - 0.5f), (int)(origin.y - 0.5f));
 
                 if (replace)
                 {
-                    isStage = tileReplace.Replace(intPos, intPos, true);
+                    isStage = tileReplace.Replace(intPos, beforePos, true);
                 }
 
                 // 普通のタイルか、ステージなら当たり判定を生成する
-                if (!replace || isStage)
+                if (true/*!replace || isStage*/)
                 {
                     for (int k = 0; k < 3; k++)
                     {
@@ -757,9 +759,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
         {
             //生成する座標がフレームの内側なら外側用の当たり判定を生成
             Vector3Int intPos = new Vector3Int((int)(pos.x - 0.5f), (int)(pos.y - 0.5f));
+            Vector3Int beforePos = new Vector3Int((int)(origin.x - 0.5f), (int)(origin.y - 0.5f));
             if (replace)
             {
-                isStage = tileReplace.Replace(intPos);
+                isStage = tileReplace.Replace(intPos, beforePos);
             }
 
             // 普通のタイルか、ステージなら当たり判定を生成する
@@ -816,13 +819,13 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                 if (j <= 1) { pos.y += _size.y; }
                 if (j >= _size.y) { pos.y -= _size.y; }
                 Vector3Int intPos = new Vector3Int((int)(pos.x - 0.5f), (int)(pos.y - 0.5f));
+                Vector3Int beforePos = new Vector3Int((int)(origin.x - 0.5f), (int)(origin.y - 0.5f));
 
                 //上下の端の座標なら内側用の当たり判定を生成
                 if (j == 1 || j == _size.y)
                 {
                     if (replace)
                     {
-                        Vector3Int beforePos = new Vector3Int((int)(origin.x - 0.5f), (int)(origin.y - 0.5f));
                         isStage = tileReplace.Replace(intPos, beforePos, true);
                     }
 
@@ -869,7 +872,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                     //外側なら外側用の当たり判定を生成
                     if (replace)
                     {
-                        isStage = tileReplace.Replace(intPos);
+                        isStage = tileReplace.Replace(intPos,beforePos);
                     }
 
                     // 普通のタイルか、ステージなら当たり判定を生成する
@@ -1161,7 +1164,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
         }
 
         //breakableオブジェクトのリセット
-        for (int i = 0; i < _replaceTileList.Count; i++)
+        for (int i = 0; i < _replaceTileList.Count;)
         {
             if (_replaceTileList[i] == null)
             {
@@ -1169,6 +1172,9 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                 continue;
             }
             _replaceTileList[i].UnReplace();
+            Debug.Log(_replaceTileList[i].transform.name);
+
+            ++i;
         }
 
         //入口のレイヤーをリセット

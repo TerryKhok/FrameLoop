@@ -34,6 +34,7 @@ public class TileReplace : MonoBehaviour
 
     public virtual bool Replace(Vector3Int setPos, Vector3Int beforePos = new Vector3Int(), bool setInside = false)
     {
+        //Debug.Log($"set:{setPos},before:{beforePos}");
         if(setInside)
         {
             //outside‚Ìƒ^ƒCƒ‹‚ğíœ

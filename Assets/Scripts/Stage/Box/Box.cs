@@ -156,8 +156,9 @@ public class Box : MonoBehaviour,IBox
                     //最高点のリセットは行わない
                     if (_height - _transform.position.y >= _breakHeight)
                     {
-                        var breakablePlatform = hit.transform.GetComponent<BreakablePlatform>();
-                        breakablePlatform.Break();
+                        //var breakablePlatform = hit.transform.GetComponent<BreakablePlatform>();
+                        //breakablePlatform.Break();
+                        Destroy(hit.transform.gameObject);
 
                         _prevVelocity = _rb.velocity;
                         _rb.gravityScale = 0;

@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6010057731242583412
 MonoBehaviour:
@@ -47,6 +47,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _width: 1
+  _leftTile: {fileID: 11400000, guid: 3e960353cecc9cf469617fde6185fda2, type: 2}
+  _centerTile: {fileID: 11400000, guid: 3e960353cecc9cf469617fde6185fda2, type: 2}
+  _rightTile: {fileID: 11400000, guid: 3e960353cecc9cf469617fde6185fda2, type: 2}
+  _breakableTilemapPrefab: {fileID: 9140480165553542925, guid: 7241f2464d3ad1b4f83713bfc059f44b,
+    type: 3}
 --- !u!212 &7737661532266485102
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -106,7 +111,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8518361280150789681}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
