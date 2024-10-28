@@ -608,6 +608,37 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         }
     }
 
+    public void ResetTiles()
+    {
+        Debug.Log("reset");
+        if (FrameLoop.Instance.g_isActive)
+        {
+            FanLoopStarted();
+        }
+        else
+        {
+            SetTiles();
+        }
+    }
+
+    private Coroutine _coroutine;
+    public void AsyncResetTiles()
+    {
+        if(_coroutine != null)
+        {
+            return;
+        }
+        _coroutine = StartCoroutine(asyncReset());
+    }
+
+    private IEnumerator asyncReset()
+    {
+        yield return new WaitForEndOfFrame();
+
+        ResetTiles();
+        _coroutine = null;
+    }
+
     //タイルの向きを指定してセットする
     private void SetTile(Vector3Int pos, Vector3 targetVec, Tilemap tilemap, TileBase tile)
     {

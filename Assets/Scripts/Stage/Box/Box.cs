@@ -90,6 +90,7 @@ public class Box : MonoBehaviour,IBox
     //FixedUpdateの後に呼び出されるメソッド
     private void LateFixedUpdate()
     {
+        //Debug.Log(_rb.velocity);
         platformBreak();
         isHold();
     }

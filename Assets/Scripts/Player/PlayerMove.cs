@@ -63,13 +63,16 @@ public class PlayerMove : MonoBehaviour
 
         _playerInfo.g_currentInputX = (int)_currentInput.x;
 
-        if(FrameLoop.Instance.g_isActive)
+        if (FrameLoop.Instance != null)
         {
-            walkParticlesRnderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
-        }
-        else
-        {
-            walkParticlesRnderer.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
+            if (FrameLoop.Instance.g_isActive)
+            {
+                walkParticlesRnderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+            }
+            else
+            {
+                walkParticlesRnderer.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
+            }
         }
 
         if(_playerInfo.g_isGround && _isMoving)

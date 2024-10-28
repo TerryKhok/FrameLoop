@@ -160,8 +160,11 @@ public class Goal : SingletonMonoBehaviour<Goal>
         //Reset frame sound
         AudioManager.instance.Stop("Frame");
 
-        SaveManager.g_saveData.g_clearFlag[_stageIndex] = true;
-        SaveManager.g_saveData.g_starCount[_stageIndex] = _starCount;
+        if (SaveManager.g_saveData != null)
+        {
+            SaveManager.g_saveData.g_clearFlag[_stageIndex] = true;
+            SaveManager.g_saveData.g_starCount[_stageIndex] = _starCount;
+        }
 
         if(!s_isChallenge)
         {
@@ -263,7 +266,7 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
         Scene currentScene = SceneManager.GetActiveScene();
         //ÅŒã‚ÌScene‚È‚çƒ^ƒCƒgƒ‹‚ÉˆÚ“®‚·‚é
-        if (currentScene.name == "lvl 21")
+        if (currentScene.name == "lvl 28")
         {
             SceneLoader.Instance.LoadScene("AppreciateScene");
         }

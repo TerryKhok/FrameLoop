@@ -77,7 +77,9 @@ public class AudioManager : MonoBehaviour
             if(sceneName == "lvl 1" || sceneName == "lvl 2" || sceneName == "lvl 3" || sceneName == "lvl 4" || sceneName == "lvl 5" ||
                 sceneName == "lvl 6" || sceneName == "lvl 7" || sceneName == "lvl 8" || sceneName == "lvl 9" || sceneName == "lvl 10" ||
                 sceneName == "lvl 11" || sceneName == "lvl 12" || sceneName == "lvl 13" || sceneName == "lvl 14" || sceneName == "lvl 15" ||
-                sceneName == "lvl 16" || sceneName == "lvl 17" || sceneName == "lvl 18")
+                sceneName == "lvl 16" || sceneName == "lvl 17" || sceneName == "lvl 18" || sceneName == "lvl 19" || sceneName == "lvl 20" ||
+                sceneName == "lvl 21" || sceneName == "lvl 22" || sceneName == "lvl 23" || sceneName == "lvl 24" || sceneName == "lvl 25" ||
+                sceneName == "lvl 26" || sceneName == "lvl 27" || sceneName == "lvl 28")
             {
                 Stop("TitleTheme");
                 Play("Main BGM");

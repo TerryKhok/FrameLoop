@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -22,6 +24,9 @@ public class BreakablePlatform : MonoBehaviour
 
     private static int i = 0;
 
+    private static List<Fan> _allFanList = new List<Fan>();
+    private static bool _isInit = false;
+
     public Transform PrefabInstance
     {
         get { return _prefabInstance; }
@@ -33,12 +38,22 @@ public class BreakablePlatform : MonoBehaviour
         _spriteRenderer.size = new Vector2(_width, 1);
     }
 
-    private void Start()
+    private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _spriteRenderer.enabled = false;
 
+        FindAllFans();
         SetTiles();
+    }
+
+    private void Update()
+    {
+        if(_prefabInstance == null)
+        {
+            ResetAllFans();
+            Destroy(this.gameObject,0);
+        }
     }
 
     public void SetTiles()
@@ -77,7 +92,7 @@ public class BreakablePlatform : MonoBehaviour
         Tile tile = _leftTile;
 
         Vector3 pos = transform.position;
-        Vector3Int intPos = new Vector3Int((int)pos.x, (int)pos.y-1, (int)pos.z);
+        pos.y -= 1.0f;
 
         for (int i = 0; i < _width; i++)
         {
@@ -90,15 +105,44 @@ public class BreakablePlatform : MonoBehaviour
                 tile = _centerTile;
             }
 
-            tilemap.SetTile(new Vector3Int(i - _width / 2, 0, 0) + intPos, tile);
+            Vector3 setPos = new Vector3(i - _width / 2.0f, 0, 0) + pos;
+
+            Vector3Int intPos = Vector3Int.zero;
+            intPos.x = (int)Math.Round(setPos.x,0,MidpointRounding.AwayFromZero);
+            intPos.y = (int)Math.Round(setPos.y,0,MidpointRounding.AwayFromZero);
+            intPos.z = (int)Math.Round(setPos.z,0,MidpointRounding.AwayFromZero);
+
+            if(intPos.y < 0)
+            {
+                intPos.y += 1;
+            }
+
+            tilemap.SetTile(intPos, tile);
         }
+        //ResetAllFans();
     }
 
-    private void OnDestroy()
+    private void FindAllFans()
     {
-        if(_prefabInstance != null )
+        if(_isInit)
         {
-            Destroy(_prefabInstance);
+            return;
+        }
+        _isInit = true;
+
+        _allFanList = GameObject.FindObjectsByType<Fan>(FindObjectsSortMode.None).ToList();
+    }
+
+    private void ResetAllFans()
+    {
+        foreach(var fan in _allFanList)
+        {
+            if(fan == null)
+            {
+                continue;
+            }
+            //fan.AsyncResetTiles();
+            fan.ResetTiles();
         }
     }
 }

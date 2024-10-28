@@ -180,7 +180,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
         foreach (var tileReplaceObj in tileReplaceObjs)
         {
             _replaceTileList.Add(tileReplaceObj.GetComponent<TileReplace>());
-            Debug.Log(tileReplaceObj.transform.name);
+            //Debug.Log(tileReplaceObj.transform.name);
         }
 
         _circleWipeController = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<CircleWipeController>();
