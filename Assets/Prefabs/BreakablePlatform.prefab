@@ -47,9 +47,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _width: 1
-  _leftTile: {fileID: 11400000, guid: 3e960353cecc9cf469617fde6185fda2, type: 2}
-  _centerTile: {fileID: 11400000, guid: 3e960353cecc9cf469617fde6185fda2, type: 2}
-  _rightTile: {fileID: 11400000, guid: 3e960353cecc9cf469617fde6185fda2, type: 2}
+  _leftTileArray:
+  - {fileID: 11400000, guid: a5a582e0831eeed4bb0f488386b8d081, type: 2}
+  - {fileID: 11400000, guid: c3231d646a1a7674ca38c5e52b1dce0d, type: 2}
+  - {fileID: 11400000, guid: e0d7d951514a4014db29158ca2b5e03e, type: 2}
+  _centerTileArray:
+  - {fileID: 11400000, guid: c4e80f4aa99e0ee4d9cb42a494c78332, type: 2}
+  - {fileID: 11400000, guid: dba1c9259012d534c893df6422b0b410, type: 2}
+  - {fileID: 11400000, guid: 3b2d1f748899b19459b6bf067d873e73, type: 2}
+  _rightTileArray:
+  - {fileID: 11400000, guid: e298dc1706578b94da2c9b855c85c436, type: 2}
+  - {fileID: 11400000, guid: 1b49d57f5cd058d43815c635635b8a25, type: 2}
+  - {fileID: 11400000, guid: 4d7d46f5b21cb92459840dea36f6434a, type: 2}
   _breakableTilemapPrefab: {fileID: 9140480165553542925, guid: 7241f2464d3ad1b4f83713bfc059f44b,
     type: 3}
 --- !u!212 &7737661532266485102

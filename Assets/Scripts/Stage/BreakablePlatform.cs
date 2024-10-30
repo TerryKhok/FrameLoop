@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 using UnityEngine.Tilemaps;
 
 public class BreakablePlatform : MonoBehaviour
@@ -10,11 +10,11 @@ public class BreakablePlatform : MonoBehaviour
     [SerializeField, Tooltip("横幅"), Range(3, 20)]
     private int _width = 3;
     [SerializeField, Tooltip("左端用タイル")]
-    private Tile _leftTile = null;
+    private Tile[] _leftTileArray = new Tile[3];
     [SerializeField, Tooltip("中心用タイル")]
-    private Tile _centerTile = null;
+    private Tile[] _centerTileArray = new Tile[3];
     [SerializeField, Tooltip("右端用タイル")]
-    private Tile _rightTile = null;
+    private Tile[] _rightTileArray = new Tile[3];
     [SerializeField]
     private GameObject _breakableTilemapPrefab = null;
 
@@ -90,7 +90,7 @@ public class BreakablePlatform : MonoBehaviour
         }
 
         tilemap.ClearAllTiles();
-        Tile tile = _leftTile;
+        Tile tile = _leftTileArray[Random.Range(0,3)];
 
         Vector3 pos = transform.position;
         pos.y -= 1.0f;
@@ -99,11 +99,11 @@ public class BreakablePlatform : MonoBehaviour
         {
             if (i == _width - 1)
             {
-                tile = _rightTile;
+                tile = _rightTileArray[Random.Range(0,3)];
             }
             else if (i > 0)
             {
-                tile = _centerTile;
+                tile = _centerTileArray[Random.Range(0,3)];
             }
 
             Vector3 setPos = new Vector3(i - _width / 2.0f, 0, 0) + pos;
