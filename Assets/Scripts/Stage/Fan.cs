@@ -60,6 +60,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
 
     private bool windSoundFlag = false;
 
+    private Coroutine _coroutine = null;
 
     //TilemapÇÃç¿ïWÇí≤êÆ
     private void Reset()
@@ -73,6 +74,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
 
     private void Start()
     {
+        _coroutine = null;
         AudioManager.instance.Stop("Wind");
 
         _camera = Camera.main;
@@ -610,7 +612,6 @@ public class Fan : MonoBehaviour,IParentOnTrigger
 
     public void ResetTiles()
     {
-        Debug.Log("reset");
         if (FrameLoop.Instance.g_isActive)
         {
             FanLoopStarted();
@@ -621,7 +622,6 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         }
     }
 
-    private Coroutine _coroutine;
     public void AsyncResetTiles()
     {
         if(_coroutine != null)
@@ -633,6 +633,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
 
     private IEnumerator asyncReset()
     {
+        //Debug.Log($"{transform.name}:reset");
         yield return new WaitForEndOfFrame();
 
         ResetTiles();

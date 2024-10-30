@@ -142,7 +142,10 @@ public class Box : MonoBehaviour,IBox
             foreach (var hit in hits)
             {
                 //Rayが当たったのが自身ならcontinueする
-                if(hit.transform == _transform) { continue; }
+                if(hit.transform.CompareTag("Box"))
+                {
+                    continue; 
+                }
 
                 //空中に押し出されたら掴みをキャンセルする
                 if (hit.distance > 0.3f && _rb.velocity.y <= -0.1f)
@@ -165,6 +168,10 @@ public class Box : MonoBehaviour,IBox
                         _rb.gravityScale = 0;
                         _stopCount = 0;
                         _isWaiting = true;
+                    }
+                    else
+                    {
+                        _height = _transform.position.y;
                     }
 
                     return;

@@ -1046,7 +1046,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                     checkPos.y += 0.5f;
                     screenPos = Camera.main.WorldToScreenPoint(checkPos);
                     ray = Camera.main.ScreenPointToRay(screenPos);
-
+                    Debug.DrawRay(ray.origin, ray.direction*5.0f, Color.yellow,1.0f);
 
                     hit = Physics2D.Raycast(ray.origin, ray.direction, 5.0f, 1 << LayerMask.NameToLayer("OPlatform"));
 
@@ -1055,7 +1055,10 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                     //当たり判定があればループ前の座標のままにする
                     if (hit.collider != null)
                     {
-                        setPos = currentPos;
+                        if(hit.transform.CompareTag("Platform"))
+                        {
+                            setPos = currentPos;
+                        }
                     }
                 }
 
@@ -1172,7 +1175,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                 continue;
             }
             _replaceTileList[i].UnReplace();
-            Debug.Log(_replaceTileList[i].transform.name);
+            //Debug.Log(_replaceTileList[i].transform.name);
 
             ++i;
         }

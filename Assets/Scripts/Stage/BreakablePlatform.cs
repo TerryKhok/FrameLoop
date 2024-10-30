@@ -38,10 +38,11 @@ public class BreakablePlatform : MonoBehaviour
         _spriteRenderer.size = new Vector2(_width, 1);
     }
 
-    private void Awake()
+    private void Start()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _spriteRenderer.enabled = false;
+        _isInit = false;
 
         FindAllFans();
         SetTiles();
@@ -119,7 +120,7 @@ public class BreakablePlatform : MonoBehaviour
 
             tilemap.SetTile(intPos, tile);
         }
-        //ResetAllFans();
+        ResetAllFans();
     }
 
     private void FindAllFans()
@@ -135,14 +136,15 @@ public class BreakablePlatform : MonoBehaviour
 
     private void ResetAllFans()
     {
+        //Debug.Log("resetAllFans");
         foreach(var fan in _allFanList)
         {
             if(fan == null)
             {
                 continue;
             }
-            //fan.AsyncResetTiles();
-            fan.ResetTiles();
+            fan.AsyncResetTiles();
+            //fan.ResetTiles();
         }
     }
 }

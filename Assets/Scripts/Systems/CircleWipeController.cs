@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +20,7 @@ public class CircleWipeController : MonoBehaviour
 
     private void Start()
     {
-        _circleWipeMaterial.SetFloat("_cutoff", 0);
+        SetFloatEaseInOut(_circleWipeMaterial,"_cutoff", 0);
         _playerTransform = PlayerInfo.Instance.g_transform;
         _camera = Camera.main;
 
@@ -42,11 +43,11 @@ public class CircleWipeController : MonoBehaviour
             {
                 _time -= Time.unscaledDeltaTime;
                 g_cutoff = Mathf.Clamp01(_time / _duration);
-                _circleWipeMaterial.SetFloat("_cutoff", g_cutoff);
+                SetFloatEaseInOut(_circleWipeMaterial, "_cutoff", g_cutoff);
 
                 if (_time < 0)
                 {
-                    _circleWipeMaterial.SetFloat("_cutoff", 0);
+                    SetFloatEaseInOut(_circleWipeMaterial, "_cutoff", 0);
                     _isTransitioning = false;
                 }
             }
@@ -58,7 +59,7 @@ public class CircleWipeController : MonoBehaviour
                 {
                     g_cutoff = 0;
                 }
-                _circleWipeMaterial.SetFloat("_cutoff", g_cutoff);
+                SetFloatEaseInOut(_circleWipeMaterial, "_cutoff", g_cutoff);
 
                 if (_time > _duration)
                 {
@@ -108,7 +109,7 @@ public class CircleWipeController : MonoBehaviour
 
         float cutoff = Mathf.Clamp01(_time / _duration);
 
-        _circleWipeMaterial.SetFloat("_cutoff", cutoff);
+        SetFloatEaseInOut(_circleWipeMaterial, "_cutoff", cutoff, 12, 1);
 
         if (_time > _duration)
         {
@@ -120,5 +121,13 @@ public class CircleWipeController : MonoBehaviour
     public float GetDuration()
     {
         return _duration;
+    }
+
+    private void SetFloatEaseInOut(Material mat, string property, float t, float easeInFactor = 2.0f, float easeOutFactor = 2.0f)
+    {
+        float factor = (1-t) * easeInFactor + t * easeOutFactor;
+
+        float set = Mathf.Pow(t, factor) * (3 - 2 * t);
+        mat.SetFloat(property, set);
     }
 }
