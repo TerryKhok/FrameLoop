@@ -18,6 +18,9 @@ public class BreakablePlatform : MonoBehaviour
     [SerializeField]
     private GameObject _breakableTilemapPrefab = null;
 
+    [SerializeField]
+    private GameObject _breakableBlocksParticles = null;
+
     private Transform _prefabInstance = null;
 
     private SpriteRenderer _spriteRenderer = null;
