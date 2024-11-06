@@ -16,6 +16,7 @@ using UnityEngine;
 public class Box : MonoBehaviour,IBox
 {
     private float _height = 0f;
+    private float _lastGroundHeight = 0f;
     private Transform _transform, _playerTransform;
     [SerializeField,Tooltip("箱の横幅")]
     private float _width = 1f;
@@ -25,6 +26,8 @@ public class Box : MonoBehaviour,IBox
     private int _hitStop = 3;
     [SerializeField,Tag,Tooltip("破壊可能なTag")]
     private List<string> _tagList = new List<string>() { "Breakable"};
+    [SerializeField]
+    private float _afterimageLifetime = 0.1f;
 
     private Vector2 _prevVelocity = Vector2.zero;
     private int _stopCount = 0;
@@ -32,6 +35,9 @@ public class Box : MonoBehaviour,IBox
 
     private Rigidbody2D _rb = null;
     private BoxCollider2D _collider2D = null;
+    private SpriteRenderer _spriteRenderer = null;
+
+    private GameObject _afterimageOrigin = null;
 
     private PlayerInfo _playerInfo = null;
     private PlayerMove _playerMove = null;
@@ -48,6 +54,16 @@ public class Box : MonoBehaviour,IBox
         _transform = transform;
         _rb = GetComponent<Rigidbody2D>();
         _collider2D = GetComponent<BoxCollider2D>();
+
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+
+        _afterimageOrigin = new GameObject();
+        _afterimageOrigin.SetActive(false);
+        var renderer = _afterimageOrigin.AddComponent(_spriteRenderer);
+        Color color = renderer.color;
+        color.a = 0.1f;
+        renderer.color = color;
+
 
         _playerInfo = PlayerInfo.Instance;
 
@@ -92,8 +108,21 @@ public class Box : MonoBehaviour,IBox
     {
         //Debug.Log(_rb.velocity);
         platformBreak();
+        MakeAfterimage();
         isHold();
     }
+
+    private void MakeAfterimage()
+    {
+        if (_height - _lastGroundHeight >= _breakHeight)
+        {
+            var instance = Instantiate(_afterimageOrigin, _transform.position, Quaternion.identity);
+            instance.SetActive(true);
+            instance.GetComponent<SpriteRenderer>().maskInteraction = _spriteRenderer.maskInteraction;
+            Destroy(instance, _afterimageLifetime);
+        }
+    }
+
 
     //破壊可能な床を壊す
     private void platformBreak()
@@ -158,7 +187,7 @@ public class Box : MonoBehaviour,IBox
                 {
                     //最高点との差が一定以上なら破壊する
                     //最高点のリセットは行わない
-                    if (_height - _transform.position.y >= _breakHeight)
+                    if (_height - _lastGroundHeight >= _breakHeight)
                     {
                         //var breakablePlatform = hit.transform.GetComponent<BreakablePlatform>();
                         //breakablePlatform.Break();
@@ -171,6 +200,7 @@ public class Box : MonoBehaviour,IBox
                     }
                     else
                     {
+                        _lastGroundHeight = _transform.position.y;
                         _height = _transform.position.y;
                     }
 
@@ -179,6 +209,7 @@ public class Box : MonoBehaviour,IBox
                 else
                 {
                     //地面に触れたら最高点をリセット
+                    _lastGroundHeight = _transform.position.y;
                     _height = _transform.position.y;
                     return;
                 }

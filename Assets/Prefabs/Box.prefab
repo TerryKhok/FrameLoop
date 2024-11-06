@@ -52,6 +52,7 @@ MonoBehaviour:
   _hitStop: 1
   _tagList:
   - Breakable
+  _afterimageLifetime: 0.2
 --- !u!212 &790627881603885105
 SpriteRenderer:
   m_ObjectHideFlags: 0
