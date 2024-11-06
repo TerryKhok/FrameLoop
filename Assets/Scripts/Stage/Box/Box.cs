@@ -47,6 +47,7 @@ public class Box : MonoBehaviour,IBox
     private List<Transform> _copyList = new List<Transform>();
 
     private bool _movable = false;
+    private bool _isLanding = false, _prevLanding = false;
     private bool soundFlag = false;
 
     private void Start()
@@ -106,6 +107,9 @@ public class Box : MonoBehaviour,IBox
     //FixedUpdateの後に呼び出されるメソッド
     private void LateFixedUpdate()
     {
+        _prevLanding = _isLanding;
+        _isLanding = false;
+
         //Debug.Log(_rb.velocity);
         platformBreak();
         MakeAfterimage();
@@ -185,6 +189,8 @@ public class Box : MonoBehaviour,IBox
 
                 if (_tagList.Contains(hit.transform.tag))
                 {
+                    _lastGroundHeight = _transform.position.y;
+
                     //最高点との差が一定以上なら破壊する
                     //最高点のリセットは行わない
                     if (_height - _lastGroundHeight >= _breakHeight)
@@ -200,8 +206,7 @@ public class Box : MonoBehaviour,IBox
                     }
                     else
                     {
-                        _lastGroundHeight = _transform.position.y;
-                        _height = _transform.position.y;
+                        OnLanding();
                     }
 
                     return;
@@ -209,8 +214,7 @@ public class Box : MonoBehaviour,IBox
                 else
                 {
                     //地面に触れたら最高点をリセット
-                    _lastGroundHeight = _transform.position.y;
-                    _height = _transform.position.y;
+                    OnLanding();
                     return;
                 }
             }
@@ -224,6 +228,19 @@ public class Box : MonoBehaviour,IBox
         else if(_rb.velocity.y <= -0.1f)
         {
             holdCancel();
+        }
+    }
+
+    private void OnLanding()
+    {
+        _isLanding = true;
+
+        _lastGroundHeight = _transform.position.y;
+        _height = _transform.position.y;
+
+        if(!_prevLanding)
+        {
+            AudioManager.instance.Play("Box Landing");
         }
     }
 
