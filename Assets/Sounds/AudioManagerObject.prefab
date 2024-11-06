@@ -52,7 +52,7 @@ MonoBehaviour:
     type: 2}
   sounds:
   - audioType: 1
-    name: Main Theme
+    name: Main BGM
     clip: {fileID: 8300000, guid: 69789dfbd1bd3d94fa7a4a5c4d3f3ee6, type: 3}
     volume: 0.41
     pitch: 1
