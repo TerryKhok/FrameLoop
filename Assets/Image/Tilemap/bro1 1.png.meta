@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: cb26e6a1d8fad87419a9823191988ab3
+guid: 1eae32490314baa4b8d38997fe40ce35
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -45,7 +45,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 378
@@ -136,64 +136,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bro1_0
+      name: bro1 1_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 378
-        height: 264
-      alignment: 9
-      pivot: {x: 0.5, y: 0.2840909}
-      border: {x: 0, y: 0, z: 0, w: 0}
+        y: 12
+        width: 1134
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 363, y: 0, z: 372, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 493c0cd0974c740409f01f70a57b4605
-      internalID: -1670668817
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bro1_1
-      rect:
-        serializedVersion: 2
-        x: 756
-        y: 0
-        width: 378
-        height: 264
-      alignment: 9
-      pivot: {x: 0.5, y: 0.2840909}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e8f26a9300721d24ab411a618c4edb80
-      internalID: -879559172
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bro1_2
-      rect:
-        serializedVersion: 2
-        x: 378
-        y: 0
-        width: 378
-        height: 264
-      alignment: 9
-      pivot: {x: 0.5, y: 0.2840909}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4a779df61c7e95e43a9315462cf29bda
-      internalID: 2114758600
+      spriteID: 9e1658a483348c74b8993c742afe4ce3
+      internalID: 635436856
       vertices: []
       indices: 
       edges: []
@@ -209,6 +167,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      bro1 1_0: 635436856
       bro1_0: -1670668817
       bro1_1: -879559172
       bro1_2: 2114758600

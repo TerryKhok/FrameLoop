@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 604369236442259227}
   - component: {fileID: 8906548133063933084}
+  - component: {fileID: 5336993402674313242}
   - component: {fileID: 6234668189130511313}
   - component: {fileID: 8061718481317031463}
   - component: {fileID: 6453402898442845801}
@@ -59,6 +60,20 @@ MonoBehaviour:
   _clearScreenAnimator_casual: {fileID: 2149168959396456334}
   _gamepadUISelect_challenge: {fileID: 1912917915658928932}
   _gamepadUISelect_casual: {fileID: 2474260215885869346}
+--- !u!114 &5336993402674313242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3416762852290737119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76ac1100cd663af48bbb2503501bc398, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tutorialRect: {fileID: 4321373593660460934}
+  _offset: {x: 0, y: 0.7, z: 0}
 --- !u!212 &6234668189130511313
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -418,6 +433,12 @@ MonoBehaviour:
 --- !u!95 &2668730169283958152 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 2329999354011254233, guid: 41f706168a811b24c8f4104853e420cf,
+    type: 3}
+  m_PrefabInstance: {fileID: 386440826046326865}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &4321373593660460934 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4513859724500903895, guid: 41f706168a811b24c8f4104853e420cf,
     type: 3}
   m_PrefabInstance: {fileID: 386440826046326865}
   m_PrefabAsset: {fileID: 0}

@@ -20,10 +20,13 @@ public class BreakablePlatform : MonoBehaviour
 
     [SerializeField]
     private GameObject _breakableBlocksParticles = null;
+    [SerializeField]
+    private Vector3 _particleScale = Vector3.one;
 
     private Transform _prefabInstance = null;
 
     private SpriteRenderer _spriteRenderer = null;
+    private List<Vector3Int> _tilePositions = new List<Vector3Int>();
 
     private static int i = 0;
 
@@ -37,13 +40,13 @@ public class BreakablePlatform : MonoBehaviour
 
     private void OnValidate()
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _spriteRenderer.size = new Vector2(_width, 1);
     }
 
     private void Start()
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _spriteRenderer.enabled = false;
         _isInit = false;
 
@@ -122,6 +125,8 @@ public class BreakablePlatform : MonoBehaviour
             }
 
             tilemap.SetTile(intPos, tile);
+
+            _tilePositions.Add(intPos);
         }
         ResetAllFans();
     }
@@ -148,6 +153,21 @@ public class BreakablePlatform : MonoBehaviour
             }
             fan.AsyncResetTiles();
             //fan.ResetTiles();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        foreach(var pos in _tilePositions)
+        {
+            int r = Random.Range(0, 2);
+
+            if (r == 0)
+            {
+                var obj = Instantiate(_breakableBlocksParticles, pos, Quaternion.identity);
+                obj.transform.localScale = _particleScale;
+                Destroy(obj, 1);
+            }
         }
     }
 }

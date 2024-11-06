@@ -49,4 +49,9 @@ public class TutorialPC : MonoBehaviour
             _animator.SetBool("IsOpen", false);
         }
     }
+
+    private void Open()
+    {
+
+    }
 }
