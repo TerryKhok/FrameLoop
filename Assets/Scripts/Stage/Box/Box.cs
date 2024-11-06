@@ -118,7 +118,7 @@ public class Box : MonoBehaviour,IBox
 
     private void MakeAfterimage()
     {
-        if (_height - _lastGroundHeight >= _breakHeight)
+        if (_height - _lastGroundHeight >= _breakHeight || _height - _transform.position.y >= _breakHeight)
         {
             var instance = Instantiate(_afterimageOrigin, _transform.position, Quaternion.identity);
             instance.SetActive(true);
@@ -244,6 +244,11 @@ public class Box : MonoBehaviour,IBox
         }
     }
 
+    public void SetLowestPosition(float _height)
+    {
+        _lastGroundHeight = _height;
+    }
+
     private void holdCancel()
     {
         if(_playerTransform == null)
@@ -295,7 +300,6 @@ public class Box : MonoBehaviour,IBox
 
         if (_playerInfo.g_walkCancel) 
         {
-            Debug.Log("stop");
             return;
         }
 

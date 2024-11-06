@@ -1562,6 +1562,11 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
             //À•W‚ğæ“¾
             Transform t = other.transform;
             var pos = t.position;
+            if(t.gameObject.CompareTag("Box"))
+            {
+                var box = t.GetComponent<Box>();
+                box.SetLowestPosition(pos.y);
+            }
 
             if (vec.x < 0)
             {
