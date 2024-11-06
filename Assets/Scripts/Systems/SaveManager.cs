@@ -15,10 +15,17 @@ public class SaveManager : MonoBehaviour
     static public SaveData g_saveData;
     private const string _saveFileName = "save.dat";
 
+    private static bool _hasInitialized = false;
+
     void Start()
     {
         DontDestroyOnLoad(gameObject);
-        LoadData();
+
+        if (!_hasInitialized)
+        {
+            _hasInitialized = true;
+            LoadData();
+        }
         //Debug.Log("saveData.MyInt: " + saveData.g_clearFlag);
     }
 

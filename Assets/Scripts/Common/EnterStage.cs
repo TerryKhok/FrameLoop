@@ -58,7 +58,7 @@ public class EnterStage : MonoBehaviour
         {
             foreach(var tutorial in _tutorialPCArray)
             {
-                tutorial.enabled = _isOpened;
+                tutorial.SetActive(_isOpened);
             }
         }
 
