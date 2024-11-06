@@ -52,7 +52,7 @@ MonoBehaviour:
     type: 2}
   sounds:
   - audioType: 1
-    name: Main BGM
+    name: Main Theme
     clip: {fileID: 8300000, guid: 69789dfbd1bd3d94fa7a4a5c4d3f3ee6, type: 3}
     volume: 0.41
     pitch: 1
@@ -166,6 +166,30 @@ MonoBehaviour:
   - audioType: 0
     name: PlayerWin
     clip: {fileID: 8300000, guid: d5e5fdd5c89ff7b4ab46466cce15de46, type: 3}
+    volume: 0.25
+    pitch: 1
+    loop: 0
+    spatialBlend: 1
+    src: {fileID: 0}
+  - audioType: 1
+    name: BGM Calm
+    clip: {fileID: 8300000, guid: 92361ce74e5be5840a0a67eea427d293, type: 3}
+    volume: 0.41
+    pitch: 1
+    loop: 1
+    spatialBlend: 1
+    src: {fileID: 0}
+  - audioType: 1
+    name: BGM Intense
+    clip: {fileID: 8300000, guid: 6f9a840d77bb31c49b8dff52e8c963fe, type: 3}
+    volume: 0.41
+    pitch: 1
+    loop: 1
+    spatialBlend: 1
+    src: {fileID: 0}
+  - audioType: 0
+    name: Breakable Tiles SE
+    clip: {fileID: 8300000, guid: 79c9fb43e61c7cd469622eea0bac9c30, type: 3}
     volume: 0.25
     pitch: 1
     loop: 0
