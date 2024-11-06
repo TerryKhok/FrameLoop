@@ -109,7 +109,7 @@ public class CircleWipeController : MonoBehaviour
 
         float cutoff = Mathf.Clamp01(_time / _duration);
 
-        SetFloatEaseInOut(_circleWipeMaterial, "_cutoff", cutoff, 12, 1);
+        SetFloatEaseInOut(_circleWipeMaterial, "_cutoff", cutoff, 2, 12);
 
         if (_time > _duration)
         {
