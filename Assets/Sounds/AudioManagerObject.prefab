@@ -190,7 +190,15 @@ MonoBehaviour:
   - audioType: 0
     name: Breakable Tiles SE
     clip: {fileID: 8300000, guid: 79c9fb43e61c7cd469622eea0bac9c30, type: 3}
-    volume: 0.25
+    volume: 0.35
+    pitch: 1
+    loop: 0
+    spatialBlend: 1
+    src: {fileID: 0}
+  - audioType: 0
+    name: Box Landing
+    clip: {fileID: 8300000, guid: 4141e9fe5e60f5a459113887a20c0d82, type: 3}
+    volume: 0.42
     pitch: 1
     loop: 0
     spatialBlend: 1

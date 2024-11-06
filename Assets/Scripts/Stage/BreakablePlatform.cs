@@ -158,6 +158,7 @@ public class BreakablePlatform : MonoBehaviour
 
     private void OnDestroy()
     {
+        AudioManager.instance.Play("Breakable Tiles SE");
         foreach(var pos in _tilePositions)
         {
             int r = Random.Range(0, 2);

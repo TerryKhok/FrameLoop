@@ -146,4 +146,4 @@ MonoBehaviour:
     type: 3}
   _breakableBlocksParticles: {fileID: 2873408657420087728, guid: 3ba3cc500dd72424281a4fdb12061699,
     type: 3}
-  _particleScale: {x: 0.3, y: 0.3, z: 0.3}
+  _particleScale: {x: 0.7, y: 0.7, z: 0.7}
