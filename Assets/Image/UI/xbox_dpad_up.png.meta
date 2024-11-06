@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: cb26e6a1d8fad87419a9823191988ab3
+guid: 234cf42c4ca90034692679662cbfc38f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -43,12 +43,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 378
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -134,70 +134,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: bro1_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 378
-        height: 264
-      alignment: 9
-      pivot: {x: 0.5, y: 0.2840909}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 493c0cd0974c740409f01f70a57b4605
-      internalID: -1670668817
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bro1_1
-      rect:
-        serializedVersion: 2
-        x: 756
-        y: 0
-        width: 378
-        height: 264
-      alignment: 9
-      pivot: {x: 0.5, y: 0.2840909}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e8f26a9300721d24ab411a618c4edb80
-      internalID: -879559172
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bro1_2
-      rect:
-        serializedVersion: 2
-        x: 378
-        y: 0
-        width: 378
-        height: 264
-      alignment: 9
-      pivot: {x: 0.5, y: 0.2840909}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4a779df61c7e95e43a9315462cf29bda
-      internalID: 2114758600
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
@@ -208,11 +145,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      bro1_0: -1670668817
-      bro1_1: -879559172
-      bro1_2: 2114758600
-      bro1_3: 677159207
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
