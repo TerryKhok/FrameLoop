@@ -17,6 +17,11 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 
     private bool retryAnimStart = false;
     private static Coroutine _coroutine;
+    private bool _isLoading = false;
+    public bool IsSceneLoading
+    {
+        get { return (_coroutine != null || _isLoading); }
+    }
 
     private void Start()
     {
@@ -181,11 +186,13 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 
     public void Retry(InputAction.CallbackContext context)
     {
+        _isLoading = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void Skip(InputAction.CallbackContext context)
     {
+        _isLoading = true;
         SceneManager.LoadScene("lvl 1");
     }
 

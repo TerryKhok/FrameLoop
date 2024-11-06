@@ -26,7 +26,7 @@ public class TutorialPC : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(_animator == null || PlayerInfo.Instance == null)
+        if(_animator == null || PlayerInfo.Instance == null || this.enabled == false)
         {
             return;
         }
@@ -39,7 +39,7 @@ public class TutorialPC : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (_animator == null || PlayerInfo.Instance == null)
+        if (_animator == null || PlayerInfo.Instance == null || this.enabled == false)
         {
             return;
         }

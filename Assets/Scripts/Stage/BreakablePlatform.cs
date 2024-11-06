@@ -28,6 +28,8 @@ public class BreakablePlatform : MonoBehaviour
     private SpriteRenderer _spriteRenderer = null;
     private List<Vector3Int> _tilePositions = new List<Vector3Int>();
 
+    private bool _sceneIsLoaded = false;
+
     private static int i = 0;
 
     private static List<Fan> _allFanList = new List<Fan>();
@@ -56,6 +58,8 @@ public class BreakablePlatform : MonoBehaviour
 
     private void Update()
     {
+        _sceneIsLoaded |= SceneLoader.Instance.IsSceneLoading;
+
         if(_prefabInstance == null)
         {
             ResetAllFans();
@@ -158,6 +162,11 @@ public class BreakablePlatform : MonoBehaviour
 
     private void OnDestroy()
     {
+        if(_sceneIsLoaded)
+        {
+            return;
+        }
+
         AudioManager.instance.Play("Breakable Tiles SE");
         foreach(var pos in _tilePositions)
         {

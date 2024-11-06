@@ -62,6 +62,8 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
     private static bool s_isChallenge = false;
 
+    private TutorialPC _tutorialPC;
+
     public static bool IsChallenge
     {
         set => s_isChallenge = value;
@@ -101,12 +103,16 @@ public class Goal : SingletonMonoBehaviour<Goal>
                 _buttonCount++;
             }
         }
+
+        _tutorialPC = GetComponent<TutorialPC>();
     }
 
     private void Update()
     {
         _isOpened = _count >= _buttonCount;
         _animator.SetBool("isOpened", _isOpened);
+
+        _tutorialPC.enabled = _isOpened;
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -266,7 +272,7 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
         Scene currentScene = SceneManager.GetActiveScene();
         //ç≈å„ÇÃSceneÇ»ÇÁÉ^ÉCÉgÉãÇ…à⁄ìÆÇ∑ÇÈ
-        if (currentScene.name == "lvl 28")
+        if (currentScene.name == "lvl 27")
         {
             SceneLoader.Instance.LoadScene("AppreciateScene");
         }

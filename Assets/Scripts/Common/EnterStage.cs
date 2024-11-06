@@ -21,7 +21,7 @@ public class EnterStage : MonoBehaviour
 
     private bool _isEnter = false;
 
-    private TutorialPC _tutorial = null;
+    private TutorialPC[] _tutorialPCArray = new TutorialPC[2];
 
     private void Start()
     {
@@ -39,7 +39,7 @@ public class EnterStage : MonoBehaviour
         }
 
         _offset = GetComponent<BoxCollider2D>().offset;
-        _tutorial = GetComponent<TutorialPC>();
+        _tutorialPCArray = GetComponents<TutorialPC>();
 
         if(_stageIndex == 0)
         {
@@ -54,9 +54,12 @@ public class EnterStage : MonoBehaviour
             _isOpened = false;
         }
 
-        if(_tutorial != null)
+        if(_tutorialPCArray != null)
         {
-            _tutorial.enabled = _isOpened;
+            foreach(var tutorial in _tutorialPCArray)
+            {
+                tutorial.enabled = _isOpened;
+            }
         }
 
     }

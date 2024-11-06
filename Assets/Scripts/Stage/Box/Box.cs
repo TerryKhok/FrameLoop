@@ -47,7 +47,7 @@ public class Box : MonoBehaviour,IBox
     private List<Transform> _copyList = new List<Transform>();
 
     private bool _movable = false;
-    private bool _isLanding = false, _prevLanding = false;
+    private bool _isLanding = true, _prevLanding = true;
     private bool soundFlag = false;
 
     private void Start()
