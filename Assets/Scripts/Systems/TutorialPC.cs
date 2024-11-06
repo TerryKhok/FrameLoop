@@ -24,7 +24,12 @@ public class TutorialPC : MonoBehaviour
         _animator = _tutorialRect.GetComponent<Animator>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void SetActive(bool active)
+    {
+        _tutorialRect.gameObject.SetActive(active);
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if(_animator == null || PlayerInfo.Instance == null || this.enabled == false)
         {

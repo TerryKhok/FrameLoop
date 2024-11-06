@@ -134,6 +134,9 @@ public class Goal : SingletonMonoBehaviour<Goal>
         //Debug.Log(s_isChallenge);
 
         g_clear = true;
+
+        _tutorialPC.SetActive(false);
+
         if (_gamepadUISelect_challenge != null && s_isChallenge)
         {
             _clearCanvas_challenge.SetActive(true);
