@@ -198,7 +198,7 @@ MonoBehaviour:
   - audioType: 0
     name: Box Landing
     clip: {fileID: 8300000, guid: a23fa3ee4ecdeaa429c850ebcfef50e6, type: 3}
-    volume: 0.47
+    volume: 0.51
     pitch: 1
     loop: 0
     spatialBlend: 1
