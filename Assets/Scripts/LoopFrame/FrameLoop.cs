@@ -478,6 +478,13 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                         {
                             if (item.transform.CompareTag("Box"))
                             {
+                                if(0 < i && i < _size.x)
+                                {
+                                    if(0 < j && j < _size.y)
+                                    {
+                                        AddInsiders(item.collider);
+                                    }
+                                }
                                 continue;
                             }
                             if (item.transform.GetComponentInParent<TileReplace>() != null)
