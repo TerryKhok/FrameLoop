@@ -5,7 +5,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
-using static PlayerTitleMotion;
 
 /*  ProjectName :FrameLoop
  *  ClassName   :FrameLoop
@@ -53,10 +52,6 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
         _exitInsiders = new Dictionary<Collider2D, Vector2>(),      //フレームの中に入ろうとしているオブジェクトと入ってくる方向のリスト
         _prevExitInsiders = new Dictionary<Collider2D, Vector2>();  //前フレームの上のリスト
 
-    private List<Collider2D>
-        _insideColliderList = new List<Collider2D>(),               //内側に生成したコライダーのリスト
-        _outsideColliderList = new List<Collider2D>();             //外側に生成したコライダーのリスト
-
     private Dictionary<Collider2D, Transform>
         _outsideCopyDic = new Dictionary<Collider2D, Transform>();  //フレームの外側のオブジェクトのコピーのリスト
     private Dictionary<Collider2D, List<Transform>>
@@ -100,7 +95,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
     private Dictionary<TileReplace, List<(int switchNum, int num)>> _breakableDic = new Dictionary<TileReplace, List<(int switchNum, int num)>>();
 
     [System.NonSerialized]
-    public bool g_isActive = false, g_usable = true, g_activeTrigger;
+    public bool g_isActive = false, g_usable = true, g_activeTrigger = false, g_resumeTrigger = false;
     private bool _prevActive = false;
 
     private void Start()
@@ -291,6 +286,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
         adjustPos();
 
         g_activeTrigger = !_prevActive && g_isActive;
+        g_resumeTrigger = _prevActive && !g_isActive;
 
 
         //フレームが有効になったとき行う処理
@@ -474,28 +470,25 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                     bool instantFg = false;
                     foreach (var item in hit)
                     {
-                        if (!_insideColliderList.Contains(item.collider))
+                        if (item.transform.CompareTag("Box"))
                         {
-                            if (item.transform.CompareTag("Box"))
+                            if (0 < i && i < _size.x)
                             {
-                                if(0 < i && i < _size.x)
+                                if (0 < j && j < _size.y)
                                 {
-                                    if(0 < j && j < _size.y)
-                                    {
-                                        AddInsiders(item.collider);
-                                    }
+                                    AddInsiders(item.collider);
                                 }
-                                continue;
                             }
-                            if (item.transform.GetComponentInParent<TileReplace>() != null)
-                            {
-                                tileReplace = item.transform.GetComponentInParent<TileReplace>();
-                                replace = true;
-                            }
-
-                            //箱以外に当たったらinstantFgをTrueに
-                            instantFg = true;
+                            continue;
                         }
+                        if (item.transform.GetComponentInParent<TileReplace>() != null)
+                        {
+                            tileReplace = item.transform.GetComponentInParent<TileReplace>();
+                            replace = true;
+                        }
+
+                        //箱以外に当たったらinstantFgをTrueに
+                        instantFg = true;
                     }
 
                     //箱以外に当たっていたらTileをセットする
@@ -976,6 +969,11 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
             SpriteRenderer[] renderers = col.GetComponentsInChildren<SpriteRenderer>();
             foreach (var renderer in renderers)
             {
+                if(col.CompareTag("Player"))
+                {
+                    renderer.maskInteraction = SpriteMaskInteraction.None;
+                    continue;
+                }
                 renderer.maskInteraction = SpriteMaskInteraction.VisibleOutsideMask;
             }
             //外に出ようとしているオブジェクトの位置を確定
@@ -1105,18 +1103,6 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
         _insideTile.ClearAllTiles();
         _outsideTile.ClearAllTiles();
 
-        //生成したコライダーをDestroy
-        for (int i = 0; i < _insideColliderList.Count; i++)
-        {
-            if (_insideColliderList[i] == null) { continue; }
-            Destroy(_insideColliderList[i].gameObject);
-        }
-        for (int i = 0; i < _outsideColliderList.Count; i++)
-        {
-            if (_outsideColliderList[i] == null) { continue; }
-            Destroy(_outsideColliderList[i].gameObject);
-        }
-
         //コピーしたオブジェクトをDestroy
         Dictionary<Collider2D, List<Transform>> workDic = new Dictionary<Collider2D, List<Transform>>(_insideCopyDic);
         foreach (var col in workDic.Keys)
@@ -1148,8 +1134,6 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
         }
 
         //リストをクリア
-        _insideColliderList.Clear();
-        _outsideColliderList.Clear();
         _insideCopyDic.Clear();
         _outsideCopyDic.Clear();
         _exitInsiders.Clear();
@@ -1262,7 +1246,7 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
 
         //しゃがんでいるかでy座標を決定する
         var setPos = _currentPlayerPos;
-        setPos.x += _playerInfo.g_currentInputX * 0.1f;
+        setPos.x += _playerInfo.g_lastInputX * 0.1f;
         if (_isCrouching)
         {
             setPos.y += _yOffset_Crouching;
@@ -1310,9 +1294,17 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
 
     private void copyInsiders()
     {
+        //List<Collider2D> removeList = new List<Collider2D>();
+
         //外側に出るオブジェクトを全て確認
         foreach (var col in _insiders)
         {
+            //if (_outsideCopyDic.ContainsValue(col.transform))
+            //{
+            //    removeList.Add(col);
+            //    continue;
+            //}
+
             //コピーが無ければ複製する
             if (!_insideCopyDic.ContainsKey(col))
             {
@@ -1370,6 +1362,12 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                 Destroy(obj);
             }
         }
+
+        //foreach (var col in removeList)
+        //{
+        //    _insideCopyDic.Remove(col);
+        //    _insiders.Remove(col);
+        //} 
     }
 
     //フレームに入ってくるするオブジェクトをコピーする
@@ -1394,6 +1392,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                 //子オブジェクトとして生成する
                 var instanceObj = Instantiate(obj, pos, col.transform.rotation, col.transform);
 
+                Debug.Log($"{instanceObj.name}:{LayerMask.LayerToName(instanceObj.layer)}");
+
                 //リストに追加する
                 _outsideCopyDic.Add(col, instanceObj.transform);
 
@@ -1412,6 +1412,8 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
                 pos += Vector3.Scale(vec,(Vector2)_size);
 
                 _outsideCopyDic[col].position = pos;
+
+                //Debug.Log($"{_outsideCopyDic[col].name}:{LayerMask.LayerToName(_outsideCopyDic[col].gameObject.layer)}");
             }
         }
 
@@ -1516,12 +1518,6 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
             }
         }
         if (_outsideCopyDic.ContainsValue(other.transform))
-        {
-            return;
-        }
-
-        //生成したブロックならreturn
-        if (_insideColliderList.Contains(other) || _outsideColliderList.Contains(other))
         {
             return;
         }
@@ -1667,12 +1663,6 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
             }
         }
         if (_outsideCopyDic.ContainsValue(other.transform))
-        {
-            return;
-        }
-
-        //生成したコライダーならreturn
-        if (_insideColliderList.Contains(other) || _outsideColliderList.Contains(other))
         {
             return;
         }
@@ -1854,6 +1844,11 @@ public class FrameLoop : SingletonMonoBehaviour<FrameLoop>, IParentOnTrigger
 
     public void AddInsiders(Collider2D other)
     {
+        if (other.transform.parent != null)
+        {
+            return;
+        }
+
         //insiderにotherが無ければ追加する
         if (!_insiders.Contains(other))
         {

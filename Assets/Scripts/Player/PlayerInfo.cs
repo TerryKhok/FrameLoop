@@ -17,7 +17,6 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     [SerializeField,Tooltip("プレイヤーが着地できるレイヤー")]
     LayerMask _platformLayer;
 
-
     [HideInInspector]
     public Transform g_transform = null;
     [HideInInspector]
@@ -46,6 +45,8 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
     public bool g_isCrouch = false;
     [HideInInspector]
     public int g_currentInputX = 0;
+    [HideInInspector]
+    public int g_lastInputX = 0;
 
     private static string _currentSceneName, _prevSceneName;
     
@@ -111,6 +112,11 @@ public class PlayerInfo : SingletonMonoBehaviour<PlayerInfo>
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             return;
+        }
+
+        if(g_currentInputX != 0)
+        {
+            g_lastInputX = g_currentInputX;
         }
 
         if (!g_takeUpFg)
