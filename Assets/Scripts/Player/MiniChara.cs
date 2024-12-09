@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +13,8 @@ public static class MiniCharaParams
 
     public const float STUCK_RANGE = 0.2f;
 
-    public const float MOVE_VELOCITY = 6.0f;
+    public const float MOVE_VELOCITY = 7.0f;
+    public const float MOVE_VELOCITY_CROUCH = 5.0f;
     public const float MOVE_MIN_HORIZONTSL_DISTANCE = 0.1f;
 
     public const float JUMP_FORCE_LOW = 7.0f;
@@ -24,6 +26,10 @@ public class MiniChara : MonoBehaviour
 {
     [SerializeField]
     private GameObject _warpPrefab = null;
+    [SerializeField]
+    private GameObject _warpEnterParticle = null;
+    [SerializeField]
+    private GameObject _warpExitParticle = null;
 
     private StateMachineBase _stateMachine = null;
 
@@ -38,7 +44,7 @@ public class MiniChara : MonoBehaviour
         MiniCharaMove.SetPlayer(PlayerInfo.Instance);
         MiniCharaFrame.SetFrame(FrameLoop.Instance.transform);
         MiniCharaLost.SetPlayer(PlayerInfo.Instance);
-        MiniCharaWarp.SetWarpPrefab(_warpPrefab);
+        MiniCharaWarp.SetWarpPrefab(_warpPrefab, _warpEnterParticle, _warpExitParticle);
     }
 
     private void Update()
@@ -200,7 +206,8 @@ public class MiniCharaIdle : MiniCharaStateBase
 
     override public void Enter()
     {
-        _miniCharaStateMachine.transform.rotation = _playerInfo.g_transform.rotation;
+        //_miniCharaStateMachine.transform.rotation = _playerInfo.g_transform.rotation;
+        _miniCharaStateMachine.transform.rotation = Quaternion.LookRotation(new Vector3(0, 0, _playerInfo.g_lastInputX));
     }
 
     override public void Update()
@@ -342,7 +349,13 @@ public class MiniCharaMove : MiniCharaStateBase
 
         if (Mathf.Abs(distance) >= MiniCharaParams.MOVE_MIN_HORIZONTSL_DISTANCE)
         {
-            Vector2 moveDistance = new Vector2(direction * MiniCharaParams.MOVE_VELOCITY * Time.fixedDeltaTime,0);
+            float velocity = MiniCharaParams.MOVE_VELOCITY;
+            if(_playerInfo.g_isCrouch || _playerInfo.g_takeUpFg)
+            {
+                velocity = MiniCharaParams.MOVE_VELOCITY_CROUCH;
+            }
+
+            Vector2 moveDistance = new Vector2(direction * velocity * Time.fixedDeltaTime,0);
             _miniCharaStateMachine.rigidbody.position += moveDistance;
 
             _transform.rotation = Quaternion.LookRotation(new Vector3(0, 0, direction));
@@ -520,16 +533,18 @@ public class MiniCharaUnframe : MiniCharaStateBase
 
 public class MiniCharaWarp : MiniCharaStateBase
 {
-    private static GameObject _warpPrefab = null;
+    private static GameObject _warpPrefab = null, _warpEnterParticle = null, _warpExitParticle = null;
     private static WarpTarget _warpTarget = WarpTarget.Player;
     private Vector3 _warpPosition = Vector3.zero, _gatePosition = Vector3.zero;
     private bool _warped = false, _madeGate = false;
 
     public enum WarpTarget { Player, Frame }
 
-    public static void SetWarpPrefab(GameObject warpPrefab)
+    public static void SetWarpPrefab(GameObject warpPrefab, GameObject warpEnter, GameObject warpExit)
     {
         _warpPrefab = warpPrefab;
+        _warpEnterParticle = warpEnter;
+        _warpExitParticle = warpExit;
     }
 
     public static void SetWarpTarget(WarpTarget target)
@@ -590,6 +605,8 @@ public class MiniCharaWarp : MiniCharaStateBase
                 var warpgate = GameObject.Instantiate(_warpPrefab, _gatePosition, Quaternion.identity);
                 GameObject.Destroy(warpgate, 0.5f);
 
+                CoroutineHandler.StartStaticCoroutine(MakeParticle(_warpEnterParticle, _gatePosition, 1.5f));
+
                 _madeGate = true;
             }
         }
@@ -625,6 +642,8 @@ public class MiniCharaWarp : MiniCharaStateBase
 
                 var warpgate = GameObject.Instantiate(_warpPrefab, _warpPosition, Quaternion.identity);
                 GameObject.Destroy(warpgate, 0.5f);
+
+                CoroutineHandler.StartStaticCoroutine(MakeParticle(_warpExitParticle, _warpPosition, 0.0f));
 
                 minichara.position = _warpPosition;
                 _miniCharaStateMachine.rigidbody.velocity = Vector2.zero;
@@ -665,6 +684,17 @@ public class MiniCharaWarp : MiniCharaStateBase
                 }
             }
         }
+    }
+
+    private IEnumerator MakeParticle(GameObject particle, Vector3 position, float gapY)
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        Vector3 gap = new Vector3(0.0f, gapY, 0.0f);
+        Quaternion quaternion = Quaternion.LookRotation(Vector3.up);
+        var instance = GameObject.Instantiate(particle, position + gap, quaternion);
+        instance.GetComponent<ParticleSystemRenderer>().maskInteraction = SpriteMaskInteraction.None;
+        GameObject.Destroy(instance, 0.5f);
     }
 }
 
