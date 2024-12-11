@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7326560649474359190}
   - component: {fileID: 8171988461075440314}
-  - component: {fileID: 4302275644663215964}
   - component: {fileID: 9080605254160796664}
+  - component: {fileID: 4302275644663215964}
   m_Layer: 0
   m_Name: Transition black
   m_TagString: Untagged
@@ -87,20 +87,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4302275644663215964
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4572965122240995996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e510830432f2f1e468e9e860059292e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 9080605254160796664}
-  totalTransitionTime: 10
 --- !u!95 &9080605254160796664
 Animator:
   serializedVersion: 5
@@ -122,3 +108,17 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4302275644663215964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4572965122240995996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e510830432f2f1e468e9e860059292e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 9080605254160796664}
+  totalTransitionTime: 10
