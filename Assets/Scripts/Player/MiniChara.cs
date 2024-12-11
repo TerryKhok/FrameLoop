@@ -15,7 +15,7 @@ public static class MiniCharaParams
 
     public const float MOVE_VELOCITY = 7.0f;
     public const float MOVE_VELOCITY_CROUCH = 5.0f;
-    public const float MOVE_MIN_HORIZONTSL_DISTANCE = 0.1f;
+    public const float MOVE_MIN_HORIZONTSL_DISTANCE = 0.3f;
 
     public const float MOVE_STOP_DISTANCE = 0.1f;
 
@@ -319,6 +319,10 @@ public class MiniCharaMove : MiniCharaStateBase
 
     override public void FixedUpdate()
     {
+        var currentVelocity = _miniCharaStateMachine.rigidbody.velocity;
+        currentVelocity.y = 0;
+        _miniCharaStateMachine.rigidbody.velocity -= currentVelocity;
+
         Vector3 currentPosition = _transform.position;
 
         RaycastHit2D hit = Physics2D.BoxCast(currentPosition, _size, 0, Vector2.down, 0.05f, _mask);
@@ -667,7 +671,6 @@ public class MiniCharaWarp : MiniCharaStateBase
 
         if (_warpTarget == WarpTarget.Player && _warped)
         {
-            minichara.GetComponent<BoxCollider2D>().isTrigger = false;
             Vector3 warpGap = _warpPosition - minichara.position;
 
             if (Mathf.Abs(warpGap.y) < 0.1f && _miniCharaStateMachine.rigidbody.velocity.y < 0)
@@ -677,16 +680,20 @@ public class MiniCharaWarp : MiniCharaStateBase
             else
             {
                 Vector3 currentPosition = minichara.position;
+                currentPosition.y -= 0.5f;
                 LayerMask mask = 1 << LayerMask.NameToLayer("OPlatform");
                 mask |= 1 << LayerMask.NameToLayer("OBox");
 
-                RaycastHit2D hit = Physics2D.BoxCast(currentPosition, new Vector2(0.7f,1.0f), 0, Vector2.down, 0.05f, mask);
+                RaycastHit2D hit = Physics2D.BoxCast(currentPosition, new Vector2(0.7f,1.0f), 0, Vector2.down, 0.03f, mask);
                 bool isLanding = hit.collider != null && _miniCharaStateMachine.rigidbody.velocity.y <= 0;
-                
-                if(isLanding)
+
+                var direction = PlayerInfo.Instance.g_transform.position - minichara.position;
+                Debug.Log(direction.y);
+
+                if(isLanding && direction.y > 0)
                 {
-                    Debug.Log("着地！！！！");
                     _miniCharaStateMachine.ChangeState("Idle");
+
                 }
             }
         }
@@ -701,6 +708,11 @@ public class MiniCharaWarp : MiniCharaStateBase
         var instance = GameObject.Instantiate(particle, position + gap, quaternion);
         instance.GetComponent<ParticleSystemRenderer>().maskInteraction = SpriteMaskInteraction.None;
         GameObject.Destroy(instance, 0.5f);
+    }
+
+    public override void Exit()
+    {
+        _miniCharaStateMachine.transform.GetComponent<BoxCollider2D>().isTrigger = false;
     }
 }
 

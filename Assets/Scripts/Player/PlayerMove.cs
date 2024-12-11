@@ -55,6 +55,10 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
+        var currentVelocity = _rb.velocity;
+        currentVelocity.y = 0;
+        _rb.velocity -= currentVelocity;
+
         //Debug.Log(_rb.velocity);
         _playerAnimation.SetMoveX((int)_currentInput.x);
 
