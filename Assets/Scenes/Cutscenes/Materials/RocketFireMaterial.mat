@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CircleWipe
-  m_Shader: {fileID: -6465566751694194690, guid: c80e5413b169234448f2366bfc57b114,
+  m_Name: RocketFireMaterial
+  m_Shader: {fileID: -6465566751694194690, guid: 9a75169bb8327bd498d11b700298959d,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -64,11 +64,19 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SpecGlossMap:
-        m_Texture: {fileID: 0}
+    - _SampleTexture2D_1321bc6d557d43e2808a18108c536a4d_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: f93b5537b09ba9841baec61ea7af08c8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _mainTexture:
+    - _SampleTexture2D_60673c075dd241d0b4eb0ef2db38a207_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 5de794e2975ed48418911bbd323ac6e0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_67048e71df634d63bafa53eb8139b9a2_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 6d591924326ad6240a52bcd01b170c89, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -117,16 +125,14 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _cutoff: 1
-    - _progress: 0.5
+    - _bits: 64
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _center: {r: 0.41199785, g: 0.14385074, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &6990803816328654840
+--- !u!114 &2262972357995786087
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
