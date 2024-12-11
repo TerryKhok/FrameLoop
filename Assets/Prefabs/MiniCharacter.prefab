@@ -33,7 +33,7 @@ Transform:
   m_Children:
   - {fileID: 4528196846720488249}
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3176091851250096258
 MonoBehaviour:
@@ -48,6 +48,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _warpPrefab: {fileID: 6257264624237318770, guid: 9deb3f843b0a69747b4420ef45c5a713,
+    type: 3}
+  _warpEnterParticle: {fileID: 5305413237271106631, guid: f09bbffbb7c2b0b45b17a3eadeacb5d4,
+    type: 3}
+  _warpExitParticle: {fileID: 5305413237271106631, guid: d267d647b35a6d040a83baeff1f67ba4,
     type: 3}
 --- !u!50 &7131125942941135929
 Rigidbody2D:

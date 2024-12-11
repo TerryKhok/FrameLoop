@@ -17,6 +17,8 @@ public static class MiniCharaParams
     public const float MOVE_VELOCITY_CROUCH = 5.0f;
     public const float MOVE_MIN_HORIZONTSL_DISTANCE = 0.1f;
 
+    public const float MOVE_STOP_DISTANCE = 0.1f;
+
     public const float JUMP_FORCE_LOW = 7.0f;
     public const float JUMP_FORCE_MIDDLE = 10.0f;
     public const float JUMP_FORCE_HIGH = 13.0f;
@@ -241,6 +243,7 @@ public class MiniCharaMove : MiniCharaStateBase
     private Transform _transform = null;
     private float _elapsedTime = 0;
     private MiniCharaAnimation _animation;
+    private float _wallDistance = 0;
 
     public static void SetPlayer(PlayerInfo playerInfo)
     {
@@ -330,6 +333,7 @@ public class MiniCharaMove : MiniCharaStateBase
 
         hit = Physics2D.Raycast(currentPosition, _transform.right, 0.6f, _mask);
         _isWall = hit.collider != null;
+        _wallDistance = hit.distance;
 
         hit = Physics2D.Raycast(currentPosition + Vector3.up, _transform.right, 0.6f, _mask);
         _isOpen = hit.collider == null;
@@ -349,16 +353,19 @@ public class MiniCharaMove : MiniCharaStateBase
 
         if (Mathf.Abs(distance) >= MiniCharaParams.MOVE_MIN_HORIZONTSL_DISTANCE)
         {
-            float velocity = MiniCharaParams.MOVE_VELOCITY;
-            if(_playerInfo.g_isCrouch || _playerInfo.g_takeUpFg)
+            if (_wallDistance > MiniCharaParams.MOVE_STOP_DISTANCE || _isWall == false)
             {
-                velocity = MiniCharaParams.MOVE_VELOCITY_CROUCH;
+                float velocity = MiniCharaParams.MOVE_VELOCITY;
+                if (_playerInfo.g_isCrouch || _playerInfo.g_takeUpFg)
+                {
+                    velocity = MiniCharaParams.MOVE_VELOCITY_CROUCH;
+                }
+
+                Vector2 moveDistance = new Vector2(direction * velocity * Time.fixedDeltaTime, 0);
+                _miniCharaStateMachine.rigidbody.position += moveDistance;
+
+                _transform.rotation = Quaternion.LookRotation(new Vector3(0, 0, direction));
             }
-
-            Vector2 moveDistance = new Vector2(direction * velocity * Time.fixedDeltaTime,0);
-            _miniCharaStateMachine.rigidbody.position += moveDistance;
-
-            _transform.rotation = Quaternion.LookRotation(new Vector3(0, 0, direction));
         }
 
         if (_isLanding)
@@ -367,7 +374,6 @@ public class MiniCharaMove : MiniCharaStateBase
             {
                 _miniCharaStateMachine.rigidbody.AddForce(Vector3.up * MiniCharaParams.JUMP_FORCE_MIDDLE, ForceMode2D.Impulse);
                 _animation.PlayJumpAnimation();
-                //Debug.Log("ƒWƒƒƒ“ƒv");
             }
             else if (_isOpen_high && _isWall)
             {

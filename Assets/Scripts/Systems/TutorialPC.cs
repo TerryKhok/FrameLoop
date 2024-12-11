@@ -39,6 +39,7 @@ public class TutorialPC : MonoBehaviour
         if (collision == PlayerInfo.Instance.g_goalHitBox)
         {
             _animator.SetBool("IsOpen", true);
+            //SetActive(true);
         }
     }
 
@@ -52,6 +53,7 @@ public class TutorialPC : MonoBehaviour
         if (collision == PlayerInfo.Instance.g_goalHitBox)
         {
             _animator.SetBool("IsOpen", false);
+            //SetActive(false);
         }
     }
 

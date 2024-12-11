@@ -144,7 +144,7 @@ Transform:
   - {fileID: 2441224564643328870}
   - {fileID: 8531334735818077416}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8592394612338021649
 MonoBehaviour:
@@ -158,8 +158,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8effe0655a004d24f990f7657a6279c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jumpHeightMax: 2.2
-  _jumpHeightMin: 1.2
+  _jumpHeightMax: 2.5
+  _jumpHeightMin: 1.5
   _jumpVelocity: 6.5
 --- !u!114 &4190485480700468127
 MonoBehaviour:
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4130f6aea47e70a479af666bf648f045, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetVelocity: 10
+  _targetVelocity: 7
   _crouchVelocity: 5
   _isMoving: 0
   walkDustParticles: {fileID: 4674015290520219952}
@@ -189,7 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c4b63c781ef874d9afb1abe63b6486, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _toggle: 0
+  _toggle: 1
 --- !u!114 &9136434171468415905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5252,7 +5252,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 798712241
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
