@@ -8,20 +8,19 @@ public class FadeTransition : MonoBehaviour
     private Animator animator;
 
     [SerializeField]
-    private float totalTransitionTime = 10.0f;
+    private float totalAnimationTime = 10.0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        animator = GetComponent<Animator>();
         animator.Play("fade in");
     }
 
     // Update is called once per frame
     void Update()
     {
-        totalTransitionTime -= Time.deltaTime;
-        if (totalTransitionTime <= 0)
+        totalAnimationTime -= Time.deltaTime;
+        if (totalAnimationTime <= 0)
         {
             animator.Play("fade out");
         }
