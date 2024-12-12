@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Parallax : MonoBehaviour
@@ -30,5 +28,14 @@ public class Parallax : MonoBehaviour
         currentPos += vec;
 
         _transform.position = currentPos;
+    }
+
+    private void OnEnable()
+    {
+        _cameraTransform = Camera.main.transform;
+
+        _prevCamPos = _cameraTransform.position;
+
+        _currentCamPos = _cameraTransform.position;
     }
 }

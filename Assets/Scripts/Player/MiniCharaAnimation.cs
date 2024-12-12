@@ -11,7 +11,7 @@ public class MiniCharaAnimation : MonoBehaviour
 
     public void PlayJumpAnimation()
     {
-        Debug.Log("‚¶‚á‚ñ‚Õ");
+        //Debug.Log("‚¶‚á‚ñ‚Õ");
         _animator.SetTrigger("jump");
     }
 
@@ -23,5 +23,10 @@ public class MiniCharaAnimation : MonoBehaviour
     public void SetLanding(bool land)
     {
         _animator.SetBool("isLanding", land);
+    }
+
+    public void PlaySmileAnimation()
+    {
+        _animator.SetTrigger("smile");
     }
 }

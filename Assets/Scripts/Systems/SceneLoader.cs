@@ -193,7 +193,15 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     public void Skip(InputAction.CallbackContext context)
     {
         _isLoading = true;
-        SceneManager.LoadScene("lvl 1");
+
+        if(SceneManager.GetActiveScene().name == ("OpeningNew"))
+        {
+            SceneManager.LoadScene("lvl 1");
+        }
+        else
+        {
+            SceneManager.LoadScene("AppreciateScene");
+        }
     }
 
     public void ExitGame()
