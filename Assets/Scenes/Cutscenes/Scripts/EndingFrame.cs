@@ -61,6 +61,11 @@ public class EndingFrame : MonoBehaviour
 
     void Update()
     {
+        if(_burstIndex >= _burstTiming.Length)
+        {
+            return;
+        }
+
         _elapsedTime += Time.deltaTime;
 
         if (_burstTiming[_burstIndex].start <= _elapsedTime)
@@ -142,5 +147,11 @@ public class EndingFrame : MonoBehaviour
             burst1.Play(); burst2.Play(); burst3.Play(); burst4.Play();
             burstFlag = true;
         }
+    }
+
+    private void OnDisable()
+    {
+        AudioManager.instance.Stop("Frame");
+        framePlayedSound = false;
     }
 }
