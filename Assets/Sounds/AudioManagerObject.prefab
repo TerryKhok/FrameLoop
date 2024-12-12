@@ -203,6 +203,30 @@ MonoBehaviour:
     loop: 0
     spatialBlend: 1
     src: {fileID: 0}
+  - audioType: 0
+    name: Chibi character jumping
+    clip: {fileID: 8300000, guid: a269cf079696a204eb16adbe3c59a0d5, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    spatialBlend: 1
+    src: {fileID: 0}
+  - audioType: 0
+    name: Chibi character walking
+    clip: {fileID: 8300000, guid: 2e2a97b207fcff046889862dadf5eab7, type: 3}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    spatialBlend: 1
+    src: {fileID: 0}
+  - audioType: 0
+    name: Rocket
+    clip: {fileID: 8300000, guid: 897b93aff044f26478b0df972ad2913d, type: 3}
+    volume: 0.21
+    pitch: 1.01
+    loop: 1
+    spatialBlend: 1
+    src: {fileID: 0}
 --- !u!1 &4261951593256342253
 GameObject:
   m_ObjectHideFlags: 0

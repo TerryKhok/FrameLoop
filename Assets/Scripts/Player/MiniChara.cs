@@ -378,11 +378,15 @@ public class MiniCharaMove : MiniCharaStateBase
             {
                 _miniCharaStateMachine.rigidbody.AddForce(Vector3.up * MiniCharaParams.JUMP_FORCE_MIDDLE, ForceMode2D.Impulse);
                 _animation.PlayJumpAnimation();
+                AudioManager.instance.Stop("Chibi character walking");
+                AudioManager.instance.Play("Chibi character jumping");
             }
             else if (_isOpen_high && _isWall)
             {
                 _miniCharaStateMachine.rigidbody.AddForce(Vector3.up * MiniCharaParams.JUMP_FORCE_HIGH, ForceMode2D.Impulse);
                 _animation.PlayJumpAnimation();
+                AudioManager.instance.Stop("Chibi character walking");
+                AudioManager.instance.Play("Chibi character jumping");
                 //Debug.Log("ハイジャンプ");
             }
             //else

@@ -37,6 +37,8 @@ public class Rocketlanding : MonoBehaviour
     [SerializeField]
     private float openTime;
 
+    bool rocketSoundPlayed = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,6 +59,13 @@ public class Rocketlanding : MonoBehaviour
 
         if (elapsedTime >= animationTime)
         {
+            AudioManager.instance.Stop("Rocket");
+
+            if (!hasLanded)
+            {
+                AudioManager.instance.Play("Box Landing");
+            }
+
             this.GetComponent<Transform>().position = new Vector3(rocketDestinationX, rocketDestinationY, 0);
             rocketParticles.SetActive(false);
             hasLanded = true;
@@ -64,11 +73,18 @@ public class Rocketlanding : MonoBehaviour
             if (!isOpened && elapsedTime >= openTime)
             {
                 animator.Play("rocket open");
+                AudioManager.instance.Play("DoorOpen");
                 isOpened = true;
             }
         }
         else if (!hasLanded)
         {
+            if(!rocketSoundPlayed)
+            {
+                rocketSoundPlayed = true;
+                AudioManager.instance.Play("Rocket");
+            }
+
             if (!isLanding && elapsedTime >= landingTime)
             {
                 animator.Play("rocket landing");

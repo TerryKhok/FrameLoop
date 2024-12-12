@@ -49,6 +49,8 @@ public class EndingFrame : MonoBehaviour
     private float _elapsedTime = 0.0f;
     bool burstFlag = true, _played = false, _stoped = false;
 
+    bool framePlayedSound = false;
+
     void Start()
     {
         burstFlag = true;
@@ -64,6 +66,13 @@ public class EndingFrame : MonoBehaviour
         if (_burstTiming[_burstIndex].start <= _elapsedTime)
         {
             Play();
+
+            if(framePlayedSound == false)
+            {
+                AudioManager.instance.Play("Frame");
+                AudioManager.instance.Stop("FrameTP");
+                framePlayedSound = true;
+            }
         }
 
         if (_burstTiming[_burstIndex].end <= _elapsedTime)
@@ -71,6 +80,13 @@ public class EndingFrame : MonoBehaviour
             _burstIndex++;
             _elapsedTime = 0;
             Stop();
+
+            if (framePlayedSound == true)
+            {
+                AudioManager.instance.Stop("Frame");
+                AudioManager.instance.Play("FrameTP");
+                framePlayedSound = false;
+            }
         }
     }
 

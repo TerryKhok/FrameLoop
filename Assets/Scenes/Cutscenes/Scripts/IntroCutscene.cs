@@ -13,6 +13,16 @@ public class IntroCutscene : MonoBehaviour
         public int direction;
     }
 
+    [System.Serializable]
+    public struct Timing
+    {
+        public float start, end;
+    }
+
+    [SerializeField]
+    private Timing[] _smileTiming;
+    private int _smileIndex = 0;
+
     [SerializeField]
     private MoveInfo[] _moveInfos;
     [SerializeField]
@@ -61,12 +71,6 @@ public class IntroCutscene : MonoBehaviour
         }
         _playerMove.SetMove(_moveInfos[_moveIndex].direction);
 
-        if (_jumpTiming[_jumpIndex] <= _elapsedTime)
-        {
-            _playerJump.SetJump();
-            ++_jumpIndex;
-        }
-
         if (_frameTiming[_frameIndex] <= _elapsedTime)
         {
             if (_frameIndex % 2 == 0)
@@ -85,6 +89,18 @@ public class IntroCutscene : MonoBehaviour
         if (_sceneChangeTiming <= _elapsedTime)
         {
             SceneLoader.Instance.LoadScene("lvl 1");
+        }
+
+        if (_smileTiming[_smileIndex].start <= _elapsedTime)
+        {
+            PlayerAnimation.Instance.SetSmile(true);
+            //Debug.Log("smile");
+        }
+
+        if (_smileTiming[_smileIndex].end <= _elapsedTime)
+        {
+            _smileIndex++;
+            PlayerAnimation.Instance.SetSmile(false);
         }
     }
 
