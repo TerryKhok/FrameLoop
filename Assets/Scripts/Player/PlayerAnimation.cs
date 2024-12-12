@@ -70,9 +70,9 @@ public class PlayerAnimation : SingletonMonoBehaviour<PlayerAnimation>
         _bodyAnim.SetFloat("CrouchSpeed", speed);
     }
 
-    public void PlaySmileAnimation()
+    public void SetSmile(bool smile)
     {
-        _headAnim.SetTrigger("Smile");
+        _headAnim.SetBool("Smile", smile);
     }
 
     private void LateUpdate()

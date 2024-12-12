@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerEnding : MonoBehaviour
+public class PlayerCutScene : MonoBehaviour
 {
     [System.Serializable]
     public struct MoveInfo
@@ -14,8 +14,14 @@ public class PlayerEnding : MonoBehaviour
     [SerializeField]
     private MoveInfo[] _moveInfos;
 
+    [System.Serializable]
+    public struct Timing
+    {
+        public float start, end;
+    }
+
     [SerializeField]
-    private float[] _smileTiming;
+    private Timing[] _smileTiming;
     private float _smileElapsedTime = 0;
     private int _smileIndex = 0;
 
@@ -40,13 +46,17 @@ public class PlayerEnding : MonoBehaviour
             _elapsedTime = 0;
         }
 
-        if (_smileTiming[_smileIndex] <= _smileElapsedTime)
+        if (_smileTiming[_smileIndex].start <= _smileElapsedTime)
         {
-            ++_smileIndex;
-            _smileElapsedTime = 0;
-
-            PlayerAnimation.Instance.PlaySmileAnimation();
+            PlayerAnimation.Instance.SetSmile(true);
             //Debug.Log("‚É‚±I");
+        }
+
+        if (_smileTiming[_smileIndex].end <= _smileElapsedTime)
+        {
+            _smileIndex++;
+            _smileElapsedTime = 0;
+            PlayerAnimation.Instance.SetSmile(false);
         }
 
         _playerMove.SetMove(_moveInfos[_moveIndex].moveDirection);

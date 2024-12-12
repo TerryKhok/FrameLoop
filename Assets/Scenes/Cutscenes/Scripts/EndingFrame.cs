@@ -2,10 +2,15 @@ using UnityEngine;
 
 public class EndingFrame : MonoBehaviour
 {
+    [System.Serializable]
+    public struct Timing
+    {
+        public float start, end;
+    }
+
     [SerializeField]
-    private float _startTime = 0.0f;
-    [SerializeField]
-    private float _endTime = 0.0f;
+    private Timing[] _burstTiming;
+    private int _burstIndex = 0;
 
     [SerializeField]
     private GameObject activeFrameObject;
@@ -56,15 +61,15 @@ public class EndingFrame : MonoBehaviour
     {
         _elapsedTime += Time.deltaTime;
 
-        if(_elapsedTime >= _startTime && !_played)
+        if (_burstTiming[_burstIndex].start <= _elapsedTime)
         {
-            _played = true;
             Play();
         }
 
-        if(_elapsedTime >= _endTime && _played && !_stoped)
+        if (_burstTiming[_burstIndex].end <= _elapsedTime)
         {
-            _stoped = true;
+            _burstIndex++;
+            _elapsedTime = 0;
             Stop();
         }
     }

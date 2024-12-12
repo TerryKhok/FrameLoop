@@ -25,8 +25,18 @@ public class MiniCharaAnimation : MonoBehaviour
         _animator.SetBool("isLanding", land);
     }
 
-    public void PlaySmileAnimation()
+    public void SetSmile(bool smile)
     {
-        _animator.SetTrigger("smile");
+        _animator.SetBool("smile", smile);
+    }
+
+    public void PlayFrameAnimation()
+    {
+        _animator.SetTrigger("frameEnter");
+    }
+
+    public void StopFrameAnimation()
+    {
+        _animator.SetTrigger("frameExit");
     }
 }

@@ -10,8 +10,10 @@ public class CameraController : MonoBehaviour
         public float size;
         public float rotateZ;
         public Vector2 targetPosition;
+        public Vector2 shakeRange;
         public float time;
         public bool shake;
+        public float shakeHz;
     }
 
     [SerializeField]
@@ -30,10 +32,20 @@ public class CameraController : MonoBehaviour
     private float _elapsedTime = 0.0f;
     private bool _isShaking = false;
 
+    private Vector3 _factPos = Vector3.zero;
+    private float _factSize = 0.0f;
+    private float _factRotationZ = 0.0f;
+
+    private float _shakeElapsed, _shakeTime;
+
     private void Start()
     {
         _transform = transform;
         _camera = _transform.GetComponent<Camera>();
+
+        _factPos = _transform.position;
+        _factRotationZ = _transform.eulerAngles.z;
+        _factSize = _camera.orthographicSize;
 
         Next();
     }
@@ -47,8 +59,6 @@ public class CameraController : MonoBehaviour
             Next();
         }
 
-        if (_isShaking) { return; }
-
         float timeRatio = 0;
         if (_cameraInfo[_index].time != 0)
         {
@@ -58,23 +68,29 @@ public class CameraController : MonoBehaviour
         {
             timeRatio = 1.0f;
         }
-        _transform.position = _prevPos + _positionGap * timeRatio;
-        _camera.orthographicSize = _prevSize + _sizeGap * timeRatio;
-        _transform.eulerAngles = new Vector3(0,0,_prevRotationZ + _rotateGap * timeRatio);
-    }
+        _factPos = _prevPos + _positionGap * timeRatio;
+        _factSize = _prevSize + _sizeGap * timeRatio;
+        _factRotationZ = _prevRotationZ + _rotateGap * timeRatio;
 
-    private void FixedUpdate()
-    {
-        if (_isShaking)
+        _transform.position = _factPos;
+        _transform.eulerAngles = new Vector3(0, 0, _factRotationZ);
+        _camera.orthographicSize = _factSize;
+
+        if (_isShaking) 
         {
-            float randX = UnityEngine.Random.Range(-1.0f, 1.0f);
-            float randY = UnityEngine.Random.Range(-1.0f, 1.0f);
-            Vector3 rand = new Vector3(randX, randY, 0);
-            _transform.position = _prevPos + Vector3.Scale(_positionGap, rand);
-            _camera.orthographicSize = _prevSize + _sizeGap * randX;
-            _transform.eulerAngles = new Vector3(0, 0, _prevRotationZ + _rotateGap * randX);
-            return;
+            _shakeElapsed += Time.deltaTime;
+
+            if(_shakeElapsed >= _shakeTime)
+            {
+                _shakeElapsed = 0;
+
+                float randX = UnityEngine.Random.Range(-1.0f, 1.0f);
+                float randY = UnityEngine.Random.Range(-1.0f, 1.0f);
+                Vector3 rand = new Vector3(randX, randY, 0);
+                _transform.position = _factPos + Vector3.Scale(_cameraInfo[_index].shakeRange, rand);
+            }
         }
+
     }
 
     private void Next()
@@ -82,13 +98,18 @@ public class CameraController : MonoBehaviour
         _elapsedTime = 0.0f;
         _index++;
 
-        _prevPos = _transform.position;
+        _transform.position = _factPos;
+        _prevPos = _factPos;
 
         var target = new Vector3(_cameraInfo[_index].targetPosition.x, _cameraInfo[_index].targetPosition.y, -10);
         _positionGap = target - _prevPos;
-        _prevSize = _camera.orthographicSize;
+        _prevSize = _factSize;
         _sizeGap = _cameraInfo[_index].size - _prevSize;
+        _prevRotationZ = _factRotationZ;
+        _rotateGap = _cameraInfo[_index].rotateZ - _prevRotationZ;
 
         _isShaking = _cameraInfo[_index].shake;
+        _shakeElapsed = 0.0f;
+        _shakeTime = 1.0f / _cameraInfo[_index].shakeHz;
     }
 }

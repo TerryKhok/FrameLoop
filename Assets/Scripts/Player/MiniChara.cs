@@ -413,6 +413,8 @@ public class MiniCharaMove : MiniCharaStateBase
 public class MiniCharaFrame : MiniCharaStateBase
 {
     private static Transform _frame;
+    private MiniCharaAnimation _animation;
+    private bool _isStop = false;
 
     public static void SetFrame(Transform frameTransform)
     {
@@ -437,19 +439,28 @@ public class MiniCharaFrame : MiniCharaStateBase
         {
             _miniCharaStateMachine.rigidbody.AddForce(Vector3.up * MiniCharaParams.JUMP_FORCE_MIDDLE, ForceMode2D.Impulse);
         }
-        
+
+        _animation = _miniCharaStateMachine.transform.GetComponentInChildren<MiniCharaAnimation>();
+
         _miniCharaStateMachine.transform.GetComponent<BoxCollider2D>().isTrigger = true;
         _miniCharaStateMachine.transform.GetComponentInChildren<SpriteRenderer>().sortingOrder = 150;
     }
 
     override public void Update()
     {
+        if (_isStop)
+        {
+            return;
+        }
+
         Vector3 gap = _frame.transform.position - _miniCharaStateMachine.transform.position;
 
         if (Mathf.Abs(gap.y) < 0.1f && _miniCharaStateMachine.rigidbody.velocity.y < 0)
         {
             _miniCharaStateMachine.rigidbody.velocity = Vector3.zero;
             _miniCharaStateMachine.rigidbody.gravityScale = 0.0f;
+
+            _isStop = true;
         }
     }
 
@@ -480,6 +491,8 @@ public class MiniCharaFrame : MiniCharaStateBase
 
     override public void Exit()
     {
+        _animation.StopFrameAnimation();
+
         _miniCharaStateMachine.rigidbody.gravityScale = 1.0f;
 
         _miniCharaStateMachine.transform.GetComponent<BoxCollider2D>().isTrigger = false;
@@ -580,6 +593,7 @@ public class MiniCharaWarp : MiniCharaStateBase
                 }
             case WarpTarget.Frame:
                 {
+                    minichara.GetComponentInChildren<MiniCharaAnimation>().PlayFrameAnimation();
                     minichara.transform.GetComponentInChildren<SpriteRenderer>().sortingOrder = 150;
                     _warpPosition = FrameLoop.Instance.transform.position;
 

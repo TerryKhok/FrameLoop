@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MiniCharaEnding : MonoBehaviour
+public class MiniCharaCutScene : MonoBehaviour
 {
     [System.Serializable]
     public struct MoveInfo
@@ -15,8 +15,14 @@ public class MiniCharaEnding : MonoBehaviour
     [SerializeField]
     private MoveInfo[] _moveInfos;
 
+    [System.Serializable]
+    public struct Timing
+    {
+        public float start, end;
+    }
+
     [SerializeField]
-    private float[] _smileTiming;
+    private Timing[] _smileTiming;
     private float _smileElapsedTime = 0;
     private int _smileIndex = 0;
 
@@ -58,13 +64,17 @@ public class MiniCharaEnding : MonoBehaviour
             Next();
         }
 
-        if (_smileTiming[_smileIndex] <= _smileElapsedTime)
+        if (_smileTiming[_smileIndex].start <= _smileElapsedTime)
         {
-            _smileElapsedTime = 0;
-            ++_smileIndex;
+            _anim.SetSmile(true);
+            //Debug.Log("にこ！");
+        }
 
-            _anim.PlaySmileAnimation();
-            //Debug.Log("ミニニコ！");
+        if (_smileTiming[_smileIndex].end <= _smileElapsedTime)
+        {
+            _smileIndex++;
+            _smileElapsedTime = 0;
+            _anim.SetSmile(false);
         }
 
         _velocity = _moveInfos[_moveIndex].velocity;
