@@ -10,7 +10,7 @@ public static class MiniCharaParams
     public const float TO_MOVE_HORIZONTAL_DISTANCE = 1.3f;
     public const float TO_IDLE_HORIZONTAL_DISTANCE = 1.0f;
     public const float TO_WARP_WAIT_TIME = 1.2f;
-    public const float TO_WARP_STUCK_TIME = 1.5f;
+    public const float TO_WARP_STUCK_TIME = 0.8f;
 
     public const float STUCK_RANGE = 0.2f;
 
@@ -246,6 +246,8 @@ public class MiniCharaMove : MiniCharaStateBase
     private MiniCharaAnimation _animation;
     private float _wallDistance = 0;
 
+    private float _prevPosX = 0, _currentPosX = 0;
+
     public static void SetPlayer(PlayerInfo playerInfo)
     {
         _playerInfo = playerInfo;
@@ -266,6 +268,9 @@ public class MiniCharaMove : MiniCharaStateBase
 
         _animation = _transform.GetComponentInChildren<MiniCharaAnimation>();
         _animation.SetMoveAnimation(true);
+
+        _prevPosX = _transform.position.x;
+        _currentPosX = _transform.position.x;
     }
 
     public override void Update()
@@ -320,6 +325,8 @@ public class MiniCharaMove : MiniCharaStateBase
 
     override public void FixedUpdate()
     {
+        _prevPosX = _currentPosX;
+
         var currentVelocity = _miniCharaStateMachine.rigidbody.velocity;
         currentVelocity.y = 0;
         _miniCharaStateMachine.rigidbody.velocity -= currentVelocity;
@@ -397,7 +404,9 @@ public class MiniCharaMove : MiniCharaStateBase
             //}
         }
 
-        if (_isWall)
+        _currentPosX = _miniCharaStateMachine.rigidbody.position.x;
+
+        if (Mathf.Abs(_currentPosX - _prevPosX)/Time.deltaTime <= 0.5f)
         {
             _stuckTime += Time.fixedDeltaTime;
         }
@@ -444,6 +453,13 @@ public class MiniCharaFrame : MiniCharaStateBase
         if (_miniCharaStateMachine.PrebStateName == "Warp")
         {
             _miniCharaStateMachine.rigidbody.AddForce(Vector3.up * MiniCharaParams.JUMP_FORCE_MIDDLE, ForceMode2D.Impulse);
+            _isStop = false;
+        }
+        else
+        {
+            _isStop = true;
+            _miniCharaStateMachine.rigidbody.velocity = Vector3.zero;
+            _miniCharaStateMachine.rigidbody.gravityScale = 0.0f;
         }
 
         _animation = _miniCharaStateMachine.transform.GetComponentInChildren<MiniCharaAnimation>();
@@ -801,7 +817,11 @@ public class MiniCharaFroat : MiniCharaStateBase
         int direction = MathF.Sign(gap.x);
 
         _miniCharaStateMachine.rigidbody.position += gap;
-        _miniCharaStateMachine.transform.rotation = Quaternion.LookRotation(new Vector3(0, 0, direction));
+
+        if (direction != 0)
+        {
+            _miniCharaStateMachine.transform.rotation = Quaternion.LookRotation(new Vector3(0, 0, direction));
+        }
 
         if(gap.sqrMagnitude < 0.003f)
         {

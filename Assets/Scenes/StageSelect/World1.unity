@@ -12237,6 +12237,11 @@ PrefabInstance:
       propertyPath: m_Padding.m_Bottom
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 3431367611883228164, guid: 8b9caf9c46fdee7478875b33b046f315,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3646162421316267782, guid: 8b9caf9c46fdee7478875b33b046f315,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -12320,6 +12325,11 @@ PrefabInstance:
     - target: {fileID: 4946529158292105636, guid: 8b9caf9c46fdee7478875b33b046f315,
         type: 3}
       propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5738570317405364638, guid: 8b9caf9c46fdee7478875b33b046f315,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5785133841574155135, guid: 8b9caf9c46fdee7478875b33b046f315,

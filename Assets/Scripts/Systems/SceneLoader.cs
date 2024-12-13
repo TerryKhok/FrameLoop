@@ -23,16 +23,27 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
         get { return (_coroutine != null || _isLoading); }
     }
 
+    private string _sceneName;
+
     private void Start()
     {
         Time.timeScale = 1.0f;
         _inputManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<InputManager>();
-        
-        
-        if(_playable)
+
+        _sceneName = SceneManager.GetActiveScene().name;
+
+        if (_playable)
         {
-            _inputManager._Retry.performed += Retry;
-            _inputManager._Next.performed += Next;
+            if (!(_sceneName == "World1" || _sceneName == "World2" || _sceneName == "World3" || _sceneName == "World4" || _sceneName == "WorldSelect"))
+            {
+                _inputManager._Retry.performed += Retry;
+                _inputManager._Next.performed += Next;
+            }
+            else if (_sceneName != "lvl 27")
+            {
+                _inputManager._Retry.performed += Retry;
+            }
+
         }
         else
         {
@@ -45,11 +56,19 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
 
     private void Update()
     {
+        if (_sceneName == "World1" || _sceneName == "World2" || _sceneName == "World3" || _sceneName == "World4" || _sceneName == "WorldSelect")
+        {
+            return;
+        }
+
         _progress = _inputManager._Retry.GetTimeoutCompletionPercentage();
         var temp = _inputManager._Next.GetTimeoutCompletionPercentage();
         if (_progress < temp)
         {
-            _progress = temp;
+            if (_sceneName != "lvl 27")
+            {
+                _progress = temp;
+            }
         }
         _circleWipeController.SetProgress(_progress);
         if(_progress > 0)
@@ -182,8 +201,16 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     {
         if (_playable)
         {
-            _inputManager._Retry.performed -= Retry;
-            _inputManager._Next.performed -= Next;
+
+            if (!( _sceneName == "World1" || _sceneName == "World2" || _sceneName == "World3" || _sceneName == "World4" || _sceneName == "WorldSelect"))
+            {
+                _inputManager._Retry.performed -= Retry;
+                _inputManager._Next.performed -= Next;
+            }
+            else if(_sceneName != "lvl 27")
+            {
+                _inputManager._Retry.performed -= Retry;
+            }
         }
         else
         {
@@ -200,6 +227,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     public void Next(InputAction.CallbackContext context)
     {
         _isLoading = true;
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 

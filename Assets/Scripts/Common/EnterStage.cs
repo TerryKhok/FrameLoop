@@ -21,7 +21,7 @@ public class EnterStage : MonoBehaviour
     private Animator _animator;
     private Vector2 _offset = Vector2.zero;
 
-    private bool _isEnter = false;
+    private bool _isEnter = false, _isSkiped = false;
 
     private TutorialPC[] _tutorialPCArray = new TutorialPC[2];
 
@@ -54,6 +54,7 @@ public class EnterStage : MonoBehaviour
         else if(SaveManager.g_saveData.g_arriveFlag[_stageIndex - 1])
         {
             _isOpened= true;
+            _isSkiped = true;
             transform.GetComponent<SpriteRenderer>().sprite = _sprite;
         }
         else
@@ -75,6 +76,7 @@ public class EnterStage : MonoBehaviour
     {
         if (_animator != null)
         {
+            _animator.SetBool("isSkiped", _isSkiped);
             _animator.SetBool("isOpened", _isOpened);
         }
     }

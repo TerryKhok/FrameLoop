@@ -21,6 +21,8 @@ public class MainMenu : MonoBehaviour
     private GameObject _selectUIObject;
     [SerializeField]
     private GameObject _firstSelectObj;
+    [SerializeField]
+    private GameObject _quitSelectObj;
 
     [SerializeField]
     private GameObject transitionObject;
@@ -57,6 +59,15 @@ public class MainMenu : MonoBehaviour
         _gamepadUISelect_main.SetSelectEmpty();
 
         _gamepadUISelect_main.FirstSelect = _firstSelectObj;
+    }
+
+    public void Quit()
+    {
+        _selectUIObject.SetActive(false);
+
+        _gamepadUISelect_main.SetSelectEmpty();
+
+        _gamepadUISelect_main.FirstSelect = _quitSelectObj;
     }
 
     public void ModeSelect(bool isChallenge)
