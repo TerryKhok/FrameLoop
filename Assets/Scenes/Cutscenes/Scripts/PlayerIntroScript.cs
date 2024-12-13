@@ -8,6 +8,8 @@ public class PlayerIntroScript : MonoBehaviour
     private GameObject mainPlayerSprite;
     [SerializeField]
     private GameObject playerTabletSprite;
+    [SerializeField]
+    private GameObject playerClimbingSprite;
 
     [System.Serializable]
     public struct SpriteChangeInfo
@@ -18,6 +20,18 @@ public class PlayerIntroScript : MonoBehaviour
     [SerializeField]
     private SpriteChangeInfo[] spriteChangeInfos;
     private int index = 0;
+
+    //climbing rocket
+    [SerializeField]
+    private float startPosY;
+    [SerializeField]
+    private float endPosY;
+    [SerializeField]
+    private float climbingStartTime;
+    [SerializeField]
+    private float climbingEndTime;
+
+    Animator climbingAnim;
 
     [System.Serializable]
     public struct Timing
@@ -31,6 +45,7 @@ public class PlayerIntroScript : MonoBehaviour
     private int _smileIndex = 0;
 
     private PlayerAnimation _anim = null;
+    private bool climbingFlag = false;
 
     [SerializeField]
     private float exclamationTime = 0;
@@ -45,6 +60,11 @@ public class PlayerIntroScript : MonoBehaviour
     void Start()
     {
         playerTabletSprite.SetActive(false);
+        playerClimbingSprite.SetActive(false);
+
+        climbingAnim = playerClimbingSprite.GetComponent<Animator>();
+        climbingAnim.Play("PlayerClimb");
+        climbingFlag = false;
     }
 
     // Update is called once per frame
@@ -52,6 +72,7 @@ public class PlayerIntroScript : MonoBehaviour
     {
         elapsedTime += Time.deltaTime;
 
+        //tablet animation
         if (spriteChangeInfos[index].start <= elapsedTime)
         {
             mainPlayerSprite.SetActive(false);
@@ -65,6 +86,29 @@ public class PlayerIntroScript : MonoBehaviour
             playerTabletSprite.SetActive(false);
         }
 
+        //climbing rocket animation
+        if (!climbingFlag)
+        {
+            if (climbingStartTime <= elapsedTime)
+            {
+                playerClimbingSprite.SetActive(true);
+                mainPlayerSprite.SetActive(false);
+            }
+            if (climbingStartTime <= elapsedTime && climbingEndTime >= elapsedTime)
+            {
+                var pos = playerClimbingSprite.transform.position;
+                pos.y = Mathf.Lerp(startPosY, endPosY, (elapsedTime - climbingStartTime) / (climbingEndTime - climbingStartTime));
+                playerClimbingSprite.transform.position = pos;
+            }
+            if (climbingEndTime <= elapsedTime)
+            {
+                climbingFlag = true;
+                playerClimbingSprite.SetActive(false);
+                mainPlayerSprite.SetActive(true);
+            }
+        }
+
+        //exclamation
         if (exclamationTime <= elapsedTime && !exclamationFlag)
         {
             exclamationFlag = true;

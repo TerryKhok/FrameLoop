@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -63,6 +64,16 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
     private TutorialPC _tutorialPC;
 
+    [SerializeField]
+    private GameObject playerSprite;
+    [SerializeField]
+    private GameObject doorEnterSprite;
+    private Animator doorEnterAnimation;
+    private bool doorEnterFlag = false;
+    
+    private float doorEnterTime = 0.7f;
+    private float goalElapsedTime = 0;
+
     public static bool IsChallenge
     {
         set => s_isChallenge = value;
@@ -109,6 +120,13 @@ public class Goal : SingletonMonoBehaviour<Goal>
         {
             SaveManager.g_saveData.g_arriveFlag[_stageIndex] = true;
         }
+
+        playerSprite.SetActive(true);
+
+        doorEnterAnimation = doorEnterSprite.GetComponent<Animator>();
+        doorEnterSprite.SetActive(false);
+        doorEnterFlag = false;
+        goalElapsedTime = 0;
     }
 
     private void Update()
@@ -117,6 +135,24 @@ public class Goal : SingletonMonoBehaviour<Goal>
         _animator.SetBool("isOpened", _isOpened);
 
         _tutorialPC.enabled = _isOpened;
+
+        if(doorEnterFlag)
+        {
+            goalElapsedTime += Time.deltaTime;
+
+            if (doorEnterTime > 0 && goalElapsedTime <= doorEnterTime)
+            {
+                var spriteRenderer = doorEnterSprite.GetComponent<SpriteRenderer>();
+                var color = spriteRenderer.color;
+
+                float t = Mathf.Clamp01(goalElapsedTime / doorEnterTime);
+
+                color.a = Mathf.Lerp(1, 0, t);
+                //Debug.Log($"goalElapsedTime: {goalElapsedTime}, doorEnterTime: {doorEnterTime}, t: {t}");
+                //Debug.Log($"color.a: {color.a}");
+                spriteRenderer.color = color;
+            }
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -136,6 +172,15 @@ public class Goal : SingletonMonoBehaviour<Goal>
     private void OnGoal()
     {
         //Debug.Log(s_isChallenge);
+
+        //change to enter door animation
+        playerSprite.SetActive(false);
+        doorEnterSprite.SetActive(true);
+        if(!doorEnterFlag)
+        {
+            doorEnterAnimation.Play("PlayerClimb");
+            doorEnterFlag = true;
+        }
 
         g_clear = true;
 

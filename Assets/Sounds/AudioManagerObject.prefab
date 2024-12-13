@@ -206,7 +206,7 @@ MonoBehaviour:
   - audioType: 0
     name: Chibi character jumping
     clip: {fileID: 8300000, guid: a269cf079696a204eb16adbe3c59a0d5, type: 3}
-    volume: 0.5
+    volume: 0.28
     pitch: 1
     loop: 0
     spatialBlend: 1
@@ -222,7 +222,7 @@ MonoBehaviour:
   - audioType: 0
     name: Rocket
     clip: {fileID: 8300000, guid: 897b93aff044f26478b0df972ad2913d, type: 3}
-    volume: 0.21
+    volume: 0.18
     pitch: 1.01
     loop: 1
     spatialBlend: 1

@@ -2256,9 +2256,24 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7338336295516263739, guid: 467cdeb8fac9465478ec6ddbe6a65469,
         type: 3}
+      propertyPath: playerSprite
+      value: 
+      objectReference: {fileID: 2281538299486627326}
+    - target: {fileID: 7338336295516263739, guid: 467cdeb8fac9465478ec6ddbe6a65469,
+        type: 3}
+      propertyPath: doorEnterTime
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7338336295516263739, guid: 467cdeb8fac9465478ec6ddbe6a65469,
+        type: 3}
       propertyPath: _minFrameCount
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 7338336295516263739, guid: 467cdeb8fac9465478ec6ddbe6a65469,
+        type: 3}
+      propertyPath: doorEnterSprite
+      value: 
+      objectReference: {fileID: 2281538299486627325}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 8446290905415929833, guid: 467cdeb8fac9465478ec6ddbe6a65469, type: 3}
@@ -13396,6 +13411,18 @@ PrefabInstance:
 --- !u!1 &2281538299486627324 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1308987274351111380, guid: 94fbc3e51eae746409ad4afd3d51fb89,
+    type: 3}
+  m_PrefabInstance: {fileID: 2281538299486627323}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2281538299486627325 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5768145454779152696, guid: 94fbc3e51eae746409ad4afd3d51fb89,
+    type: 3}
+  m_PrefabInstance: {fileID: 2281538299486627323}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2281538299486627326 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5767889942221739663, guid: 94fbc3e51eae746409ad4afd3d51fb89,
     type: 3}
   m_PrefabInstance: {fileID: 2281538299486627323}
   m_PrefabAsset: {fileID: 0}
