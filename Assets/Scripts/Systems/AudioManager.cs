@@ -95,6 +95,7 @@ public class AudioManager : MonoBehaviour
                 sceneName == "lvl 4" || sceneName == "lvl 5" || sceneName == "lvl 6" || 
                 sceneName == "lvl 7")
             {
+                Stop("Rocket");
                 Stop("TitleTheme");
                 Play("BGM Calm");
                 Stop("Main BGM");

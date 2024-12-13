@@ -731,10 +731,12 @@ MonoBehaviour:
     direction: 1
   - time: 10
     direction: 0
-  - time: 12
+  - time: 12.1
     direction: 1
-  - time: 17
+  - time: 18
     direction: 0
+  - time: 20
+    direction: 1
   _frameTiming: []
   _jumpTiming: []
   _sceneChangeTiming: 0
@@ -757,6 +759,8 @@ MonoBehaviour:
   spriteChangeInfos:
   - start: 7
     end: 9
+  - start: 15.5
+    end: 17
 --- !u!4 &313945756 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1436886016970384547, guid: 94fbc3e51eae746409ad4afd3d51fb89,
@@ -3136,8 +3140,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _burstTiming:
-  - start: 19
-    end: 20
+  - start: 13
+    end: 14
   - start: 500
     end: 600
   activeFrameObject: {fileID: 398280529}
@@ -7400,14 +7404,34 @@ MonoBehaviour:
     lookDirection: -1
     velocity: 7
     jump: 0
-  - time: 3
+  - time: 6.3
     moveDirection: 0
     lookDirection: -1
     velocity: 7
     jump: 0
+  - time: 1
+    moveDirection: 0
+    lookDirection: 1
+    velocity: 7
+    jump: 0
+  - time: 1
+    moveDirection: 0
+    lookDirection: 1
+    velocity: 7
+    jump: 1
+  - time: 1
+    moveDirection: 0
+    lookDirection: 1
+    velocity: 7
+    jump: 0
+  - time: 3
+    moveDirection: 1
+    lookDirection: 1
+    velocity: 7
+    jump: 0
   _smileTiming:
-  - start: 30.5
-    end: 32.5
+  - start: 13
+    end: 13.2
   - start: 500
     end: 600
 --- !u!1 &1731286585
@@ -7911,7 +7935,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 60, y: 54}
+  m_AnchoredPosition: {x: 60.6, y: 54.6}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1849702041
@@ -8256,8 +8280,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4572965122240995996, guid: 8a83088533aa1fd41818267e123542a8,
         type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4572965122240995996, guid: 8a83088533aa1fd41818267e123542a8,
+        type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6036868835745936210, guid: 8a83088533aa1fd41818267e123542a8,
         type: 3}
@@ -8318,6 +8347,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8171988461075440314, guid: 8a83088533aa1fd41818267e123542a8,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 6090
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
