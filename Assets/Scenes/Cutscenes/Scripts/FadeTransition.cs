@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FadeTransition : MonoBehaviour
 {
@@ -16,6 +18,8 @@ public class FadeTransition : MonoBehaviour
     [SerializeField]
     private float fadeOutTime = 1f;
 
+    private bool isFadingOut = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,10 +31,21 @@ public class FadeTransition : MonoBehaviour
     void Update()
     {
         totalAnimationTime -= Time.deltaTime;
-        if (totalAnimationTime <= 0)
+        if (totalAnimationTime <= 0 && !isFadingOut)
         {
+            isFadingOut = true;
             animator.speed = fadeOutTime;
             animator.Play("fade out");
+        }
+
+        if (isFadingOut)
+        {
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+            if (stateInfo.IsName("fade out") && stateInfo.normalizedTime >= 1.0f)
+            {
+                SceneManager.LoadScene("lvl 1");
+            }
         }
     }
 }

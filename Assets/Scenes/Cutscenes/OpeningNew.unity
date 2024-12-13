@@ -735,7 +735,7 @@ MonoBehaviour:
     direction: 1
   - time: 18
     direction: 0
-  - time: 20
+  - time: 25
     direction: 1
   _frameTiming: []
   _jumpTiming: []
@@ -761,6 +761,14 @@ MonoBehaviour:
     end: 9
   - start: 15.5
     end: 17
+  _smileTiming:
+  - start: 13
+    end: 15
+  - start: 998
+    end: 999
+  exclamationTime: 13.1
+  exclamation: {fileID: 8010198155145996392, guid: 62bb98debe4965c43928ad07b77ce8c5,
+    type: 3}
 --- !u!4 &313945756 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1436886016970384547, guid: 94fbc3e51eae746409ad4afd3d51fb89,

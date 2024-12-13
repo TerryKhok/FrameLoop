@@ -53,6 +53,9 @@ public class AudioManager : MonoBehaviour
     private bool world23ThemeFlag = false;
     private bool world45ThemeFlag = false;
 
+    private bool opCutsceneFlag = false;
+    private bool edCutsceneFlag = false;
+
     private void Start()
     {
         menuThemeFlag = false;
@@ -60,13 +63,27 @@ public class AudioManager : MonoBehaviour
         world1ThemeFlag = false;
         world23ThemeFlag = false;
         world45ThemeFlag = false;
-}
+        opCutsceneFlag = false;
+        edCutsceneFlag = false;
+    }
     private void Update()
     {
         Scene currentScene = SceneManager.GetActiveScene();
         string sceneName = currentScene.name;
         
-        if(!menuThemeFlag) 
+        if(!opCutsceneFlag)
+        {
+            if (sceneName == "OpeningNew")
+            {
+                Stop("TitleTheme");
+                Stop("BGM Calm");
+                Stop("Main BGM");
+                Stop("BGM Intense");
+                opCutsceneFlag = true;
+            }
+        }
+
+        if (!menuThemeFlag) 
         {
             if (sceneName == "MainMenu" || sceneName == "World1" || sceneName == "World2" ||
                 sceneName == "World3" || sceneName == "World4" || 
