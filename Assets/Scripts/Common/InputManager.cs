@@ -28,7 +28,7 @@ public class InputManager : MonoBehaviour
     private FrameLoop _frameLoop = null;
 
     [HideInInspector]
-    public InputAction _Move, _Jump, _FrameEnable, _Crouch, _TakeUp, _Pause, _Resume, _Goal, _Retry;
+    public InputAction _Move, _Jump, _FrameEnable, _Crouch, _TakeUp, _Pause, _Resume, _Goal, _Retry, _Next;
 
     private (float low, float high) _prevFrequency = (0, 0);
 
@@ -61,6 +61,7 @@ public class InputManager : MonoBehaviour
         _Resume = _playerInput.actions["Resume"];
         _Goal = _playerInput.actions["Goal"];
         _Retry = _playerInput.actions["Retry"];
+        _Next = _playerInput.actions["Next"];
 
         if(SceneManager.GetActiveScene().name == "MainMenu")
         {
@@ -167,6 +168,8 @@ public class InputManager : MonoBehaviour
         }
 
         StopAllCoroutines();
+
+        Gamepad.current?.SetMotorSpeeds(0, 0);
     }
 
     public void SetVibration(float lowFrequency, float highFrequency, float howLong)

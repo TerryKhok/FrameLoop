@@ -55,6 +55,7 @@ MonoBehaviour:
   _sceneName: 
   _isOpened: 0
   _stageIndex: -1
+  _sprite: {fileID: -1225617086, guid: a211e2c146acae145b6fcb769a3c54e8, type: 3}
 --- !u!114 &7303121582648498020
 MonoBehaviour:
   m_ObjectHideFlags: 0

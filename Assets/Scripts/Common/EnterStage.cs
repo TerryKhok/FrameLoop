@@ -12,6 +12,8 @@ public class EnterStage : MonoBehaviour
     private bool _isOpened = false;
     [SerializeField]
     private int _stageIndex = -1;
+    [SerializeField]
+    private Sprite _sprite;
 
     private bool _inputW = false;
     private FrameLoop _frameLoop;
@@ -48,6 +50,11 @@ public class EnterStage : MonoBehaviour
         else if(SaveManager.g_saveData.g_clearFlag[_stageIndex - 1])
         {
             _isOpened = true;
+        }
+        else if(SaveManager.g_saveData.g_arriveFlag[_stageIndex - 1])
+        {
+            _isOpened= true;
+            transform.GetComponent<SpriteRenderer>().sprite = _sprite;
         }
         else
         {

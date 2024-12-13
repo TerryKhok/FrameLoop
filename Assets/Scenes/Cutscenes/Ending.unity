@@ -23219,7 +23219,7 @@ MonoBehaviour:
     fadeTime: 1.5
   - start: 13.5
     fadeTime: 4
-  - start: 7
+  - start: 6
     fadeTime: 4
 --- !u!4 &1586025067
 Transform:
@@ -24201,7 +24201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _text: {fileID: 2114642938}
-  _delayDuration: 0.18
+  _delayDuration: 0.15
 --- !u!114 &2114642941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24257,7 +24257,7 @@ MonoBehaviour:
           m_StringArgument: AppreciateScene
           m_BoolArgument: 0
         m_CallState: 2
-  _delay: 10
+  _delay: 9
 --- !u!1001 &6157847262865906858
 PrefabInstance:
   m_ObjectHideFlags: 0

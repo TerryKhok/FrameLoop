@@ -104,6 +104,11 @@ public class Goal : SingletonMonoBehaviour<Goal>
         }
 
         _tutorialPC = GetComponent<TutorialPC>();
+
+        if (SaveManager.g_saveData != null)
+        {
+            SaveManager.g_saveData.g_arriveFlag[_stageIndex] = true;
+        }
     }
 
     private void Update()

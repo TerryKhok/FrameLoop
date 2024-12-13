@@ -7,6 +7,7 @@ using UnityEngine;
 public class SaveData
 {
     public bool[] g_clearFlag = new bool[30];
+    public bool[] g_arriveFlag = new bool[30];
     public int[] g_starCount = new int[30];
 }
 
@@ -66,6 +67,7 @@ public class SaveManager : MonoBehaviour
         for (int i = 0; i < 30; ++i)
         {
             data.g_clearFlag[i] = true;
+            data.g_arriveFlag[i] = true;
             data.g_starCount[i] = 3;
         }
         g_saveData = data;
@@ -115,6 +117,7 @@ public class SaveManager : MonoBehaviour
             for (int i = 0; i < 30; ++i)
             {
                 data.g_clearFlag[i] = false;
+                data.g_arriveFlag[i] = false;
                 data.g_starCount[i] = 0;
             }
 

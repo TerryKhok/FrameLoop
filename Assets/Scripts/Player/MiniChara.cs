@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public static class MiniCharaParams
 {
@@ -418,6 +419,7 @@ public class MiniCharaFrame : MiniCharaStateBase
 {
     private static Transform _frame;
     private MiniCharaAnimation _animation;
+    private VisualEffect _effect;
     private bool _isStop = false;
 
     public static void SetFrame(Transform frameTransform)
@@ -445,6 +447,8 @@ public class MiniCharaFrame : MiniCharaStateBase
         }
 
         _animation = _miniCharaStateMachine.transform.GetComponentInChildren<MiniCharaAnimation>();
+        _effect = _miniCharaStateMachine.transform.GetComponentInChildren<VisualEffect>();
+        _effect.enabled = true;
 
         _miniCharaStateMachine.transform.GetComponent<BoxCollider2D>().isTrigger = true;
         _miniCharaStateMachine.transform.GetComponentInChildren<SpriteRenderer>().sortingOrder = 150;
@@ -496,6 +500,7 @@ public class MiniCharaFrame : MiniCharaStateBase
     override public void Exit()
     {
         _animation.StopFrameAnimation();
+        _effect.enabled = false;
 
         _miniCharaStateMachine.rigidbody.gravityScale = 1.0f;
 

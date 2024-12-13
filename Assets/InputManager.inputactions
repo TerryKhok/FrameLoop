@@ -76,6 +76,15 @@
                     "processors": "",
                     "interactions": "Hold(duration=0.8)",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Next",
+                    "type": "Button",
+                    "id": "61572e6e-ff35-44be-b994-f9af13ba91a5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold(duration=0.8)",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -747,6 +756,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Retry",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9bb4e59d-f59f-41d7-9f66-b778cf3f6ee2",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Next",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "88c6942e-1239-478b-9ae2-2259eabaab82",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Next",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

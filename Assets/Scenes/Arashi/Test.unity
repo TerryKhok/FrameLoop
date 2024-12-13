@@ -961,7 +961,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rocketPositionX: -6
   rocketPositionY: 12
-  openTiming: 3
+  closeTiming: 0
   takeOffTiming: 5
   flyTiming: 6
   flyingTime: 6
@@ -1364,6 +1364,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Rocket
+      objectReference: {fileID: 0}
+    - target: {fileID: 2215911660619721826, guid: a12299dfa9eeda949aa58db82e09dfb2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5575507054587105085, guid: a12299dfa9eeda949aa58db82e09dfb2,
         type: 3}

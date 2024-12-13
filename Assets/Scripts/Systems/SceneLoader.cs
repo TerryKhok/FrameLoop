@@ -32,6 +32,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
         if(_playable)
         {
             _inputManager._Retry.performed += Retry;
+            _inputManager._Next.performed += Next;
         }
         else
         {
@@ -45,6 +46,11 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     private void Update()
     {
         _progress = _inputManager._Retry.GetTimeoutCompletionPercentage();
+        var temp = _inputManager._Next.GetTimeoutCompletionPercentage();
+        if (_progress < temp)
+        {
+            _progress = temp;
+        }
         _circleWipeController.SetProgress(_progress);
         if(_progress > 0)
         {
@@ -177,6 +183,7 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
         if (_playable)
         {
             _inputManager._Retry.performed -= Retry;
+            _inputManager._Next.performed -= Next;
         }
         else
         {
@@ -188,6 +195,12 @@ public class SceneLoader : SingletonMonoBehaviour<SceneLoader>
     {
         _isLoading = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void Next(InputAction.CallbackContext context)
+    {
+        _isLoading = true;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void Skip(InputAction.CallbackContext context)
