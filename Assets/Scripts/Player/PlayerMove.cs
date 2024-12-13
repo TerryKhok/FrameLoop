@@ -55,6 +55,10 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
+        var currentVelocity = _rb.velocity;
+        currentVelocity.y = 0;
+        _rb.velocity -= currentVelocity;
+
         //Debug.Log(_rb.velocity);
         _playerAnimation.SetMoveX((int)_currentInput.x);
 
@@ -277,5 +281,28 @@ public class PlayerMove : MonoBehaviour
         _currentInput = new Vector2(x, 0);
 
         _isMoving = _currentInput.x != 0;
+    }
+
+    public void SetRotate(int x)
+    {
+        if(x == 0)
+        {
+            return; 
+        }
+
+        if (x < 0)
+        {
+            _transform.eulerAngles = new Vector3(0, 180, 0);
+        }
+        else
+        {
+            _transform.eulerAngles = new Vector3(0, 0, 0);
+        }
+    }
+
+    public void SetTargetVelocity(float target)
+    {
+        _targetVelocity = target;
+        _playerAnimation.SetWalkSpeed(target / 7.0f);
     }
 }

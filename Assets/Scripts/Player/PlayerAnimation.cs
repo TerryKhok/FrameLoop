@@ -59,9 +59,20 @@ public class PlayerAnimation : SingletonMonoBehaviour<PlayerAnimation>
         _bodyAnim.SetInteger("MoveX", direction);
     }
 
+    public void SetWalkSpeed(float speed)
+    {
+        _bodyAnim.SetFloat("WalkSpeed", speed);
+        _headAnim.SetFloat("WalkSpeed", speed);
+    }
+
     public void SetCrouchSpeed(float speed)
     {
         _bodyAnim.SetFloat("CrouchSpeed", speed);
+    }
+
+    public void SetSmile(bool smile)
+    {
+        _headAnim.SetBool("Smile", smile);
     }
 
     private void LateUpdate()

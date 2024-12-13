@@ -15,7 +15,7 @@ public static class MiniCharaParams
 
     public const float MOVE_VELOCITY = 7.0f;
     public const float MOVE_VELOCITY_CROUCH = 5.0f;
-    public const float MOVE_MIN_HORIZONTSL_DISTANCE = 0.1f;
+    public const float MOVE_MIN_HORIZONTSL_DISTANCE = 0.3f;
 
     public const float MOVE_STOP_DISTANCE = 0.1f;
 
@@ -319,6 +319,10 @@ public class MiniCharaMove : MiniCharaStateBase
 
     override public void FixedUpdate()
     {
+        var currentVelocity = _miniCharaStateMachine.rigidbody.velocity;
+        currentVelocity.y = 0;
+        _miniCharaStateMachine.rigidbody.velocity -= currentVelocity;
+
         Vector3 currentPosition = _transform.position;
 
         RaycastHit2D hit = Physics2D.BoxCast(currentPosition, _size, 0, Vector2.down, 0.05f, _mask);
@@ -374,11 +378,15 @@ public class MiniCharaMove : MiniCharaStateBase
             {
                 _miniCharaStateMachine.rigidbody.AddForce(Vector3.up * MiniCharaParams.JUMP_FORCE_MIDDLE, ForceMode2D.Impulse);
                 _animation.PlayJumpAnimation();
+                AudioManager.instance.Stop("Chibi character walking");
+                AudioManager.instance.Play("Chibi character jumping");
             }
             else if (_isOpen_high && _isWall)
             {
                 _miniCharaStateMachine.rigidbody.AddForce(Vector3.up * MiniCharaParams.JUMP_FORCE_HIGH, ForceMode2D.Impulse);
                 _animation.PlayJumpAnimation();
+                AudioManager.instance.Stop("Chibi character walking");
+                AudioManager.instance.Play("Chibi character jumping");
                 //Debug.Log("ハイジャンプ");
             }
             //else
@@ -409,6 +417,8 @@ public class MiniCharaMove : MiniCharaStateBase
 public class MiniCharaFrame : MiniCharaStateBase
 {
     private static Transform _frame;
+    private MiniCharaAnimation _animation;
+    private bool _isStop = false;
 
     public static void SetFrame(Transform frameTransform)
     {
@@ -433,19 +443,28 @@ public class MiniCharaFrame : MiniCharaStateBase
         {
             _miniCharaStateMachine.rigidbody.AddForce(Vector3.up * MiniCharaParams.JUMP_FORCE_MIDDLE, ForceMode2D.Impulse);
         }
-        
+
+        _animation = _miniCharaStateMachine.transform.GetComponentInChildren<MiniCharaAnimation>();
+
         _miniCharaStateMachine.transform.GetComponent<BoxCollider2D>().isTrigger = true;
         _miniCharaStateMachine.transform.GetComponentInChildren<SpriteRenderer>().sortingOrder = 150;
     }
 
     override public void Update()
     {
+        if (_isStop)
+        {
+            return;
+        }
+
         Vector3 gap = _frame.transform.position - _miniCharaStateMachine.transform.position;
 
         if (Mathf.Abs(gap.y) < 0.1f && _miniCharaStateMachine.rigidbody.velocity.y < 0)
         {
             _miniCharaStateMachine.rigidbody.velocity = Vector3.zero;
             _miniCharaStateMachine.rigidbody.gravityScale = 0.0f;
+
+            _isStop = true;
         }
     }
 
@@ -476,6 +495,8 @@ public class MiniCharaFrame : MiniCharaStateBase
 
     override public void Exit()
     {
+        _animation.StopFrameAnimation();
+
         _miniCharaStateMachine.rigidbody.gravityScale = 1.0f;
 
         _miniCharaStateMachine.transform.GetComponent<BoxCollider2D>().isTrigger = false;
@@ -576,6 +597,7 @@ public class MiniCharaWarp : MiniCharaStateBase
                 }
             case WarpTarget.Frame:
                 {
+                    minichara.GetComponentInChildren<MiniCharaAnimation>().PlayFrameAnimation();
                     minichara.transform.GetComponentInChildren<SpriteRenderer>().sortingOrder = 150;
                     _warpPosition = FrameLoop.Instance.transform.position;
 
@@ -667,7 +689,6 @@ public class MiniCharaWarp : MiniCharaStateBase
 
         if (_warpTarget == WarpTarget.Player && _warped)
         {
-            minichara.GetComponent<BoxCollider2D>().isTrigger = false;
             Vector3 warpGap = _warpPosition - minichara.position;
 
             if (Mathf.Abs(warpGap.y) < 0.1f && _miniCharaStateMachine.rigidbody.velocity.y < 0)
@@ -677,16 +698,20 @@ public class MiniCharaWarp : MiniCharaStateBase
             else
             {
                 Vector3 currentPosition = minichara.position;
+                currentPosition.y -= 0.5f;
                 LayerMask mask = 1 << LayerMask.NameToLayer("OPlatform");
                 mask |= 1 << LayerMask.NameToLayer("OBox");
 
-                RaycastHit2D hit = Physics2D.BoxCast(currentPosition, new Vector2(0.7f,1.0f), 0, Vector2.down, 0.05f, mask);
+                RaycastHit2D hit = Physics2D.BoxCast(currentPosition, new Vector2(0.7f,1.0f), 0, Vector2.down, 0.03f, mask);
                 bool isLanding = hit.collider != null && _miniCharaStateMachine.rigidbody.velocity.y <= 0;
-                
-                if(isLanding)
+
+                var direction = PlayerInfo.Instance.g_transform.position - minichara.position;
+                Debug.Log(direction.y);
+
+                if(isLanding && direction.y > 0)
                 {
-                    Debug.Log("着地！！！！");
                     _miniCharaStateMachine.ChangeState("Idle");
+
                 }
             }
         }
@@ -701,6 +726,11 @@ public class MiniCharaWarp : MiniCharaStateBase
         var instance = GameObject.Instantiate(particle, position + gap, quaternion);
         instance.GetComponent<ParticleSystemRenderer>().maskInteraction = SpriteMaskInteraction.None;
         GameObject.Destroy(instance, 0.5f);
+    }
+
+    public override void Exit()
+    {
+        _miniCharaStateMachine.transform.GetComponent<BoxCollider2D>().isTrigger = false;
     }
 }
 

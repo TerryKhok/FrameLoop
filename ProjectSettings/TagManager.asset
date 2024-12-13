@@ -66,6 +66,12 @@ TagManager:
   - name: Particles
     uniqueID: 798712241
     locked: 0
+  - name: FrontGround
+    uniqueID: 111052589
+    locked: 0
+  - name: Frame
+    uniqueID: 1706382665
+    locked: 0
   - name: PillarBox
     uniqueID: 400033771
     locked: 0

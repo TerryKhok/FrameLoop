@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Xml;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class Rocketlanding : MonoBehaviour
 {
@@ -18,6 +20,9 @@ public class Rocketlanding : MonoBehaviour
     private float rocketDestinationY;
 
     private float elapsedTime;
+    bool isLanding = false;
+    bool isOpened = false;
+    bool hasLanded = false;
 
     [SerializeField]
     private GameObject rocketParticles;
@@ -25,6 +30,14 @@ public class Rocketlanding : MonoBehaviour
     private float shakeAmount = 10f;
     [SerializeField]
     private float shakeIntensity = 1f;
+
+    private Animator animator;
+    [SerializeField]
+    private float landingTime;
+    [SerializeField]
+    private float openTime;
+
+    bool rocketSoundPlayed = false;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +48,8 @@ public class Rocketlanding : MonoBehaviour
         rocketParticles.SetActive(true);
 
         this.GetComponent<Transform>().position = new Vector3(rocketPositionX, rocketPositionY, 0);
+
+        animator = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -44,11 +59,38 @@ public class Rocketlanding : MonoBehaviour
 
         if (elapsedTime >= animationTime)
         {
+            AudioManager.instance.Stop("Rocket");
+
+            if (!hasLanded)
+            {
+                AudioManager.instance.Play("Box Landing");
+            }
+
             this.GetComponent<Transform>().position = new Vector3(rocketDestinationX, rocketDestinationY, 0);
             rocketParticles.SetActive(false);
+            hasLanded = true;
+
+            if (!isOpened && elapsedTime >= openTime)
+            {
+                animator.Play("rocket open");
+                AudioManager.instance.Play("DoorOpen");
+                isOpened = true;
+            }
         }
-        else
+        else if (!hasLanded)
         {
+            if(!rocketSoundPlayed)
+            {
+                rocketSoundPlayed = true;
+                AudioManager.instance.Play("Rocket");
+            }
+
+            if (!isLanding && elapsedTime >= landingTime)
+            {
+                animator.Play("rocket landing");
+                isLanding = true;
+            }
+
             float t = elapsedTime / animationTime;
 
             //shaking
