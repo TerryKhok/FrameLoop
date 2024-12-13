@@ -763,7 +763,7 @@ PrefabInstance:
     - target: {fileID: 7338336295516263739, guid: 467cdeb8fac9465478ec6ddbe6a65469,
         type: 3}
       propertyPath: _minFrameCount
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
