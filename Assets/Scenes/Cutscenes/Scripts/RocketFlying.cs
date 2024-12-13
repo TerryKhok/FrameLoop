@@ -89,5 +89,10 @@ public class RocketFlying : MonoBehaviour
             this.GetComponent<Transform>().position = lerpedPosition + (new Vector3(offsetX, offsetY, 0) * shakeIntensity);
         }
     }
+
+    private void OnDisable()
+    {
+        AudioManager.instance.Stop("Rocket");
+    }
 }
 
