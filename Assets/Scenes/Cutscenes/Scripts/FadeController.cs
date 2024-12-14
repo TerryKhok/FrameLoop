@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class FadeController : MonoBehaviour
 {
+    [SerializeField]
+    private CircleWipeController _circleWipeController;
+
     [System.Serializable]
     public struct Timing
     {
@@ -21,6 +24,11 @@ public class FadeController : MonoBehaviour
     private int _index = 0;
     private bool _fading = false;
 
+    private void Start()
+    {
+        _circleWipeController.StopTransition();
+    }
+
     private void Update()
     {
         if(_index >= _timingList.Count)
@@ -29,7 +37,6 @@ public class FadeController : MonoBehaviour
         }
 
         _elapsedTime += Time.deltaTime;
-        Debug.Log(_elapsedTime);
 
         if(_elapsedTime >= _timingList[_index].start)
         {

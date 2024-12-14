@@ -26,12 +26,15 @@ public class MainMenu : MonoBehaviour
 
     [SerializeField]
     private GameObject transitionObject;
+    //[SerializeField]
+    //private float transitionTime;
+
     [SerializeField]
-    private float transitionTime;
+    private float fadeInSpeed = 1.5f, fadeOutSpeed = 2.0f;
 
     private Animator fadeAnimator;
-    private bool isTransition = false;
-    private float elapsedTime = 0f;
+    //private bool isTransition = false;
+    //private float elapsedTime = 0f;
 
     private void Start()
     {
@@ -39,7 +42,8 @@ public class MainMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
 
         fadeAnimator = transitionObject.GetComponent<Animator>();
-        isTransition = false;
+        //isTransition = false;
+        fadeAnimator.SetFloat("AnimationSpeed", fadeInSpeed);
         fadeAnimator.Play("fade in");
     }
 
@@ -81,10 +85,11 @@ public class MainMenu : MonoBehaviour
     public IEnumerator FadeOut()
     {
         fadeAnimator.Play("fade out");
-        isTransition = true;
+        //isTransition = true;
 
         yield return new WaitUntil(() =>
         {
+            fadeAnimator.SetFloat("AnimationSpeed", fadeOutSpeed);
             AnimatorStateInfo stateInfo = fadeAnimator.GetCurrentAnimatorStateInfo(0);
             return stateInfo.IsName("fade out") && stateInfo.normalizedTime >= 1.0f;
         });
@@ -94,6 +99,6 @@ public class MainMenu : MonoBehaviour
 
     private void Update()
     {
-        elapsedTime += Time.deltaTime;
+        //elapsedTime += Time.deltaTime;
     }
 }

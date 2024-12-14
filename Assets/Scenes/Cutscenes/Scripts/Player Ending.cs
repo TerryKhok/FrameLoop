@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class PlayerCutScene : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject _mainPlayerSprite = null, _climePlayerSprite = null;
+
     [System.Serializable]
     public struct MoveInfo
     {
@@ -25,6 +28,11 @@ public class PlayerCutScene : MonoBehaviour
     private float _smileElapsedTime = 0;
     private int _smileIndex = 0;
 
+    [SerializeField]
+    private float _climbStart = 30;
+    private float _climbElapsedTime = 0;
+    private bool _climbDone = false;
+
     private PlayerMove _playerMove = null;
     private float _elapsedTime = 0;
     private int _moveIndex = 0;
@@ -32,12 +40,22 @@ public class PlayerCutScene : MonoBehaviour
     private void Start()
     {
         _playerMove = GetComponent<PlayerMove>();
+        _climePlayerSprite.SetActive(false);
     }
 
     private void Update()
     {
+        if(_climbDone)
+        {
+            var currentPos = transform.position;
+            currentPos.y += 1 * Time.deltaTime;
+            transform.position = currentPos;
+            return;
+        }
         _elapsedTime += Time.deltaTime;
         _smileElapsedTime += Time.deltaTime;
+        _climbElapsedTime += Time.deltaTime;
+        //Debug.Log(_climbElapsedTime);
 
         // åoâﬂéûä‘Ç∆î‰ärÇµÇƒÅAâﬂÇ¨ÇƒÇ¢ÇÍÇŒóvëfî‘çÜÇëùÇ‚Ç∑
         if (_moveInfos[_moveIndex].time <= _elapsedTime)
@@ -57,6 +75,16 @@ public class PlayerCutScene : MonoBehaviour
             _smileIndex++;
             _smileElapsedTime = 0;
             PlayerAnimation.Instance.SetSmile(false);
+        }
+
+        if (_climbStart <= _climbElapsedTime && !_climbDone)
+        {
+            _climbDone = true;
+            _mainPlayerSprite.SetActive(false);
+            _climePlayerSprite.SetActive(true);
+            _climePlayerSprite.GetComponent<Animator>().Play("PlayerClimb");
+            transform.GetComponent<Rigidbody2D>().gravityScale = 0.0f;
+            _playerMove.SetMove(0);
         }
 
         _playerMove.SetMove(_moveInfos[_moveIndex].moveDirection);

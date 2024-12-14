@@ -9,11 +9,13 @@ public class EnterStage : MonoBehaviour
     private string _sceneName = "";
 
     [SerializeField]
-    private bool _isOpened = false;
+    private bool _isClear = false;
     [SerializeField]
     private int _stageIndex = -1;
     [SerializeField]
-    private Sprite _sprite;
+    private bool _isWorldEnter = false;
+    [SerializeField]
+    private int _firstStageIndex = 0, _finalStageIndex = 0;
 
     private bool _inputW = false;
     private FrameLoop _frameLoop;
@@ -21,7 +23,7 @@ public class EnterStage : MonoBehaviour
     private Animator _animator;
     private Vector2 _offset = Vector2.zero;
 
-    private bool _isEnter = false, _isSkiped = false;
+    private bool _isEnter = false, _isArrived = false;
 
     private TutorialPC[] _tutorialPCArray = new TutorialPC[2];
 
@@ -42,31 +44,36 @@ public class EnterStage : MonoBehaviour
 
         _offset = GetComponent<BoxCollider2D>().offset;
         _tutorialPCArray = GetComponents<TutorialPC>();
+        _isClear = false;
+        _isArrived = false;
 
-        if(_stageIndex == 0)
+        if (_isWorldEnter)
         {
-            _isOpened = true;
-        }
-        else if(SaveManager.g_saveData.g_clearFlag[_stageIndex - 1])
-        {
-            _isOpened = true;
-        }
-        else if(SaveManager.g_saveData.g_arriveFlag[_stageIndex - 1])
-        {
-            _isOpened= true;
-            _isSkiped = true;
-            transform.GetComponent<SpriteRenderer>().sprite = _sprite;
+            _isClear = true;
+            for (int i = _firstStageIndex; i <= _finalStageIndex; ++i)
+            {
+                _isArrived |= SaveManager.SaveDataInstance.g_arriveFlag[i];
+                _isClear &= SaveManager.SaveDataInstance.g_clearFlag[i];
+            }
         }
         else
         {
-            _isOpened = false;
+            if (SaveManager.SaveDataInstance.g_arriveFlag[_stageIndex])
+            {
+                _isArrived = true;
+            }
+
+            if (SaveManager.SaveDataInstance.g_clearFlag[_stageIndex])
+            {
+                _isClear = true;
+            }
         }
 
         if(_tutorialPCArray != null)
         {
             foreach(var tutorial in _tutorialPCArray)
             {
-                tutorial.SetActive(_isOpened);
+                tutorial.SetActive(_isArrived);
             }
         }
 
@@ -76,8 +83,8 @@ public class EnterStage : MonoBehaviour
     {
         if (_animator != null)
         {
-            _animator.SetBool("isSkiped", _isSkiped);
-            _animator.SetBool("isOpened", _isOpened);
+            _animator.SetBool("isOpened", _isClear);
+            _animator.SetBool("isArrived", _isArrived);
         }
     }
 
@@ -86,7 +93,7 @@ public class EnterStage : MonoBehaviour
         //-------------------------------------------------------------------
         //　デバッグ用にしゃがんでれば入れるようにする
         //-------------------------------------------------------------------
-        if ((/*!_playerInfo.g_isCrouch &&*/ !_isOpened) || _isEnter) { return; }
+        if ((/*!_playerInfo.g_isCrouch &&*/ !_isArrived) || _isEnter) { return; }
         if (collision != _playerInfo.g_goalHitBox) { return; }
 
         if (_inputW && _playerInfo.g_isGround)

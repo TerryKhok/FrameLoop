@@ -16,13 +16,13 @@ EditorBuildSettings:
     guid: 2d9a38d0f1b118440a351780157a875d
   - enabled: 1
     path: Assets/Scenes/SK/lvl 3.unity
-    guid: 325915aef7819ed40829a2d80f90f9be
-  - enabled: 1
-    path: Assets/Scenes/SK/lvl 4.unity
     guid: e72d261fc2c3412458460b598fd3f3c7
   - enabled: 1
-    path: Assets/Scenes/SK/lvl 5.unity
+    path: Assets/Scenes/SK/lvl 4.unity
     guid: 57f3d94e34fa5ae4db95b6e38878298a
+  - enabled: 1
+    path: Assets/Scenes/SK/lvl 5.unity
+    guid: 325915aef7819ed40829a2d80f90f9be
   - enabled: 1
     path: Assets/Scenes/SK/lvl 6.unity
     guid: 92fde2cf58a350447b3e9c9545add7bf
@@ -40,7 +40,7 @@ EditorBuildSettings:
     guid: 8267f896ad76fea41b55d5d53fe63193
   - enabled: 1
     path: Assets/Scenes/SK/lvl 11.unity
-    guid: 93f9cbe3eb014e5408ed7a1a144e7a33
+    guid: 8949062ccefa1ec49b46cc2bb8f1e9a5
   - enabled: 1
     path: Assets/Scenes/SK/lvl 12.unity
     guid: 36d3e22771732fb4a884f1f6478cb83a
@@ -61,7 +61,7 @@ EditorBuildSettings:
     guid: e7783b63bb35f7e43acaf56f229ba925
   - enabled: 1
     path: Assets/Scenes/SK/lvl 18.unity
-    guid: 979dd7e85f8c65445bec7c274dc27d54
+    guid: c0ef56284ab61544db423e52983f43c2
   - enabled: 1
     path: Assets/Scenes/SK/lvl 19.unity
     guid: ac7d228cf91ab5d4b92dc4ccbe051b4b
@@ -70,13 +70,13 @@ EditorBuildSettings:
     guid: 8767bbe7aae37284ab21eed8ab0febf6
   - enabled: 1
     path: Assets/Scenes/SK/lvl 21.unity
-    guid: ac690b34e5516024ea9bc8a0f1c0f512
+    guid: d1e203e082384d342bafafe0e7c66740
   - enabled: 1
     path: Assets/Scenes/SK/lvl 22.unity
-    guid: 215a2835357be3a48899b61685830af4
+    guid: 29297a1773582f740a3adbc0c5544fb2
   - enabled: 1
     path: Assets/Scenes/SK/lvl 23.unity
-    guid: 407d86ea1dd200a47b745f2985168f54
+    guid: 5b5137682edc6d6438f98b42073a9911
   - enabled: 1
     path: Assets/Scenes/SK/lvl 24.unity
     guid: fe4d0bd9bb698094882edfb4cfb563d3

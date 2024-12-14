@@ -4389,7 +4389,7 @@ PrefabInstance:
     - target: {fileID: 4380307982306058851, guid: 8b9caf9c46fdee7478875b33b046f315,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4562720369195583882, guid: 8b9caf9c46fdee7478875b33b046f315,
         type: 3}
@@ -4479,7 +4479,7 @@ PrefabInstance:
     - target: {fileID: 8227925797614665501, guid: 8b9caf9c46fdee7478875b33b046f315,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8765788065109612853, guid: 8b9caf9c46fdee7478875b33b046f315,
         type: 3}
@@ -4581,6 +4581,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d18b67e95134d9f44ab972c2879dcafb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &881830265 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8227925797614665501, guid: 8b9caf9c46fdee7478875b33b046f315,
+    type: 3}
+  m_PrefabInstance: {fileID: 881830262}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7cf58ac9d3a3dd469c904e7d5b877ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &890829461
@@ -8406,6 +8418,11 @@ PrefabInstance:
       propertyPath: totalAnimationTime
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 4302275644663215964, guid: 8a83088533aa1fd41818267e123542a8,
+        type: 3}
+      propertyPath: _circleWipeController
+      value: 
+      objectReference: {fileID: 881830265}
     - target: {fileID: 4572965122240995996, guid: 8a83088533aa1fd41818267e123542a8,
         type: 3}
       propertyPath: m_Name

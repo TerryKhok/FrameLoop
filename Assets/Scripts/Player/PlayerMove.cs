@@ -305,4 +305,9 @@ public class PlayerMove : MonoBehaviour
         _targetVelocity = target;
         _playerAnimation.SetWalkSpeed(target / 7.0f);
     }
+
+    private void OnDisable()
+    {
+        AudioManager.instance.Stop("Walk");
+    }
 }

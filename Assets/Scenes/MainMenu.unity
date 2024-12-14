@@ -5521,7 +5521,7 @@ MonoBehaviour:
   _firstSelectObj: {fileID: 1239973338}
   _quitSelectObj: {fileID: 1296599062}
   transitionObject: {fileID: 880745860}
-  transitionTime: 1
+  fadeSpeed: 2
 --- !u!114 &1455702376 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3327044510172297211, guid: 8b9caf9c46fdee7478875b33b046f315,

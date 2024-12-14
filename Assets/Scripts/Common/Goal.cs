@@ -116,9 +116,9 @@ public class Goal : SingletonMonoBehaviour<Goal>
 
         _tutorialPC = GetComponent<TutorialPC>();
 
-        if (SaveManager.g_saveData != null)
+        if (SaveManager.SaveDataInstance != null)
         {
-            SaveManager.g_saveData.g_arriveFlag[_stageIndex] = true;
+            SaveManager.SaveDataInstance.g_arriveFlag[_stageIndex] = true;
         }
 
         playerSprite.SetActive(true);
@@ -218,10 +218,10 @@ public class Goal : SingletonMonoBehaviour<Goal>
         //Reset frame sound
         AudioManager.instance.Stop("Frame");
 
-        if (SaveManager.g_saveData != null)
+        if (SaveManager.SaveDataInstance != null)
         {
-            SaveManager.g_saveData.g_clearFlag[_stageIndex] = true;
-            SaveManager.g_saveData.g_starCount[_stageIndex] = _starCount;
+            SaveManager.SaveDataInstance.g_clearFlag[_stageIndex] = true;
+            SaveManager.SaveDataInstance.g_starCount[_stageIndex] = _starCount;
         }
 
         if(!s_isChallenge)
@@ -326,7 +326,7 @@ public class Goal : SingletonMonoBehaviour<Goal>
         //ÅŒã‚ÌScene‚È‚çƒ^ƒCƒgƒ‹‚ÉˆÚ“®‚·‚é
         if (currentScene.name == "lvl 27")
         {
-            SceneLoader.Instance.LoadScene("AppreciateScene");
+            SceneLoader.Instance.LoadScene("Ending");
         }
         else
         {

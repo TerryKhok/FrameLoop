@@ -118,6 +118,13 @@ public class CircleWipeController : MonoBehaviour
         }
     }
 
+    public void StopTransition()
+    {
+        _time = _duration;
+        _circleWipeImage.enabled = false;
+        _isTransitioning = false;
+    }
+
     public float GetDuration()
     {
         return _duration;

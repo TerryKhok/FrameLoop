@@ -13,7 +13,19 @@ public class SaveData
 
 public class SaveManager : MonoBehaviour
 {
-    static public SaveData g_saveData;
+    private static SaveData _saveData = null;
+    static public SaveData SaveDataInstance
+    {
+        set { _saveData = value; }
+        get
+        {
+            if(_saveData == null)
+            {
+                LoadData();
+            }
+            return _saveData; 
+        }
+    }
     private const string _saveFileName = "save.dat";
 
     private static bool _hasInitialized = false;
@@ -30,7 +42,7 @@ public class SaveManager : MonoBehaviour
         //Debug.Log("saveData.MyInt: " + saveData.g_clearFlag);
     }
 
-    private void OnApplicationQuit()
+    private void OnDisable()
     {
         SaveData();
     }
@@ -70,24 +82,24 @@ public class SaveManager : MonoBehaviour
             data.g_arriveFlag[i] = true;
             data.g_starCount[i] = 3;
         }
-        g_saveData = data;
+        _saveData = data;
 
         Debug.Log("complete");
     }
 
-    public void SaveData()
+    public static void SaveData()
     {
         //Debug.Log("Button clicked. Saving " + saveData.g_clearFlag + " to file.");
-        SaveDataToFile(g_saveData, _saveFileName);
+        SaveDataToFile(_saveData, _saveFileName);
     }
 
-    public void LoadData()
+    public static void LoadData()
     {
-        g_saveData = LoadDataFromFile(_saveFileName);
+        _saveData = LoadDataFromFile(_saveFileName);
         //Debug.Log("saveData.MyInt: " + saveData.g_clearFlag);
     }
 
-    private void SaveDataToFile(SaveData data, string fileName)
+    private static void SaveDataToFile(SaveData data, string fileName)
     {
         string filePath = Application.persistentDataPath + "/" + fileName;
         FileStream fileStream = new FileStream(filePath, FileMode.Create);
@@ -97,7 +109,7 @@ public class SaveManager : MonoBehaviour
         //  Debug.Log("Save data saved to " + filePath);
     }
 
-    private SaveData LoadDataFromFile(string fileName)
+    private static SaveData LoadDataFromFile(string fileName)
     {
         string filePath = Application.persistentDataPath + "/" + fileName;
         if (File.Exists(filePath))

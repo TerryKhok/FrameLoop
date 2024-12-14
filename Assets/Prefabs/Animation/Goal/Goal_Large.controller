@@ -11,8 +11,8 @@ AnimatorState:
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
-  - {fileID: -6874238538798430345}
   - {fileID: 5516063550990356591}
+  - {fileID: -6874238538798430345}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -64,10 +64,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: isOpened
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: isSkiped
+    m_ConditionEvent: isArrived
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7256995365840591015}
@@ -222,7 +219,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: isSkiped
+  - m_Name: isArrived
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
