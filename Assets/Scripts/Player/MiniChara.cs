@@ -10,15 +10,15 @@ public static class MiniCharaParams
     public const float TO_MOVE_HORIZONTAL_DISTANCE = 1.3f;
     public const float TO_IDLE_HORIZONTAL_DISTANCE = 1.0f;
     public const float TO_WARP_WAIT_TIME = 1.2f;
-    public const float TO_WARP_STUCK_TIME = 0.8f;
+    public const float TO_WARP_STUCK_TIME = 1.5f;
 
     public const float STUCK_RANGE = 0.2f;
 
     public const float MOVE_VELOCITY = 7.0f;
     public const float MOVE_VELOCITY_CROUCH = 5.0f;
-    public const float MOVE_MIN_HORIZONTSL_DISTANCE = 0.3f;
+    public const float MOVE_MIN_HORIZONTSL_DISTANCE = 0.5f;
 
-    public const float MOVE_STOP_DISTANCE = 0.1f;
+    public const float MOVE_STOP_DISTANCE = 0.3f;
 
     public const float JUMP_FORCE_LOW = 7.0f;
     public const float JUMP_FORCE_MIDDLE = 10.0f;
@@ -147,6 +147,9 @@ public class StateMachineBase
     protected string _currentStateName = null, _prebStateName = null;
     public string PrebStateName => _prebStateName;
 
+    private bool _warpQue = false;
+    private MiniCharaWarp.WarpTarget _warpTarget = MiniCharaWarp.WarpTarget.Player;
+
     public StateMachineBase(Transform transform)
     {
         _transform = transform;
@@ -170,19 +173,54 @@ public class StateMachineBase
 
     virtual public void UpdateCurrentState()
     {
-        Debug.Log(_currentState.ToString());
+        //Debug.Log(_currentState.ToString());
 
         if (FrameLoop.Instance.g_activeTrigger)
         {
             //Debug.Log("フレーム生成");
-            MiniCharaWarp.SetWarpTarget(MiniCharaWarp.WarpTarget.Frame);
-            ChangeState("Warp");
+            if (_currentStateName != "Warp")
+            {
+                _warpQue = false;
+                MiniCharaWarp.SetWarpTarget(MiniCharaWarp.WarpTarget.Frame);
+                ChangeState("Warp");
+            }
+            else
+            {
+                _warpQue = true;
+                _warpTarget = MiniCharaWarp.WarpTarget.Frame;
+            }
         }
         if(FrameLoop.Instance.g_resumeTrigger)
         {
             //Debug.Log("フレーム解除");
-            MiniCharaWarp.SetWarpTarget(MiniCharaWarp.WarpTarget.Player);
-            ChangeState("Warp");
+            if (_currentStateName != "Warp")
+            {
+                _warpQue = false;
+                MiniCharaWarp.SetWarpTarget(MiniCharaWarp.WarpTarget.Player);
+                ChangeState("Warp");
+            }
+            else
+            {
+                _warpQue = true;
+                _warpTarget = MiniCharaWarp.WarpTarget.Player;
+            }
+        }
+        if(_warpQue)
+        {
+            if (_currentStateName == "Frame" && _warpTarget == MiniCharaWarp.WarpTarget.Frame)
+            {
+                _warpQue = false;
+            }
+            else if (_currentStateName == "Idle" && _warpTarget == MiniCharaWarp.WarpTarget.Player)
+            {
+                _warpQue = false;
+            }
+            else if (_currentStateName != "Warp")
+            {
+                _warpQue = false;
+                MiniCharaWarp.SetWarpTarget(_warpTarget);
+                ChangeState("Warp");
+            }
         }
         _currentState?.Update();
     }
@@ -237,14 +275,14 @@ public class MiniCharaMove : MiniCharaStateBase
 {
     private static PlayerInfo _playerInfo = null;
     private bool _isLanding = true, _isHole = false, _isWall = false, _isOpen = false, _isOpen_high = false;
-    private bool _isLost = false;
+    private bool _isLost = false, _prevStuck = false, _currentStuck = false;
     private LayerMask _mask;
     private Vector2 _size = new Vector2(0.7f, 1);
     private float _stuckTime = 0;
     private Transform _transform = null;
     private float _elapsedTime = 0;
     private MiniCharaAnimation _animation;
-    private float _wallDistance = 0;
+    //private float _wallDistance = 0;
 
     private float _prevPosX = 0, _currentPosX = 0;
 
@@ -345,7 +383,7 @@ public class MiniCharaMove : MiniCharaStateBase
 
         hit = Physics2D.Raycast(currentPosition, _transform.right, 0.6f, _mask);
         _isWall = hit.collider != null;
-        _wallDistance = hit.distance;
+        //_wallDistance = hit.distance;
 
         hit = Physics2D.Raycast(currentPosition + Vector3.up, _transform.right, 0.6f, _mask);
         _isOpen = hit.collider == null;
@@ -358,27 +396,6 @@ public class MiniCharaMove : MiniCharaStateBase
         Debug.DrawRay(currentPosition + Vector3.up * 2, _transform.right * 0.6f, Color.blue, 0.1f);
 
         //Debug.Log($"着地：{_isLanding}、穴：{_isHole}、壁：{_isWall}、開いてる：{_isOpen}、ハイてる：{_isOpen_high}");
-
-        Vector3 target = _playerInfo.g_transform.position;// - _playerInfo.g_transform.right * 0.5f;
-        float distance = target.x - currentPosition.x;
-        int direction = MathF.Sign(distance);
-
-        if (Mathf.Abs(distance) >= MiniCharaParams.MOVE_MIN_HORIZONTSL_DISTANCE)
-        {
-            if (_wallDistance > MiniCharaParams.MOVE_STOP_DISTANCE || _isWall == false)
-            {
-                float velocity = MiniCharaParams.MOVE_VELOCITY;
-                if (_playerInfo.g_isCrouch || _playerInfo.g_takeUpFg)
-                {
-                    velocity = MiniCharaParams.MOVE_VELOCITY_CROUCH;
-                }
-
-                Vector2 moveDistance = new Vector2(direction * velocity * Time.fixedDeltaTime, 0);
-                _miniCharaStateMachine.rigidbody.position += moveDistance;
-
-                _transform.rotation = Quaternion.LookRotation(new Vector3(0, 0, direction));
-            }
-        }
 
         if (_isLanding)
         {
@@ -404,9 +421,49 @@ public class MiniCharaMove : MiniCharaStateBase
             //}
         }
 
-        _currentPosX = _miniCharaStateMachine.rigidbody.position.x;
+        Vector3 target = _playerInfo.g_transform.position;// - _playerInfo.g_transform.right * 0.5f;
+        float distance = target.x - currentPosition.x;
+        int direction = MathF.Sign(distance);
 
-        if (Mathf.Abs(_currentPosX - _prevPosX)/Time.deltaTime <= 0.5f)
+        if (Mathf.Abs(distance) >= MiniCharaParams.MOVE_MIN_HORIZONTSL_DISTANCE)
+        {
+            if (/*_wallDistance > MiniCharaParams.MOVE_STOP_DISTANCE || */_isWall == false)
+            {
+                //Debug.Log(_wallDistance);
+
+                float velocity = MiniCharaParams.MOVE_VELOCITY;
+                if (_playerInfo.g_isCrouch || _playerInfo.g_takeUpFg)
+                {
+                    velocity = MiniCharaParams.MOVE_VELOCITY_CROUCH;
+                }
+
+                Vector2 moveDistance = new Vector2(direction * velocity * Time.fixedDeltaTime, 0);
+                _miniCharaStateMachine.rigidbody.position += moveDistance;
+
+                _transform.rotation = Quaternion.LookRotation(new Vector3(0, 0, direction));
+            }
+            else if(_isLanding)
+            {
+                float velocity = MiniCharaParams.MOVE_VELOCITY_CROUCH;
+
+                Vector2 moveDistance = new Vector2(direction * velocity * -1 * Time.fixedDeltaTime, 0);
+                _miniCharaStateMachine.rigidbody.position += moveDistance;
+
+                _transform.rotation = Quaternion.LookRotation(new Vector3(0, 0, direction));
+            }
+        }
+
+        _prevStuck = _currentStuck;
+        _currentStuck = false;
+        _currentPosX = _miniCharaStateMachine.rigidbody.position.x;
+        Debug.Log(Mathf.Abs(_currentPosX - _prevPosX) / Time.fixedDeltaTime);
+
+        if (Mathf.Abs(_currentPosX - _prevPosX)/Time.fixedDeltaTime <= 1.0f)
+        {
+            _stuckTime += Time.fixedDeltaTime;
+            _currentStuck = true;
+        }
+        else if(_prevStuck)
         {
             _stuckTime += Time.fixedDeltaTime;
         }
@@ -414,7 +471,7 @@ public class MiniCharaMove : MiniCharaStateBase
         {
             _stuckTime = 0;
         }
-        //Debug.Log($"{_stuckTime}秒ハマってます:{gap}しか移動してません");
+        Debug.Log($"{_stuckTime}秒ハマってます");
     }
 
     override public void Exit()
@@ -598,6 +655,24 @@ public class MiniCharaWarp : MiniCharaStateBase
     public static void SetWarpTarget(WarpTarget target)
     {
         _warpTarget = target;
+    }
+
+    public void ChangeTargetOnUpdate()
+    {
+        _warped = false;
+        switch (_warpTarget)
+        {
+            case WarpTarget.Player:
+                {
+
+                }
+                break;
+            case WarpTarget.Frame:
+                {
+
+                }
+                break;
+        }
     }
 
     public MiniCharaWarp(MiniCharaStateMachine stateMachine) : base(stateMachine) { }

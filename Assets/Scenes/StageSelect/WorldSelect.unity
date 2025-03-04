@@ -1402,6 +1402,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}
+      propertyPath: _isWorldEnter
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
       propertyPath: _finalStageIndex
       value: 26
       objectReference: {fileID: 0}
@@ -3355,6 +3360,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _stageIndex
       value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
+        type: 3}
+      propertyPath: _isWorldEnter
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5863706431377398753, guid: 507ffdbcdf01fa34aa319df9dc077b13,
         type: 3}

@@ -14,6 +14,9 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField]
+    private CircleWipeController _cirecleWipeCollider = null;
+
+    [SerializeField]
     private GameObject _mainMenu;
     [SerializeField]
     private GamepadUISelect _gamepadUISelect_main;
@@ -38,6 +41,8 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
+        _cirecleWipeCollider.StopTransition();
+
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
