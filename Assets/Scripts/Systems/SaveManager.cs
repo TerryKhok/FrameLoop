@@ -114,26 +114,45 @@ public class SaveManager : MonoBehaviour
         string filePath = Application.persistentDataPath + "/" + fileName;
         if (File.Exists(filePath))
         {
-            FileStream fileStream = new FileStream(filePath, FileMode.Open);
-            BinaryFormatter bf = new BinaryFormatter();
-            SaveData data = (SaveData)bf.Deserialize(fileStream);
-            fileStream.Close();
-            // Debug.Log("Save data loaded from " + filePath);
-            return data;
+            try
+            {
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+                {
+                    if(fileStream.Length == 0)
+                    {
+                        //セーブデータが空の場合
+                        return CreateDefaultSaveData();
+                    }
+
+                    BinaryFormatter bf = new BinaryFormatter();
+                    return (SaveData)bf.Deserialize(fileStream);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError("Failed to load save data: " + ex.Message);
+                return CreateDefaultSaveData();
+            }
         }
         else
         {
-            //Debug.Log("Save file not found.");
-            SaveData data = new SaveData();
-
-            for (int i = 0; i < 30; ++i)
-            {
-                data.g_clearFlag[i] = false;
-                data.g_arriveFlag[i] = false;
-                data.g_starCount[i] = 0;
-            }
-
-            return data;
+            //新しいセーブデータ作成
+            return CreateDefaultSaveData();
         }
+    }
+
+    private static SaveData CreateDefaultSaveData()
+    {
+        //Debug.Log("Save file not found.");
+        SaveData data = new SaveData();
+
+        for (int i = 0; i < 30; ++i)
+        {
+            data.g_clearFlag[i] = false;
+            data.g_arriveFlag[i] = false;
+            data.g_starCount[i] = 0;
+        }
+
+        return data;
     }
 }
