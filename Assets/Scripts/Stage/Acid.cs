@@ -7,9 +7,9 @@ public class Acid : MonoBehaviour, IParentOnTrigger
     {
         water,lava,acid
     }
-    [SerializeField,Tooltip("¡‚Í‰½‚ÌˆÓ–¡‚à‚È‚¢")]
+    [SerializeField,Tooltip("ä»Šã¯ä½•ã®æ„å‘³ã‚‚ãªã„")]
     private Type _type;
-    [SerializeField,Tag,Tooltip("”j‰ó‰Â”\‚ÈTag")]
+    [SerializeField,Tag,Tooltip("ç ´å£Šå¯èƒ½ãªTag")]
     private List<string> _tagList = new List<string>() { "Player"};
 
     public void OnEnter(Collider2D other, Transform transform)

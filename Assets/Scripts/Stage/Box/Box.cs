@@ -6,25 +6,25 @@ using UnityEngine;
  *  ClassName   :Box
  *  Creator     :Fujishita.Arashi
  *  
- *  Summary     :” ‚Ì‹““®‚ğŠÇ—‚·‚éƒNƒ‰ƒX
- *               ”j‰ó‰Â”\‚È°‚Ì”j‰óAƒvƒŒƒCƒ„[‚É’Í‚Ü‚ê‚Ä‚¢‚é‚ÌˆÚ“®
+ *  Summary     :ç®±ã®æŒ™å‹•ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
+ *               ç ´å£Šå¯èƒ½ãªåºŠã®ç ´å£Šã€ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«æ´ã¾ã‚Œã¦ã„ã‚‹æ™‚ã®ç§»å‹•
  *               
  *  Created     :2024/04/27
  *  
- *  2024/10/12@‘«ê‚ğ‰ó‚·ƒMƒ~ƒbƒN‚ğƒXƒNƒŠƒvƒg‚ğQÆ‚·‚é‚æ‚¤‚É•ÏX
+ *  2024/10/12ã€€è¶³å ´ã‚’å£Šã™ã‚®ãƒŸãƒƒã‚¯ã‚’ã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚’å‚ç…§ã™ã‚‹ã‚ˆã†ã«å¤‰æ›´
  */
 public class Box : MonoBehaviour,IBox
 {
     private float _height = 0f;
     private float _lastGroundHeight = 0f;
     private Transform _transform, _playerTransform;
-    [SerializeField,Tooltip("” ‚Ì‰¡•")]
+    [SerializeField,Tooltip("ç®±ã®æ¨ªå¹…")]
     private float _width = 1f;
-    [SerializeField,Tooltip("”j‰ó‚·‚é‚Ì‚É•K—v‚È‚‚³")]
+    [SerializeField,Tooltip("ç ´å£Šã™ã‚‹ã®ã«å¿…è¦ãªé«˜ã•")]
     private float _breakHeight = 5f;
-    [SerializeField, Tooltip("”j‰ó‚É~‚Ü‚éƒtƒŒ[ƒ€”(50fps)")]
+    [SerializeField, Tooltip("ç ´å£Šæ™‚ã«æ­¢ã¾ã‚‹ãƒ•ãƒ¬ãƒ¼ãƒ æ•°(50fps)")]
     private int _hitStop = 3;
-    [SerializeField,Tag,Tooltip("”j‰ó‰Â”\‚ÈTag")]
+    [SerializeField,Tag,Tooltip("ç ´å£Šå¯èƒ½ãªTag")]
     private List<string> _tagList = new List<string>() { "Breakable"};
     [SerializeField]
     private float _afterimageLifetime = 0.1f;
@@ -68,7 +68,7 @@ public class Box : MonoBehaviour,IBox
 
         _playerInfo = PlayerInfo.Instance;
 
-        //y²ˆÈŠO‚Ì“®‚«‚ğ§ŒÀ
+        //yè»¸ä»¥å¤–ã®å‹•ãã‚’åˆ¶é™
         //_rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX;
     }
 
@@ -92,7 +92,7 @@ public class Box : MonoBehaviour,IBox
         StopCoroutine(nameof(UpdateLateFixedUpdate));
     }
 
-    //FixedUpdate‚ÌŒã‚ÉLateFixedUpdate‚ğŒÄ‚Ño‚·
+    //FixedUpdateã®å¾Œã«LateFixedUpdateã‚’å‘¼ã³å‡ºã™
     private IEnumerator UpdateLateFixedUpdate()
     {
         var waitForFixedUpdate = new WaitForFixedUpdate();
@@ -104,7 +104,7 @@ public class Box : MonoBehaviour,IBox
         }
     }
 
-    //FixedUpdate‚ÌŒã‚ÉŒÄ‚Ño‚³‚ê‚éƒƒ\ƒbƒh
+    //FixedUpdateã®å¾Œã«å‘¼ã³å‡ºã•ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
     private void LateFixedUpdate()
     {
         _prevLanding = _isLanding;
@@ -128,19 +128,19 @@ public class Box : MonoBehaviour,IBox
     }
 
 
-    //”j‰ó‰Â”\‚È°‚ğ‰ó‚·
+    //ç ´å£Šå¯èƒ½ãªåºŠã‚’å£Šã™
     private void platformBreak()
     {
         if (_isWaiting)
         {
             _stopCount++;
-            // ƒqƒbƒgƒXƒgƒbƒv‚ÌŠÔ“à‚È‚çreturn‚·‚é
+            // ãƒ’ãƒƒãƒˆã‚¹ãƒˆãƒƒãƒ—ã®æ™‚é–“å†…ãªã‚‰returnã™ã‚‹
             if (_stopCount < _hitStop)
             {
                 _rb.velocity = Vector3.zero;
                 return;
             }
-            // ƒqƒbƒgƒXƒgƒbƒv‚ÌŠÔ‚ğ‰z‚¦‚½‚ç‘Ò‹@‚ğ‰ğœ‚·‚é
+            // ãƒ’ãƒƒãƒˆã‚¹ãƒˆãƒƒãƒ—ã®æ™‚é–“ã‚’è¶ŠãˆãŸã‚‰å¾…æ©Ÿã‚’è§£é™¤ã™ã‚‹
             else
             {
                 _rb.velocity = _prevVelocity;
@@ -149,7 +149,7 @@ public class Box : MonoBehaviour,IBox
             }
         }
 
-        //Å‚“_‚ÌÀ•W‚ğXV
+        //æœ€é«˜ç‚¹ã®åº§æ¨™ã‚’æ›´æ–°
         if (_height < _transform.position.y)
         {
             _height = _transform.position.y;
@@ -174,13 +174,13 @@ public class Box : MonoBehaviour,IBox
         {
             foreach (var hit in hits)
             {
-                //Ray‚ª“–‚½‚Á‚½‚Ì‚ª©g‚È‚çcontinue‚·‚é
+                //RayãŒå½“ãŸã£ãŸã®ãŒè‡ªèº«ãªã‚‰continueã™ã‚‹
                 if(hit.transform.CompareTag("Box"))
                 {
                     continue; 
                 }
 
-                //‹ó’†‚É‰Ÿ‚µo‚³‚ê‚½‚ç’Í‚İ‚ğƒLƒƒƒ“ƒZƒ‹‚·‚é
+                //ç©ºä¸­ã«æŠ¼ã—å‡ºã•ã‚ŒãŸã‚‰æ´ã¿ã‚’ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã™ã‚‹
                 if (hit.distance > 0.3f && _rb.velocity.y <= -0.1f)
                 {
                     holdCancel();
@@ -191,8 +191,8 @@ public class Box : MonoBehaviour,IBox
                 {
                     _lastGroundHeight = _transform.position.y;
 
-                    //Å‚“_‚Æ‚Ì·‚ªˆê’èˆÈã‚È‚ç”j‰ó‚·‚é
-                    //Å‚“_‚ÌƒŠƒZƒbƒg‚Ís‚í‚È‚¢
+                    //æœ€é«˜ç‚¹ã¨ã®å·®ãŒä¸€å®šä»¥ä¸Šãªã‚‰ç ´å£Šã™ã‚‹
+                    //æœ€é«˜ç‚¹ã®ãƒªã‚»ãƒƒãƒˆã¯è¡Œã‚ãªã„
                     if (_height - _lastGroundHeight >= _breakHeight)
                     {
                         //var breakablePlatform = hit.transform.GetComponent<BreakablePlatform>();
@@ -213,13 +213,13 @@ public class Box : MonoBehaviour,IBox
                 }
                 else
                 {
-                    //’n–Ê‚ÉG‚ê‚½‚çÅ‚“_‚ğƒŠƒZƒbƒg
+                    //åœ°é¢ã«è§¦ã‚ŒãŸã‚‰æœ€é«˜ç‚¹ã‚’ãƒªã‚»ãƒƒãƒˆ
                     OnLanding();
                     return;
                 }
             }
 
-            //©gˆÈŠO‚ÉRay‚ª“–‚½‚Á‚Ä‚È‚©‚Á‚½‚ç’Í‚İ‚ğƒLƒƒƒ“ƒZƒ‹
+            //è‡ªèº«ä»¥å¤–ã«RayãŒå½“ãŸã£ã¦ãªã‹ã£ãŸã‚‰æ´ã¿ã‚’ã‚­ãƒ£ãƒ³ã‚»ãƒ«
             if(_rb.velocity.y <= -0.1f)
             {
                 holdCancel();
@@ -246,7 +246,7 @@ public class Box : MonoBehaviour,IBox
 
         if (!_prevLanding)
         {
-            Debug.Log("‚Ç‚·‚ñ");
+            Debug.Log("ã©ã™ã‚“");
             AudioManager.instance.Play("Box Landing");
         }
     }
@@ -263,12 +263,12 @@ public class Box : MonoBehaviour,IBox
             return;
         }
 
-        //” ‚ğ‰Ÿ‚·‰¹‚ğ~‚ß‚é
+        //ç®±ã‚’æŠ¼ã™éŸ³ã‚’æ­¢ã‚ã‚‹
         AudioManager.instance.Stop("Box Pull");
         soundFlag = false;
 
         //--------------------------------------------------------------------------------
-        //ƒvƒŒƒCƒ„[‚Æ” ‚Ì“–‚½‚è”»’è‚ğ•œŠˆ
+        //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ç®±ã®å½“ãŸã‚Šåˆ¤å®šã‚’å¾©æ´»
         //--------------------------------------------------------------------------------
         var playerCol = _playerTransform.GetComponent<Collider2D>();
 
@@ -300,7 +300,7 @@ public class Box : MonoBehaviour,IBox
         AdjustPosition();
     }
 
-    //ƒvƒŒƒCƒ„[‚ª” ‚ğ‚Á‚Ä‚¢‚é‚Æ‚«‚Ìˆ—
+    //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç®±ã‚’æŒã£ã¦ã„ã‚‹ã¨ãã®å‡¦ç†
     private void isHold()
     {
         if(_playerTransform == null) { return; }
@@ -310,7 +310,7 @@ public class Box : MonoBehaviour,IBox
             return;
         }
 
-        //ƒvƒŒƒCƒ„[‚ªˆÚ“®’†‚µ‚Ä‚È‚¢‚Í‰¹‚ğ~‚ß‚é
+        //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç§»å‹•ä¸­ã—ã¦ãªã„æ™‚ã¯éŸ³ã‚’æ­¢ã‚ã‚‹
         if (_playerMove._isMoving == false)
         {
             AudioManager.instance.Stop("Box Pull");
@@ -328,7 +328,7 @@ public class Box : MonoBehaviour,IBox
         var pos = _rb.position;
         var direction = new Vector2(_playerInfo.g_currentInputX, 0);
 
-        //“ü—Í‚ª‚È‚¢‚Æ‚«‚Í“®‚©‚³‚È‚¢
+        //å…¥åŠ›ãŒãªã„ã¨ãã¯å‹•ã‹ã•ãªã„
         if (direction.x == 0 && !_movable)
         {
             return;
@@ -339,7 +339,7 @@ public class Box : MonoBehaviour,IBox
         Vector2 size = new Vector2((_width+0.1f) / 2, 0.5f);
 
 
-        //©•ª‚Æ“¯‚¶ƒŒƒCƒ„[‚ÌBox‚ªis•ûŒü‚É‚ ‚é‚©ƒ`ƒFƒbƒN
+        //è‡ªåˆ†ã¨åŒã˜ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®BoxãŒé€²è¡Œæ–¹å‘ã«ã‚ã‚‹ã‹ãƒã‚§ãƒƒã‚¯
         LayerMask mask = 1 << gameObject.layer;
 
         if (LayerMask.LayerToName(gameObject.layer)[0] == 'I')
@@ -367,7 +367,7 @@ public class Box : MonoBehaviour,IBox
             {
                 foreach (var hit in hits)
                 {
-                    //©•ª‚ğœŠO‚µ‚ÄAÀ•W‚ğˆÚ“®‚³‚¹‚é
+                    //è‡ªåˆ†ã‚’é™¤å¤–ã—ã¦ã€åº§æ¨™ã‚’ç§»å‹•ã•ã›ã‚‹
                     if (hittenBoxList.Contains(hit.transform)) { continue; }
 
                     if (hit.transform.CompareTag("Box"))
@@ -400,7 +400,7 @@ public class Box : MonoBehaviour,IBox
 
         pos = _playerTransform.position;
 
-        //” ‚ÆƒvƒŒƒCƒ„[‚ÌÀ•W‚ÌƒYƒŒ‚ğ‡‚í‚¹‚é
+        //ç®±ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™ã®ã‚ºãƒ¬ã‚’åˆã‚ã›ã‚‹
         pos.y -= 0.5f; 
 
         float offset = 0.95f;
@@ -418,15 +418,15 @@ public class Box : MonoBehaviour,IBox
 
         pos += (Vector2)_playerTransform.right * offset;
 
-        //” ‚©ƒvƒŒƒCƒ„[‚Ì‚Ç‚¿‚ç‚©‚ªƒ‹[ƒv‚µ‚Ä‚¢‚éê‡‚ÍÀ•W‚ğ‚¸‚ç‚·
+        //ç®±ã‹ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã©ã¡ã‚‰ã‹ãŒãƒ«ãƒ¼ãƒ—ã—ã¦ã„ã‚‹å ´åˆã¯åº§æ¨™ã‚’ãšã‚‰ã™
         pos += _offset;
 
-        //xÀ•W‚ğƒvƒŒƒCƒ„[‚ÌÀ•W‚©‚çˆê’è‹——£‚¸‚ç‚µ‚½ˆÊ’u‚É‚·‚é
+        //xåº§æ¨™ã‚’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™ã‹ã‚‰ä¸€å®šè·é›¢ãšã‚‰ã—ãŸä½ç½®ã«ã™ã‚‹
         _rb.position = pos;
 
     }
 
-    //” ‚ğˆÚ“®‚³‚¹‚éŠî€‚Ìtransform‚ğó‚¯æ‚é
+    //ç®±ã‚’ç§»å‹•ã•ã›ã‚‹åŸºæº–ã®transformã‚’å—ã‘å–ã‚‹
     public void Hold(Transform t)
     {
         if(t == null)
@@ -440,7 +440,7 @@ public class Box : MonoBehaviour,IBox
         _playerInfo.g_takeUpFg = true;
 
         //--------------------------------------------------------------------------------
-        //ƒvƒŒƒCƒ„[‚Æ” ‚Ì“–‚½‚è”»’è‚ğ–³‚­‚·
+        //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ç®±ã®å½“ãŸã‚Šåˆ¤å®šã‚’ç„¡ãã™
         //--------------------------------------------------------------------------------
         var playerCol = _playerTransform.GetComponent<Collider2D>();
 
@@ -464,7 +464,7 @@ public class Box : MonoBehaviour,IBox
 
         _playerMove = PlayerInfo.Instance.g_transform.GetComponent<PlayerMove>();
 
-        //” ‚ğ‰Ÿ‚·‰¹‚ğÄ¶
+        //ç®±ã‚’æŠ¼ã™éŸ³ã‚’å†ç”Ÿ
         //if (!soundFlag)
         //{
         //    AudioManager.instance.Play("Box Pull");
@@ -474,11 +474,11 @@ public class Box : MonoBehaviour,IBox
 
     public void AdjustPosition()
     {
-        //À•W‚ª’†“r”¼’[‚È‚ÉC³‚·‚éˆ—---------------------------------------------------
+        //åº§æ¨™ãŒä¸­é€”åŠç«¯ãªæ™‚ã«ä¿®æ­£ã™ã‚‹å‡¦ç†---------------------------------------------------
         Vector2 pos = _transform.position;
         var gap = new Vector2(pos.x % 0.5f, pos.y % 0.5f);
 
-        //Ÿ‚ÌƒOƒŠƒbƒh‚Ì‚Ù‚¤‚ª‹ß‚¢‚Æ‚«‚ÍŸ‚ÌƒOƒŠƒbƒh‚©‚ç‚Ì·‚É•ÏŠ·‚·‚é
+        //æ¬¡ã®ã‚°ãƒªãƒƒãƒ‰ã®ã»ã†ãŒè¿‘ã„ã¨ãã¯æ¬¡ã®ã‚°ãƒªãƒƒãƒ‰ã‹ã‚‰ã®å·®ã«å¤‰æ›ã™ã‚‹
         if (gap.x > 0.25f)
         {
             gap.x = gap.x - 0.5f;
@@ -499,8 +499,8 @@ public class Box : MonoBehaviour,IBox
 
         var absGap = new Vector2(Mathf.Abs(gap.x), Mathf.Abs(gap.y));
 
-        //ˆê”Ô‹ß‚­‚ÌƒOƒŠƒbƒh‚©‚ç‚Ì‹——£‚Ìâ‘Î’l‚Å”äŠr‚·‚é(’l‚Ì”ÍˆÍ‚Í0.0~0.25)
-        //ƒYƒŒ‚ª‘å‚«‚¢‚È‚çÀ•W‚Ì•â³‚ğ‚µ‚È‚¢
+        //ä¸€ç•ªè¿‘ãã®ã‚°ãƒªãƒƒãƒ‰ã‹ã‚‰ã®è·é›¢ã®çµ¶å¯¾å€¤ã§æ¯”è¼ƒã™ã‚‹(å€¤ã®ç¯„å›²ã¯0.0~0.25)
+        //ã‚ºãƒ¬ãŒå¤§ãã„ãªã‚‰åº§æ¨™ã®è£œæ­£ã‚’ã—ãªã„
         if (absGap.x > 0.15f)
         {
             gap.x = 0;

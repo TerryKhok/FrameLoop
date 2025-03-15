@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
  *  ClassName   :Fan
  *  Creator     :Fujishita.Arashi
  *  
- *  Summary     :•—‚Ìƒ^ƒCƒ‹‚ğ¶¬‚·‚é
+ *  Summary     :é¢¨ã®ã‚¿ã‚¤ãƒ«ã‚’ç”Ÿæˆã™ã‚‹
  *               
  *  Created     :2024/04/27
  */
@@ -18,27 +18,27 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         UP,DOWN,LEFT,RIGHT
     }
 
-    [SerializeField,Tooltip("•—‚Ì•ûŒü")]
+    [SerializeField,Tooltip("é¢¨ã®æ–¹å‘")]
     private Direction _direction = Direction.RIGHT;
-    [SerializeField,Tooltip("•—ˆæ‚Éİ’u‚·‚éTile")]
+    [SerializeField,Tooltip("é¢¨åŸŸã«è¨­ç½®ã™ã‚‹Tile")]
     private Tile _tile = null;
-    [SerializeField,Tooltip("•—‚ÌË’ö")]
+    [SerializeField,Tooltip("é¢¨ã®å°„ç¨‹")]
     private int _range = 1;
-    [SerializeField,Tooltip("—^‚¦‚é‘¬“x(m/s)")]
+    [SerializeField,Tooltip("ä¸ãˆã‚‹é€Ÿåº¦(m/s)")]
     private float _force = 1f;
-    [SerializeField,Tooltip("‰e‹¿”ÍˆÍ‚ğ”ñ•\¦‚É‚·‚é")]
+    [SerializeField,Tooltip("å½±éŸ¿ç¯„å›²ã‚’éè¡¨ç¤ºã«ã™ã‚‹")]
     private bool _invisible = false;
-    [SerializeField, Tag,Tooltip("‰e‹¿‚ğ—^‚¦‚éTag")]
+    [SerializeField, Tag,Tooltip("å½±éŸ¿ã‚’ä¸ãˆã‚‹Tag")]
     private List<string> _tagList = new List<string>() { "Player"};
-    [SerializeField, Tag,Tooltip("Õ‚ç‚ê‚éTag")]
+    [SerializeField, Tag,Tooltip("é®ã‚‰ã‚Œã‚‹Tag")]
     private List<string> _blockTagList = new List<string>() { "Platform"}; 
-    [SerializeField,Tooltip("‰‚ß‚©‚ç—LŒø‚©")]
+    [SerializeField,Tooltip("åˆã‚ã‹ã‚‰æœ‰åŠ¹ã‹")]
     private bool _enableOnAwake = true;
-    [SerializeField,Tooltip("¶Œü‚«‚ÌƒAƒeƒŠƒAƒ‹")]
+    [SerializeField,Tooltip("å·¦å‘ãã®ã‚¢ãƒ†ãƒªã‚¢ãƒ«")]
     private Material _leftMaterial = null;
-    [SerializeField,Tooltip("ãŒü‚«‚ÌƒAƒeƒŠƒAƒ‹")]
+    [SerializeField,Tooltip("ä¸Šå‘ãã®ã‚¢ãƒ†ãƒªã‚¢ãƒ«")]
     private Material _upMaterial = null;
-    [SerializeField,Tooltip("‰ºŒü‚«‚ÌƒAƒeƒŠƒAƒ‹")]
+    [SerializeField,Tooltip("ä¸‹å‘ãã®ã‚¢ãƒ†ãƒªã‚¢ãƒ«")]
     private Material _downMaterial = null;
     private bool _isEnable = false;
 
@@ -46,7 +46,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     private Tilemap _tilemapOutside = null, _tilemapInside;
     private TilemapRenderer _tilemapRenderer = null, _tilemapRenderer_out;
 
-    //•—‚ÉG‚ê‚Ä‚éRigidbody‚Ìdictionary
+    //é¢¨ã«è§¦ã‚Œã¦ã‚‹Rigidbodyã®dictionary
     private Dictionary<Collider2D, Rigidbody2D> _rbDic = new Dictionary<Collider2D, Rigidbody2D>();
 
     private Vector3Int _frameSize = Vector3Int.zero;
@@ -62,7 +62,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
 
     private Coroutine _coroutine = null;
 
-    //Tilemap‚ÌÀ•W‚ğ’²®
+    //Tilemapã®åº§æ¨™ã‚’èª¿æ•´
     private void Reset()
     {
         Transform child = transform.GetChild(0);
@@ -84,7 +84,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
 
         _animator = GetComponentInChildren<Animator>();
 
-        //ŠeíComponent‚ğæ“¾--------------------------------------------------
+        //å„ç¨®Componentã‚’å–å¾—--------------------------------------------------
         Transform child1 = _transform.GetChild(0);
         _outsideT = _transform.GetChild(1);
         _tilemapOutside = _outsideT.GetComponent<Tilemap>();
@@ -99,7 +99,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         Transform rendererTransform = spriteRenderer.transform;
 
-        //_direction‚Å•—‚Ì”­Ë•ûŒü‚ğŒˆ‚ß‚é
+        //_directionã§é¢¨ã®ç™ºå°„æ–¹å‘ã‚’æ±ºã‚ã‚‹
         switch (_direction)
         {
             case Direction.UP:
@@ -125,11 +125,11 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                 break;
         }
 
-        //ƒtƒŒ[ƒ€‚ÌƒTƒCƒY‚ğæ“¾
+        //ãƒ•ãƒ¬ãƒ¼ãƒ ã®ã‚µã‚¤ã‚ºã‚’å–å¾—
         var frameObj = GameObject.FindGameObjectWithTag("Frame");
         _frameSize = (Vector3Int)frameObj.GetComponent<FrameLoop>().GetSize();
 
-        //•—‚ğ”­Ë
+        //é¢¨ã‚’ç™ºå°„
         SetTiles();
     }
 
@@ -156,7 +156,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
 
     private void FixedUpdate()
     {
-        //—LŒø‚ÅŒ©‚¦‚éó‘Ô‚È‚çrenderer‚ğ—LŒø‚É‚·‚é
+        //æœ‰åŠ¹ã§è¦‹ãˆã‚‹çŠ¶æ…‹ãªã‚‰rendererã‚’æœ‰åŠ¹ã«ã™ã‚‹
         _tilemapRenderer.enabled = _isEnable && !_invisible;
 
         if (!_isEnable || Goal.Instance.g_clear) 
@@ -166,11 +166,11 @@ public class Fan : MonoBehaviour,IParentOnTrigger
 
         bool playerFlag = false;
 
-        //”­Ë•ûŒü‚ğVector2‚É•ÏŠ·
+        //ç™ºå°„æ–¹å‘ã‚’Vector2ã«å¤‰æ›
         Vector2 forceDirection = new Vector2(_actualDirection.x, _actualDirection.y);
         List<Collider2D> temp = new List<Collider2D>();
 
-        //•—‚ÉG‚ê‚Ä‚¢‚érigidbody‚ğ‘S‚ÄŠm”F
+        //é¢¨ã«è§¦ã‚Œã¦ã„ã‚‹rigidbodyã‚’å…¨ã¦ç¢ºèª
         foreach (var item in _rbDic)
         {
             Collider2D col = item.Key;
@@ -182,7 +182,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                 continue;
             }
 
-            // ’Í‚Ü‚ê‚Ä‚¢‚é” ‚Í“®‚©‚³‚¸APlayer‚ğ“®‚©‚·
+            // æ´ã¾ã‚Œã¦ã„ã‚‹ç®±ã¯å‹•ã‹ã•ãšã€Playerã‚’å‹•ã‹ã™
             if (rb.transform == _playerInfo.g_box)
             {
                 _playerInfo.g_box.GetComponent<Box>().SetMovable(true);
@@ -190,18 +190,18 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                 rb = _playerInfo.g_rb;
                 //Debug.Log("box");
             }
-            //”­Ë•ûŒü‚Éˆê’è‘¬“x‚ÅˆÚ“®‚³‚¹‚é
+            //ç™ºå°„æ–¹å‘ã«ä¸€å®šé€Ÿåº¦ã§ç§»å‹•ã•ã›ã‚‹
             var currentPos = rb.position;
 
             Ray ray = new Ray(currentPos, forceDirection);
             Vector2 size = (col as BoxCollider2D).size;
 
-            // Player‚Ì‚İ‚Ì—áŠOˆ—
+            // Playerã®ã¿ã®ä¾‹å¤–å‡¦ç†
             if(col.CompareTag("Player"))
             {
                 //Debug.Log("Player");
 
-                // ƒvƒŒƒCƒ„[‚ª“ñ‰ñ“®‚©‚È‚¢‚æ‚¤‚Éƒtƒ‰ƒO‚ÅŠÇ—
+                // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒäºŒå›å‹•ã‹ãªã„ã‚ˆã†ã«ãƒ•ãƒ©ã‚°ã§ç®¡ç†
                 if(playerFlag)
                 {
                     //Debug.Log("Player,twice");
@@ -210,17 +210,17 @@ public class Fan : MonoBehaviour,IParentOnTrigger
 
                 playerFlag = true;
 
-                // ” ‚ğ’Í‚ñ‚Å‚¢‚ÄA” ‚ª•—‚Ìis•ûŒü‚É‚ ‚éê‡
+                // ç®±ã‚’æ´ã‚“ã§ã„ã¦ã€ç®±ãŒé¢¨ã®é€²è¡Œæ–¹å‘ã«ã‚ã‚‹å ´åˆ
                 if(_playerInfo.g_takeUpFg && col.transform.right == (Vector3)forceDirection)
                 {
                     size = _playerInfo.g_box.GetComponent<BoxCollider2D>().size;
                     ray.origin = _playerInfo.g_box.position;
                 }
                 
-                // •—‚É‹ts‚·‚é•ûŒü‚É•à‚¢‚Ä‚¢‚é
+                // é¢¨ã«é€†è¡Œã™ã‚‹æ–¹å‘ã«æ­©ã„ã¦ã„ã‚‹æ™‚
                 if(_playerInfo.g_currentInputX * -1 == forceDirection.x)
                 {
-                    // •à‚«‚ğƒLƒƒƒ“ƒZƒ‹
+                    // æ­©ãã‚’ã‚­ãƒ£ãƒ³ã‚»ãƒ«
                     _playerInfo.g_walkCancel = true;
                     //Debug.Log("walkCancel");
                     continue;
@@ -249,10 +249,10 @@ public class Fan : MonoBehaviour,IParentOnTrigger
             {
                 foreach(var hit in hits)
                 {
-                    // ©•ªˆÈŠO‚ÌƒIƒuƒWƒFƒNƒg‚ª‘O‚É‚ ‚Á‚½‚çˆÚ“®‚µ‚È‚¢
+                    // è‡ªåˆ†ä»¥å¤–ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå‰ã«ã‚ã£ãŸã‚‰ç§»å‹•ã—ãªã„
                     if(hit.transform != rb.transform)
                     {
-                        // IgnoreCollision‚³‚ê‚Ä‚È‚¯‚ê‚Î
+                        // IgnoreCollisionã•ã‚Œã¦ãªã‘ã‚Œã°
                         if (!Physics2D.GetIgnoreCollision(hit.collider, col))
                         {
                             hitFlag = true;
@@ -289,12 +289,12 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         }
     }
 
-    //Tilemap‚ÉG‚ê‚Ä‚¢‚écollider‚ğó‚¯æ‚é
+    //Tilemapã«è§¦ã‚Œã¦ã„ã‚‹colliderã‚’å—ã‘å–ã‚‹
     public void OnStay(Collider2D other, Transform transform)
     {
         if (!_tagList.Contains(other.tag)) { return; }
 
-        // ” ‚ÌƒRƒs[‚È‚çe‚Å”»’f‚·‚é
+        // ç®±ã®ã‚³ãƒ”ãƒ¼ãªã‚‰è¦ªã§åˆ¤æ–­ã™ã‚‹
         if(other.GetComponent<BoxChild>() != null)
         {
             other = other.GetComponentInParent<Collider2D>();
@@ -302,7 +302,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
 
         if(!_rbDic.ContainsKey(other))
         {
-            //rigidbody‚ğæ“¾‚µ‚Ädictionary‚Ö’Ç‰Á
+            //rigidbodyã‚’å–å¾—ã—ã¦dictionaryã¸è¿½åŠ 
             var rb = other.GetComponent<Rigidbody2D>();
             if(rb != null)
             {
@@ -315,18 +315,18 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         }
     }
 
-    //Tilemap‚©‚ç—£‚ê‚½collider‚ğó‚¯æ‚é
+    //Tilemapã‹ã‚‰é›¢ã‚ŒãŸcolliderã‚’å—ã‘å–ã‚‹
     public void OnExit(Collider2D other, Transform transform)
     {
         if (!_tagList.Contains(other.tag)) { return; }
 
-        // ” ‚ÌƒRƒs[‚È‚çe‚Å”»’f‚·‚é
+        // ç®±ã®ã‚³ãƒ”ãƒ¼ãªã‚‰è¦ªã§åˆ¤æ–­ã™ã‚‹
         if (other.GetComponent<BoxChild>() != null)
         {
             other = other.GetComponentInParent<Collider2D>();
         }
 
-        //dictionary‚É‘¶İ‚µ‚Ä‚¢‚½‚çíœ‚·‚é
+        //dictionaryã«å­˜åœ¨ã—ã¦ã„ãŸã‚‰å‰Šé™¤ã™ã‚‹
         if (_rbDic.ContainsKey(other))
         {
             _rbDic.Remove(other);
@@ -342,32 +342,32 @@ public class Fan : MonoBehaviour,IParentOnTrigger
     }
     public void OnEnter(Collider2D other, Transform transform)
     {
-        //IParentOnTrigger‚Ì•K—vƒƒ\ƒbƒh
+        //IParentOnTriggerã®å¿…è¦ãƒ¡ã‚½ãƒƒãƒ‰
     }
 
-    //ƒtƒŒ[ƒ€‚ª—LŒø‚É‚È‚Á‚½‚Æ‚«‚Éˆê“xŒÄ‚Î‚ê‚é
+    //ãƒ•ãƒ¬ãƒ¼ãƒ ãŒæœ‰åŠ¹ã«ãªã£ãŸã¨ãã«ä¸€åº¦å‘¼ã°ã‚Œã‚‹
     public void FanLoopStarted()
     {
         StartCoroutine("windLoop");
     }
 
-    //ƒtƒŒ[ƒ€‚ª–³Œø‚É‚È‚Á‚½‚Æ‚«‚Éˆê“xŒÄ‚Î‚ê‚é
+    //ãƒ•ãƒ¬ãƒ¼ãƒ ãŒç„¡åŠ¹ã«ãªã£ãŸã¨ãã«ä¸€åº¦å‘¼ã°ã‚Œã‚‹
     public void FanLoopCanceled()
     {
         StartCoroutine("asyncSetTiles");
     }
 
-    //ƒtƒŒ[ƒ€‚ª‚ ‚é‚Æ‚«‚Ì•—‚Ì¶¬
+    //ãƒ•ãƒ¬ãƒ¼ãƒ ãŒã‚ã‚‹ã¨ãã®é¢¨ã®ç”Ÿæˆ
     private IEnumerator windLoop()
     {
-        //ƒtƒŒ[ƒ€‚ÌI—¹‚ğ‘Ò‚Â
-        //‘Ò‚½‚È‚¢‚ÆƒtƒŒ[ƒ€‚Å¶¬‚µ‚½Collider‚ÉRay‚ª“–‚½‚ç‚È‚¢
+        //ãƒ•ãƒ¬ãƒ¼ãƒ ã®çµ‚äº†ã‚’å¾…ã¤
+        //å¾…ãŸãªã„ã¨ãƒ•ãƒ¬ãƒ¼ãƒ ã§ç”Ÿæˆã—ãŸColliderã«RayãŒå½“ãŸã‚‰ãªã„
         yield return new WaitForEndOfFrame();
 
-        //•—‚ÉG‚ê‚Ä‚éƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg‚ğƒNƒŠƒA
+        //é¢¨ã«è§¦ã‚Œã¦ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆã‚’ã‚¯ãƒªã‚¢
         _rbDic.Clear();
 
-        //Tilemap‚ğ‘S‚ÄƒNƒŠƒA
+        //Tilemapã‚’å…¨ã¦ã‚¯ãƒªã‚¢
         _tilemapOutside.ClearAllTiles();
         _tilemapInside.ClearAllTiles();
 
@@ -376,19 +376,19 @@ public class Fan : MonoBehaviour,IParentOnTrigger
             yield break;
         }
 
-        //Fan‚ªƒtƒŒ[ƒ€‚Ì“à‘¤‚É‚ ‚é‚©
+        //FanãŒãƒ•ãƒ¬ãƒ¼ãƒ ã®å†…å´ã«ã‚ã‚‹ã‹
         bool inside = false, enterFlag = false;
 
         var pos = _transform.position;
         Vector3Int intPos = Vector3Int.zero;
 
-        //ƒtƒŒ[ƒ€‚É‚¾‚¯“–‚½‚éLayerMask‚ğì¬
+        //ãƒ•ãƒ¬ãƒ¼ãƒ ã«ã ã‘å½“ãŸã‚‹LayerMaskã‚’ä½œæˆ
         LayerMask mask = 1 << LayerMask.NameToLayer("Frame");
 
-        //•—‚ÌÅ‘å‹——£+1‰ñ•ª‚Ìƒ‹[ƒv
+        //é¢¨ã®æœ€å¤§è·é›¢+1å›åˆ†ã®ãƒ«ãƒ¼ãƒ—
         for (int i = 0; i <= _range; i++, pos += (Vector3)_actualDirection, intPos += _actualDirection)
         {
-            //Fan‚ÌˆÊ’u‚©‚ç1ƒ}ƒX‚¸‚Â‚¸‚ç‚µ‚ÄRay‚ğ”ò‚Î‚·
+            //Fanã®ä½ç½®ã‹ã‚‰1ãƒã‚¹ãšã¤ãšã‚‰ã—ã¦Rayã‚’é£›ã°ã™
             Ray ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos));
 
             RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10, mask);
@@ -397,42 +397,42 @@ public class Fan : MonoBehaviour,IParentOnTrigger
             {
                 if(hits.Length > 0)
                 {
-                    //ƒtƒŒ[ƒ€‚Ì“à‘¤‚È‚çRay‚ğ“à‘¤‚Ì‘«ê‚É“–‚½‚é‚æ‚¤‚É‚·‚é
+                    //ãƒ•ãƒ¬ãƒ¼ãƒ ã®å†…å´ãªã‚‰Rayã‚’å†…å´ã®è¶³å ´ã«å½“ãŸã‚‹ã‚ˆã†ã«ã™ã‚‹
                     mask |= 1 << LayerMask.NameToLayer("IPlatform");
                     inside = true;
                 }
                 else
                 {
-                    //ƒtƒŒ[ƒ€‚ÌŠO‘¤‚È‚çRay‚ğŠO‘¤‚Ì‘«ê‚É“–‚½‚é‚æ‚¤‚É‚·‚é
+                    //ãƒ•ãƒ¬ãƒ¼ãƒ ã®å¤–å´ãªã‚‰Rayã‚’å¤–å´ã®è¶³å ´ã«å½“ãŸã‚‹ã‚ˆã†ã«ã™ã‚‹
                     mask |= 1 << LayerMask.NameToLayer("OPlatform");
                 }
 
             }
-            else if (inside)//ƒtƒ@ƒ“‚ªƒtƒŒ[ƒ€‚Ì’†‚©
+            else if (inside)//ãƒ•ã‚¡ãƒ³ãŒãƒ•ãƒ¬ãƒ¼ãƒ ã®ä¸­ã‹
             {
-                //İ’u‚µ‚½‚¢ˆÊ’u‚ÉƒIƒuƒWƒFƒNƒg‚ª‚ ‚éê‡
+                //è¨­ç½®ã—ãŸã„ä½ç½®ã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚ã‚‹å ´åˆ
                 if (hits.Length > 0)
                 {
                     bool instance_here = false, blocking = false;
                     foreach (var hit in hits)
                     {
-                        //áŠQ•¨‚ª‚ ‚Á‚½‚çblocking‚ğtrue‚É
+                        //éšœå®³ç‰©ãŒã‚ã£ãŸã‚‰blockingã‚’trueã«
                         if (_blockTagList.Contains(hit.transform.tag))
                         {
                             blocking = true;
                         }
-                        //ƒtƒŒ[ƒ€‚Ì’†‚È‚çinstance_here‚ğtrue‚É
+                        //ãƒ•ãƒ¬ãƒ¼ãƒ ã®ä¸­ãªã‚‰instance_hereã‚’trueã«
                         if (hit.transform.CompareTag("Frame"))
                         {
                             instance_here = true;
                         }
                     }
-                    //áŠQ•¨‚Ì‚ ‚éÀ•W‚É¶¬‚µ‚æ‚¤‚Æ‚µ‚½‚çI—¹
+                    //éšœå®³ç‰©ã®ã‚ã‚‹åº§æ¨™ã«ç”Ÿæˆã—ã‚ˆã†ã¨ã—ãŸã‚‰çµ‚äº†
                     if (blocking && instance_here)
                     {
                         yield break;
                     }
-                    //ƒtƒŒ[ƒ€‚Ì’†‚È‚çÀ•W‚ğ‚¸‚ç‚³‚¸¶¬‚µ‚ÄŸ‚ÌÀ•W‚ğŠm”F
+                    //ãƒ•ãƒ¬ãƒ¼ãƒ ã®ä¸­ãªã‚‰åº§æ¨™ã‚’ãšã‚‰ã•ãšç”Ÿæˆã—ã¦æ¬¡ã®åº§æ¨™ã‚’ç¢ºèª
                     if (instance_here)
                     {
                         SetTile(intPos, _actualDirection, _tilemapInside, _tile);
@@ -444,13 +444,13 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                 pos_sub -= _actualDirection * _frameSize;
                 Ray ray_sub = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos_sub));
 
-                //¶¬æ‚ÉRaycast
+                //ç”Ÿæˆå…ˆã«Raycast
                 RaycastHit2D[] hits_sub = Physics2D.RaycastAll(ray_sub.origin, ray_sub.direction, 10, 1 << LayerMask.NameToLayer("IPlatform") | 1 << LayerMask.NameToLayer("Frame"));
 
                 bool frameOutside = true;
                 foreach (var hit in hits_sub)
                 {
-                    //áŠQ•¨‚ª‚ ‚Á‚½‚çI—¹
+                    //éšœå®³ç‰©ãŒã‚ã£ãŸã‚‰çµ‚äº†
                     if (_blockTagList.Contains(hit.transform.tag))
                     {
                         yield break;
@@ -462,7 +462,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                     }
                 }
 
-                //ƒtƒŒ[ƒ€‚ÌŠO‘¤‚È‚çI—¹
+                //ãƒ•ãƒ¬ãƒ¼ãƒ ã®å¤–å´ãªã‚‰çµ‚äº†
                 if (frameOutside)
                 {
                     yield break;
@@ -474,18 +474,18 @@ public class Fan : MonoBehaviour,IParentOnTrigger
             }
             else
             {
-                //İ’u‚µ‚½‚¢ˆÊ’u‚ÉƒIƒuƒWƒFƒNƒg‚ª‚ ‚éê‡
+                //è¨­ç½®ã—ãŸã„ä½ç½®ã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚ã‚‹å ´åˆ
                 if (hits.Length > 0)
                 {
                     bool blocking = false;
                     foreach (var hit in hits)
                     {
-                        //áŠQ•¨‚ª‚ ‚Á‚½‚çblocking‚ğtrue‚É
+                        //éšœå®³ç‰©ãŒã‚ã£ãŸã‚‰blockingã‚’trueã«
                         if (_blockTagList.Contains(hit.transform.tag))
                         {
                             blocking = true;
                         }
-                        //ƒtƒŒ[ƒ€‚Ì’†‚È‚çenterFlag‚ğtrue‚É
+                        //ãƒ•ãƒ¬ãƒ¼ãƒ ã®ä¸­ãªã‚‰enterFlagã‚’trueã«
                         if (hit.transform.CompareTag("Frame"))
                         {
                             enterFlag = true;
@@ -493,24 +493,24 @@ public class Fan : MonoBehaviour,IParentOnTrigger
                     }
 
 
-                    //áŠQ•¨‚Ì‚ ‚éÀ•W‚É¶¬‚µ‚æ‚¤‚Æ‚µ‚½‚çI—¹
+                    //éšœå®³ç‰©ã®ã‚ã‚‹åº§æ¨™ã«ç”Ÿæˆã—ã‚ˆã†ã¨ã—ãŸã‚‰çµ‚äº†
                     if (blocking && !enterFlag)
                     {
                         yield break;
                     }
                 }
 
-                //ƒtƒŒ[ƒ€‚Ì’†‚È‚çÀ•W‚ğ‚¸‚ç‚µ‚Ä¶¬
+                //ãƒ•ãƒ¬ãƒ¼ãƒ ã®ä¸­ãªã‚‰åº§æ¨™ã‚’ãšã‚‰ã—ã¦ç”Ÿæˆ
                 if (enterFlag)
                 {
                     var pos_sub = pos;
                     pos_sub += _actualDirection * _frameSize;
                     Ray ray_sub = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos_sub));
 
-                    //¶¬æ‚ÉRaycast
+                    //ç”Ÿæˆå…ˆã«Raycast
                     RaycastHit2D hit_sub = Physics2D.Raycast(ray_sub.origin, ray_sub.direction, 10, 1 << LayerMask.NameToLayer("OPlatform"));
 
-                    //áŠQ•¨‚ª‚ ‚Á‚½‚çI—¹
+                    //éšœå®³ç‰©ãŒã‚ã£ãŸã‚‰çµ‚äº†
                     if (hit_sub && _blockTagList.Contains(hit_sub.transform.tag))
                     {
                         yield break;
@@ -527,22 +527,22 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         }
     }
 
-    //ƒtƒŒ[ƒ€‚ª‚È‚¢‚Ì•—‚Ì¶¬
+    //ãƒ•ãƒ¬ãƒ¼ãƒ ãŒãªã„æ™‚ã®é¢¨ã®ç”Ÿæˆ
     private void SetTiles()
     {
         if (!_isEnable) { return; }
 
-        //•—‚ÉG‚ê‚Ä‚éƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg‚ğƒNƒŠƒA
+        //é¢¨ã«è§¦ã‚Œã¦ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆã‚’ã‚¯ãƒªã‚¢
         _rbDic.Clear();
 
-        //Tilemap‚ğ‘S‚ÄƒNƒŠƒA
+        //Tilemapã‚’å…¨ã¦ã‚¯ãƒªã‚¢
         _tilemapOutside.ClearAllTiles();
         _tilemapInside.ClearAllTiles();
 
         var pos = _transform.position;
         Vector3Int intPos = Vector3Int.zero;
 
-        //•—‚ÌÅ‘å‹——£•ªƒ‹[ƒv
+        //é¢¨ã®æœ€å¤§è·é›¢åˆ†ãƒ«ãƒ¼ãƒ—
         for (int i = 0; i < _range; i++)
         {
             pos += _actualDirection;
@@ -550,12 +550,12 @@ public class Fan : MonoBehaviour,IParentOnTrigger
             Ray ray = _camera.ScreenPointToRay(_camera.WorldToScreenPoint(pos));
             //Debug.DrawRay(ray.origin, ray.direction*10,Color.red,0.1f);
 
-            //ƒtƒŒ[ƒ€‚ÌŠO‘¤‚Ì‘«ê‚É“–‚½‚éLayermask‚ğì¬
+            //ãƒ•ãƒ¬ãƒ¼ãƒ ã®å¤–å´ã®è¶³å ´ã«å½“ãŸã‚‹Layermaskã‚’ä½œæˆ
             LayerMask mask = 1 << LayerMask.NameToLayer("OPlatform");
 
             RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction, 10, mask);
 
-            //áŠQ•¨‚É“–‚½‚Á‚½‚çI—¹
+            //éšœå®³ç‰©ã«å½“ãŸã£ãŸã‚‰çµ‚äº†
             foreach(var hit in hits)
             {
                 if (_blockTagList.Contains(hit.transform.tag))
@@ -567,7 +567,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         }
     }
 
-    //ƒtƒŒ[ƒ€I—¹‚ğ‘Ò‚Á‚Ä‚©‚ç•—‚ğ¶¬‚·‚é
+    //ãƒ•ãƒ¬ãƒ¼ãƒ çµ‚äº†ã‚’å¾…ã£ã¦ã‹ã‚‰é¢¨ã‚’ç”Ÿæˆã™ã‚‹
     private IEnumerator asyncSetTiles()
     {
         yield return new WaitForEndOfFrame();
@@ -575,7 +575,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         SetTiles();
     }
 
-    //—LŒø‚©‚Ç‚¤‚©‚ğˆø”‚Å•ÏX‚·‚é
+    //æœ‰åŠ¹ã‹ã©ã†ã‹ã‚’å¼•æ•°ã§å¤‰æ›´ã™ã‚‹
     public void SetEnable(bool enable)
     {
         if(_isEnable == enable)
@@ -595,7 +595,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         }
     }
 
-    //—LŒø‚©–³Œø‚©‚ğ”½“]‚³‚¹‚é
+    //æœ‰åŠ¹ã‹ç„¡åŠ¹ã‹ã‚’åè»¢ã•ã›ã‚‹
     public void SwitchEnable()
     {
         _isEnable = !_isEnable;
@@ -640,7 +640,7 @@ public class Fan : MonoBehaviour,IParentOnTrigger
         _coroutine = null;
     }
 
-    //ƒ^ƒCƒ‹‚ÌŒü‚«‚ğw’è‚µ‚ÄƒZƒbƒg‚·‚é
+    //ã‚¿ã‚¤ãƒ«ã®å‘ãã‚’æŒ‡å®šã—ã¦ã‚»ãƒƒãƒˆã™ã‚‹
     private void SetTile(Vector3Int pos, Vector3 targetVec, Tilemap tilemap, TileBase tile)
     {
         Quaternion rot = Quaternion.FromToRotation(Vector3.right, targetVec);

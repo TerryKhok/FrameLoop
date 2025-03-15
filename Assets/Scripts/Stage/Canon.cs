@@ -6,25 +6,25 @@ using UnityEngine;
  *  ClassName   :Canon
  *  Creator     :Fujishita.Arashi
  *  
- *  Summary     :’e‚ğ”­Ë‚·‚é
+ *  Summary     :å¼¾ã‚’ç™ºå°„ã™ã‚‹
  *               
  *  Created     :2024/04/27
  */
 public class Canon : MonoBehaviour
 {
-    [SerializeField,Tooltip("”­Ë‚·‚éPrefab")]
+    [SerializeField,Tooltip("ç™ºå°„ã™ã‚‹Prefab")]
     private GameObject _bulletPrefab = null;
-    [SerializeField, Tag,Tooltip("”j‰ó‰Â”\‚ÈTag")]
+    [SerializeField, Tag,Tooltip("ç ´å£Šå¯èƒ½ãªTag")]
     private List<string> _breakTag = new List<string>();
-    [SerializeField,Tooltip("”­Ë•ûŒü")]
+    [SerializeField,Tooltip("ç™ºå°„æ–¹å‘")]
     private Vector2 _direction = Vector2.zero;
-    [SerializeField,Tooltip("”­Ë‘¬“x")]
+    [SerializeField,Tooltip("ç™ºå°„é€Ÿåº¦")]
     private float _velocity = 1f;
-    [SerializeField,Tooltip("Ë’ö")]
+    [SerializeField,Tooltip("å°„ç¨‹")]
     private float _range = 1f;
-    [SerializeField,Tooltip("”­ËŠÔŠu(s)")]
+    [SerializeField,Tooltip("ç™ºå°„é–“éš”(s)")]
     private float _interval = 1f;
-    [SerializeField,Tooltip("‰‚ß‚©‚ç—LŒø‚©")]
+    [SerializeField,Tooltip("åˆã‚ã‹ã‚‰æœ‰åŠ¹ã‹")]
     private bool _enabledOnAwake = true;
 
     private GameObject _instance = null;
@@ -45,17 +45,17 @@ public class Canon : MonoBehaviour
 
         _enable = _enabledOnAwake;
 
-        //”­ËˆÊ’u‚ÍqƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u‚ğQÆ‚·‚é
+        //ç™ºå°„ä½ç½®ã¯å­ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½ç½®ã‚’å‚ç…§ã™ã‚‹
         _transform = transform.GetChild(0);
 
-        //’e‚ÌŒü‚«‚ğ”­Ë•ûŒü‚ÉŒü‚©‚¹‚é
+        //å¼¾ã®å‘ãã‚’ç™ºå°„æ–¹å‘ã«å‘ã‹ã›ã‚‹
         _rotation = Quaternion.FromToRotation(Vector3.right,_direction);
 
-        //”­ËˆÊ’u‚ğ”­Ë•ûŒü‚Éˆê’è‹——£‚¸‚ç‚·
+        //ç™ºå°„ä½ç½®ã‚’ç™ºå°„æ–¹å‘ã«ä¸€å®šè·é›¢ãšã‚‰ã™
         _position = _transform.position;
         _position += (Vector3)_direction.normalized;
 
-        //Å‰‚©‚ç‹N“®‚µ‚Ä‚¢‚½‚ç”­Ë‚·‚é
+        //æœ€åˆã‹ã‚‰èµ·å‹•ã—ã¦ã„ãŸã‚‰ç™ºå°„ã™ã‚‹
         if (!_enable) { return; }
         InstantiateBullet();
     }
@@ -66,44 +66,44 @@ public class Canon : MonoBehaviour
 
         _elapsedTime += Time.deltaTime;
 
-        //ˆê’èŠÔ–ˆ‚É”­Ë‚·‚é
+        //ä¸€å®šæ™‚é–“æ¯ã«ç™ºå°„ã™ã‚‹
         if(_interval < _elapsedTime)
         {
             InstantiateBullet();
         }
     }
 
-    //’e‚ğ”­Ë‚·‚é
+    //å¼¾ã‚’ç™ºå°„ã™ã‚‹
     private void InstantiateBullet()
     {
         _instance = Instantiate(_bulletPrefab, _position, _rotation);
         _bullet = _instance.GetComponent<Bullet>();
         _bullet.SetValues(_direction, _velocity, _range, _breakTag);
 
-        //¶¬ˆÊ’u‚ªƒtƒŒ[ƒ€“à‚ÅAƒtƒŒ[ƒ€‚ª—LŒø‚Èê‡‚Ìˆ—
+        //ç”Ÿæˆä½ç½®ãŒãƒ•ãƒ¬ãƒ¼ãƒ å†…ã§ã€ãƒ•ãƒ¬ãƒ¼ãƒ ãŒæœ‰åŠ¹ãªå ´åˆã®å‡¦ç†
         if(FrameLoop.Instance.g_isActive && _frameInside)
         {
-            //Frame‚ÌInsider‚ÉBullet‚ğ’Ç‰Á
+            //Frameã®Insiderã«Bulletã‚’è¿½åŠ 
             FrameLoop.Instance.AddInsiders(_instance.GetComponent<Collider2D>());
         }
 
-        //Œo‰ßŠÔ‚ğƒŠƒZƒbƒg
+        //çµŒéæ™‚é–“ã‚’ãƒªã‚»ãƒƒãƒˆ
         _elapsedTime = 0f;
     }
 
-    //—LŒø‚©‚Ç‚¤‚©‚ğˆø”‚Å•ÏX‚·‚é
+    //æœ‰åŠ¹ã‹ã©ã†ã‹ã‚’å¼•æ•°ã§å¤‰æ›´ã™ã‚‹
     public void SetEnable(bool enable)
     {
         _enable = enable;
     }
 
-    //—LŒø‚©–³Œø‚©‚ğ”½“]‚³‚¹‚é
+    //æœ‰åŠ¹ã‹ç„¡åŠ¹ã‹ã‚’åè»¢ã•ã›ã‚‹
     public void SwitchEnable()
     {
         _enable = !_enable;
     }
 
-    //ƒtƒŒ[ƒ€‚Éd‚È‚Á‚Ä‚¢‚é‚©‚ÅƒŒƒCƒ„[‚ğ•ÏX‚·‚é
+    //ãƒ•ãƒ¬ãƒ¼ãƒ ã«é‡ãªã£ã¦ã„ã‚‹ã‹ã§ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’å¤‰æ›´ã™ã‚‹
     public void CanonLayerCheck()
     {
         Vector3 offset = new Vector3(0, 0.25f, 0);
@@ -111,10 +111,10 @@ public class Canon : MonoBehaviour
 
         for (int i = 0; i < 2; i++)
         {
-            //ƒXƒNƒŠ[ƒ“À•W‚É•ÏŠ·
+            //ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™ã«å¤‰æ›
             var pos = Camera.main.WorldToScreenPoint(transform.position + (Vector3)offset);
 
-            //À•W‚ÉˆÊ’u‚ÉƒŒƒC‚ğ”ò‚Î‚·
+            //åº§æ¨™ã«ä½ç½®ã«ãƒ¬ã‚¤ã‚’é£›ã°ã™
             Ray ray = Camera.main.ScreenPointToRay(pos);
             LayerMask mask = 1 << LayerMask.NameToLayer("Frame");
 
@@ -123,7 +123,7 @@ public class Canon : MonoBehaviour
             if (hit.collider != null)
             {
                 obj.layer = LayerMask.NameToLayer("Inside");
-                //”­ËˆÊ’u‚ªƒtƒŒ[ƒ€‚Ì“à‘¤‚©‚ğ”»’è
+                //ç™ºå°„ä½ç½®ãŒãƒ•ãƒ¬ãƒ¼ãƒ ã®å†…å´ã‹ã‚’åˆ¤å®š
                 if(i == 0)
                 {
                     _frameInside = true;
@@ -132,7 +132,7 @@ public class Canon : MonoBehaviour
             else
             {
                 obj.layer = LayerMask.NameToLayer("Outside");
-                //”­ËˆÊ’u‚ªƒtƒŒ[ƒ€‚Ì“à‘¤‚©‚ğ”»’è
+                //ç™ºå°„ä½ç½®ãŒãƒ•ãƒ¬ãƒ¼ãƒ ã®å†…å´ã‹ã‚’åˆ¤å®š
                 if (i == 0)
                 {
                     _frameInside = false;

@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "FrameShift.sln"
+    "dotnet.defaultSolution": "FrameLoop.sln"
 }

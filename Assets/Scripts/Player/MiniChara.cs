@@ -177,7 +177,7 @@ public class StateMachineBase
 
         if (FrameLoop.Instance.g_activeTrigger)
         {
-            //Debug.Log("ƒtƒŒ[ƒ€¶¬");
+            //Debug.Log("ãƒ•ãƒ¬ãƒ¼ãƒ ç”Ÿæˆ");
             if (_currentStateName != "Warp")
             {
                 _warpQue = false;
@@ -192,7 +192,7 @@ public class StateMachineBase
         }
         if(FrameLoop.Instance.g_resumeTrigger)
         {
-            //Debug.Log("ƒtƒŒ[ƒ€‰ğœ");
+            //Debug.Log("ãƒ•ãƒ¬ãƒ¼ãƒ è§£é™¤");
             if (_currentStateName != "Warp")
             {
                 _warpQue = false;
@@ -317,13 +317,13 @@ public class MiniCharaMove : MiniCharaStateBase
         float horizontalDistance = target.x - _miniCharaStateMachine.transform.position.x;
         horizontalDistance = Mathf.Abs(horizontalDistance);
 
-        //Debug.Log($"‰¡ˆÊ’uF{horizontalDistance}");
+        //Debug.Log($"æ¨ªä½ç½®ï¼š{horizontalDistance}");
         float verticalDistance = target.y - _miniCharaStateMachine.transform.position.y;
         verticalDistance = Mathf.Abs(verticalDistance);
 
         if (horizontalDistance < MiniCharaParams.TO_IDLE_HORIZONTAL_DISTANCE)
         {
-            //Debug.Log($"cˆÊ’uF{verticalDistance}");
+            //Debug.Log($"ç¸¦ä½ç½®ï¼š{verticalDistance}");
 
             if (verticalDistance < MiniCharaParams.TO_LOST_VERTICAL_DISTANCE)
             {
@@ -395,7 +395,7 @@ public class MiniCharaMove : MiniCharaStateBase
         Debug.DrawRay(currentPosition + Vector3.up, _transform.right * 0.6f, Color.green, 0.1f);
         Debug.DrawRay(currentPosition + Vector3.up * 2, _transform.right * 0.6f, Color.blue, 0.1f);
 
-        //Debug.Log($"’…’nF{_isLanding}AŒŠF{_isHole}A•ÇF{_isWall}AŠJ‚¢‚Ä‚éF{_isOpen}AƒnƒC‚Ä‚éF{_isOpen_high}");
+        //Debug.Log($"ç€åœ°ï¼š{_isLanding}ã€ç©´ï¼š{_isHole}ã€å£ï¼š{_isWall}ã€é–‹ã„ã¦ã‚‹ï¼š{_isOpen}ã€ãƒã‚¤ã¦ã‚‹ï¼š{_isOpen_high}");
 
         if (_isLanding)
         {
@@ -412,12 +412,12 @@ public class MiniCharaMove : MiniCharaStateBase
                 _animation.PlayJumpAnimation();
                 AudioManager.instance.Stop("Chibi character walking");
                 AudioManager.instance.Play("Chibi character jumping");
-                //Debug.Log("ƒnƒCƒWƒƒƒ“ƒv");
+                //Debug.Log("ãƒã‚¤ã‚¸ãƒ£ãƒ³ãƒ—");
             }
             //else
             //{
             //    _miniCharaStateMachine.rigidbody.AddForce(Vector3.up * MiniCharaParams.JUMP_FORCE_LOW, ForceMode2D.Impulse);
-            //    //Debug.Log("ƒ~ƒjƒWƒƒƒ“ƒv");
+            //    //Debug.Log("ãƒŸãƒ‹ã‚¸ãƒ£ãƒ³ãƒ—");
             //}
         }
 
@@ -471,7 +471,7 @@ public class MiniCharaMove : MiniCharaStateBase
         {
             _stuckTime = 0;
         }
-        Debug.Log($"{_stuckTime}•bƒnƒ}‚Á‚Ä‚Ü‚·");
+        Debug.Log($"{_stuckTime}ç§’ãƒãƒã£ã¦ã¾ã™");
     }
 
     override public void Exit()
@@ -679,7 +679,7 @@ public class MiniCharaWarp : MiniCharaStateBase
 
     public override void Enter()
     {
-        //Debug.Log("ƒ[ƒv‚µ‚Ü‚µ‚½");
+        //Debug.Log("ãƒ¯ãƒ¼ãƒ—ã—ã¾ã—ãŸ");
         Transform minichara = _miniCharaStateMachine.transform;
 
         switch (_warpTarget)
@@ -702,7 +702,7 @@ public class MiniCharaWarp : MiniCharaStateBase
                     RaycastHit2D hit = Physics2D.Raycast(minichara.position, Vector3.zero, 0.1f, mask);
                     if(hit.collider !=  null)
                     {
-                        //Debug.Log("toƒvƒJƒvƒJ");
+                        //Debug.Log("toãƒ—ã‚«ãƒ—ã‚«");
                         _miniCharaStateMachine.ChangeState("Froat");
                     }
 
@@ -717,7 +717,7 @@ public class MiniCharaWarp : MiniCharaStateBase
 
     public override void Update()
     {
-        //Debug.Log("‚í[‚Õ‚ ‚Á‚Õ‚Å[‚Æ");
+        //Debug.Log("ã‚ãƒ¼ã·ã‚ã£ã·ã§ãƒ¼ã¨");
         Transform minichara = _miniCharaStateMachine.transform;
 
         if(_madeGate == false)
@@ -851,7 +851,7 @@ public class MiniCharaLost : MiniCharaStateBase
         float verticalDistance = target.y - _miniCharaStateMachine.transform.position.y;
         verticalDistance = Mathf.Abs(verticalDistance);
 
-        //Debug.Log($"cˆÊ’uF{verticalDistance}");
+        //Debug.Log($"ç¸¦ä½ç½®ï¼š{verticalDistance}");
 
         if (verticalDistance < MiniCharaParams.TO_LOST_VERTICAL_DISTANCE)
         {
@@ -880,12 +880,12 @@ public class MiniCharaFroat : MiniCharaStateBase
             _frame = FrameLoop.Instance.transform;
         }
         _target = _frame.position;
-        //Debug.Log("ƒvƒJƒvƒJ");
+        //Debug.Log("ãƒ—ã‚«ãƒ—ã‚«");
     }
 
     public override void FixedUpdate()
     {
-        //Debug.Log("‚Õ‚©‚Õ‚©‚ ‚Á‚Õ‚Å[‚Æ");
+        //Debug.Log("ã·ã‹ã·ã‹ã‚ã£ã·ã§ãƒ¼ã¨");
         Vector3 setPos = (_miniCharaStateMachine.transform.position * 2.0f + _target) / 3.0f;
 
         Vector2 gap = setPos - _miniCharaStateMachine.transform.position;

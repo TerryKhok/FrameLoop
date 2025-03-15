@@ -7,7 +7,7 @@ using UnityEngine.Events;
  *  ClassName   :Button
  *  Creator     :Fujishita.Arashi
  *  
- *  Summary     :ƒ{ƒ^ƒ“‚Ìó‘Ô‚É‚æ‚Á‚ÄƒCƒxƒ“ƒg‚ğÀs‚·‚é
+ *  Summary     :ãƒœã‚¿ãƒ³ã®çŠ¶æ…‹ã«ã‚ˆã£ã¦ã‚¤ãƒ™ãƒ³ãƒˆã‚’å®Ÿè¡Œã™ã‚‹
  *               
  *  Created     :2024/04/27
  */
@@ -15,17 +15,17 @@ using UnityEngine.Events;
 public class Button : MonoBehaviour
 {
     private BoxCollider2D _collider = null;
-    [SerializeField,Tooltip("Goal‚É•K—v‚©")]
+    [SerializeField,Tooltip("Goalã«å¿…è¦ã‹")]
     private bool _toGoal = false;
-    [SerializeField, Tag ,Header("ƒ{ƒ^ƒ“‚ğ‰Ÿ‰º‰Â”\‚ÈTag")]
+    [SerializeField, Tag ,Header("ãƒœã‚¿ãƒ³ã‚’æŠ¼ä¸‹å¯èƒ½ãªTag")]
     private List<string> _tagList = new List<string>();
-    [SerializeField,Tooltip("‰Ÿ‚³‚ê‚½‚Æ‚«‚Éˆê“xÀs‚·‚éƒƒ\ƒbƒh")]
+    [SerializeField,Tooltip("æŠ¼ã•ã‚ŒãŸã¨ãã«ä¸€åº¦å®Ÿè¡Œã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰")]
     private UnityEvent _onClick = null;
-    [SerializeField,Tooltip("‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔÀs‚·‚éƒƒ\ƒbƒh")]
+    [SerializeField,Tooltip("æŠ¼ã•ã‚Œã¦ã„ã‚‹é–“å®Ÿè¡Œã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰")]
     private UnityEvent _onHold = null;
-    [SerializeField,Tooltip("—£‚µ‚½‚Æ‚«‚ÉÀs‚·‚éƒƒ\ƒbƒh")]
+    [SerializeField,Tooltip("é›¢ã—ãŸã¨ãã«å®Ÿè¡Œã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰")]
     private UnityEvent _onRelease = null;
-    [SerializeField, Tooltip("‰Ÿ‚³‚ê‚Ä‚¢‚éó‘Ô‚Ìsprite")]
+    [SerializeField, Tooltip("æŠ¼ã•ã‚Œã¦ã„ã‚‹çŠ¶æ…‹ã®sprite")]
     private Sprite _pushed;
 
     private Sprite _unpushed;
@@ -47,10 +47,10 @@ public class Button : MonoBehaviour
 
     private void Update()
     {
-        //‘OƒtƒŒ[ƒ€‚Å‚Ìó‘Ô‚ğ•Û‘¶
+        //å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã§ã®çŠ¶æ…‹ã‚’ä¿å­˜
         _prevPressed = _isPressed;
 
-        //d‚È‚Á‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚ª‚ ‚é‚©‚Åó‘Ô‚ğ”»’è
+        //é‡ãªã£ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚ã‚‹ã‹ã§çŠ¶æ…‹ã‚’åˆ¤å®š
         _isPressed = _hitCount > 0;
 
 
@@ -72,20 +72,20 @@ public class Button : MonoBehaviour
             {
                 //Debug.Log("hold");
 
-                //‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔÀs‚·‚éˆ—
+                //æŠ¼ã•ã‚Œã¦ã„ã‚‹é–“å®Ÿè¡Œã™ã‚‹å‡¦ç†
                 _onHold.Invoke();
             }
             else
             {
                 //Debug.Log("click");
 
-                //ƒS[ƒ‹‚É•K—v‚Èƒ{ƒ^ƒ“‚È‚çƒJƒEƒ“ƒgƒAƒbƒv
+                //ã‚´ãƒ¼ãƒ«ã«å¿…è¦ãªãƒœã‚¿ãƒ³ãªã‚‰ã‚«ã‚¦ãƒ³ãƒˆã‚¢ãƒƒãƒ—
                 if (_toGoal)
                 {
                     Goal.Instance.CountUp();
                 }
 
-                //‰Ÿ‚³‚ê‚½‚Éˆê“xÀs‚·‚éˆ—
+                //æŠ¼ã•ã‚ŒãŸæ™‚ã«ä¸€åº¦å®Ÿè¡Œã™ã‚‹å‡¦ç†
                 _onClick.Invoke();
             }
         }
@@ -106,25 +106,25 @@ public class Button : MonoBehaviour
             {
                 //Debug.Log("release");
 
-                //ƒS[ƒ‹‚É•K—v‚Èƒ{ƒ^ƒ“‚È‚çƒJƒEƒ“ƒgƒ_ƒEƒ“
+                //ã‚´ãƒ¼ãƒ«ã«å¿…è¦ãªãƒœã‚¿ãƒ³ãªã‚‰ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³
                 if (_toGoal)
                 {
                     Goal.Instance.CountDown();
                 }
 
-                //—£‚³‚ê‚½‚Éˆê“xÀs‚·‚éˆ—
+                //é›¢ã•ã‚ŒãŸæ™‚ã«ä¸€åº¦å®Ÿè¡Œã™ã‚‹å‡¦ç†
                 _onRelease.Invoke();
             }
         }
     }
 
-    //ƒtƒŒ[ƒ€‚Éd‚È‚Á‚Ä‚¢‚é‚©‚ÅƒŒƒCƒ„[‚ğ•ÏX‚·‚é
+    //ãƒ•ãƒ¬ãƒ¼ãƒ ã«é‡ãªã£ã¦ã„ã‚‹ã‹ã§ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’å¤‰æ›´ã™ã‚‹
     public void ButtonLayerCheck()
     {
-        //ƒXƒNƒŠ[ƒ“À•W‚É•ÏŠ·
+        //ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™ã«å¤‰æ›
         var pos = Camera.main.WorldToScreenPoint(transform.position);
 
-        //À•W‚ÉˆÊ’u‚ÉƒŒƒC‚ğ”ò‚Î‚·
+        //åº§æ¨™ã«ä½ç½®ã«ãƒ¬ã‚¤ã‚’é£›ã°ã™
         Ray ray = Camera.main.ScreenPointToRay(pos);
         LayerMask mask = 1 << LayerMask.NameToLayer("Frame");
 
@@ -140,7 +140,7 @@ public class Button : MonoBehaviour
         }
     }
 
-    //ƒŒƒCƒ„[‚ğ–ß‚·
+    //ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’æˆ»ã™
     public void SetOutsideLayer()
     {
         gameObject.layer = LayerMask.NameToLayer("Outside");
@@ -148,7 +148,7 @@ public class Button : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //ƒ{ƒ^ƒ“‚ğ‰Ÿ‚¹‚éƒ^ƒO‚ÌƒIƒuƒWƒFƒNƒg‚È‚çƒJƒEƒ“ƒg‚ğ‘‚â‚·
+        //ãƒœã‚¿ãƒ³ã‚’æŠ¼ã›ã‚‹ã‚¿ã‚°ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãªã‚‰ã‚«ã‚¦ãƒ³ãƒˆã‚’å¢—ã‚„ã™
         if (!_tagList.Contains(other.tag))
         {
             return;
@@ -158,7 +158,7 @@ public class Button : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        //ƒ{ƒ^ƒ“‚ğ‰Ÿ‚¹‚éƒ^ƒO‚ÌƒIƒuƒWƒFƒNƒg‚È‚çƒJƒEƒ“ƒg‚ğŒ¸‚ç‚·
+        //ãƒœã‚¿ãƒ³ã‚’æŠ¼ã›ã‚‹ã‚¿ã‚°ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãªã‚‰ã‚«ã‚¦ãƒ³ãƒˆã‚’æ¸›ã‚‰ã™
         if (!_tagList.Contains(other.tag))
         {
             return;
